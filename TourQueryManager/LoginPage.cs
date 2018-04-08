@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TourQueryManager
 {
-    public partial class FrmQuery : Form
+    public partial class FrmLoginPage : Form
     {
-        public FrmQuery()
+        public FrmLoginPage()
         {
             InitializeComponent();
         }

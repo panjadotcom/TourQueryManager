@@ -1,6 +1,6 @@
 ﻿namespace TourQueryManager
 {
-    partial class FrmQuery
+    partial class FrmLoginPage
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // FrmQuery
+            // FrmLoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(971, 604);
+            this.ClientSize = new System.Drawing.Size(668, 354);
             this.MaximizeBox = false;
-            this.Name = "FrmQuery";
-            this.Text = "Query";
+            this.Name = "FrmLoginPage";
+            this.Text = "Login";
             this.ResumeLayout(false);
 
         }
@@ -45,4 +45,3 @@
         #endregion
     }
 }
-
