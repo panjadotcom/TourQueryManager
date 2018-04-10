@@ -16,7 +16,7 @@ namespace TourQueryManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmQuery());
+            Application.Run(new FrmLoginPage());
         }
     }
 }
