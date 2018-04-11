@@ -91,6 +91,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmLoginPage";
             this.Text = "Login";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLoginPage_FormClosing);
             this.Load += new System.EventHandler(this.FrmLoginPage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -65,6 +65,10 @@ namespace TourQueryManager
                         if (counter == 0)
                         {
                             MessageBox.Show("Password Matched for Admin");
+                            FrmAdminPage frmAdminPage = new FrmAdminPage();
+                            this.Hide();
+                            frmAdminPage.ShowDialog();
+                            this.Close();
                         }
                         else
                         {
@@ -77,6 +81,18 @@ namespace TourQueryManager
                         MessageBox.Show("Password Not Matched");
                     }   
                 }
+            }
+        }
+
+        private void FrmLoginPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                frmLoginMysqlConn.Close();
+            }
+            catch(Exception errclose)
+            {
+                MessageBox.Show("connection cannot be closed because " + errclose.Message + "");
             }
         }
     }
