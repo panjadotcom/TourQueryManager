@@ -14,17 +14,38 @@ namespace TourQueryManager
     public partial class FrmEditUserPage : Form
     {
         static string mysqlConnStr = TourQueryManager.Properties.Settings.Default.mysqlConnStr;
+        static string userClientFlagStr = null;
+        static bool isClientFlag;
         MySqlConnection frmEditUserMysqlConn = new MySqlConnection(mysqlConnStr);
         MySqlTransaction frmEditUserMysqlTransaction = null;
 
-        public FrmEditUserPage()
+        public FrmEditUserPage(string userClientFlag)
         {
             InitializeComponent();
+            userClientFlagStr = userClientFlag;
         }
 
         private void FrmEditUserPage_Load(object sender, EventArgs e)
         {
             /* invoke functions for loading form */
+            if(string.Equals(userClientFlagStr, "Client", StringComparison.OrdinalIgnoreCase))
+            {
+                isClientFlag = true;
+                lblUsername.Enabled = false;
+                lblUsername.Visible = false;
+                txtboxUsername.Enabled = false;
+                txtboxUsername.Visible = false;
+                lblPassword.Enabled = false;
+                lblPassword.Visible = false;
+                txtboxPassword.Enabled = false;
+                txtboxPassword.Visible = false;
+                lblUserId.Text = "ClientId";
+                Text = "New Client";
+            }
+            else
+            {
+                isClientFlag = false;
+            }
             try
             {
                 frmEditUserMysqlConn.Open();
@@ -45,8 +66,16 @@ namespace TourQueryManager
             try
             {
                 /*INSERT INTO `tourquerymanagement`.`appusers` (`username`, `password`, `name`, `phone`, `email`, `information`) VALUES ('Administrator', 'Password', 'Administrator', '1234567890', 'admin@office.123', 'Admin Account of the company');*/
-                btnUpdateMysqlCommand.CommandText = "INSERT INTO `appusers` ( `username`, `password`, `name`, `phone`, `email`, `information` )"
-                    + " VALUES ( '" + txtboxUsername.Text + "', '" + txtboxPassword.Text + "', '" + txtboxName.Text + "', '" + txtboxPhone.Text + "', '" + txtboxEmailId.Text + "', '" + txtboxInfo.Text + "' ) ";
+                if (isClientFlag)
+                {
+                    btnUpdateMysqlCommand.CommandText = "INSERT INTO `clients` ( `name`, `phone`, `email`, `information` )"
+                        + " VALUES ( '" + txtboxName.Text + "', '" + txtboxPhone.Text + "', '" + txtboxEmailId.Text + "', '" + txtboxInfo.Text + "' ) ";
+                }
+                else
+                {
+                    btnUpdateMysqlCommand.CommandText = "INSERT INTO `appusers` ( `username`, `password`, `name`, `phone`, `email`, `information` )"
+                        + " VALUES ( '" + txtboxUsername.Text + "', '" + txtboxPassword.Text + "', '" + txtboxName.Text + "', '" + txtboxPhone.Text + "', '" + txtboxEmailId.Text + "', '" + txtboxInfo.Text + "' ) ";
+                }
                 MessageBox.Show("Mysql Command is " + btnUpdateMysqlCommand.CommandText );
                 btnUpdateMysqlCommand.ExecuteNonQuery();
                 frmEditUserMysqlTransaction.Commit();
@@ -56,11 +85,6 @@ namespace TourQueryManager
                 MessageBox.Show("Command not executed because " + errcmd.Message + "");
             }
         }
-
-        private void txtboxPhone_TextChanged(object sender, EventArgs e)
-        {
-            /* invoked by mistake */
-            }
 
         private void FrmEditUserPage_FormClosing(object sender, FormClosingEventArgs e)
         {

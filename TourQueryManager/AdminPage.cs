@@ -25,7 +25,7 @@ namespace TourQueryManager
         private void btnCreateUser_Click(object sender, EventArgs e)
         {
             /* load the new screen for creating new user */
-            FrmEditUserPage frmEditUserPage = new FrmEditUserPage();
+            FrmEditUserPage frmEditUserPage = new FrmEditUserPage("User");
             this.Hide();
             frmEditUserPage.ShowDialog();
             this.Show();
@@ -34,6 +34,15 @@ namespace TourQueryManager
         private void btnCreateQuery_Click(object sender, EventArgs e)
         {
             /* load the new screen to create the new Query */
+        }
+
+        private void btnCreateClient_Click(object sender, EventArgs e)
+        {
+            /* load the new screen for creating new user */
+            FrmEditUserPage frmEditUserPage = new FrmEditUserPage("Client");
+            this.Hide();
+            frmEditUserPage.ShowDialog();
+            this.Show();
         }
     }
 }

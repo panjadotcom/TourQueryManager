@@ -51,7 +51,7 @@
             this.lblUsername.Location = new System.Drawing.Point(122, 111);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(55, 13);
-            this.lblUsername.TabIndex = 0;
+            this.lblUsername.TabIndex = 2;
             this.lblUsername.Text = "Username";
             // 
             // txtboxUsername
@@ -59,14 +59,14 @@
             this.txtboxUsername.Location = new System.Drawing.Point(214, 108);
             this.txtboxUsername.Name = "txtboxUsername";
             this.txtboxUsername.Size = new System.Drawing.Size(278, 20);
-            this.txtboxUsername.TabIndex = 1;
+            this.txtboxUsername.TabIndex = 3;
             // 
             // txtboxPassword
             // 
             this.txtboxPassword.Location = new System.Drawing.Point(214, 148);
             this.txtboxPassword.Name = "txtboxPassword";
             this.txtboxPassword.Size = new System.Drawing.Size(278, 20);
-            this.txtboxPassword.TabIndex = 3;
+            this.txtboxPassword.TabIndex = 5;
             // 
             // lblPassword
             // 
@@ -74,7 +74,7 @@
             this.lblPassword.Location = new System.Drawing.Point(122, 151);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(53, 13);
-            this.lblPassword.TabIndex = 2;
+            this.lblPassword.TabIndex = 4;
             this.lblPassword.Text = "Password";
             // 
             // txtboxPhone
@@ -82,8 +82,7 @@
             this.txtboxPhone.Location = new System.Drawing.Point(214, 230);
             this.txtboxPhone.Name = "txtboxPhone";
             this.txtboxPhone.Size = new System.Drawing.Size(278, 20);
-            this.txtboxPhone.TabIndex = 7;
-            this.txtboxPhone.TextChanged += new System.EventHandler(this.txtboxPhone_TextChanged);
+            this.txtboxPhone.TabIndex = 9;
             // 
             // lblPhone
             // 
@@ -91,7 +90,7 @@
             this.lblPhone.Location = new System.Drawing.Point(122, 233);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(55, 13);
-            this.lblPhone.TabIndex = 6;
+            this.lblPhone.TabIndex = 8;
             this.lblPhone.Text = "Phone No";
             // 
             // txtboxName
@@ -99,7 +98,7 @@
             this.txtboxName.Location = new System.Drawing.Point(214, 190);
             this.txtboxName.Name = "txtboxName";
             this.txtboxName.Size = new System.Drawing.Size(278, 20);
-            this.txtboxName.TabIndex = 5;
+            this.txtboxName.TabIndex = 7;
             // 
             // lblName
             // 
@@ -107,7 +106,7 @@
             this.lblName.Location = new System.Drawing.Point(122, 193);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 4;
+            this.lblName.TabIndex = 6;
             this.lblName.Text = "Name";
             // 
             // txtboxInfo
@@ -149,7 +148,7 @@
             this.txtboxUserId.Name = "txtboxUserId";
             this.txtboxUserId.ReadOnly = true;
             this.txtboxUserId.Size = new System.Drawing.Size(73, 20);
-            this.txtboxUserId.TabIndex = 9;
+            this.txtboxUserId.TabIndex = 1;
             // 
             // lblUserId
             // 
@@ -157,7 +156,7 @@
             this.lblUserId.Location = new System.Drawing.Point(122, 67);
             this.lblUserId.Name = "lblUserId";
             this.lblUserId.Size = new System.Drawing.Size(38, 13);
-            this.lblUserId.TabIndex = 8;
+            this.lblUserId.TabIndex = 0;
             this.lblUserId.Text = "UserId";
             // 
             // btnUpdate
