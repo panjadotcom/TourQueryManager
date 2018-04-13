@@ -42,6 +42,7 @@
             this.cmbboxUsername.Name = "cmbboxUsername";
             this.cmbboxUsername.Size = new System.Drawing.Size(121, 21);
             this.cmbboxUsername.TabIndex = 0;
+            this.cmbboxUsername.SelectedIndexChanged += new System.EventHandler(this.cmbboxUsername_SelectedIndexChanged);
             // 
             // lblUserName
             // 
@@ -65,6 +66,7 @@
             // 
             this.txtboxPassword.Location = new System.Drawing.Point(380, 159);
             this.txtboxPassword.Name = "txtboxPassword";
+            this.txtboxPassword.PasswordChar = '*';
             this.txtboxPassword.Size = new System.Drawing.Size(121, 20);
             this.txtboxPassword.TabIndex = 3;
             // 

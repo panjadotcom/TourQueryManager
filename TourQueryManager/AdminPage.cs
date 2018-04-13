@@ -26,23 +26,27 @@ namespace TourQueryManager
         {
             /* load the new screen for creating new user */
             FrmEditUserPage frmEditUserPage = new FrmEditUserPage("User");
-            this.Hide();
+            Hide();
             frmEditUserPage.ShowDialog();
-            this.Show();
+            Show();
         }
 
         private void btnCreateQuery_Click(object sender, EventArgs e)
         {
             /* load the new screen to create the new Query */
+            FrmEditQueryPage frmQuery = new FrmEditQueryPage();
+            Hide();
+            frmQuery.ShowDialog();
+            Show();
         }
 
         private void btnCreateClient_Click(object sender, EventArgs e)
         {
             /* load the new screen for creating new user */
             FrmEditUserPage frmEditUserPage = new FrmEditUserPage("Client");
-            this.Hide();
+            Hide();
             frmEditUserPage.ShowDialog();
-            this.Show();
+            Show();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TourQueryManager
 {
     public partial class FrmLoginPage : Form
     {
-        static string mysqlConnStr = TourQueryManager.Properties.Settings.Default.mysqlConnStr;
+        static string mysqlConnStr = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmLoginMysqlConn = new MySqlConnection(mysqlConnStr);
         MySqlDataAdapter frmLoginMysqlDataAdaptor = null;
         DataSet frmLoginDataSet = null;
@@ -56,29 +56,29 @@ namespace TourQueryManager
             if (frmLoginDataSet != null)
             {
                 int counter = cmbboxUsername.SelectedIndex;
-                Boolean areEqualUsername = String.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text, StringComparison.OrdinalIgnoreCase);
+                bool areEqualUsername = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text, StringComparison.OrdinalIgnoreCase);
                 if ( areEqualUsername )
                 {
-                    Boolean areEqualPassword = String.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["password"].ToString(), txtboxPassword.Text, StringComparison.OrdinalIgnoreCase); ;
+                    bool areEqualPassword = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["password"].ToString(), txtboxPassword.Text, StringComparison.OrdinalIgnoreCase); ;
                     if ( areEqualPassword )
                     {
                         if (counter == 0)
                         {
-                            MessageBox.Show("Password Matched for Admin");
+                            MessageBox.Show("Password Matched for " + cmbboxUsername.Text);
                             FrmAdminPage frmAdminPage = new FrmAdminPage();
-                            this.Hide();
+                            Hide();
                             frmAdminPage.ShowDialog();
-                            this.Close();
+                            Close();
                         }
                         else
                         {
-                            MessageBox.Show("Password Matched for user");
+                            MessageBox.Show("Password Matched for " + cmbboxUsername.Text);
                         }
                         
                     }
                     else
                     {
-                        MessageBox.Show("Password Not Matched");
+                        MessageBox.Show("Password Not Matched for " + cmbboxUsername.Text);
                     }   
                 }
             }
@@ -94,6 +94,11 @@ namespace TourQueryManager
             {
                 MessageBox.Show("connection cannot be closed because " + errclose.Message + "");
             }
+        }
+
+        private void cmbboxUsername_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtboxPassword.Text = "";
         }
     }
 }
