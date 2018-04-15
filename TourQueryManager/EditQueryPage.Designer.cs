@@ -79,12 +79,14 @@
             this.grpboxMeal = new System.Windows.Forms.GroupBox();
             this.grpboxRqmnt = new System.Windows.Forms.GroupBox();
             this.lnklblModifyQuery = new System.Windows.Forms.LinkLabel();
+            this.grpboxHtlCtgry = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonAdult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonChild)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonInfnt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnRoomCount)).BeginInit();
             this.grpboxMeal.SuspendLayout();
             this.grpboxRqmnt.SuspendLayout();
+            this.grpboxHtlCtgry.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblQueryId
@@ -342,7 +344,7 @@
             // chkBox1Star
             // 
             this.chkBox1Star.AutoSize = true;
-            this.chkBox1Star.Location = new System.Drawing.Point(371, 316);
+            this.chkBox1Star.Location = new System.Drawing.Point(6, 16);
             this.chkBox1Star.Name = "chkBox1Star";
             this.chkBox1Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox1Star.TabIndex = 31;
@@ -352,7 +354,7 @@
             // chkBox2Star
             // 
             this.chkBox2Star.AutoSize = true;
-            this.chkBox2Star.Location = new System.Drawing.Point(441, 316);
+            this.chkBox2Star.Location = new System.Drawing.Point(76, 16);
             this.chkBox2Star.Name = "chkBox2Star";
             this.chkBox2Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox2Star.TabIndex = 32;
@@ -362,7 +364,7 @@
             // chkBox4Star
             // 
             this.chkBox4Star.AutoSize = true;
-            this.chkBox4Star.Location = new System.Drawing.Point(581, 316);
+            this.chkBox4Star.Location = new System.Drawing.Point(216, 16);
             this.chkBox4Star.Name = "chkBox4Star";
             this.chkBox4Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox4Star.TabIndex = 34;
@@ -372,7 +374,7 @@
             // chkBox3Star
             // 
             this.chkBox3Star.AutoSize = true;
-            this.chkBox3Star.Location = new System.Drawing.Point(511, 316);
+            this.chkBox3Star.Location = new System.Drawing.Point(146, 16);
             this.chkBox3Star.Name = "chkBox3Star";
             this.chkBox3Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox3Star.TabIndex = 33;
@@ -382,7 +384,7 @@
             // chkBox5Star
             // 
             this.chkBox5Star.AutoSize = true;
-            this.chkBox5Star.Location = new System.Drawing.Point(651, 316);
+            this.chkBox5Star.Location = new System.Drawing.Point(286, 16);
             this.chkBox5Star.Name = "chkBox5Star";
             this.chkBox5Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox5Star.TabIndex = 35;
@@ -459,6 +461,7 @@
             this.txtboxBudget.Name = "txtboxBudget";
             this.txtboxBudget.Size = new System.Drawing.Size(100, 20);
             this.txtboxBudget.TabIndex = 42;
+            this.txtboxBudget.Text = "0";
             // 
             // txtboxNote
             // 
@@ -520,6 +523,7 @@
             this.btnUpdate.TabIndex = 48;
             this.btnUpdate.Text = "UPDATE";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // cmbboxQueryId
             // 
@@ -563,11 +567,25 @@
             this.lnklblModifyQuery.TabStop = true;
             this.lnklblModifyQuery.Text = "CLICK HERE TO MODIFY EXISTING QUERY";
             // 
+            // grpboxHtlCtgry
+            // 
+            this.grpboxHtlCtgry.Controls.Add(this.chkBox1Star);
+            this.grpboxHtlCtgry.Controls.Add(this.chkBox2Star);
+            this.grpboxHtlCtgry.Controls.Add(this.chkBox3Star);
+            this.grpboxHtlCtgry.Controls.Add(this.chkBox4Star);
+            this.grpboxHtlCtgry.Controls.Add(this.chkBox5Star);
+            this.grpboxHtlCtgry.Location = new System.Drawing.Point(371, 305);
+            this.grpboxHtlCtgry.Name = "grpboxHtlCtgry";
+            this.grpboxHtlCtgry.Size = new System.Drawing.Size(353, 39);
+            this.grpboxHtlCtgry.TabIndex = 53;
+            this.grpboxHtlCtgry.TabStop = false;
+            // 
             // FrmEditQueryPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(971, 604);
+            this.Controls.Add(this.grpboxHtlCtgry);
             this.Controls.Add(this.lnklblModifyQuery);
             this.Controls.Add(this.grpboxRqmnt);
             this.Controls.Add(this.grpboxMeal);
@@ -580,11 +598,6 @@
             this.Controls.Add(this.txtboxArvlCity);
             this.Controls.Add(this.dttmpkrDptrDate);
             this.Controls.Add(this.dttmpkrArvlDate);
-            this.Controls.Add(this.chkBox5Star);
-            this.Controls.Add(this.chkBox4Star);
-            this.Controls.Add(this.chkBox3Star);
-            this.Controls.Add(this.chkBox2Star);
-            this.Controls.Add(this.chkBox1Star);
             this.Controls.Add(this.nmbrUpDwnRoomCount);
             this.Controls.Add(this.nmbrUpDwnPersonInfnt);
             this.Controls.Add(this.nmbrUpDwnPersonChild);
@@ -624,6 +637,8 @@
             this.grpboxMeal.PerformLayout();
             this.grpboxRqmnt.ResumeLayout(false);
             this.grpboxRqmnt.PerformLayout();
+            this.grpboxHtlCtgry.ResumeLayout(false);
+            this.grpboxHtlCtgry.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -682,6 +697,7 @@
         private System.Windows.Forms.GroupBox grpboxMeal;
         private System.Windows.Forms.GroupBox grpboxRqmnt;
         private System.Windows.Forms.LinkLabel lnklblModifyQuery;
+        private System.Windows.Forms.GroupBox grpboxHtlCtgry;
     }
 }
 
