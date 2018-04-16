@@ -18,6 +18,7 @@ namespace TourQueryManager
         MySqlTransaction frmEditQueryMysqlTransaction = null;
         MySqlDataAdapter frmEditQueryMysqlDataAdaptor = null;
         DataSet frmEditQueryDataSet = null;
+        bool updateQueryFlag = false;
         public FrmEditQueryPage()
         {
             InitializeComponent();
@@ -77,14 +78,44 @@ namespace TourQueryManager
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             /* generate insert query and upload into database */
+            string mysqlInsertQueryStr;
             MySqlCommand btnUpdateMysqlCommand = frmEditQueryMysqlConn.CreateCommand();
             frmEditQueryMysqlTransaction = frmEditQueryMysqlConn.BeginTransaction();
             btnUpdateMysqlCommand.Connection = frmEditQueryMysqlConn;
             btnUpdateMysqlCommand.Transaction = frmEditQueryMysqlTransaction;
             btnUpdateMysqlCommand.CommandType = CommandType.Text;
             DateTime date;
-            string mysqlInsertQueryStr = "INSERT INTO `queries` ( `queryid`, `clientid`, `userid`, `place`, `destinationcovered`, `fromdate`, `todate`, `adults`, `children`, `babies`, `roomcount`, `meal`, `hotelcategory`, `arrivaldate`, `departuredate`, `arrivalcity`, `departurecity`, `vehicalcategory`, `requirement`, `budget`, `note` ) "
-                + "VALUES ( @queryid_var, @clientid_var, @userid_var, @place_var, @destinationcovered_var, @fromdate_var, @todate_var, @adults_var, @children_var, @babies_var, @roomcount_var,@meal_var, @hotelcategory_var, @arrivaldate_var, @departuredate_var, @arrivalcity_var, @departurecity_var, @vehicalcategory_var, @requirement_var, @budget_var, @note_var )";
+            if (updateQueryFlag)
+            {
+                mysqlInsertQueryStr = "UPDATE `queries` SET" +
+                    " `clientid` = @clientid_var," +
+                    " `userid` = @userid_var," +
+                    " `place` = @place_var," +
+                    " `destinationcovered` = @destinationcovered_var," +
+                    " `fromdate` = @fromdate_var," +
+                    " `todate` = @todate_var," +
+                    " `adults` = @adults_var," +
+                    " `children` = @children_var," +
+                    " `babies` = @babies_var," +
+                    " `roomcount` = @roomcount_var," +
+                    " `meal` = @meal_var," +
+                    " `hotelcategory` = @hotelcategory_var," +
+                    " `arrivaldate` = @arrivaldate_var," +
+                    " `departuredate` = @departuredate_var," +
+                    " `arrivalcity` = @arrivalcity_var," +
+                    " `departurecity` = @departurecity_var," +
+                    " `vehicalcategory` = @vehicalcategory_var," +
+                    " `requirement` = @requirement_var," +
+                    " `budget` = @budget_var," +
+                    " `note` = @note_var" +
+                    " WHERE" +
+                    " `queryid` = @queryid_var";
+            }
+            else
+            {
+                mysqlInsertQueryStr = "INSERT INTO `queries` ( `queryid`, `clientid`, `userid`, `place`, `destinationcovered`, `fromdate`, `todate`, `adults`, `children`, `babies`, `roomcount`, `meal`, `hotelcategory`, `arrivaldate`, `departuredate`, `arrivalcity`, `departurecity`, `vehicalcategory`, `requirement`, `budget`, `note` ) "
+                    + "VALUES ( @queryid_var, @clientid_var, @userid_var, @place_var, @destinationcovered_var, @fromdate_var, @todate_var, @adults_var, @children_var, @babies_var, @roomcount_var,@meal_var, @hotelcategory_var, @arrivaldate_var, @departuredate_var, @arrivalcity_var, @departurecity_var, @vehicalcategory_var, @requirement_var, @budget_var, @note_var )";
+            }
             btnUpdateMysqlCommand.CommandText = mysqlInsertQueryStr;
             btnUpdateMysqlCommand.Prepare();
             btnUpdateMysqlCommand.Parameters.AddWithValue("@queryid_var", "Text");
@@ -223,20 +254,26 @@ namespace TourQueryManager
 
             btnUpdateMysqlCommand.Parameters["@note_var"].Value = txtboxNote.Text;
 
-            DateTime today = DateTime.Now;
-            string queryIdStr = "5136"
-                + today.Year.ToString()
-                + today.Month.ToString()
-                + today.Day.ToString()
-                + cmbboxClientId.SelectedValue.ToString()
-                + cmbboxUserId.SelectedValue.ToString()
-                + today.Hour.ToString()
-                + today.Minute.ToString();
+            string queryIdStr;
+            if (updateQueryFlag)
+            {
+                queryIdStr = cmbboxQueryId.Text;
+            }
+            else
+            {
+                DateTime today = DateTime.Now;
+                queryIdStr = "5136"
+                    + today.Year.ToString()
+                    + today.Month.ToString()
+                    + today.Day.ToString()
+                    + cmbboxClientId.SelectedValue.ToString()
+                    + cmbboxUserId.SelectedValue.ToString()
+                    + today.Hour.ToString()
+                    + today.Minute.ToString();
+            }
             btnUpdateMysqlCommand.Parameters["@queryid_var"].Value = queryIdStr;
 
             /* now update in database */
-
-            MessageBox.Show("MySql command for update query is:\n" + btnUpdateMysqlCommand.CommandText);
             try
             {
                 int result = btnUpdateMysqlCommand.ExecuteNonQuery();
@@ -246,6 +283,231 @@ namespace TourQueryManager
             catch(Exception errquery)
             {
                 MessageBox.Show("Error while executing insert query because:\n" + errquery.Message);
+            }
+        }
+
+        private void lnklblModifyQuery_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            /* this method will be used to reset the fields
+             * and populate query id from database server
+             * enable disable other fields accordingly
+             */
+            lnklblModifyQuery.Enabled = false;
+            lnklblModifyQuery.Visible = false;
+            btnLoadQuery.Enabled = true;
+            btnLoadQuery.Visible = true;
+            btnDeleteQuery.Enabled = true;
+            btnDeleteQuery.Visible = true;
+            updateQueryFlag = true;
+
+            frmEditQueryDataSet = new DataSet();
+            string queryIdSelectMysqlQueryString = "SELECT `queryno`, `queryid` FROM `queries` WHERE `queryno` > 1 ORDER BY `queryno`";
+            try
+            {
+                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryIdSelectMysqlQueryString, frmEditQueryMysqlConn);
+                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "QUERYID_COMBO_BOX");
+                if (frmEditQueryDataSet != null)
+                {
+                    cmbboxQueryId.DataSource = frmEditQueryDataSet.Tables["QUERYID_COMBO_BOX"];
+                    cmbboxQueryId.ValueMember = "queryno";
+                    cmbboxQueryId.DisplayMember = "queryid";
+                }
+            }
+            catch (Exception errquery)
+            {
+                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+            }
+
+            /* reset the form */
+            cmbboxClientId.Text = "";
+            cmbboxUserId.Text = "";
+            cmbboxVehicleCtgry.Text = "";
+            txtboxArvlCity.Text = "";
+            txtboxBudget.Text = "";
+            txtboxDptrCity.Text = "";
+            txtboxDstnCvrd.Text = "";
+            txtboxNote.Text = "";
+            txtboxPlace.Text = "";
+            nmbrUpDwnPersonAdult.Value = 0;
+            nmbrUpDwnPersonChild.Value = 0;
+            nmbrUpDwnPersonInfnt.Value = 0;
+            nmbrUpDwnRoomCount.Value = 0;
+            chkBox1Star.Checked = false;
+            chkBox2Star.Checked = false;
+            chkBox3Star.Checked = false;
+            chkBox4Star.Checked = false;
+            chkBox5Star.Checked = false;
+            radioBtnMealBrkfstDnr.Checked = false;
+            radioBtnMealBrkfstLnchDnr.Checked = false;
+            radioBtnMealBrkfstOnly.Checked = false;
+            radioBtnMealNoMeal.Checked = false;
+            radioBtnRqmntHtlOnly.Checked = false;
+            radioBtnRqmntTourPkg.Checked = false;
+            radioBtnRqmntTourPlusFlight.Checked = false;
+            radioBtnRqmntTrnsprtOnly.Checked = false;
+        }
+
+        private void btnDeleteQuery_Click(object sender, EventArgs e)
+        {
+            if (string.Equals(txtboxPlace.Text, ""))
+            {
+                MessageBox.Show("Form is Empty. Please Select and load query first");
+                return;
+            }
+            MySqlCommand btnDeleteMysqlCommand = frmEditQueryMysqlConn.CreateCommand();
+            MySqlTransaction btnDeleteMysqlTransaction = frmEditQueryMysqlConn.BeginTransaction();
+            btnDeleteMysqlCommand.Connection = frmEditQueryMysqlConn;
+            btnDeleteMysqlCommand.Transaction = btnDeleteMysqlTransaction;
+            btnDeleteMysqlCommand.CommandType = CommandType.Text;
+            /* delete the selected query entry from the database */
+            string mysqlDeleteQueryStr = "DELETE FROM `queries`" +
+                " WHERE" +
+                " `queryid` = @queryid_var";
+            btnDeleteMysqlCommand.CommandText = mysqlDeleteQueryStr;
+            btnDeleteMysqlCommand.Prepare();
+            btnDeleteMysqlCommand.Parameters.AddWithValue("@queryid_var", "Text");
+            btnDeleteMysqlCommand.Parameters["@queryid_var"].Value = cmbboxQueryId.Text;
+
+            try
+            {
+                int result = btnDeleteMysqlCommand.ExecuteNonQuery();
+                MessageBox.Show("Query Executed. with result = " + result.ToString());
+                frmEditQueryMysqlTransaction.Commit();
+            }
+            catch (Exception errquery)
+            {
+                MessageBox.Show("Error while executing delete query because:\n" + errquery.Message);
+            }
+        }
+
+        private void btnLoadQuery_Click(object sender, EventArgs e)
+        {
+            /* load data from Database from query table using queryid */
+            frmEditQueryDataSet = new DataSet();
+            string queryDataSelectMysqlQueryString = "SELECT" +
+                " `clientid`," +
+                " `userid`," +
+                " `place`," +
+                " `destinationcovered`," +
+                " `fromdate`," +
+                " `todate`," +
+                " `adults`," +
+                " `children`," +
+                " `babies`," +
+                " `roomcount`," +
+                " `meal`," +
+                " `hotelcategory`," +
+                " `arrivaldate`," +
+                " `departuredate`," +
+                " `arrivalcity`" +
+                " `departurecity`," +
+                " `vehicalcategory`," +
+                " `requirement`," +
+                " `budget`," +
+                " `note`" +
+                " FROM `queries` WHERE `queryid` = " + cmbboxQueryId.DisplayMember;
+            try
+            {
+                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryDataSelectMysqlQueryString, frmEditQueryMysqlConn);
+                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "QUERYID_FULL_FORM");
+                if (frmEditQueryDataSet != null)
+                {
+                    /* data read from database now write down to page */
+                    string queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["clientid"].ToString();
+                    cmbboxClientId.SelectedValue = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["userid"].ToString();
+                    cmbboxUserId.SelectedValue = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["place"].ToString();
+                    txtboxPlace.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["destinationcovered"].ToString();
+                    txtboxDstnCvrd.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["fromdate"].ToString();
+                    dttmpckrFromDate.Value = DateTime.Parse(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["todate"].ToString();
+                    dttmpckrToDate.Value = DateTime.Parse(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["adults"].ToString();
+                    nmbrUpDwnPersonAdult.Value = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["children"].ToString();
+                    nmbrUpDwnPersonChild.Value = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["babies"].ToString();
+                    nmbrUpDwnPersonInfnt.Value = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["roomcount"].ToString();
+                    nmbrUpDwnRoomCount.Value = Convert.ToUInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["meal"].ToString();
+                    foreach (var grpboxMealControl in grpboxMeal.Controls)
+                    {
+                        if (grpboxMealControl is RadioButton mealRadioBtn)
+                        {
+                            if (string.Equals(mealRadioBtn.Text, queriesColumnStr))
+                            {
+                                mealRadioBtn.Checked = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["hotelcategory"].ToString();
+                    foreach(var chkboxHtlCtgryCtrl in grpboxHtlCtgry.Controls)
+                    {
+                        if(chkboxHtlCtgryCtrl is CheckBox checkBoxHtlCtgry)
+                        {
+                            if(queriesColumnStr.Contains(checkBoxHtlCtgry.Text))
+                            {
+                                checkBoxHtlCtgry.Checked = true;
+                            }
+                        }
+                    }
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["arrivaldate"].ToString();
+                    dttmpkrArvlDate.Value = DateTime.Parse(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["departuredate"].ToString();
+                    dttmpkrDptrDate.Value = DateTime.Parse(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["arrivalcity"].ToString();
+                    txtboxArvlCity.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["departurecity"].ToString();
+                    txtboxDptrCity.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["vehicalcategory"].ToString();
+                    cmbboxVehicleCtgry.SelectedText = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["requirement"].ToString();
+                    foreach (var grpboxRqmntControl in grpboxRqmnt.Controls)
+                    {
+                        if (grpboxRqmntControl is RadioButton rqmntRadioBtn)
+                        {
+                            if (string.Equals(rqmntRadioBtn.Text, queriesColumnStr))
+                            {
+                                rqmntRadioBtn.Checked = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["budget"].ToString();
+                    txtboxBudget.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["note"].ToString();
+                    txtboxNote.Text = queriesColumnStr;
+                }
+            }
+            catch (Exception errquery)
+            {
+                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
         }
     }

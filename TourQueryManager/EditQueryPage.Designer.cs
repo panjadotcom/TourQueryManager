@@ -80,6 +80,8 @@
             this.grpboxRqmnt = new System.Windows.Forms.GroupBox();
             this.lnklblModifyQuery = new System.Windows.Forms.LinkLabel();
             this.grpboxHtlCtgry = new System.Windows.Forms.GroupBox();
+            this.btnLoadQuery = new System.Windows.Forms.Button();
+            this.btnDeleteQuery = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonAdult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonChild)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonInfnt)).BeginInit();
@@ -566,6 +568,7 @@
             this.lnklblModifyQuery.TabIndex = 52;
             this.lnklblModifyQuery.TabStop = true;
             this.lnklblModifyQuery.Text = "CLICK HERE TO MODIFY EXISTING QUERY";
+            this.lnklblModifyQuery.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblModifyQuery_LinkClicked);
             // 
             // grpboxHtlCtgry
             // 
@@ -580,11 +583,37 @@
             this.grpboxHtlCtgry.TabIndex = 53;
             this.grpboxHtlCtgry.TabStop = false;
             // 
+            // btnLoadQuery
+            // 
+            this.btnLoadQuery.Enabled = false;
+            this.btnLoadQuery.Location = new System.Drawing.Point(587, 17);
+            this.btnLoadQuery.Name = "btnLoadQuery";
+            this.btnLoadQuery.Size = new System.Drawing.Size(113, 23);
+            this.btnLoadQuery.TabIndex = 54;
+            this.btnLoadQuery.Text = "LOAD";
+            this.btnLoadQuery.UseVisualStyleBackColor = true;
+            this.btnLoadQuery.Visible = false;
+            this.btnLoadQuery.Click += new System.EventHandler(this.btnLoadQuery_Click);
+            // 
+            // btnDeleteQuery
+            // 
+            this.btnDeleteQuery.Enabled = false;
+            this.btnDeleteQuery.Location = new System.Drawing.Point(132, 557);
+            this.btnDeleteQuery.Name = "btnDeleteQuery";
+            this.btnDeleteQuery.Size = new System.Drawing.Size(128, 35);
+            this.btnDeleteQuery.TabIndex = 55;
+            this.btnDeleteQuery.Text = "DELETE";
+            this.btnDeleteQuery.UseVisualStyleBackColor = true;
+            this.btnDeleteQuery.Visible = false;
+            this.btnDeleteQuery.Click += new System.EventHandler(this.btnDeleteQuery_Click);
+            // 
             // FrmEditQueryPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(971, 604);
+            this.ClientSize = new System.Drawing.Size(1019, 642);
+            this.Controls.Add(this.btnDeleteQuery);
+            this.Controls.Add(this.btnLoadQuery);
             this.Controls.Add(this.grpboxHtlCtgry);
             this.Controls.Add(this.lnklblModifyQuery);
             this.Controls.Add(this.grpboxRqmnt);
@@ -698,6 +727,8 @@
         private System.Windows.Forms.GroupBox grpboxRqmnt;
         private System.Windows.Forms.LinkLabel lnklblModifyQuery;
         private System.Windows.Forms.GroupBox grpboxHtlCtgry;
+        private System.Windows.Forms.Button btnLoadQuery;
+        private System.Windows.Forms.Button btnDeleteQuery;
     }
 }
 
