@@ -299,6 +299,7 @@ namespace TourQueryManager
             btnDeleteQuery.Enabled = true;
             btnDeleteQuery.Visible = true;
             updateQueryFlag = true;
+            cmbboxQueryId.Enabled = true;
 
             frmEditQueryDataSet = new DataSet();
             string queryIdSelectMysqlQueryString = "SELECT `queryno`, `queryid` FROM `queries` WHERE `queryno` > 1 ORDER BY `queryno`";
@@ -372,7 +373,7 @@ namespace TourQueryManager
             {
                 int result = btnDeleteMysqlCommand.ExecuteNonQuery();
                 MessageBox.Show("Query Executed. with result = " + result.ToString());
-                frmEditQueryMysqlTransaction.Commit();
+                btnDeleteMysqlTransaction.Commit();
             }
             catch (Exception errquery)
             {
@@ -399,13 +400,14 @@ namespace TourQueryManager
                 " `hotelcategory`," +
                 " `arrivaldate`," +
                 " `departuredate`," +
-                " `arrivalcity`" +
+                " `arrivalcity`," +
                 " `departurecity`," +
                 " `vehicalcategory`," +
                 " `requirement`," +
                 " `budget`," +
                 " `note`" +
-                " FROM `queries` WHERE `queryid` = " + cmbboxQueryId.DisplayMember;
+                " FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
+            MessageBox.Show("Query string is " + queryDataSelectMysqlQueryString);
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryDataSelectMysqlQueryString, frmEditQueryMysqlConn);
@@ -414,12 +416,11 @@ namespace TourQueryManager
                 {
                     /* data read from database now write down to page */
                     string queriesColumnStr;
-
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["clientid"].ToString();
-                    cmbboxClientId.SelectedValue = Convert.ToUInt32(queriesColumnStr);
+                    cmbboxClientId.SelectedValue = Convert.ToInt32(queriesColumnStr);
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["userid"].ToString();
-                    cmbboxUserId.SelectedValue = Convert.ToUInt32(queriesColumnStr);
+                    cmbboxUserId.SelectedValue = Convert.ToInt32(queriesColumnStr);
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["place"].ToString();
                     txtboxPlace.Text = queriesColumnStr;
@@ -448,7 +449,8 @@ namespace TourQueryManager
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["meal"].ToString();
                     foreach (var grpboxMealControl in grpboxMeal.Controls)
                     {
-                        if (grpboxMealControl is RadioButton mealRadioBtn)
+                        RadioButton mealRadioBtn = grpboxMealControl as RadioButton;
+                        if (mealRadioBtn != null)
                         {
                             if (string.Equals(mealRadioBtn.Text, queriesColumnStr))
                             {
@@ -459,13 +461,14 @@ namespace TourQueryManager
                     }
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["hotelcategory"].ToString();
-                    foreach(var chkboxHtlCtgryCtrl in grpboxHtlCtgry.Controls)
+                    foreach(var grpboxHtlCtgryCtrl in grpboxHtlCtgry.Controls)
                     {
-                        if(chkboxHtlCtgryCtrl is CheckBox checkBoxHtlCtgry)
+                        CheckBox htlCtgryChkBox = grpboxHtlCtgryCtrl as CheckBox;
+                        if (htlCtgryChkBox != null)
                         {
-                            if(queriesColumnStr.Contains(checkBoxHtlCtgry.Text))
+                            if(queriesColumnStr.Contains(htlCtgryChkBox.Text))
                             {
-                                checkBoxHtlCtgry.Checked = true;
+                                htlCtgryChkBox.Checked = true;
                             }
                         }
                     }
@@ -483,12 +486,13 @@ namespace TourQueryManager
                     txtboxDptrCity.Text = queriesColumnStr;
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["vehicalcategory"].ToString();
-                    cmbboxVehicleCtgry.SelectedText = queriesColumnStr;
+                    cmbboxVehicleCtgry.Text = queriesColumnStr;
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["requirement"].ToString();
                     foreach (var grpboxRqmntControl in grpboxRqmnt.Controls)
                     {
-                        if (grpboxRqmntControl is RadioButton rqmntRadioBtn)
+                        RadioButton rqmntRadioBtn = grpboxRqmntControl as RadioButton;
+                        if (rqmntRadioBtn != null)
                         {
                             if (string.Equals(rqmntRadioBtn.Text, queriesColumnStr))
                             {
