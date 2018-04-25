@@ -39,11 +39,11 @@ namespace TourQueryManager
             frmQuery.ShowDialog();
             Show();
         }
-
-        private void btnCreateClient_Click(object sender, EventArgs e)
+        
+        private void btnCreateAgent_Click(object sender, EventArgs e)
         {
             /* load the new screen for creating new user */
-            FrmEditUserPage frmEditUserPage = new FrmEditUserPage("Client");
+            FrmEditUserPage frmEditUserPage = new FrmEditUserPage("Agent");
             Hide();
             frmEditUserPage.ShowDialog();
             Show();

@@ -14,23 +14,23 @@ namespace TourQueryManager
     public partial class FrmEditUserPage : Form
     {
         static string mysqlConnStr = TourQueryManager.Properties.Settings.Default.mysqlConnStr;
-        static string userClientFlagStr = null;
-        static bool isClientFlag;
+        static string userAgentFlagStr = null;
+        static bool isAgentFlag;
         MySqlConnection frmEditUserMysqlConn = new MySqlConnection(mysqlConnStr);
         MySqlTransaction frmEditUserMysqlTransaction = null;
 
-        public FrmEditUserPage(string userClientFlag)
+        public FrmEditUserPage(string userAgentFlag)
         {
             InitializeComponent();
-            userClientFlagStr = userClientFlag;
+            userAgentFlagStr = userAgentFlag;
         }
 
         private void FrmEditUserPage_Load(object sender, EventArgs e)
         {
             /* invoke functions for loading form */
-            if(string.Equals(userClientFlagStr, "Client", StringComparison.OrdinalIgnoreCase))
+            if(string.Equals(userAgentFlagStr, "Agent", StringComparison.OrdinalIgnoreCase))
             {
-                isClientFlag = true;
+                isAgentFlag = true;
                 lblUsername.Enabled = false;
                 lblUsername.Visible = false;
                 txtboxUsername.Enabled = false;
@@ -39,12 +39,12 @@ namespace TourQueryManager
                 lblPassword.Visible = false;
                 txtboxPassword.Enabled = false;
                 txtboxPassword.Visible = false;
-                lblUserId.Text = "ClientId";
-                Text = "New Client";
+                lblUserId.Text = "AgentId";
+                Text = "New Agent";
             }
             else
             {
-                isClientFlag = false;
+                isAgentFlag = false;
             }
             try
             {
@@ -66,9 +66,9 @@ namespace TourQueryManager
             try
             {
                 /*INSERT INTO `tourquerymanagement`.`appusers` (`username`, `password`, `name`, `phone`, `email`, `information`) VALUES ('Administrator', 'Password', 'Administrator', '1234567890', 'admin@office.123', 'Admin Account of the company');*/
-                if (isClientFlag)
+                if (isAgentFlag)
                 {
-                    btnUpdateMysqlCommand.CommandText = "INSERT INTO `clients` ( `name`, `phone`, `email`, `information` )"
+                    btnUpdateMysqlCommand.CommandText = "INSERT INTO `agents` ( `name`, `phone`, `email`, `information` )"
                         + " VALUES ( '" + txtboxName.Text + "', '" + txtboxPhone.Text + "', '" + txtboxEmailId.Text + "', '" + txtboxInfo.Text + "' ) ";
                 }
                 else

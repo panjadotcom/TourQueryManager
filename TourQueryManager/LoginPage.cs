@@ -49,6 +49,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Combo Box cannot be Initialize " + comboerr.Message + "\n\n\n Provide Proper Details of the Database");
             }
+            cmbboxUsername.SelectedValue = 0;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -73,6 +74,10 @@ namespace TourQueryManager
                         else
                         {
                             MessageBox.Show("Password Matched for " + cmbboxUsername.Text);
+                            FrmUserPage frmUserPage = new FrmUserPage(Convert.ToUInt32( cmbboxUsername.SelectedValue ) );
+                            Hide();
+                            frmUserPage.ShowDialog();
+                            Close();
                         }
                         
                     }

@@ -32,7 +32,7 @@
             this.btnViewUsrReport = new System.Windows.Forms.Button();
             this.btnViewQueryReport = new System.Windows.Forms.Button();
             this.btnCreateQuery = new System.Windows.Forms.Button();
-            this.btnCreateClient = new System.Windows.Forms.Button();
+            this.btnCreateAgent = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCreateUser
@@ -77,23 +77,23 @@
             this.btnCreateQuery.UseVisualStyleBackColor = true;
             this.btnCreateQuery.Click += new System.EventHandler(this.btnCreateQuery_Click);
             // 
-            // btnCreateClient
+            // btnCreateAgent
             // 
-            this.btnCreateClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCreateClient.Location = new System.Drawing.Point(12, 66);
-            this.btnCreateClient.Name = "btnCreateClient";
-            this.btnCreateClient.Size = new System.Drawing.Size(159, 109);
-            this.btnCreateClient.TabIndex = 4;
-            this.btnCreateClient.Text = "Create Client";
-            this.btnCreateClient.UseVisualStyleBackColor = true;
-            this.btnCreateClient.Click += new System.EventHandler(this.btnCreateClient_Click);
+            this.btnCreateAgent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreateAgent.Location = new System.Drawing.Point(12, 66);
+            this.btnCreateAgent.Name = "btnCreateAgent";
+            this.btnCreateAgent.Size = new System.Drawing.Size(159, 109);
+            this.btnCreateAgent.TabIndex = 4;
+            this.btnCreateAgent.Text = "Create Agent";
+            this.btnCreateAgent.UseVisualStyleBackColor = true;
+            this.btnCreateAgent.Click += new System.EventHandler(this.btnCreateAgent_Click);
             // 
             // FrmAdminPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 380);
-            this.Controls.Add(this.btnCreateClient);
+            this.Controls.Add(this.btnCreateAgent);
             this.Controls.Add(this.btnViewQueryReport);
             this.Controls.Add(this.btnCreateQuery);
             this.Controls.Add(this.btnViewUsrReport);
@@ -112,6 +112,6 @@
         private System.Windows.Forms.Button btnViewUsrReport;
         private System.Windows.Forms.Button btnViewQueryReport;
         private System.Windows.Forms.Button btnCreateQuery;
-        private System.Windows.Forms.Button btnCreateClient;
+        private System.Windows.Forms.Button btnCreateAgent;
     }
 }

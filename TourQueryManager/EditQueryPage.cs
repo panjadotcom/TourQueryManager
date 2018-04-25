@@ -39,18 +39,18 @@ namespace TourQueryManager
             cmbboxQueryId.Enabled = false;
             frmEditQueryDataSet = new DataSet();
             string userSelectMysqlQueryString = "SELECT `userid`, `username`, `name` FROM `appusers` WHERE `userid` > 1 ORDER BY `userid`";
-            string clientSelectMysqlQueryString = "SELECT `clientid`, `name` FROM `clients` ORDER BY `clientid`";
+            string agentSelectMysqlQueryString = "SELECT `agentid`, `name` FROM `agents` ORDER BY `agentid`";
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(userSelectMysqlQueryString, frmEditQueryMysqlConn);
                 frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "USER_COMBO_BOX");
-                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(clientSelectMysqlQueryString, frmEditQueryMysqlConn);
-                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "CLIENT_COMBO_BOX");
+                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(agentSelectMysqlQueryString, frmEditQueryMysqlConn);
+                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "AGENT_COMBO_BOX");
                 if(frmEditQueryDataSet != null)
                 {
-                    cmbboxClientId.DataSource = frmEditQueryDataSet.Tables["CLIENT_COMBO_BOX"];
-                    cmbboxClientId.ValueMember = "clientid";
-                    cmbboxClientId.DisplayMember = "name";
+                    cmbboxAgentId.DataSource = frmEditQueryDataSet.Tables["AGENT_COMBO_BOX"];
+                    cmbboxAgentId.ValueMember = "agentid";
+                    cmbboxAgentId.DisplayMember = "name";
                     cmbboxUserId.DataSource = frmEditQueryDataSet.Tables["USER_COMBO_BOX"];
                     cmbboxUserId.ValueMember = "userid";
                     cmbboxUserId.DisplayMember = "username";
@@ -60,6 +60,8 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
+            cmbboxUserId.SelectedValue = 0;
+            cmbboxAgentId.SelectedValue = 0;
         }
 
         private void FrmEditQueryPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -88,9 +90,12 @@ namespace TourQueryManager
             if (updateQueryFlag)
             {
                 mysqlInsertQueryStr = "UPDATE `queries` SET" +
-                    " `clientid` = @clientid_var," +
+                    " `agentid` = @agentid_var," +
                     " `userid` = @userid_var," +
+                    " `name` = @name_var," +
+                    " `contact` = @contact_var," +
                     " `place` = @place_var," +
+                    " `querylastupdatetime` = NOW()," +
                     " `destinationcovered` = @destinationcovered_var," +
                     " `fromdate` = @fromdate_var," +
                     " `todate` = @todate_var," +
@@ -113,14 +118,68 @@ namespace TourQueryManager
             }
             else
             {
-                mysqlInsertQueryStr = "INSERT INTO `queries` ( `queryid`, `clientid`, `userid`, `place`, `destinationcovered`, `fromdate`, `todate`, `adults`, `children`, `babies`, `roomcount`, `meal`, `hotelcategory`, `arrivaldate`, `departuredate`, `arrivalcity`, `departurecity`, `vehicalcategory`, `requirement`, `budget`, `note` ) "
-                    + "VALUES ( @queryid_var, @clientid_var, @userid_var, @place_var, @destinationcovered_var, @fromdate_var, @todate_var, @adults_var, @children_var, @babies_var, @roomcount_var,@meal_var, @hotelcategory_var, @arrivaldate_var, @departuredate_var, @arrivalcity_var, @departurecity_var, @vehicalcategory_var, @requirement_var, @budget_var, @note_var )";
+                mysqlInsertQueryStr = "INSERT INTO `queries` ( " +
+                    "`queryid`, " +
+                    "`agentid`, " +
+                    "`userid`, " +
+                    "`name`, " +
+                    "`contact`, " +
+                    "`querystartdate`, " +
+                    "`querylastupdatetime`, " +
+                    "`querycurrentstate`, " +
+                    "`place`, " +
+                    "`destinationcovered`, " +
+                    "`fromdate`, " +
+                    "`todate`, " +
+                    "`adults`, " +
+                    "`children`, " +
+                    "`babies`, " +
+                    "`roomcount`, " +
+                    "`meal`, " +
+                    "`hotelcategory`, " +
+                    "`arrivaldate`, " +
+                    "`departuredate`, " +
+                    "`arrivalcity`, " +
+                    "`departurecity`, " +
+                    "`vehicalcategory`, " +
+                    "`requirement`, " +
+                    "`budget`, " +
+                    "`note` ) " +
+                    "VALUES ( " +
+                    "@queryid_var, " +
+                    "@agentid_var, " +
+                    "@userid_var, " +
+                    "@name_var, " +
+                    "@contact_var, " +
+                    "CURDATE(), " +
+                    "NOW(), " +
+                    Properties.Resources.queryStageGenerated + ", " +
+                    "@place_var, " +
+                    "@destinationcovered_var, " +
+                    "@fromdate_var, " +
+                    "@todate_var, " +
+                    "@adults_var, " +
+                    "@children_var, " +
+                    "@babies_var, " +
+                    "@roomcount_var, " +
+                    "@meal_var, " +
+                    "@hotelcategory_var, " +
+                    "@arrivaldate_var, " +
+                    "@departuredate_var, " +
+                    "@arrivalcity_var, " +
+                    "@departurecity_var, " +
+                    "@vehicalcategory_var, " +
+                    "@requirement_var, " +
+                    "@budget_var, " +
+                    "@note_var )";
             }
             btnUpdateMysqlCommand.CommandText = mysqlInsertQueryStr;
             btnUpdateMysqlCommand.Prepare();
             btnUpdateMysqlCommand.Parameters.AddWithValue("@queryid_var", "Text");
-            btnUpdateMysqlCommand.Parameters.AddWithValue("@clientid_var", 1);
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@agentid_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@userid_var", 1);
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@name_var", "Text");
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@contact_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@place_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@destinationcovered_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@fromdate_var", "Text");
@@ -140,14 +199,14 @@ namespace TourQueryManager
             btnUpdateMysqlCommand.Parameters.AddWithValue("@budget_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@note_var", "Text");
 
-            if (string.Equals(cmbboxClientId.Text, "", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(cmbboxAgentId.Text, "", StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("ClientId field cannot be empty");
+                MessageBox.Show("agentId field cannot be empty");
                 return;
             }
             else
             {
-                btnUpdateMysqlCommand.Parameters["@clientid_var"].Value = cmbboxClientId.SelectedValue;// cmbboxClientId.SelectedIndex;
+                btnUpdateMysqlCommand.Parameters["@agentid_var"].Value = cmbboxAgentId.SelectedValue;
             }
 
             if (string.Equals(cmbboxUserId.Text, "", StringComparison.OrdinalIgnoreCase))
@@ -169,6 +228,26 @@ namespace TourQueryManager
             else
             {
                 btnUpdateMysqlCommand.Parameters["@place_var"].Value = txtboxPlace.Text;
+            }
+
+            if (string.Equals(txtboxClientName.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Name field cannot be empty");
+                return;
+            }
+            else
+            {
+                btnUpdateMysqlCommand.Parameters["@name_var"].Value = txtboxClientName.Text;
+            }
+
+            if (string.Equals(txtboxClientContact.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Contact field cannot be empty");
+                return;
+            }
+            else
+            {
+                btnUpdateMysqlCommand.Parameters["@contact_var"].Value = txtboxClientContact.Text;
             }
 
             btnUpdateMysqlCommand.Parameters["@destinationcovered_var"].Value = txtboxDstnCvrd.Text;
@@ -266,10 +345,11 @@ namespace TourQueryManager
                     + today.Year.ToString()
                     + today.Month.ToString()
                     + today.Day.ToString()
-                    + cmbboxClientId.SelectedValue.ToString()
+                    + cmbboxAgentId.SelectedValue.ToString()
                     + cmbboxUserId.SelectedValue.ToString()
                     + today.Hour.ToString()
                     + today.Minute.ToString();
+                cmbboxQueryId.Text = queryIdStr;
             }
             btnUpdateMysqlCommand.Parameters["@queryid_var"].Value = queryIdStr;
 
@@ -302,7 +382,7 @@ namespace TourQueryManager
             cmbboxQueryId.Enabled = true;
 
             frmEditQueryDataSet = new DataSet();
-            string queryIdSelectMysqlQueryString = "SELECT `queryno`, `queryid` FROM `queries` WHERE `queryno` > 1 ORDER BY `queryno`";
+            string queryIdSelectMysqlQueryString = "SELECT `queryno`, `queryid` FROM `queries` WHERE `queryno` > 0 ORDER BY `queryno`";
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryIdSelectMysqlQueryString, frmEditQueryMysqlConn);
@@ -320,8 +400,9 @@ namespace TourQueryManager
             }
 
             /* reset the form */
-            cmbboxClientId.Text = "";
-            cmbboxUserId.Text = "";
+            cmbboxQueryId.SelectedValue = 0;
+            cmbboxUserId.SelectedValue = 0;
+            cmbboxAgentId.SelectedValue = 0;
             cmbboxVehicleCtgry.Text = "";
             txtboxArvlCity.Text = "";
             txtboxBudget.Text = "";
@@ -351,6 +432,16 @@ namespace TourQueryManager
         private void btnDeleteQuery_Click(object sender, EventArgs e)
         {
             if (string.Equals(txtboxPlace.Text, ""))
+            {
+                MessageBox.Show("Form is Empty. Please Select and load query first");
+                return;
+            }
+            if (string.Equals(txtboxClientName.Text, ""))
+            {
+                MessageBox.Show("Form is Empty. Please Select and load query first");
+                return;
+            }
+            if (string.Equals(txtboxClientContact.Text, ""))
             {
                 MessageBox.Show("Form is Empty. Please Select and load query first");
                 return;
@@ -385,28 +476,7 @@ namespace TourQueryManager
         {
             /* load data from Database from query table using queryid */
             frmEditQueryDataSet = new DataSet();
-            string queryDataSelectMysqlQueryString = "SELECT" +
-                " `clientid`," +
-                " `userid`," +
-                " `place`," +
-                " `destinationcovered`," +
-                " `fromdate`," +
-                " `todate`," +
-                " `adults`," +
-                " `children`," +
-                " `babies`," +
-                " `roomcount`," +
-                " `meal`," +
-                " `hotelcategory`," +
-                " `arrivaldate`," +
-                " `departuredate`," +
-                " `arrivalcity`," +
-                " `departurecity`," +
-                " `vehicalcategory`," +
-                " `requirement`," +
-                " `budget`," +
-                " `note`" +
-                " FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
+            string queryDataSelectMysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
             MessageBox.Show("Query string is " + queryDataSelectMysqlQueryString);
             try
             {
@@ -416,11 +486,17 @@ namespace TourQueryManager
                 {
                     /* data read from database now write down to page */
                     string queriesColumnStr;
-                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["clientid"].ToString();
-                    cmbboxClientId.SelectedValue = Convert.ToInt32(queriesColumnStr);
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["agentid"].ToString();
+                    cmbboxAgentId.SelectedValue = Convert.ToInt32(queriesColumnStr);
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["userid"].ToString();
                     cmbboxUserId.SelectedValue = Convert.ToInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["name"].ToString();
+                    txtboxClientName.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["contact"].ToString();
+                    txtboxClientContact.Text = queriesColumnStr;
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["place"].ToString();
                     txtboxPlace.Text = queriesColumnStr;
