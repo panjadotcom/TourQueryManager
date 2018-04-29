@@ -52,6 +52,28 @@ CREATE TABLE `queries` (
    CONSTRAINT `foreignclient` FOREIGN KEY (`clientid`) REFERENCES `clients` (`clientid`) ON DELETE SET NULL ON UPDATE NO ACTION
  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
+ CREATE TABLE `tourquerymanagement`.`queryworkinghotel` (
+  `idqueryworkinghotel` INT NOT NULL AUTO_INCREMENT,
+  `queryid` BIGINT(20) NOT NULL,
+  `dayno` INT NOT NULL,
+  `roomno` INT NOT NULL,
+  `area` VARCHAR(45) NULL,
+  `city` VARCHAR(45) NULL,
+  `hotel` VARCHAR(45) NULL,
+  `roomtype` VARCHAR(45) NULL,
+  `mealplan` VARCHAR(45) NULL,
+  `extrabed` VARCHAR(45) NULL,
+  `extrameal` VARCHAR(45) NULL,
+  `price` DOUBLE NULL,
+  INDEX `foreignworkinghotelqueryid_idx` (`queryid` ASC),
+  PRIMARY KEY (`queryid`, `dayno`, `roomno`),
+  UNIQUE INDEX `idqueryworkinghotel_UNIQUE` (`idqueryworkinghotel` ASC),
+  CONSTRAINT `foreignworkinghotelqueryid`
+    FOREIGN KEY (`queryid`)
+    REFERENCES `tourquerymanagement`.`queries` (`queryid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ 
  ALTER TABLE `tourquerymanagement`.`queries`
  AUTO_INCREMENT = 1 ;
  

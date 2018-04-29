@@ -14,6 +14,7 @@ namespace TourQueryManager
     public partial class FrmUserPage : Form
     {
         static UInt32 frmUserId;
+        bool openWorkingPage = false;
         static string mysqlConnectionString = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmUserMysqlConnection = new MySqlConnection(mysqlConnectionString);
         public FrmUserPage(UInt32 userId)
@@ -33,6 +34,13 @@ namespace TourQueryManager
                     DataGrdVuUserQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n" );
+                if (openWorkingPage)
+                {
+                    FrmQueryWorkingPage frmQueryWorkingPage = new FrmQueryWorkingPage(DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    Hide();
+                    frmQueryWorkingPage.ShowDialog();
+                    Show();
+                }
             }
             else
             {
@@ -43,6 +51,7 @@ namespace TourQueryManager
         private void BtnAssignQueries_Click(object sender, EventArgs e)
         {
             DataGrdVuUserQueriesLoad(BtnAssignQueries.Text);
+            openWorkingPage = true;
         }
 
         private void DataGrdVuUserQueriesLoad(string buttonClicked)
@@ -118,6 +127,7 @@ namespace TourQueryManager
         private void BtnCompletedQueries_Click(object sender, EventArgs e)
         {
             DataGrdVuUserQueriesLoad(BtnCompletedQueries.Text);
+            openWorkingPage = false;
         }
     }
 }
