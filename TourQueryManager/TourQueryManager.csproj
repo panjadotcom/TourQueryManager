@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.10.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="MySql.Web, Version=6.10.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="pdfsharp">
+      <HintPath>..\..\..\..\Downloads\pdfsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +56,12 @@
     </Compile>
     <Compile Include="AdminPage.Designer.cs">
       <DependentUpon>AdminPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminQueryWorkingPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminQueryWorkingPage.Designer.cs">
+      <DependentUpon>AdminQueryWorkingPage.cs</DependentUpon>
     </Compile>
     <Compile Include="EditUserPage.cs">
       <SubType>Form</SubType>
@@ -88,6 +97,9 @@
     </Compile>
     <EmbeddedResource Include="AdminPage.resx">
       <DependentUpon>AdminPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminQueryWorkingPage.resx">
+      <DependentUpon>AdminQueryWorkingPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditUserPage.resx">
       <DependentUpon>EditUserPage.cs</DependentUpon>
@@ -128,6 +140,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ExcursionHolidaysLetterHead.JPG" />
     <Content Include="TourQueryManagementScript.sql" />
   </ItemGroup>
   <ItemGroup>

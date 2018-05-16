@@ -25,6 +25,7 @@ namespace TourQueryManager
         MySqlTransaction frmQueryWorkingMysqlTransaction = null;
         MySqlDataAdapter frmQueryWorkingMysqlDataAdaptor = null;
         DataSet frmQueryWorkingDataSet = null;
+
         public FrmQueryWorkingPage(string queryId)
         {
             InitializeComponent();
