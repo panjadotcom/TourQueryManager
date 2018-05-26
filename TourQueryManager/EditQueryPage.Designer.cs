@@ -54,15 +54,12 @@
             this.radioBtnMealBrkfstOnly = new System.Windows.Forms.RadioButton();
             this.radioBtnMealBrkfstLnchDnr = new System.Windows.Forms.RadioButton();
             this.radioBtnMealBrkfstDnr = new System.Windows.Forms.RadioButton();
-            this.chkBox1Star = new System.Windows.Forms.CheckBox();
             this.chkBox2Star = new System.Windows.Forms.CheckBox();
             this.chkBox4Star = new System.Windows.Forms.CheckBox();
             this.chkBox3Star = new System.Windows.Forms.CheckBox();
             this.chkBox5Star = new System.Windows.Forms.CheckBox();
             this.dttmpckrFromDate = new System.Windows.Forms.DateTimePicker();
             this.dttmpckrToDate = new System.Windows.Forms.DateTimePicker();
-            this.dttmpkrDptrDate = new System.Windows.Forms.DateTimePicker();
-            this.dttmpkrArvlDate = new System.Windows.Forms.DateTimePicker();
             this.txtboxPlace = new System.Windows.Forms.TextBox();
             this.txtboxDstnCvrd = new System.Windows.Forms.TextBox();
             this.txtboxDptrCity = new System.Windows.Forms.TextBox();
@@ -86,6 +83,8 @@
             this.txtboxClientName = new System.Windows.Forms.TextBox();
             this.lblClientContact = new System.Windows.Forms.Label();
             this.txtboxClientContact = new System.Windows.Forms.TextBox();
+            this.dttmpkrDptrDate = new System.Windows.Forms.DateTimePicker();
+            this.dttmpkrArvlDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonAdult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonChild)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonInfnt)).BeginInit();
@@ -347,30 +346,20 @@
             this.radioBtnMealBrkfstDnr.Text = "BREAKFAST + DINNER";
             this.radioBtnMealBrkfstDnr.UseVisualStyleBackColor = true;
             // 
-            // chkBox1Star
-            // 
-            this.chkBox1Star.AutoSize = true;
-            this.chkBox1Star.Location = new System.Drawing.Point(6, 16);
-            this.chkBox1Star.Name = "chkBox1Star";
-            this.chkBox1Star.Size = new System.Drawing.Size(64, 17);
-            this.chkBox1Star.TabIndex = 31;
-            this.chkBox1Star.Text = "1 STAR";
-            this.chkBox1Star.UseVisualStyleBackColor = true;
-            // 
             // chkBox2Star
             // 
             this.chkBox2Star.AutoSize = true;
-            this.chkBox2Star.Location = new System.Drawing.Point(76, 16);
+            this.chkBox2Star.Location = new System.Drawing.Point(6, 12);
             this.chkBox2Star.Name = "chkBox2Star";
-            this.chkBox2Star.Size = new System.Drawing.Size(64, 17);
+            this.chkBox2Star.Size = new System.Drawing.Size(57, 17);
             this.chkBox2Star.TabIndex = 32;
-            this.chkBox2Star.Text = "2 STAR";
+            this.chkBox2Star.Text = "BASIC";
             this.chkBox2Star.UseVisualStyleBackColor = true;
             // 
             // chkBox4Star
             // 
             this.chkBox4Star.AutoSize = true;
-            this.chkBox4Star.Location = new System.Drawing.Point(216, 16);
+            this.chkBox4Star.Location = new System.Drawing.Point(146, 12);
             this.chkBox4Star.Name = "chkBox4Star";
             this.chkBox4Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox4Star.TabIndex = 34;
@@ -380,7 +369,7 @@
             // chkBox3Star
             // 
             this.chkBox3Star.AutoSize = true;
-            this.chkBox3Star.Location = new System.Drawing.Point(146, 16);
+            this.chkBox3Star.Location = new System.Drawing.Point(76, 12);
             this.chkBox3Star.Name = "chkBox3Star";
             this.chkBox3Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox3Star.TabIndex = 33;
@@ -390,7 +379,7 @@
             // chkBox5Star
             // 
             this.chkBox5Star.AutoSize = true;
-            this.chkBox5Star.Location = new System.Drawing.Point(286, 16);
+            this.chkBox5Star.Location = new System.Drawing.Point(216, 12);
             this.chkBox5Star.Name = "chkBox5Star";
             this.chkBox5Star.Size = new System.Drawing.Size(64, 17);
             this.chkBox5Star.TabIndex = 35;
@@ -403,6 +392,7 @@
             this.dttmpckrFromDate.Name = "dttmpckrFromDate";
             this.dttmpckrFromDate.Size = new System.Drawing.Size(204, 20);
             this.dttmpckrFromDate.TabIndex = 21;
+            this.dttmpckrFromDate.ValueChanged += new System.EventHandler(this.dttmpckrFromDate_ValueChanged);
             // 
             // dttmpckrToDate
             // 
@@ -410,20 +400,7 @@
             this.dttmpckrToDate.Name = "dttmpckrToDate";
             this.dttmpckrToDate.Size = new System.Drawing.Size(203, 20);
             this.dttmpckrToDate.TabIndex = 22;
-            // 
-            // dttmpkrDptrDate
-            // 
-            this.dttmpkrDptrDate.Location = new System.Drawing.Point(464, 333);
-            this.dttmpkrDptrDate.Name = "dttmpkrDptrDate";
-            this.dttmpkrDptrDate.Size = new System.Drawing.Size(203, 20);
-            this.dttmpkrDptrDate.TabIndex = 37;
-            // 
-            // dttmpkrArvlDate
-            // 
-            this.dttmpkrArvlDate.Location = new System.Drawing.Point(254, 333);
-            this.dttmpkrArvlDate.Name = "dttmpkrArvlDate";
-            this.dttmpkrArvlDate.Size = new System.Drawing.Size(204, 20);
-            this.dttmpkrArvlDate.TabIndex = 36;
+            this.dttmpckrToDate.ValueChanged += new System.EventHandler(this.dttmpckrToDate_ValueChanged);
             // 
             // txtboxPlace
             // 
@@ -576,14 +553,13 @@
             // 
             // grpboxHtlCtgry
             // 
-            this.grpboxHtlCtgry.Controls.Add(this.chkBox1Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox2Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox3Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox4Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox5Star);
             this.grpboxHtlCtgry.Location = new System.Drawing.Point(254, 292);
             this.grpboxHtlCtgry.Name = "grpboxHtlCtgry";
-            this.grpboxHtlCtgry.Size = new System.Drawing.Size(353, 39);
+            this.grpboxHtlCtgry.Size = new System.Drawing.Size(280, 39);
             this.grpboxHtlCtgry.TabIndex = 53;
             this.grpboxHtlCtgry.TabStop = false;
             // 
@@ -642,6 +618,25 @@
             this.txtboxClientContact.Name = "txtboxClientContact";
             this.txtboxClientContact.Size = new System.Drawing.Size(100, 20);
             this.txtboxClientContact.TabIndex = 59;
+            // 
+            // dttmpkrDptrDate
+            // 
+            this.dttmpkrDptrDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dttmpkrDptrDate.Location = new System.Drawing.Point(464, 333);
+            this.dttmpkrDptrDate.Name = "dttmpkrDptrDate";
+            this.dttmpkrDptrDate.ShowUpDown = true;
+            this.dttmpkrDptrDate.Size = new System.Drawing.Size(70, 20);
+            this.dttmpkrDptrDate.TabIndex = 37;
+            // 
+            // dttmpkrArvlDate
+            // 
+            this.dttmpkrArvlDate.Checked = false;
+            this.dttmpkrArvlDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dttmpkrArvlDate.Location = new System.Drawing.Point(254, 333);
+            this.dttmpkrArvlDate.Name = "dttmpkrArvlDate";
+            this.dttmpkrArvlDate.ShowUpDown = true;
+            this.dttmpkrArvlDate.Size = new System.Drawing.Size(70, 20);
+            this.dttmpkrArvlDate.TabIndex = 36;
             // 
             // FrmEditQueryPage
             // 
@@ -741,15 +736,12 @@
         private System.Windows.Forms.RadioButton radioBtnMealBrkfstOnly;
         private System.Windows.Forms.RadioButton radioBtnMealBrkfstLnchDnr;
         private System.Windows.Forms.RadioButton radioBtnMealBrkfstDnr;
-        private System.Windows.Forms.CheckBox chkBox1Star;
         private System.Windows.Forms.CheckBox chkBox2Star;
         private System.Windows.Forms.CheckBox chkBox4Star;
         private System.Windows.Forms.CheckBox chkBox3Star;
         private System.Windows.Forms.CheckBox chkBox5Star;
         private System.Windows.Forms.DateTimePicker dttmpckrFromDate;
         private System.Windows.Forms.DateTimePicker dttmpckrToDate;
-        private System.Windows.Forms.DateTimePicker dttmpkrDptrDate;
-        private System.Windows.Forms.DateTimePicker dttmpkrArvlDate;
         private System.Windows.Forms.TextBox txtboxPlace;
         private System.Windows.Forms.TextBox txtboxDstnCvrd;
         private System.Windows.Forms.TextBox txtboxDptrCity;
@@ -773,6 +765,8 @@
         private System.Windows.Forms.TextBox txtboxClientName;
         private System.Windows.Forms.Label lblClientContact;
         private System.Windows.Forms.TextBox txtboxClientContact;
+        private System.Windows.Forms.DateTimePicker dttmpkrDptrDate;
+        private System.Windows.Forms.DateTimePicker dttmpkrArvlDate;
     }
 }
 

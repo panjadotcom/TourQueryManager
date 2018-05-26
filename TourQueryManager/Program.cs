@@ -16,7 +16,9 @@ namespace TourQueryManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmLoginPage());
+            Application.Run(new FrmHotelsPage());
+            //Application.Run(new FrmEditQueryPage());
+            //Application.Run(new FrmLoginPage());
             //Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
         }
     }

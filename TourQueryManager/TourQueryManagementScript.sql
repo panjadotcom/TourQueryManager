@@ -73,6 +73,36 @@ CREATE TABLE `queries` (
     REFERENCES `tourquerymanagement`.`queries` (`queryid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+  CREATE TABLE `hotelinfo` (
+   `idhotelinfo` int(11) NOT NULL AUTO_INCREMENT,
+   `hotelarea` varchar(45) NOT NULL,
+   `hotelcity` varchar(45) NOT NULL,
+   `hotelname` varchar(45) NOT NULL,
+   `hotelrating` int(11) DEFAULT NULL,
+   `hoteladdress` varchar(255) DEFAULT NULL,
+   `hotelextrainfo` varchar(255) DEFAULT NULL,
+   `contact` varchar(45) DEFAULT NULL,
+   `hotelemail` varchar(45) DEFAULT NULL,
+   `hotelphone` varchar(45) DEFAULT NULL,
+   `hotelmobile` varchar(45) DEFAULT NULL,
+   `roomtype` varchar(45) DEFAULT NULL,
+   `mealepaipricesingle` int(11) DEFAULT NULL,
+   `mealepaipricedouble` int(11) DEFAULT NULL,
+   `mealepaipriceextbed` int(11) DEFAULT NULL,
+   `mealcpaipricesingle` int(11) DEFAULT NULL,
+   `mealcpaipricedouble` int(11) DEFAULT NULL,
+   `mealcpaipriceextbed` int(11) DEFAULT NULL,
+   `mealmapaipricesingle` int(11) DEFAULT NULL,
+   `mealmapaipricedouble` int(11) DEFAULT NULL,
+   `mealmapaipriceextbed` int(11) DEFAULT NULL,
+   `mealapaipricesingle` int(11) DEFAULT NULL,
+   `mealapaipricedouble` int(11) DEFAULT NULL,
+   `mealapaipriceextbed` int(11) DEFAULT NULL,
+   PRIMARY KEY (`hotelarea`,`hotelcity`,`hotelname`),
+   UNIQUE KEY `idhotelinfo_UNIQUE` (`idhotelinfo`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
  
  ALTER TABLE `tourquerymanagement`.`queries`
  AUTO_INCREMENT = 1 ;

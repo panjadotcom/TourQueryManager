@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace TourQueryManager
 {
@@ -65,7 +66,7 @@ namespace TourQueryManager
                     {
                         if (counter == 0)
                         {
-                            MessageBox.Show("Password Matched for " + cmbboxUsername.Text);
+                            Debug.WriteLine("Password Matched for " + cmbboxUsername.Text);
                             FrmAdminPage frmAdminPage = new FrmAdminPage();
                             Hide();
                             frmAdminPage.ShowDialog();
@@ -73,7 +74,7 @@ namespace TourQueryManager
                         }
                         else
                         {
-                            MessageBox.Show("Password Matched for " + cmbboxUsername.Text);
+                            Debug.WriteLine("Password Matched for " + cmbboxUsername.Text);
                             FrmUserPage frmUserPage = new FrmUserPage(Convert.ToUInt32( cmbboxUsername.SelectedValue ) );
                             Hide();
                             frmUserPage.ShowDialog();

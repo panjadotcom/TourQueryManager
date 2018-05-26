@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace TourQueryManager
 {
@@ -364,6 +365,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error while executing insert query because:\n" + errquery.Message);
             }
+            Close();
         }
 
         private void lnklblModifyQuery_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -414,7 +416,6 @@ namespace TourQueryManager
             nmbrUpDwnPersonChild.Value = 0;
             nmbrUpDwnPersonInfnt.Value = 0;
             nmbrUpDwnRoomCount.Value = 0;
-            chkBox1Star.Checked = false;
             chkBox2Star.Checked = false;
             chkBox3Star.Checked = false;
             chkBox4Star.Checked = false;
@@ -477,7 +478,7 @@ namespace TourQueryManager
             /* load data from Database from query table using queryid */
             frmEditQueryDataSet = new DataSet();
             string queryDataSelectMysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
-            MessageBox.Show("Query string is " + queryDataSelectMysqlQueryString);
+            Debug.WriteLine("Query string is " + queryDataSelectMysqlQueryString);
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryDataSelectMysqlQueryString, frmEditQueryMysqlConn);
@@ -589,6 +590,18 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
+        }
+
+        private void dttmpckrFromDate_ValueChanged(object sender, EventArgs e)
+        {
+            /* update the minimum value of the to with current selected date */
+            dttmpckrToDate.MinDate = dttmpckrFromDate.Value;
+        }
+
+        private void dttmpckrToDate_ValueChanged(object sender, EventArgs e)
+        {
+            /* update maximum value for from date with selected date */
+            //dttmpckrFromDate.MaxDate = dttmpckrToDate.Value;
         }
     }
 }
