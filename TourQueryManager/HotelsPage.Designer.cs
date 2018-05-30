@@ -74,6 +74,8 @@
             this.TxtBoxMapaiPriceExtBed = new System.Windows.Forms.TextBox();
             this.TxtBoxApaiPriceExtBed = new System.Windows.Forms.TextBox();
             this.groupBoxRates = new System.Windows.Forms.GroupBox();
+            this.CmbBoxYear = new System.Windows.Forms.ComboBox();
+            this.lblYear = new System.Windows.Forms.Label();
             this.CmbBoxSeasonType = new System.Windows.Forms.ComboBox();
             this.lblSeasonType = new System.Windows.Forms.Label();
             this.CmbBoxRoomType = new System.Windows.Forms.ComboBox();
@@ -92,7 +94,7 @@
             this.lblSector.Location = new System.Drawing.Point(40, 16);
             this.lblSector.Name = "lblSector";
             this.lblSector.Size = new System.Drawing.Size(51, 13);
-            this.lblSector.TabIndex = 0;
+            this.lblSector.TabIndex = 50;
             this.lblSector.Text = "SECTOR";
             // 
             // lblCity
@@ -101,7 +103,7 @@
             this.lblCity.Location = new System.Drawing.Point(60, 63);
             this.lblCity.Name = "lblCity";
             this.lblCity.Size = new System.Drawing.Size(31, 13);
-            this.lblCity.TabIndex = 2;
+            this.lblCity.TabIndex = 51;
             this.lblCity.Text = "CITY";
             // 
             // lblHotelName
@@ -110,7 +112,7 @@
             this.lblHotelName.Location = new System.Drawing.Point(14, 110);
             this.lblHotelName.Name = "lblHotelName";
             this.lblHotelName.Size = new System.Drawing.Size(77, 13);
-            this.lblHotelName.TabIndex = 4;
+            this.lblHotelName.TabIndex = 52;
             this.lblHotelName.Text = "HOTEL NAME";
             // 
             // lblEmail
@@ -119,7 +121,7 @@
             this.lblEmail.Location = new System.Drawing.Point(26, 157);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(39, 13);
-            this.lblEmail.TabIndex = 10;
+            this.lblEmail.TabIndex = 59;
             this.lblEmail.Text = "EMAIL";
             // 
             // lblContact
@@ -128,7 +130,7 @@
             this.lblContact.Location = new System.Drawing.Point(7, 16);
             this.lblContact.Name = "lblContact";
             this.lblContact.Size = new System.Drawing.Size(58, 13);
-            this.lblContact.TabIndex = 8;
+            this.lblContact.TabIndex = 56;
             this.lblContact.Text = "CONTACT";
             // 
             // lbladdress
@@ -137,7 +139,7 @@
             this.lbladdress.Location = new System.Drawing.Point(286, 15);
             this.lbladdress.Name = "lbladdress";
             this.lbladdress.Size = new System.Drawing.Size(59, 13);
-            this.lbladdress.TabIndex = 6;
+            this.lbladdress.TabIndex = 54;
             this.lbladdress.Text = "ADDRESS";
             // 
             // lblCpaiPriceSingle
@@ -146,7 +148,7 @@
             this.lblCpaiPriceSingle.Location = new System.Drawing.Point(15, 104);
             this.lblCpaiPriceSingle.Name = "lblCpaiPriceSingle";
             this.lblCpaiPriceSingle.Size = new System.Drawing.Size(108, 13);
-            this.lblCpaiPriceSingle.TabIndex = 22;
+            this.lblCpaiPriceSingle.TabIndex = 66;
             this.lblCpaiPriceSingle.Text = "SINGLE CPAI PRICE";
             // 
             // lblEpaiPriceSingle
@@ -155,16 +157,16 @@
             this.lblEpaiPriceSingle.Location = new System.Drawing.Point(15, 63);
             this.lblEpaiPriceSingle.Name = "lblEpaiPriceSingle";
             this.lblEpaiPriceSingle.Size = new System.Drawing.Size(108, 13);
-            this.lblEpaiPriceSingle.TabIndex = 20;
+            this.lblEpaiPriceSingle.TabIndex = 63;
             this.lblEpaiPriceSingle.Text = "SINGLE EPAI PRICE";
             // 
             // lblRoomType
             // 
             this.lblRoomType.AutoSize = true;
-            this.lblRoomType.Location = new System.Drawing.Point(52, 21);
+            this.lblRoomType.Location = new System.Drawing.Point(11, 27);
             this.lblRoomType.Name = "lblRoomType";
             this.lblRoomType.Size = new System.Drawing.Size(71, 13);
-            this.lblRoomType.TabIndex = 18;
+            this.lblRoomType.TabIndex = 60;
             this.lblRoomType.Text = "ROOM TYPE";
             // 
             // lblStarRating
@@ -173,7 +175,7 @@
             this.lblStarRating.Location = new System.Drawing.Point(11, 157);
             this.lblStarRating.Name = "lblStarRating";
             this.lblStarRating.Size = new System.Drawing.Size(80, 13);
-            this.lblStarRating.TabIndex = 16;
+            this.lblStarRating.TabIndex = 53;
             this.lblStarRating.Text = "STAR RATING";
             // 
             // lblMobile
@@ -182,7 +184,7 @@
             this.lblMobile.Location = new System.Drawing.Point(18, 110);
             this.lblMobile.Name = "lblMobile";
             this.lblMobile.Size = new System.Drawing.Size(47, 13);
-            this.lblMobile.TabIndex = 14;
+            this.lblMobile.TabIndex = 58;
             this.lblMobile.Text = "MOBILE";
             // 
             // lblPhone
@@ -191,7 +193,7 @@
             this.lblPhone.Location = new System.Drawing.Point(20, 63);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(45, 13);
-            this.lblPhone.TabIndex = 12;
+            this.lblPhone.TabIndex = 57;
             this.lblPhone.Text = "PHONE";
             // 
             // lblExtInfo
@@ -200,7 +202,7 @@
             this.lblExtInfo.Location = new System.Drawing.Point(273, 112);
             this.lblExtInfo.Name = "lblExtInfo";
             this.lblExtInfo.Size = new System.Drawing.Size(71, 13);
-            this.lblExtInfo.TabIndex = 28;
+            this.lblExtInfo.TabIndex = 55;
             this.lblExtInfo.Text = "EXTRA INFO";
             // 
             // lblApaiPriceSingle
@@ -209,7 +211,7 @@
             this.lblApaiPriceSingle.Location = new System.Drawing.Point(15, 186);
             this.lblApaiPriceSingle.Name = "lblApaiPriceSingle";
             this.lblApaiPriceSingle.Size = new System.Drawing.Size(108, 13);
-            this.lblApaiPriceSingle.TabIndex = 26;
+            this.lblApaiPriceSingle.TabIndex = 72;
             this.lblApaiPriceSingle.Text = "SINGLE APAI PRICE";
             // 
             // lblMapaiPriceSingle
@@ -218,7 +220,7 @@
             this.lblMapaiPriceSingle.Location = new System.Drawing.Point(6, 145);
             this.lblMapaiPriceSingle.Name = "lblMapaiPriceSingle";
             this.lblMapaiPriceSingle.Size = new System.Drawing.Size(117, 13);
-            this.lblMapaiPriceSingle.TabIndex = 24;
+            this.lblMapaiPriceSingle.TabIndex = 69;
             this.lblMapaiPriceSingle.Text = "SINGLE MAPAI PRICE";
             // 
             // lblApaiPriceDouble
@@ -227,7 +229,7 @@
             this.lblApaiPriceDouble.Location = new System.Drawing.Point(294, 186);
             this.lblApaiPriceDouble.Name = "lblApaiPriceDouble";
             this.lblApaiPriceDouble.Size = new System.Drawing.Size(113, 13);
-            this.lblApaiPriceDouble.TabIndex = 32;
+            this.lblApaiPriceDouble.TabIndex = 73;
             this.lblApaiPriceDouble.Text = "DOUBLE APAI PRICE";
             // 
             // lblMapaiPriceDouble
@@ -236,7 +238,7 @@
             this.lblMapaiPriceDouble.Location = new System.Drawing.Point(285, 145);
             this.lblMapaiPriceDouble.Name = "lblMapaiPriceDouble";
             this.lblMapaiPriceDouble.Size = new System.Drawing.Size(122, 13);
-            this.lblMapaiPriceDouble.TabIndex = 31;
+            this.lblMapaiPriceDouble.TabIndex = 70;
             this.lblMapaiPriceDouble.Text = "DOUBLE MAPAI PRICE";
             // 
             // lblCpaiPriceDouble
@@ -245,7 +247,7 @@
             this.lblCpaiPriceDouble.Location = new System.Drawing.Point(294, 104);
             this.lblCpaiPriceDouble.Name = "lblCpaiPriceDouble";
             this.lblCpaiPriceDouble.Size = new System.Drawing.Size(113, 13);
-            this.lblCpaiPriceDouble.TabIndex = 30;
+            this.lblCpaiPriceDouble.TabIndex = 67;
             this.lblCpaiPriceDouble.Text = "DOUBLE CPAI PRICE";
             // 
             // lblEpaiPriceDouble
@@ -254,7 +256,7 @@
             this.lblEpaiPriceDouble.Location = new System.Drawing.Point(294, 63);
             this.lblEpaiPriceDouble.Name = "lblEpaiPriceDouble";
             this.lblEpaiPriceDouble.Size = new System.Drawing.Size(113, 13);
-            this.lblEpaiPriceDouble.TabIndex = 29;
+            this.lblEpaiPriceDouble.TabIndex = 64;
             this.lblEpaiPriceDouble.Text = "DOUBLE EPAI PRICE";
             // 
             // lblApaiPriceExtBed
@@ -263,7 +265,7 @@
             this.lblApaiPriceExtBed.Location = new System.Drawing.Point(587, 186);
             this.lblApaiPriceExtBed.Name = "lblApaiPriceExtBed";
             this.lblApaiPriceExtBed.Size = new System.Drawing.Size(115, 13);
-            this.lblApaiPriceExtBed.TabIndex = 36;
+            this.lblApaiPriceExtBed.TabIndex = 74;
             this.lblApaiPriceExtBed.Text = "EXT BED APAI PRICE";
             // 
             // lblMapaiPriceExtBed
@@ -272,7 +274,7 @@
             this.lblMapaiPriceExtBed.Location = new System.Drawing.Point(578, 145);
             this.lblMapaiPriceExtBed.Name = "lblMapaiPriceExtBed";
             this.lblMapaiPriceExtBed.Size = new System.Drawing.Size(124, 13);
-            this.lblMapaiPriceExtBed.TabIndex = 35;
+            this.lblMapaiPriceExtBed.TabIndex = 71;
             this.lblMapaiPriceExtBed.Text = "EXT BED MAPAI PRICE";
             // 
             // lblCpaiPriceExtBed
@@ -281,7 +283,7 @@
             this.lblCpaiPriceExtBed.Location = new System.Drawing.Point(587, 104);
             this.lblCpaiPriceExtBed.Name = "lblCpaiPriceExtBed";
             this.lblCpaiPriceExtBed.Size = new System.Drawing.Size(115, 13);
-            this.lblCpaiPriceExtBed.TabIndex = 34;
+            this.lblCpaiPriceExtBed.TabIndex = 68;
             this.lblCpaiPriceExtBed.Text = "EXT BED CPAI PRICE";
             // 
             // lblEpaiPriceExtBed
@@ -290,7 +292,7 @@
             this.lblEpaiPriceExtBed.Location = new System.Drawing.Point(587, 63);
             this.lblEpaiPriceExtBed.Name = "lblEpaiPriceExtBed";
             this.lblEpaiPriceExtBed.Size = new System.Drawing.Size(115, 13);
-            this.lblEpaiPriceExtBed.TabIndex = 33;
+            this.lblEpaiPriceExtBed.TabIndex = 65;
             this.lblEpaiPriceExtBed.Text = "EXT BED EPAI PRICE";
             // 
             // CmbBoxSector
@@ -299,7 +301,7 @@
             this.CmbBoxSector.Location = new System.Drawing.Point(97, 12);
             this.CmbBoxSector.Name = "CmbBoxSector";
             this.CmbBoxSector.Size = new System.Drawing.Size(157, 21);
-            this.CmbBoxSector.TabIndex = 37;
+            this.CmbBoxSector.TabIndex = 1;
             this.CmbBoxSector.SelectedIndexChanged += new System.EventHandler(this.CmbBoxSector_SelectedIndexChanged);
             // 
             // CmbBoxCity
@@ -308,7 +310,7 @@
             this.CmbBoxCity.Location = new System.Drawing.Point(97, 59);
             this.CmbBoxCity.Name = "CmbBoxCity";
             this.CmbBoxCity.Size = new System.Drawing.Size(157, 21);
-            this.CmbBoxCity.TabIndex = 37;
+            this.CmbBoxCity.TabIndex = 2;
             this.CmbBoxCity.SelectedIndexChanged += new System.EventHandler(this.CmbBoxCity_SelectedIndexChanged);
             // 
             // CmbBoxHotelName
@@ -317,7 +319,7 @@
             this.CmbBoxHotelName.Location = new System.Drawing.Point(97, 106);
             this.CmbBoxHotelName.Name = "CmbBoxHotelName";
             this.CmbBoxHotelName.Size = new System.Drawing.Size(157, 21);
-            this.CmbBoxHotelName.TabIndex = 37;
+            this.CmbBoxHotelName.TabIndex = 3;
             this.CmbBoxHotelName.SelectedIndexChanged += new System.EventHandler(this.CmbBoxHotelName_SelectedIndexChanged);
             // 
             // CmbBoxStarRating
@@ -326,7 +328,7 @@
             this.CmbBoxStarRating.Location = new System.Drawing.Point(97, 153);
             this.CmbBoxStarRating.Name = "CmbBoxStarRating";
             this.CmbBoxStarRating.Size = new System.Drawing.Size(157, 21);
-            this.CmbBoxStarRating.TabIndex = 37;
+            this.CmbBoxStarRating.TabIndex = 4;
             // 
             // TxtBoxAddres
             // 
@@ -334,7 +336,7 @@
             this.TxtBoxAddres.Multiline = true;
             this.TxtBoxAddres.Name = "TxtBoxAddres";
             this.TxtBoxAddres.Size = new System.Drawing.Size(186, 86);
-            this.TxtBoxAddres.TabIndex = 38;
+            this.TxtBoxAddres.TabIndex = 5;
             // 
             // TxtBoxExtraInfo
             // 
@@ -342,7 +344,7 @@
             this.TxtBoxExtraInfo.Multiline = true;
             this.TxtBoxExtraInfo.Name = "TxtBoxExtraInfo";
             this.TxtBoxExtraInfo.Size = new System.Drawing.Size(186, 69);
-            this.TxtBoxExtraInfo.TabIndex = 38;
+            this.TxtBoxExtraInfo.TabIndex = 6;
             // 
             // MskdTxtBoxMobile
             // 
@@ -350,120 +352,122 @@
             this.MskdTxtBoxMobile.Mask = "0000000000";
             this.MskdTxtBoxMobile.Name = "MskdTxtBoxMobile";
             this.MskdTxtBoxMobile.Size = new System.Drawing.Size(156, 20);
-            this.MskdTxtBoxMobile.TabIndex = 39;
+            this.MskdTxtBoxMobile.TabIndex = 9;
             // 
             // TxtBoxContact
             // 
             this.TxtBoxContact.Location = new System.Drawing.Point(71, 12);
             this.TxtBoxContact.Name = "TxtBoxContact";
             this.TxtBoxContact.Size = new System.Drawing.Size(156, 20);
-            this.TxtBoxContact.TabIndex = 38;
+            this.TxtBoxContact.TabIndex = 7;
             // 
             // TxtBoxEmail
             // 
             this.TxtBoxEmail.Location = new System.Drawing.Point(71, 153);
             this.TxtBoxEmail.Name = "TxtBoxEmail";
             this.TxtBoxEmail.Size = new System.Drawing.Size(156, 20);
-            this.TxtBoxEmail.TabIndex = 38;
+            this.TxtBoxEmail.TabIndex = 10;
             // 
             // TxtBoxPhone
             // 
             this.TxtBoxPhone.Location = new System.Drawing.Point(71, 59);
             this.TxtBoxPhone.Name = "TxtBoxPhone";
             this.TxtBoxPhone.Size = new System.Drawing.Size(156, 20);
-            this.TxtBoxPhone.TabIndex = 38;
+            this.TxtBoxPhone.TabIndex = 8;
             // 
             // TxtBoxEpaiPriceSingle
             // 
             this.TxtBoxEpaiPriceSingle.Location = new System.Drawing.Point(129, 59);
             this.TxtBoxEpaiPriceSingle.Name = "TxtBoxEpaiPriceSingle";
             this.TxtBoxEpaiPriceSingle.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxEpaiPriceSingle.TabIndex = 40;
+            this.TxtBoxEpaiPriceSingle.TabIndex = 14;
             // 
             // TxtBoxCpaiPriceSingle
             // 
             this.TxtBoxCpaiPriceSingle.Location = new System.Drawing.Point(129, 100);
             this.TxtBoxCpaiPriceSingle.Name = "TxtBoxCpaiPriceSingle";
             this.TxtBoxCpaiPriceSingle.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxCpaiPriceSingle.TabIndex = 40;
+            this.TxtBoxCpaiPriceSingle.TabIndex = 17;
             // 
             // TxtBoxMapaiPriceSingle
             // 
             this.TxtBoxMapaiPriceSingle.Location = new System.Drawing.Point(129, 141);
             this.TxtBoxMapaiPriceSingle.Name = "TxtBoxMapaiPriceSingle";
             this.TxtBoxMapaiPriceSingle.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxMapaiPriceSingle.TabIndex = 40;
+            this.TxtBoxMapaiPriceSingle.TabIndex = 20;
             // 
             // TxtBoxApaiPriceSingle
             // 
             this.TxtBoxApaiPriceSingle.Location = new System.Drawing.Point(129, 182);
             this.TxtBoxApaiPriceSingle.Name = "TxtBoxApaiPriceSingle";
             this.TxtBoxApaiPriceSingle.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxApaiPriceSingle.TabIndex = 40;
+            this.TxtBoxApaiPriceSingle.TabIndex = 23;
             // 
             // TxtBoxApaiPriceDouble
             // 
             this.TxtBoxApaiPriceDouble.Location = new System.Drawing.Point(413, 182);
             this.TxtBoxApaiPriceDouble.Name = "TxtBoxApaiPriceDouble";
             this.TxtBoxApaiPriceDouble.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxApaiPriceDouble.TabIndex = 40;
+            this.TxtBoxApaiPriceDouble.TabIndex = 24;
             // 
             // TxtBoxMapaiPriceDouble
             // 
             this.TxtBoxMapaiPriceDouble.Location = new System.Drawing.Point(413, 141);
             this.TxtBoxMapaiPriceDouble.Name = "TxtBoxMapaiPriceDouble";
             this.TxtBoxMapaiPriceDouble.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxMapaiPriceDouble.TabIndex = 40;
+            this.TxtBoxMapaiPriceDouble.TabIndex = 21;
             // 
             // TxtBoxCpaiPriceDouble
             // 
             this.TxtBoxCpaiPriceDouble.Location = new System.Drawing.Point(413, 100);
             this.TxtBoxCpaiPriceDouble.Name = "TxtBoxCpaiPriceDouble";
             this.TxtBoxCpaiPriceDouble.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxCpaiPriceDouble.TabIndex = 40;
+            this.TxtBoxCpaiPriceDouble.TabIndex = 18;
             // 
             // TxtBoxEpaiPriceDouble
             // 
             this.TxtBoxEpaiPriceDouble.Location = new System.Drawing.Point(413, 59);
             this.TxtBoxEpaiPriceDouble.Name = "TxtBoxEpaiPriceDouble";
             this.TxtBoxEpaiPriceDouble.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxEpaiPriceDouble.TabIndex = 40;
+            this.TxtBoxEpaiPriceDouble.TabIndex = 15;
             // 
             // TxtBoxEpaiPriceExtBed
             // 
             this.TxtBoxEpaiPriceExtBed.Location = new System.Drawing.Point(708, 59);
             this.TxtBoxEpaiPriceExtBed.Name = "TxtBoxEpaiPriceExtBed";
             this.TxtBoxEpaiPriceExtBed.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxEpaiPriceExtBed.TabIndex = 40;
+            this.TxtBoxEpaiPriceExtBed.TabIndex = 16;
             // 
             // TxtBoxCpaiPriceExtBed
             // 
             this.TxtBoxCpaiPriceExtBed.Location = new System.Drawing.Point(708, 100);
             this.TxtBoxCpaiPriceExtBed.Name = "TxtBoxCpaiPriceExtBed";
             this.TxtBoxCpaiPriceExtBed.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxCpaiPriceExtBed.TabIndex = 40;
+            this.TxtBoxCpaiPriceExtBed.TabIndex = 19;
             // 
             // TxtBoxMapaiPriceExtBed
             // 
             this.TxtBoxMapaiPriceExtBed.Location = new System.Drawing.Point(708, 141);
             this.TxtBoxMapaiPriceExtBed.Name = "TxtBoxMapaiPriceExtBed";
             this.TxtBoxMapaiPriceExtBed.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxMapaiPriceExtBed.TabIndex = 40;
+            this.TxtBoxMapaiPriceExtBed.TabIndex = 22;
             // 
             // TxtBoxApaiPriceExtBed
             // 
             this.TxtBoxApaiPriceExtBed.Location = new System.Drawing.Point(708, 182);
             this.TxtBoxApaiPriceExtBed.Name = "TxtBoxApaiPriceExtBed";
             this.TxtBoxApaiPriceExtBed.Size = new System.Drawing.Size(100, 20);
-            this.TxtBoxApaiPriceExtBed.TabIndex = 40;
+            this.TxtBoxApaiPriceExtBed.TabIndex = 25;
             // 
             // groupBoxRates
             // 
+            this.groupBoxRates.Controls.Add(this.CmbBoxYear);
             this.groupBoxRates.Controls.Add(this.CmbBoxSeasonType);
             this.groupBoxRates.Controls.Add(this.lblSeasonType);
+            this.groupBoxRates.Controls.Add(this.lblYear);
             this.groupBoxRates.Controls.Add(this.CmbBoxRoomType);
-            this.groupBoxRates.Controls.Add(this.lblRoomType);
             this.groupBoxRates.Controls.Add(this.TxtBoxApaiPriceExtBed);
+            this.groupBoxRates.Controls.Add(this.lblRoomType);
             this.groupBoxRates.Controls.Add(this.lblEpaiPriceSingle);
             this.groupBoxRates.Controls.Add(this.TxtBoxMapaiPriceExtBed);
             this.groupBoxRates.Controls.Add(this.lblCpaiPriceSingle);
@@ -490,33 +494,53 @@
             this.groupBoxRates.Location = new System.Drawing.Point(12, 210);
             this.groupBoxRates.Name = "groupBoxRates";
             this.groupBoxRates.Size = new System.Drawing.Size(814, 211);
-            this.groupBoxRates.TabIndex = 41;
+            this.groupBoxRates.TabIndex = 2;
             this.groupBoxRates.TabStop = false;
+            // 
+            // CmbBoxYear
+            // 
+            this.CmbBoxYear.FormattingEnabled = true;
+            this.CmbBoxYear.Location = new System.Drawing.Point(708, 19);
+            this.CmbBoxYear.Name = "CmbBoxYear";
+            this.CmbBoxYear.Size = new System.Drawing.Size(100, 21);
+            this.CmbBoxYear.TabIndex = 13;
+            this.CmbBoxYear.SelectedIndexChanged += new System.EventHandler(this.CmbBoxYear_SelectedIndexChanged);
+            // 
+            // lblYear
+            // 
+            this.lblYear.AutoSize = true;
+            this.lblYear.Location = new System.Drawing.Point(666, 23);
+            this.lblYear.Name = "lblYear";
+            this.lblYear.Size = new System.Drawing.Size(36, 13);
+            this.lblYear.TabIndex = 62;
+            this.lblYear.Text = "YEAR";
             // 
             // CmbBoxSeasonType
             // 
             this.CmbBoxSeasonType.FormattingEnabled = true;
-            this.CmbBoxSeasonType.Location = new System.Drawing.Point(619, 17);
+            this.CmbBoxSeasonType.Location = new System.Drawing.Point(413, 19);
             this.CmbBoxSeasonType.Name = "CmbBoxSeasonType";
-            this.CmbBoxSeasonType.Size = new System.Drawing.Size(189, 21);
-            this.CmbBoxSeasonType.TabIndex = 44;
+            this.CmbBoxSeasonType.Size = new System.Drawing.Size(133, 21);
+            this.CmbBoxSeasonType.TabIndex = 12;
+            this.CmbBoxSeasonType.SelectedIndexChanged += new System.EventHandler(this.CmbBoxSeasonType_SelectedIndexChanged);
             // 
             // lblSeasonType
             // 
             this.lblSeasonType.AutoSize = true;
-            this.lblSeasonType.Location = new System.Drawing.Point(531, 21);
+            this.lblSeasonType.Location = new System.Drawing.Point(325, 23);
             this.lblSeasonType.Name = "lblSeasonType";
             this.lblSeasonType.Size = new System.Drawing.Size(82, 13);
-            this.lblSeasonType.TabIndex = 43;
+            this.lblSeasonType.TabIndex = 61;
             this.lblSeasonType.Text = "SEASON TYPE";
             // 
             // CmbBoxRoomType
             // 
             this.CmbBoxRoomType.FormattingEnabled = true;
-            this.CmbBoxRoomType.Location = new System.Drawing.Point(129, 17);
+            this.CmbBoxRoomType.Location = new System.Drawing.Point(88, 23);
             this.CmbBoxRoomType.Name = "CmbBoxRoomType";
-            this.CmbBoxRoomType.Size = new System.Drawing.Size(189, 21);
-            this.CmbBoxRoomType.TabIndex = 42;
+            this.CmbBoxRoomType.Size = new System.Drawing.Size(166, 21);
+            this.CmbBoxRoomType.TabIndex = 11;
+            this.CmbBoxRoomType.SelectedIndexChanged += new System.EventHandler(this.CmbBoxRoomType_SelectedIndexChanged);
             // 
             // groupBoxHotelInfo
             // 
@@ -535,7 +559,7 @@
             this.groupBoxHotelInfo.Location = new System.Drawing.Point(12, 12);
             this.groupBoxHotelInfo.Name = "groupBoxHotelInfo";
             this.groupBoxHotelInfo.Size = new System.Drawing.Size(555, 192);
-            this.groupBoxHotelInfo.TabIndex = 42;
+            this.groupBoxHotelInfo.TabIndex = 0;
             this.groupBoxHotelInfo.TabStop = false;
             // 
             // groupBoxContactInfo
@@ -551,7 +575,7 @@
             this.groupBoxContactInfo.Location = new System.Drawing.Point(573, 12);
             this.groupBoxContactInfo.Name = "groupBoxContactInfo";
             this.groupBoxContactInfo.Size = new System.Drawing.Size(253, 192);
-            this.groupBoxContactInfo.TabIndex = 43;
+            this.groupBoxContactInfo.TabIndex = 1;
             this.groupBoxContactInfo.TabStop = false;
             // 
             // BtnExit
@@ -559,7 +583,7 @@
             this.BtnExit.Location = new System.Drawing.Point(602, 427);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(112, 23);
-            this.BtnExit.TabIndex = 44;
+            this.BtnExit.TabIndex = 27;
             this.BtnExit.Text = "EXIT";
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
@@ -569,9 +593,10 @@
             this.BtnUpdate.Location = new System.Drawing.Point(720, 427);
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.Size = new System.Drawing.Size(106, 23);
-            this.BtnUpdate.TabIndex = 45;
+            this.BtnUpdate.TabIndex = 26;
             this.BtnUpdate.Text = "UPDATE";
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // FrmHotelsPage
             // 
@@ -653,5 +678,7 @@
         private System.Windows.Forms.Button BtnUpdate;
         private System.Windows.Forms.ComboBox CmbBoxSeasonType;
         private System.Windows.Forms.Label lblSeasonType;
+        private System.Windows.Forms.ComboBox CmbBoxYear;
+        private System.Windows.Forms.Label lblYear;
     }
 }
