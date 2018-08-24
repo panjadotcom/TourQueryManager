@@ -11,5 +11,8 @@
     <Setting Name="mysqlConnStrLocal" Type="System.String" Scope="User">
       <Value Profile="(Default)">server=localhost;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none</Value>
     </Setting>
+    <Setting Name="mysqlConnStrExcursion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server=localhost;user id=excursion;password=excursion123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

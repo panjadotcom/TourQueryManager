@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHotelsPage));
             this.lblSector = new System.Windows.Forms.Label();
             this.lblCity = new System.Windows.Forms.Label();
             this.lblHotelName = new System.Windows.Forms.Label();
@@ -75,17 +76,19 @@
             this.TxtBoxApaiPriceExtBed = new System.Windows.Forms.TextBox();
             this.groupBoxRates = new System.Windows.Forms.GroupBox();
             this.CmbBoxYear = new System.Windows.Forms.ComboBox();
-            this.lblYear = new System.Windows.Forms.Label();
             this.CmbBoxSeasonType = new System.Windows.Forms.ComboBox();
             this.lblSeasonType = new System.Windows.Forms.Label();
+            this.lblYear = new System.Windows.Forms.Label();
             this.CmbBoxRoomType = new System.Windows.Forms.ComboBox();
             this.groupBoxHotelInfo = new System.Windows.Forms.GroupBox();
             this.groupBoxContactInfo = new System.Windows.Forms.GroupBox();
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnUpdate = new System.Windows.Forms.Button();
+            this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
             this.groupBoxRates.SuspendLayout();
             this.groupBoxHotelInfo.SuspendLayout();
             this.groupBoxContactInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSector
@@ -491,7 +494,7 @@
             this.groupBoxRates.Controls.Add(this.lblMapaiPriceExtBed);
             this.groupBoxRates.Controls.Add(this.TxtBoxEpaiPriceSingle);
             this.groupBoxRates.Controls.Add(this.lblApaiPriceExtBed);
-            this.groupBoxRates.Location = new System.Drawing.Point(12, 210);
+            this.groupBoxRates.Location = new System.Drawing.Point(434, 212);
             this.groupBoxRates.Name = "groupBoxRates";
             this.groupBoxRates.Size = new System.Drawing.Size(814, 211);
             this.groupBoxRates.TabIndex = 2;
@@ -505,15 +508,6 @@
             this.CmbBoxYear.Size = new System.Drawing.Size(100, 21);
             this.CmbBoxYear.TabIndex = 13;
             this.CmbBoxYear.SelectedIndexChanged += new System.EventHandler(this.CmbBoxYear_SelectedIndexChanged);
-            // 
-            // lblYear
-            // 
-            this.lblYear.AutoSize = true;
-            this.lblYear.Location = new System.Drawing.Point(666, 23);
-            this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(36, 13);
-            this.lblYear.TabIndex = 62;
-            this.lblYear.Text = "YEAR";
             // 
             // CmbBoxSeasonType
             // 
@@ -532,6 +526,15 @@
             this.lblSeasonType.Size = new System.Drawing.Size(82, 13);
             this.lblSeasonType.TabIndex = 61;
             this.lblSeasonType.Text = "SEASON TYPE";
+            // 
+            // lblYear
+            // 
+            this.lblYear.AutoSize = true;
+            this.lblYear.Location = new System.Drawing.Point(666, 23);
+            this.lblYear.Name = "lblYear";
+            this.lblYear.Size = new System.Drawing.Size(36, 13);
+            this.lblYear.TabIndex = 62;
+            this.lblYear.Text = "YEAR";
             // 
             // CmbBoxRoomType
             // 
@@ -556,7 +559,7 @@
             this.groupBoxHotelInfo.Controls.Add(this.TxtBoxAddres);
             this.groupBoxHotelInfo.Controls.Add(this.CmbBoxStarRating);
             this.groupBoxHotelInfo.Controls.Add(this.CmbBoxHotelName);
-            this.groupBoxHotelInfo.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxHotelInfo.Location = new System.Drawing.Point(434, 14);
             this.groupBoxHotelInfo.Name = "groupBoxHotelInfo";
             this.groupBoxHotelInfo.Size = new System.Drawing.Size(555, 192);
             this.groupBoxHotelInfo.TabIndex = 0;
@@ -572,7 +575,7 @@
             this.groupBoxContactInfo.Controls.Add(this.TxtBoxEmail);
             this.groupBoxContactInfo.Controls.Add(this.TxtBoxContact);
             this.groupBoxContactInfo.Controls.Add(this.TxtBoxPhone);
-            this.groupBoxContactInfo.Location = new System.Drawing.Point(573, 12);
+            this.groupBoxContactInfo.Location = new System.Drawing.Point(995, 14);
             this.groupBoxContactInfo.Name = "groupBoxContactInfo";
             this.groupBoxContactInfo.Size = new System.Drawing.Size(253, 192);
             this.groupBoxContactInfo.TabIndex = 1;
@@ -580,7 +583,7 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(602, 427);
+            this.BtnExit.Location = new System.Drawing.Point(1024, 429);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(112, 23);
             this.BtnExit.TabIndex = 27;
@@ -590,7 +593,7 @@
             // 
             // BtnUpdate
             // 
-            this.BtnUpdate.Location = new System.Drawing.Point(720, 427);
+            this.BtnUpdate.Location = new System.Drawing.Point(1142, 429);
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.Size = new System.Drawing.Size(106, 23);
             this.BtnUpdate.TabIndex = 26;
@@ -598,16 +601,28 @@
             this.BtnUpdate.UseVisualStyleBackColor = true;
             this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
+            // PctrBoxLogo
+            // 
+            this.PctrBoxLogo.Image = global::TourQueryManager.Properties.Resources.ExcursionHolidaysLogo;
+            this.PctrBoxLogo.Location = new System.Drawing.Point(12, 14);
+            this.PctrBoxLogo.Name = "PctrBoxLogo";
+            this.PctrBoxLogo.Size = new System.Drawing.Size(409, 409);
+            this.PctrBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PctrBoxLogo.TabIndex = 29;
+            this.PctrBoxLogo.TabStop = false;
+            // 
             // FrmHotelsPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 463);
+            this.ClientSize = new System.Drawing.Size(1260, 464);
+            this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.BtnUpdate);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.groupBoxContactInfo);
             this.Controls.Add(this.groupBoxHotelInfo);
             this.Controls.Add(this.groupBoxRates);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmHotelsPage";
@@ -619,6 +634,7 @@
             this.groupBoxHotelInfo.PerformLayout();
             this.groupBoxContactInfo.ResumeLayout(false);
             this.groupBoxContactInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -680,5 +696,6 @@
         private System.Windows.Forms.Label lblSeasonType;
         private System.Windows.Forms.ComboBox CmbBoxYear;
         private System.Windows.Forms.Label lblYear;
+        private System.Windows.Forms.PictureBox PctrBoxLogo;
     }
 }

@@ -17,6 +17,7 @@ namespace TourQueryManager
         static string mysqlConnectionString = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection mySqlConnection = new MySqlConnection(mysqlConnectionString);
         static Int32 hotelId = 0;
+
         public FrmHotelsPage()
         {
             InitializeComponent();
@@ -554,8 +555,9 @@ namespace TourQueryManager
             /* validate mobile*/
             if (String.Equals("", MskdTxtBoxMobile.Text, StringComparison.OrdinalIgnoreCase))
             {
-                errorListString += "\nHotel Mobile is empty";
-                result = false;
+                MskdTxtBoxMobile.Text = "0000000000";
+                //errorListString += "\nHotel Mobile is empty";
+                //result = false;
             }
             else if (MskdTxtBoxMobile.Text.Length != 10)
             {

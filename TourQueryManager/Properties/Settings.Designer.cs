@@ -61,5 +61,18 @@ namespace TourQueryManager.Properties {
                 this["mysqlConnStrLocal"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=excursion;password=excursion123;persistsecurityinfo=True" +
+            ";database=tourquerymanagement;SslMode=none")]
+        public string mysqlConnStrExcursion {
+            get {
+                return ((string)(this["mysqlConnStrExcursion"]));
+            }
+            set {
+                this["mysqlConnStrExcursion"] = value;
+            }
+        }
     }
 }
