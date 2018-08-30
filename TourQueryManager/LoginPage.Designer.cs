@@ -33,12 +33,14 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtboxPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbboxUsername
             // 
             this.cmbboxUsername.FormattingEnabled = true;
-            this.cmbboxUsername.Location = new System.Drawing.Point(380, 124);
+            this.cmbboxUsername.Location = new System.Drawing.Point(308, 83);
             this.cmbboxUsername.Name = "cmbboxUsername";
             this.cmbboxUsername.Size = new System.Drawing.Size(121, 21);
             this.cmbboxUsername.TabIndex = 0;
@@ -47,7 +49,7 @@
             // lblUserName
             // 
             this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(319, 127);
+            this.lblUserName.Location = new System.Drawing.Point(247, 83);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(55, 13);
             this.lblUserName.TabIndex = 1;
@@ -56,7 +58,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(319, 162);
+            this.lblPassword.Location = new System.Drawing.Point(247, 118);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(53, 13);
             this.lblPassword.TabIndex = 2;
@@ -64,7 +66,7 @@
             // 
             // txtboxPassword
             // 
-            this.txtboxPassword.Location = new System.Drawing.Point(380, 159);
+            this.txtboxPassword.Location = new System.Drawing.Point(308, 118);
             this.txtboxPassword.Name = "txtboxPassword";
             this.txtboxPassword.PasswordChar = '*';
             this.txtboxPassword.Size = new System.Drawing.Size(121, 20);
@@ -72,19 +74,30 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(418, 252);
+            this.btnLogin.Location = new System.Drawing.Point(308, 219);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(75, 23);
+            this.btnLogin.Size = new System.Drawing.Size(121, 23);
             this.btnLogin.TabIndex = 4;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
+            // PctrBoxLogo
+            // 
+            this.PctrBoxLogo.Image = global::TourQueryManager.Properties.Resources.ExcursionHolidaysLogo;
+            this.PctrBoxLogo.Location = new System.Drawing.Point(12, 12);
+            this.PctrBoxLogo.Name = "PctrBoxLogo";
+            this.PctrBoxLogo.Size = new System.Drawing.Size(229, 230);
+            this.PctrBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PctrBoxLogo.TabIndex = 30;
+            this.PctrBoxLogo.TabStop = false;
+            // 
             // FrmLoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 354);
+            this.ClientSize = new System.Drawing.Size(444, 258);
+            this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtboxPassword);
             this.Controls.Add(this.lblPassword);
@@ -95,6 +108,7 @@
             this.Text = "Login";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLoginPage_FormClosing);
             this.Load += new System.EventHandler(this.FrmLoginPage_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,5 +121,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox txtboxPassword;
         private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.PictureBox PctrBoxLogo;
     }
 }
