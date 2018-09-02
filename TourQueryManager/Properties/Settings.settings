@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="mysqlConnStr" Type="System.String" Scope="User">
-      <Value Profile="(Default)">server=192.168.1.76;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none</Value>
+      <Value Profile="(Default)">server=59.94.224.139;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;port=55;SslMode=none</Value>
     </Setting>
     <Setting Name="mysqlConnStrMacBook" Type="System.String" Scope="User">
       <Value Profile="(Default)">server=10.0.2.2;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none</Value>
@@ -16,6 +16,9 @@
     </Setting>
     <Setting Name="mysqlConnStrUbuntu" Type="System.String" Scope="User">
       <Value Profile="(Default)">server=192.168.1.76;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none</Value>
+    </Setting>
+    <Setting Name="mysqlConnStrPublic" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server=59.94.224.139;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;port=55;SslMode=none</Value>
     </Setting>
   </Settings>
 </SettingsFile>
