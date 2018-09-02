@@ -25,8 +25,8 @@ namespace TourQueryManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=10.0.2.2;user id=pky;password=pky123;persistsecurityinfo=True;database=tou" +
-            "rquerymanagement;SslMode=none")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=192.168.1.76;user id=pky;password=pky123;persistsecurityinfo=True;database" +
+            "=tourquerymanagement;SslMode=none")]
         public string mysqlConnStr {
             get {
                 return ((string)(this["mysqlConnStr"]));
@@ -72,6 +72,19 @@ namespace TourQueryManager.Properties {
             }
             set {
                 this["mysqlConnStrExcursion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=192.168.1.76;user id=pky;password=pky123;persistsecurityinfo=True;database" +
+            "=tourquerymanagement;SslMode=none")]
+        public string mysqlConnStrUbuntu {
+            get {
+                return ((string)(this["mysqlConnStrUbuntu"]));
+            }
+            set {
+                this["mysqlConnStrUbuntu"] = value;
             }
         }
     }

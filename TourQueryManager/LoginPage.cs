@@ -55,14 +55,19 @@ namespace TourQueryManager
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            Validate_login();
+        }
+
+        private void Validate_login()
+        {
             if (frmLoginDataSet != null)
             {
                 int counter = cmbboxUsername.SelectedIndex;
                 bool areEqualUsername = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text, StringComparison.OrdinalIgnoreCase);
-                if ( areEqualUsername )
+                if (areEqualUsername)
                 {
                     bool areEqualPassword = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["password"].ToString(), txtboxPassword.Text, StringComparison.OrdinalIgnoreCase); ;
-                    if ( areEqualPassword )
+                    if (areEqualPassword)
                     {
                         if (counter == 0)
                         {
@@ -75,17 +80,17 @@ namespace TourQueryManager
                         else
                         {
                             Debug.WriteLine("Password Matched for " + cmbboxUsername.Text);
-                            FrmUserPage frmUserPage = new FrmUserPage(Convert.ToUInt32( cmbboxUsername.SelectedValue ) );
+                            FrmUserPage frmUserPage = new FrmUserPage(Convert.ToUInt32(cmbboxUsername.SelectedValue));
                             Hide();
                             frmUserPage.ShowDialog();
                             Close();
                         }
-                        
+
                     }
                     else
                     {
                         MessageBox.Show("Password Not Matched for " + cmbboxUsername.Text);
-                    }   
+                    }
                 }
             }
         }
@@ -105,6 +110,14 @@ namespace TourQueryManager
         private void cmbboxUsername_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtboxPassword.Text = "";
+        }
+
+        private void txtboxPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                Validate_login();
+            }
         }
     }
 }

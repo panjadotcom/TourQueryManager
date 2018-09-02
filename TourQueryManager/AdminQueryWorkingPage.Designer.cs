@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAdminQueryWorkingPage));
             this.DataGrdVuAdminQueries = new System.Windows.Forms.DataGridView();
             this.queryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -115,6 +116,7 @@
             this.ClientSize = new System.Drawing.Size(1059, 450);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.DataGrdVuAdminQueries);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmAdminQueryWorkingPage";

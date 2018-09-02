@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUserPage));
             this.BtnAssignQueries = new System.Windows.Forms.Button();
             this.BtnCompletedQueries = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
@@ -133,6 +134,7 @@
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnCompletedQueries);
             this.Controls.Add(this.BtnAssignQueries);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmUserPage";
             this.Text = "User";

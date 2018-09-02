@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAdminPage));
             this.btnCreateUser = new System.Windows.Forms.Button();
             this.BtnGenerateVouchers = new System.Windows.Forms.Button();
             this.BtnGenerateReports = new System.Windows.Forms.Button();
@@ -112,6 +113,7 @@
             this.Controls.Add(this.BtnGenerateItinerary);
             this.Controls.Add(this.BtnGenerateVouchers);
             this.Controls.Add(this.btnCreateUser);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmAdminPage";

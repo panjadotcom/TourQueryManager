@@ -28,7 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmQueryWorkingPage));
             this.dataGrdVuWorkingHotels = new System.Windows.Forms.DataGridView();
+            this.DAYS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RoomNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sector = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Hotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RoomType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MealPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExtraMeal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtboxQueryDetails = new System.Windows.Forms.TextBox();
             this.lblQueryDetails = new System.Windows.Forms.Label();
             this.CmbboxWrkngHtlSector = new System.Windows.Forms.ComboBox();
@@ -54,16 +65,6 @@
             this.numericUpDownWorkingHotelDayNo = new System.Windows.Forms.NumericUpDown();
             this.ButtonWorkingDone = new System.Windows.Forms.Button();
             this.ButtonWorkingCancel = new System.Windows.Forms.Button();
-            this.DAYS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RoomNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sector = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Hotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RoomType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MealPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExtraMeal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HotelPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdVuWorkingHotels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtraBed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtraMeal)).BeginInit();
@@ -93,6 +94,86 @@
             this.dataGrdVuWorkingHotels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrdVuWorkingHotels.Size = new System.Drawing.Size(1187, 188);
             this.dataGrdVuWorkingHotels.TabIndex = 0;
+            // 
+            // DAYS
+            // 
+            this.DAYS.HeaderText = "DAY";
+            this.DAYS.Name = "DAYS";
+            this.DAYS.ReadOnly = true;
+            this.DAYS.Width = 50;
+            // 
+            // RoomNo
+            // 
+            this.RoomNo.HeaderText = "ROOM";
+            this.RoomNo.Name = "RoomNo";
+            this.RoomNo.ReadOnly = true;
+            this.RoomNo.Width = 50;
+            // 
+            // Sector
+            // 
+            this.Sector.HeaderText = "SECTOR";
+            this.Sector.Name = "Sector";
+            this.Sector.ReadOnly = true;
+            this.Sector.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Sector.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Sector.Width = 150;
+            // 
+            // Location
+            // 
+            this.Location.HeaderText = "LOCATION";
+            this.Location.Name = "Location";
+            this.Location.ReadOnly = true;
+            this.Location.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Location.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Location.Width = 150;
+            // 
+            // Hotel
+            // 
+            this.Hotel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Hotel.HeaderText = "HOTEL";
+            this.Hotel.Name = "Hotel";
+            this.Hotel.ReadOnly = true;
+            this.Hotel.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Hotel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // RoomType
+            // 
+            this.RoomType.HeaderText = "ROOM TYPE";
+            this.RoomType.Name = "RoomType";
+            this.RoomType.ReadOnly = true;
+            this.RoomType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.RoomType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // MealPlan
+            // 
+            this.MealPlan.HeaderText = "MEAL PLAN";
+            this.MealPlan.Name = "MealPlan";
+            this.MealPlan.ReadOnly = true;
+            this.MealPlan.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.MealPlan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ExtraBed
+            // 
+            this.ExtraBed.HeaderText = "EXTRA BED";
+            this.ExtraBed.Name = "ExtraBed";
+            this.ExtraBed.ReadOnly = true;
+            this.ExtraBed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ExtraBed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ExtraMeal
+            // 
+            this.ExtraMeal.HeaderText = "EXTRA MEAL";
+            this.ExtraMeal.Name = "ExtraMeal";
+            this.ExtraMeal.ReadOnly = true;
+            this.ExtraMeal.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ExtraMeal.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // HotelPrice
+            // 
+            this.HotelPrice.HeaderText = "PRICE";
+            this.HotelPrice.Name = "HotelPrice";
+            this.HotelPrice.ReadOnly = true;
+            this.HotelPrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // txtboxQueryDetails
             // 
@@ -332,86 +413,6 @@
             this.ButtonWorkingCancel.UseVisualStyleBackColor = true;
             this.ButtonWorkingCancel.Click += new System.EventHandler(this.ButtonWorkingCancel_Click);
             // 
-            // DAYS
-            // 
-            this.DAYS.HeaderText = "DAY";
-            this.DAYS.Name = "DAYS";
-            this.DAYS.ReadOnly = true;
-            this.DAYS.Width = 50;
-            // 
-            // RoomNo
-            // 
-            this.RoomNo.HeaderText = "ROOM";
-            this.RoomNo.Name = "RoomNo";
-            this.RoomNo.ReadOnly = true;
-            this.RoomNo.Width = 50;
-            // 
-            // Sector
-            // 
-            this.Sector.HeaderText = "SECTOR";
-            this.Sector.Name = "Sector";
-            this.Sector.ReadOnly = true;
-            this.Sector.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Sector.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Sector.Width = 150;
-            // 
-            // Location
-            // 
-            this.Location.HeaderText = "LOCATION";
-            this.Location.Name = "Location";
-            this.Location.ReadOnly = true;
-            this.Location.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Location.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Location.Width = 150;
-            // 
-            // Hotel
-            // 
-            this.Hotel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Hotel.HeaderText = "HOTEL";
-            this.Hotel.Name = "Hotel";
-            this.Hotel.ReadOnly = true;
-            this.Hotel.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Hotel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // RoomType
-            // 
-            this.RoomType.HeaderText = "ROOM TYPE";
-            this.RoomType.Name = "RoomType";
-            this.RoomType.ReadOnly = true;
-            this.RoomType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.RoomType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // MealPlan
-            // 
-            this.MealPlan.HeaderText = "MEAL PLAN";
-            this.MealPlan.Name = "MealPlan";
-            this.MealPlan.ReadOnly = true;
-            this.MealPlan.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.MealPlan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ExtraBed
-            // 
-            this.ExtraBed.HeaderText = "EXTRA BED";
-            this.ExtraBed.Name = "ExtraBed";
-            this.ExtraBed.ReadOnly = true;
-            this.ExtraBed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ExtraBed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ExtraMeal
-            // 
-            this.ExtraMeal.HeaderText = "EXTRA MEAL";
-            this.ExtraMeal.Name = "ExtraMeal";
-            this.ExtraMeal.ReadOnly = true;
-            this.ExtraMeal.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ExtraMeal.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // HotelPrice
-            // 
-            this.HotelPrice.HeaderText = "PRICE";
-            this.HotelPrice.Name = "HotelPrice";
-            this.HotelPrice.ReadOnly = true;
-            this.HotelPrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // FrmQueryWorkingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,6 +444,7 @@
             this.Controls.Add(this.txtboxQueryDetails);
             this.Controls.Add(this.dataGrdVuWorkingHotels);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmQueryWorkingPage";

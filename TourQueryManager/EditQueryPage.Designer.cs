@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditQueryPage));
             this.lblQueryId = new System.Windows.Forms.Label();
             this.lblAgentId = new System.Windows.Forms.Label();
             this.lblUserId = new System.Windows.Forms.Label();
@@ -688,6 +689,7 @@
             this.Controls.Add(this.lblUserId);
             this.Controls.Add(this.lblAgentId);
             this.Controls.Add(this.lblQueryId);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmEditQueryPage";
             this.Text = "Query";

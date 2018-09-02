@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditUserPage));
             this.lblUsername = new System.Windows.Forms.Label();
             this.txtboxUsername = new System.Windows.Forms.TextBox();
             this.txtboxPassword = new System.Windows.Forms.TextBox();
@@ -43,12 +44,14 @@
             this.txtboxUserId = new System.Windows.Forms.TextBox();
             this.lblUserId = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
+            this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(122, 111);
+            this.lblUsername.Location = new System.Drawing.Point(572, 15);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(55, 13);
             this.lblUsername.TabIndex = 2;
@@ -56,23 +59,23 @@
             // 
             // txtboxUsername
             // 
-            this.txtboxUsername.Location = new System.Drawing.Point(214, 108);
+            this.txtboxUsername.Location = new System.Drawing.Point(633, 12);
             this.txtboxUsername.Name = "txtboxUsername";
-            this.txtboxUsername.Size = new System.Drawing.Size(278, 20);
+            this.txtboxUsername.Size = new System.Drawing.Size(133, 20);
             this.txtboxUsername.TabIndex = 3;
             // 
             // txtboxPassword
             // 
-            this.txtboxPassword.Location = new System.Drawing.Point(214, 148);
+            this.txtboxPassword.Location = new System.Drawing.Point(632, 38);
             this.txtboxPassword.Name = "txtboxPassword";
             this.txtboxPassword.PasswordChar = '*';
-            this.txtboxPassword.Size = new System.Drawing.Size(278, 20);
+            this.txtboxPassword.Size = new System.Drawing.Size(134, 20);
             this.txtboxPassword.TabIndex = 5;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(122, 151);
+            this.lblPassword.Location = new System.Drawing.Point(574, 41);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(53, 13);
             this.lblPassword.TabIndex = 4;
@@ -80,7 +83,7 @@
             // 
             // txtboxPhone
             // 
-            this.txtboxPhone.Location = new System.Drawing.Point(214, 230);
+            this.txtboxPhone.Location = new System.Drawing.Point(488, 113);
             this.txtboxPhone.Name = "txtboxPhone";
             this.txtboxPhone.Size = new System.Drawing.Size(278, 20);
             this.txtboxPhone.TabIndex = 9;
@@ -88,7 +91,7 @@
             // lblPhone
             // 
             this.lblPhone.AutoSize = true;
-            this.lblPhone.Location = new System.Drawing.Point(122, 233);
+            this.lblPhone.Location = new System.Drawing.Point(415, 116);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(55, 13);
             this.lblPhone.TabIndex = 8;
@@ -96,7 +99,7 @@
             // 
             // txtboxName
             // 
-            this.txtboxName.Location = new System.Drawing.Point(214, 190);
+            this.txtboxName.Location = new System.Drawing.Point(488, 73);
             this.txtboxName.Name = "txtboxName";
             this.txtboxName.Size = new System.Drawing.Size(278, 20);
             this.txtboxName.TabIndex = 7;
@@ -104,7 +107,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(122, 193);
+            this.lblName.Location = new System.Drawing.Point(435, 76);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 6;
@@ -112,7 +115,7 @@
             // 
             // txtboxInfo
             // 
-            this.txtboxInfo.Location = new System.Drawing.Point(214, 313);
+            this.txtboxInfo.Location = new System.Drawing.Point(488, 196);
             this.txtboxInfo.Multiline = true;
             this.txtboxInfo.Name = "txtboxInfo";
             this.txtboxInfo.Size = new System.Drawing.Size(278, 137);
@@ -121,7 +124,7 @@
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(122, 368);
+            this.lblInfo.Location = new System.Drawing.Point(396, 251);
             this.lblInfo.Name = "lblInfo";
             this.lblInfo.Size = new System.Drawing.Size(74, 13);
             this.lblInfo.TabIndex = 12;
@@ -129,7 +132,7 @@
             // 
             // txtboxEmailId
             // 
-            this.txtboxEmailId.Location = new System.Drawing.Point(214, 273);
+            this.txtboxEmailId.Location = new System.Drawing.Point(488, 156);
             this.txtboxEmailId.Name = "txtboxEmailId";
             this.txtboxEmailId.Size = new System.Drawing.Size(278, 20);
             this.txtboxEmailId.TabIndex = 11;
@@ -137,7 +140,7 @@
             // lblEmailId
             // 
             this.lblEmailId.AutoSize = true;
-            this.lblEmailId.Location = new System.Drawing.Point(122, 276);
+            this.lblEmailId.Location = new System.Drawing.Point(426, 159);
             this.lblEmailId.Name = "lblEmailId";
             this.lblEmailId.Size = new System.Drawing.Size(44, 13);
             this.lblEmailId.TabIndex = 10;
@@ -145,7 +148,7 @@
             // 
             // txtboxUserId
             // 
-            this.txtboxUserId.Location = new System.Drawing.Point(214, 64);
+            this.txtboxUserId.Location = new System.Drawing.Point(488, 25);
             this.txtboxUserId.Name = "txtboxUserId";
             this.txtboxUserId.ReadOnly = true;
             this.txtboxUserId.Size = new System.Drawing.Size(73, 20);
@@ -154,7 +157,7 @@
             // lblUserId
             // 
             this.lblUserId.AutoSize = true;
-            this.lblUserId.Location = new System.Drawing.Point(122, 67);
+            this.lblUserId.Location = new System.Drawing.Point(432, 28);
             this.lblUserId.Name = "lblUserId";
             this.lblUserId.Size = new System.Drawing.Size(38, 13);
             this.lblUserId.TabIndex = 0;
@@ -162,7 +165,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(366, 482);
+            this.btnUpdate.Location = new System.Drawing.Point(640, 365);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(126, 37);
             this.btnUpdate.TabIndex = 14;
@@ -170,11 +173,22 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // PctrBoxLogo
+            // 
+            this.PctrBoxLogo.Image = global::TourQueryManager.Properties.Resources.ExcursionHolidaysLogo;
+            this.PctrBoxLogo.Location = new System.Drawing.Point(12, 12);
+            this.PctrBoxLogo.Name = "PctrBoxLogo";
+            this.PctrBoxLogo.Size = new System.Drawing.Size(378, 399);
+            this.PctrBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PctrBoxLogo.TabIndex = 31;
+            this.PctrBoxLogo.TabStop = false;
+            // 
             // FrmEditUserPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 573);
+            this.ClientSize = new System.Drawing.Size(778, 433);
+            this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtboxInfo);
             this.Controls.Add(this.lblInfo);
@@ -190,11 +204,13 @@
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.txtboxUsername);
             this.Controls.Add(this.lblUsername);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmEditUserPage";
             this.Text = "New User";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEditUserPage_FormClosing);
             this.Load += new System.EventHandler(this.FrmEditUserPage_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,5 +233,6 @@
         private System.Windows.Forms.TextBox txtboxUserId;
         private System.Windows.Forms.Label lblUserId;
         private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.PictureBox PctrBoxLogo;
     }
 }
