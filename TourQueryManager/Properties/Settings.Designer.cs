@@ -25,8 +25,8 @@ namespace TourQueryManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=59.94.224.139;user id=pky;password=pky123;persistsecurityinfo=True;databas" +
-            "e=tourquerymanagement;port=55;SslMode=none")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=10.0.2.2;user id=pky;password=pky123;database=tourquerymanagement;SslMode=" +
+            "none")]
         public string mysqlConnStr {
             get {
                 return ((string)(this["mysqlConnStr"]));

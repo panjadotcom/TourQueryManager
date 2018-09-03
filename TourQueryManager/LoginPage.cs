@@ -119,5 +119,15 @@ namespace TourQueryManager
                 Validate_login();
             }
         }
+
+        private void PctrBoxSetting_DoubleClick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Setting change icon clicked.");
+            FrmSettingPage frmSettingPage = new FrmSettingPage();
+            Hide();
+            frmSettingPage.ShowDialog();
+            MessageBox.Show("Restart this application to load the Changed setting.");
+            Close();
+        }
     }
 }

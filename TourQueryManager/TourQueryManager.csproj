@@ -132,6 +132,12 @@
     <Compile Include="QueryWorkingPage.Designer.cs">
       <DependentUpon>QueryWorkingPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="SettingPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingPage.Designer.cs">
+      <DependentUpon>SettingPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     <EmbeddedResource Include="QueryWorkingPage.resx">
       <DependentUpon>QueryWorkingPage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SettingPage.resx">
+      <DependentUpon>SettingPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserPage.resx">
       <DependentUpon>UserPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -192,6 +201,7 @@
     <Content Include="excursionholidaysicon.ico" />
     <None Include="Resources\ExcursionHolidaysIcon.ico" />
     <None Include="Resources\ExcursionHolidaysLogo.jpg" />
+    <Content Include="Resources\Setting.png" />
     <Content Include="TourQueryManagementScript.sql" />
   </ItemGroup>
   <ItemGroup>

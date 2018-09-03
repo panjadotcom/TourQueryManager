@@ -35,7 +35,9 @@
             this.txtboxPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
+            this.PctrBoxSetting = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxSetting)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbboxUsername
@@ -94,11 +96,23 @@
             this.PctrBoxLogo.TabIndex = 30;
             this.PctrBoxLogo.TabStop = false;
             // 
+            // PctrBoxSetting
+            // 
+            this.PctrBoxSetting.Image = global::TourQueryManager.Properties.Resources.Setting;
+            this.PctrBoxSetting.Location = new System.Drawing.Point(382, 12);
+            this.PctrBoxSetting.Name = "PctrBoxSetting";
+            this.PctrBoxSetting.Size = new System.Drawing.Size(47, 42);
+            this.PctrBoxSetting.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PctrBoxSetting.TabIndex = 31;
+            this.PctrBoxSetting.TabStop = false;
+            this.PctrBoxSetting.DoubleClick += new System.EventHandler(this.PctrBoxSetting_DoubleClick);
+            // 
             // FrmLoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 258);
+            this.Controls.Add(this.PctrBoxSetting);
             this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtboxPassword);
@@ -112,6 +126,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLoginPage_FormClosing);
             this.Load += new System.EventHandler(this.FrmLoginPage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PctrBoxSetting)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +140,6 @@
         private System.Windows.Forms.TextBox txtboxPassword;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.PictureBox PctrBoxLogo;
+        private System.Windows.Forms.PictureBox PctrBoxSetting;
     }
 }
