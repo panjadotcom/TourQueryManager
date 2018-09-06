@@ -37,17 +37,19 @@ namespace TourQueryManager
                 MessageBox.Show("connection cannot be opened because " + erropen.Message + "");
                 Close();
             }
-            cmbboxQueryId.Enabled = false;
             frmEditQueryDataSet = new DataSet();
             string userSelectMysqlQueryString = "SELECT `userid`, `username`, `name` FROM `appusers` WHERE `userid` > 1 ORDER BY `userid`";
             string agentSelectMysqlQueryString = "SELECT `agentid`, `name` FROM `agents` ORDER BY `agentid`";
+            string querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 ORDER BY `queryno`";
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(userSelectMysqlQueryString, frmEditQueryMysqlConn);
                 frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "USER_COMBO_BOX");
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(agentSelectMysqlQueryString, frmEditQueryMysqlConn);
                 frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "AGENT_COMBO_BOX");
-                if(frmEditQueryDataSet != null)
+                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(querySelectMysqlQueryString, frmEditQueryMysqlConn);
+                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "QUERY_COMBO_BOX");
+                if (frmEditQueryDataSet != null)
                 {
                     cmbboxAgentId.DataSource = frmEditQueryDataSet.Tables["AGENT_COMBO_BOX"];
                     cmbboxAgentId.ValueMember = "agentid";
@@ -55,6 +57,14 @@ namespace TourQueryManager
                     cmbboxUserId.DataSource = frmEditQueryDataSet.Tables["USER_COMBO_BOX"];
                     cmbboxUserId.ValueMember = "userid";
                     cmbboxUserId.DisplayMember = "username";
+                    DataRow dataRow = frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"].NewRow();
+                    dataRow["queryid"] = "NEW QUERY";
+                    frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"].Rows.InsertAt(dataRow, 0);
+                    cmbboxQueryId.DataSource = frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"];
+                    cmbboxQueryId.ValueMember = "queryid";
+                    cmbboxQueryId.DisplayMember = "queryid";
+                    cmbboxQueryId.SelectedIndex = 0;
+                    cmbboxQueryId.SelectedValue = 0;
                 }
             }
             catch (Exception errquery)
@@ -63,6 +73,7 @@ namespace TourQueryManager
             }
             cmbboxUserId.SelectedValue = 0;
             cmbboxAgentId.SelectedValue = 0;
+            btnUpdate.Text = "INSERT";
         }
 
         private void FrmEditQueryPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -93,6 +104,8 @@ namespace TourQueryManager
                 mysqlInsertQueryStr = "UPDATE `queries` SET" +
                     " `agentid` = @agentid_var," +
                     " `userid` = @userid_var," +
+                    " `profitmargin` = @profitmargin_var," +
+                    " `gstrate` = @gstrate_var," +
                     " `name` = @name_var," +
                     " `contact` = @contact_var," +
                     " `place` = @place_var," +
@@ -123,6 +136,8 @@ namespace TourQueryManager
                     "`queryid`, " +
                     "`agentid`, " +
                     "`userid`, " +
+                    "`profitmargin`, " +
+                    "`gstrate`, " +
                     "`name`, " +
                     "`contact`, " +
                     "`querystartdate`, " +
@@ -150,6 +165,8 @@ namespace TourQueryManager
                     "@queryid_var, " +
                     "@agentid_var, " +
                     "@userid_var, " +
+                    "@profitmargin_var, " +
+                    "@gstrate_var, " +
                     "@name_var, " +
                     "@contact_var, " +
                     "CURDATE(), " +
@@ -179,6 +196,8 @@ namespace TourQueryManager
             btnUpdateMysqlCommand.Parameters.AddWithValue("@queryid_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@agentid_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@userid_var", 1);
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@profitmargin_var", 1);
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@gstrate_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@name_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@contact_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@place_var", "Text");
@@ -200,9 +219,55 @@ namespace TourQueryManager
             btnUpdateMysqlCommand.Parameters.AddWithValue("@budget_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@note_var", "Text");
 
+            if (string.Equals(txtBoxMargin.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Profit margin field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblMargin.ForeColor = Color.Red;
+                return;
+            }
+            else
+            {
+                try
+                {
+                    btnUpdateMysqlCommand.Parameters["@profitmargin_var"].Value = Convert.ToUInt32(txtBoxMargin.Text);
+                }
+                catch (Exception errmargin)
+                {
+                    MessageBox.Show("Error in margin : " + errmargin.Message + "");
+                    frmEditQueryMysqlTransaction.Dispose();
+                    lblMargin.ForeColor = Color.Red;
+                    return;
+                }
+            }
+
+            if (string.Equals(txtBoxGST.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("GST field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblGST.ForeColor = Color.Red;
+                return;
+            }
+            else
+            {
+                try
+                {
+                    btnUpdateMysqlCommand.Parameters["@gstrate_var"].Value = Convert.ToUInt32(txtBoxGST.Text);
+                }
+                catch (Exception errmargin)
+                {
+                    MessageBox.Show("Error in GST : " + errmargin.Message + "");
+                    frmEditQueryMysqlTransaction.Dispose();
+                    lblGST.ForeColor = Color.Red;
+                    return;
+                }
+            }
+
             if (string.Equals(cmbboxAgentId.Text, "", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("agentId field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblAgentId.ForeColor = Color.Red;
                 return;
             }
             else
@@ -213,6 +278,8 @@ namespace TourQueryManager
             if (string.Equals(cmbboxUserId.Text, "", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("userid field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblUserId.ForeColor = Color.Red;
                 return;
             }
             else
@@ -221,19 +288,11 @@ namespace TourQueryManager
                 
             }
 
-            if (string.Equals(txtboxPlace.Text, "", StringComparison.OrdinalIgnoreCase))
-            {
-                MessageBox.Show("Place field cannot be empty");
-                return;
-            }
-            else
-            {
-                btnUpdateMysqlCommand.Parameters["@place_var"].Value = txtboxPlace.Text;
-            }
-
             if (string.Equals(txtboxClientName.Text, "", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("Name field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblClientName.ForeColor = Color.Red;
                 return;
             }
             else
@@ -244,12 +303,16 @@ namespace TourQueryManager
             if (string.Equals(txtboxClientContact.Text, "", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("Contact field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblClientContact.ForeColor = Color.Red;
                 return;
             }
             else
             {
                 btnUpdateMysqlCommand.Parameters["@contact_var"].Value = txtboxClientContact.Text;
             }
+
+            btnUpdateMysqlCommand.Parameters["@place_var"].Value = txtboxPlace.Text;
 
             btnUpdateMysqlCommand.Parameters["@destinationcovered_var"].Value = txtboxDstnCvrd.Text;
 
@@ -304,10 +367,10 @@ namespace TourQueryManager
             btnUpdateMysqlCommand.Parameters["@hotelcategory_var"].Value = hotelCtgryString;
 
             date = dttmpkrArvlDate.Value;
-            btnUpdateMysqlCommand.Parameters["@arrivaldate_var"].Value = date.Year.ToString() + "-" + date.Month.ToString() + "-" + date.Day.ToString();
+            btnUpdateMysqlCommand.Parameters["@arrivaldate_var"].Value = date.Hour.ToString() + ":" + date.Minute.ToString() + ":" + date.Second.ToString();
 
             date = dttmpkrDptrDate.Value;
-            btnUpdateMysqlCommand.Parameters["@departuredate_var"].Value = date.Year.ToString() + "-" + date.Month.ToString() + "-" + date.Day.ToString();
+            btnUpdateMysqlCommand.Parameters["@departuredate_var"].Value = date.Hour.ToString() + ":" + date.Minute.ToString() + ":" + date.Second.ToString();
 
             btnUpdateMysqlCommand.Parameters["@arrivalcity_var"].Value = txtboxArvlCity.Text;
 
@@ -330,8 +393,15 @@ namespace TourQueryManager
                 btnUpdateMysqlCommand.Parameters["@requirement_var"].Value = "Hotel Only";
             }
 
-            btnUpdateMysqlCommand.Parameters["@budget_var"].Value = Convert.ToUInt32(txtboxBudget.Text);
-
+            if (string.Equals(txtboxBudget.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                btnUpdateMysqlCommand.Parameters["@budget_var"].Value = Convert.ToUInt32("0");
+            }
+            else
+            {
+                btnUpdateMysqlCommand.Parameters["@budget_var"].Value = Convert.ToUInt32(txtboxBudget.Text);
+            }
+            
             btnUpdateMysqlCommand.Parameters["@note_var"].Value = txtboxNote.Text;
 
             string queryIdStr;
@@ -367,69 +437,7 @@ namespace TourQueryManager
             }
             Close();
         }
-
-        private void lnklblModifyQuery_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /* this method will be used to reset the fields
-             * and populate query id from database server
-             * enable disable other fields accordingly
-             */
-            lnklblModifyQuery.Enabled = false;
-            lnklblModifyQuery.Visible = false;
-            btnLoadQuery.Enabled = true;
-            btnLoadQuery.Visible = true;
-            btnDeleteQuery.Enabled = true;
-            btnDeleteQuery.Visible = true;
-            updateQueryFlag = true;
-            cmbboxQueryId.Enabled = true;
-
-            frmEditQueryDataSet = new DataSet();
-            string queryIdSelectMysqlQueryString = "SELECT `queryno`, `queryid` FROM `queries` WHERE `queryno` > 0 ORDER BY `queryno`";
-            try
-            {
-                frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(queryIdSelectMysqlQueryString, frmEditQueryMysqlConn);
-                frmEditQueryMysqlDataAdaptor.Fill(frmEditQueryDataSet, "QUERYID_COMBO_BOX");
-                if (frmEditQueryDataSet != null)
-                {
-                    cmbboxQueryId.DataSource = frmEditQueryDataSet.Tables["QUERYID_COMBO_BOX"];
-                    cmbboxQueryId.ValueMember = "queryno";
-                    cmbboxQueryId.DisplayMember = "queryid";
-                }
-            }
-            catch (Exception errquery)
-            {
-                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
-            }
-
-            /* reset the form */
-            cmbboxQueryId.SelectedValue = 0;
-            cmbboxUserId.SelectedValue = 0;
-            cmbboxAgentId.SelectedValue = 0;
-            cmbboxVehicleCtgry.Text = "";
-            txtboxArvlCity.Text = "";
-            txtboxBudget.Text = "";
-            txtboxDptrCity.Text = "";
-            txtboxDstnCvrd.Text = "";
-            txtboxNote.Text = "";
-            txtboxPlace.Text = "";
-            nmbrUpDwnPersonAdult.Value = 0;
-            nmbrUpDwnPersonChild.Value = 0;
-            nmbrUpDwnPersonInfnt.Value = 0;
-            nmbrUpDwnRoomCount.Value = 0;
-            chkBox2Star.Checked = false;
-            chkBox3Star.Checked = false;
-            chkBox4Star.Checked = false;
-            chkBox5Star.Checked = false;
-            radioBtnMealBrkfstDnr.Checked = false;
-            radioBtnMealBrkfstLnchDnr.Checked = false;
-            radioBtnMealBrkfstOnly.Checked = false;
-            radioBtnMealNoMeal.Checked = false;
-            radioBtnRqmntHtlOnly.Checked = false;
-            radioBtnRqmntTourPkg.Checked = false;
-            radioBtnRqmntTourPlusFlight.Checked = false;
-            radioBtnRqmntTrnsprtOnly.Checked = false;
-        }
-
+        
         private void btnDeleteQuery_Click(object sender, EventArgs e)
         {
             if (string.Equals(txtboxPlace.Text, ""))
@@ -473,9 +481,63 @@ namespace TourQueryManager
             }
         }
 
-        private void btnLoadQuery_Click(object sender, EventArgs e)
+        private void dttmpckrFromDate_ValueChanged(object sender, EventArgs e)
+        {
+            /* update the minimum value of the to with current selected date */
+            dttmpckrToDate.MinDate = dttmpckrFromDate.Value;
+        }
+
+        private void dttmpckrToDate_ValueChanged(object sender, EventArgs e)
+        {
+            /* update maximum value for from date with selected date */
+            //dttmpckrFromDate.MaxDate = dttmpckrToDate.Value;
+        }
+
+        private void cmbboxQueryId_SelectedIndexChanged(object sender, EventArgs e)
         {
             /* load data from Database from query table using queryid */
+            /* reset the form */
+            cmbboxUserId.SelectedValue = 0;
+            cmbboxAgentId.SelectedValue = 0;
+            txtBoxGST.Text = "";
+            txtBoxMargin.Text = "";
+            cmbboxVehicleCtgry.Text = "";
+            txtboxArvlCity.Text = "";
+            txtboxBudget.Text = "";
+            txtboxDptrCity.Text = "";
+            txtboxDstnCvrd.Text = "";
+            txtboxNote.Text = "";
+            txtboxPlace.Text = "";
+            txtboxClientContact.Text = "";
+            txtboxClientName.Text = "";
+            nmbrUpDwnPersonAdult.Value = 0;
+            nmbrUpDwnPersonChild.Value = 0;
+            nmbrUpDwnPersonInfnt.Value = 0;
+            nmbrUpDwnRoomCount.Value = 0;
+            chkBox2Star.Checked = false;
+            chkBox3Star.Checked = false;
+            chkBox4Star.Checked = false;
+            chkBox5Star.Checked = false;
+            radioBtnMealBrkfstDnr.Checked = false;
+            radioBtnMealBrkfstLnchDnr.Checked = false;
+            radioBtnMealBrkfstOnly.Checked = false;
+            radioBtnMealNoMeal.Checked = false;
+            radioBtnRqmntHtlOnly.Checked = false;
+            radioBtnRqmntTourPkg.Checked = false;
+            radioBtnRqmntTourPlusFlight.Checked = false;
+            radioBtnRqmntTrnsprtOnly.Checked = false;
+            if ((cmbboxQueryId.SelectedIndex == 0) || (cmbboxQueryId.SelectedValue == null))
+            {
+                btnDeleteQuery.Enabled = false;
+                btnDeleteQuery.Visible = false;
+                updateQueryFlag = false;
+                btnUpdate.Text = "INSERT";
+                return;
+            }
+            btnDeleteQuery.Enabled = true;
+            btnDeleteQuery.Visible = true;
+            updateQueryFlag = true;
+            btnUpdate.Text = "UPDATE";
             frmEditQueryDataSet = new DataSet();
             string queryDataSelectMysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
             Debug.WriteLine("Query string is " + queryDataSelectMysqlQueryString);
@@ -492,6 +554,12 @@ namespace TourQueryManager
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["userid"].ToString();
                     cmbboxUserId.SelectedValue = Convert.ToInt32(queriesColumnStr);
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["profitmargin"].ToString();
+                    txtBoxMargin.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["gstrate"].ToString();
+                    txtBoxGST.Text = queriesColumnStr;
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["name"].ToString();
                     txtboxClientName.Text = queriesColumnStr;
@@ -538,12 +606,12 @@ namespace TourQueryManager
                     }
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["hotelcategory"].ToString();
-                    foreach(var grpboxHtlCtgryCtrl in grpboxHtlCtgry.Controls)
+                    foreach (var grpboxHtlCtgryCtrl in grpboxHtlCtgry.Controls)
                     {
                         CheckBox htlCtgryChkBox = grpboxHtlCtgryCtrl as CheckBox;
                         if (htlCtgryChkBox != null)
                         {
-                            if(queriesColumnStr.Contains(htlCtgryChkBox.Text))
+                            if (queriesColumnStr.Contains(htlCtgryChkBox.Text))
                             {
                                 htlCtgryChkBox.Checked = true;
                             }
@@ -590,18 +658,6 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
-        }
-
-        private void dttmpckrFromDate_ValueChanged(object sender, EventArgs e)
-        {
-            /* update the minimum value of the to with current selected date */
-            dttmpckrToDate.MinDate = dttmpckrFromDate.Value;
-        }
-
-        private void dttmpckrToDate_ValueChanged(object sender, EventArgs e)
-        {
-            /* update maximum value for from date with selected date */
-            //dttmpckrFromDate.MaxDate = dttmpckrToDate.Value;
         }
     }
 }

@@ -76,9 +76,7 @@
             this.cmbboxQueryId = new System.Windows.Forms.ComboBox();
             this.grpboxMeal = new System.Windows.Forms.GroupBox();
             this.grpboxRqmnt = new System.Windows.Forms.GroupBox();
-            this.lnklblModifyQuery = new System.Windows.Forms.LinkLabel();
             this.grpboxHtlCtgry = new System.Windows.Forms.GroupBox();
-            this.btnLoadQuery = new System.Windows.Forms.Button();
             this.btnDeleteQuery = new System.Windows.Forms.Button();
             this.lblClientName = new System.Windows.Forms.Label();
             this.txtboxClientName = new System.Windows.Forms.TextBox();
@@ -86,6 +84,16 @@
             this.txtboxClientContact = new System.Windows.Forms.TextBox();
             this.dttmpkrDptrDate = new System.Windows.Forms.DateTimePicker();
             this.dttmpkrArvlDate = new System.Windows.Forms.DateTimePicker();
+            this.lblDepartureTime = new System.Windows.Forms.Label();
+            this.lblDepartureCity = new System.Windows.Forms.Label();
+            this.lblAdults = new System.Windows.Forms.Label();
+            this.lblChildren = new System.Windows.Forms.Label();
+            this.lblBabies = new System.Windows.Forms.Label();
+            this.txtBoxGST = new System.Windows.Forms.TextBox();
+            this.lblGST = new System.Windows.Forms.Label();
+            this.txtBoxMargin = new System.Windows.Forms.TextBox();
+            this.lblMargin = new System.Windows.Forms.Label();
+            this.lblClientInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonAdult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonChild)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonInfnt)).BeginInit();
@@ -109,23 +117,23 @@
             this.lblAgentId.AutoSize = true;
             this.lblAgentId.Location = new System.Drawing.Point(12, 37);
             this.lblAgentId.Name = "lblAgentId";
-            this.lblAgentId.Size = new System.Drawing.Size(78, 13);
+            this.lblAgentId.Size = new System.Drawing.Size(82, 13);
             this.lblAgentId.TabIndex = 1;
-            this.lblAgentId.Text = "AGENT NAME";
+            this.lblAgentId.Text = "AGENT NAME*";
             // 
             // lblUserId
             // 
             this.lblUserId.AutoSize = true;
             this.lblUserId.Location = new System.Drawing.Point(12, 72);
             this.lblUserId.Name = "lblUserId";
-            this.lblUserId.Size = new System.Drawing.Size(80, 13);
+            this.lblUserId.Size = new System.Drawing.Size(84, 13);
             this.lblUserId.TabIndex = 2;
-            this.lblUserId.Text = "ASSIGNED TO";
+            this.lblUserId.Text = "ASSIGNED TO*";
             // 
             // lblDstnCvrd
             // 
             this.lblDstnCvrd.AutoSize = true;
-            this.lblDstnCvrd.Location = new System.Drawing.Point(12, 139);
+            this.lblDstnCvrd.Location = new System.Drawing.Point(12, 190);
             this.lblDstnCvrd.Name = "lblDstnCvrd";
             this.lblDstnCvrd.Size = new System.Drawing.Size(135, 13);
             this.lblDstnCvrd.TabIndex = 5;
@@ -134,7 +142,7 @@
             // lblBookDate
             // 
             this.lblBookDate.AutoSize = true;
-            this.lblBookDate.Location = new System.Drawing.Point(12, 170);
+            this.lblBookDate.Location = new System.Drawing.Point(12, 221);
             this.lblBookDate.Name = "lblBookDate";
             this.lblBookDate.Size = new System.Drawing.Size(43, 13);
             this.lblBookDate.TabIndex = 4;
@@ -143,7 +151,7 @@
             // lblPlace
             // 
             this.lblPlace.AutoSize = true;
-            this.lblPlace.Location = new System.Drawing.Point(12, 108);
+            this.lblPlace.Location = new System.Drawing.Point(12, 159);
             this.lblPlace.Name = "lblPlace";
             this.lblPlace.Size = new System.Drawing.Size(41, 13);
             this.lblPlace.TabIndex = 3;
@@ -152,7 +160,7 @@
             // lblBudget
             // 
             this.lblBudget.AutoSize = true;
-            this.lblBudget.Location = new System.Drawing.Point(12, 480);
+            this.lblBudget.Location = new System.Drawing.Point(12, 531);
             this.lblBudget.Name = "lblBudget";
             this.lblBudget.Size = new System.Drawing.Size(52, 13);
             this.lblBudget.TabIndex = 7;
@@ -161,7 +169,7 @@
             // lblPersonCount
             // 
             this.lblPersonCount.AutoSize = true;
-            this.lblPersonCount.Location = new System.Drawing.Point(12, 202);
+            this.lblPersonCount.Location = new System.Drawing.Point(12, 253);
             this.lblPersonCount.Name = "lblPersonCount";
             this.lblPersonCount.Size = new System.Drawing.Size(90, 13);
             this.lblPersonCount.TabIndex = 6;
@@ -170,7 +178,7 @@
             // lblNote
             // 
             this.lblNote.AutoSize = true;
-            this.lblNote.Location = new System.Drawing.Point(12, 514);
+            this.lblNote.Location = new System.Drawing.Point(12, 565);
             this.lblNote.Name = "lblNote";
             this.lblNote.Size = new System.Drawing.Size(37, 13);
             this.lblNote.TabIndex = 8;
@@ -179,25 +187,25 @@
             // lblArvlDprtCity
             // 
             this.lblArvlDprtCity.AutoSize = true;
-            this.lblArvlDprtCity.Location = new System.Drawing.Point(12, 376);
+            this.lblArvlDprtCity.Location = new System.Drawing.Point(12, 424);
             this.lblArvlDprtCity.Name = "lblArvlDprtCity";
-            this.lblArvlDprtCity.Size = new System.Drawing.Size(176, 13);
+            this.lblArvlDprtCity.Size = new System.Drawing.Size(80, 13);
             this.lblArvlDprtCity.TabIndex = 13;
-            this.lblArvlDprtCity.Text = "ARRIVAL AND DEPARTURE CITY";
+            this.lblArvlDprtCity.Text = "ARRIVAL CITY";
             // 
             // lblArvlDprtDateTime
             // 
             this.lblArvlDprtDateTime.AutoSize = true;
-            this.lblArvlDprtDateTime.Location = new System.Drawing.Point(12, 339);
+            this.lblArvlDprtDateTime.Location = new System.Drawing.Point(12, 390);
             this.lblArvlDprtDateTime.Name = "lblArvlDprtDateTime";
-            this.lblArvlDprtDateTime.Size = new System.Drawing.Size(178, 13);
+            this.lblArvlDprtDateTime.Size = new System.Drawing.Size(82, 13);
             this.lblArvlDprtDateTime.TabIndex = 12;
-            this.lblArvlDprtDateTime.Text = "ARRIVAL AND DEPARTURE TIME";
+            this.lblArvlDprtDateTime.Text = "ARRIVAL TIME";
             // 
             // lblHotelCtgry
             // 
             this.lblHotelCtgry.AutoSize = true;
-            this.lblHotelCtgry.Location = new System.Drawing.Point(12, 304);
+            this.lblHotelCtgry.Location = new System.Drawing.Point(12, 355);
             this.lblHotelCtgry.Name = "lblHotelCtgry";
             this.lblHotelCtgry.Size = new System.Drawing.Size(105, 13);
             this.lblHotelCtgry.TabIndex = 11;
@@ -206,7 +214,7 @@
             // lblMeal
             // 
             this.lblMeal.AutoSize = true;
-            this.lblMeal.Location = new System.Drawing.Point(12, 269);
+            this.lblMeal.Location = new System.Drawing.Point(12, 320);
             this.lblMeal.Name = "lblMeal";
             this.lblMeal.Size = new System.Drawing.Size(36, 13);
             this.lblMeal.TabIndex = 10;
@@ -215,7 +223,7 @@
             // lblRooms
             // 
             this.lblRooms.AutoSize = true;
-            this.lblRooms.Location = new System.Drawing.Point(12, 236);
+            this.lblRooms.Location = new System.Drawing.Point(12, 287);
             this.lblRooms.Name = "lblRooms";
             this.lblRooms.Size = new System.Drawing.Size(83, 13);
             this.lblRooms.TabIndex = 9;
@@ -224,7 +232,7 @@
             // lblRequirement
             // 
             this.lblRequirement.AutoSize = true;
-            this.lblRequirement.Location = new System.Drawing.Point(12, 447);
+            this.lblRequirement.Location = new System.Drawing.Point(12, 498);
             this.lblRequirement.Name = "lblRequirement";
             this.lblRequirement.Size = new System.Drawing.Size(87, 13);
             this.lblRequirement.TabIndex = 15;
@@ -233,7 +241,7 @@
             // lblVehicleCtgry
             // 
             this.lblVehicleCtgry.AutoSize = true;
-            this.lblVehicleCtgry.Location = new System.Drawing.Point(12, 410);
+            this.lblVehicleCtgry.Location = new System.Drawing.Point(12, 461);
             this.lblVehicleCtgry.Name = "lblVehicleCtgry";
             this.lblVehicleCtgry.Size = new System.Drawing.Size(114, 13);
             this.lblVehicleCtgry.TabIndex = 14;
@@ -245,7 +253,7 @@
             this.cmbboxAgentId.Location = new System.Drawing.Point(254, 34);
             this.cmbboxAgentId.Name = "cmbboxAgentId";
             this.cmbboxAgentId.Size = new System.Drawing.Size(204, 21);
-            this.cmbboxAgentId.TabIndex = 17;
+            this.cmbboxAgentId.TabIndex = 3;
             // 
             // cmbboxUserId
             // 
@@ -253,11 +261,11 @@
             this.cmbboxUserId.Location = new System.Drawing.Point(254, 69);
             this.cmbboxUserId.Name = "cmbboxUserId";
             this.cmbboxUserId.Size = new System.Drawing.Size(204, 21);
-            this.cmbboxUserId.TabIndex = 18;
+            this.cmbboxUserId.TabIndex = 4;
             // 
             // nmbrUpDwnPersonAdult
             // 
-            this.nmbrUpDwnPersonAdult.Location = new System.Drawing.Point(254, 200);
+            this.nmbrUpDwnPersonAdult.Location = new System.Drawing.Point(307, 249);
             this.nmbrUpDwnPersonAdult.Maximum = new decimal(new int[] {
             20,
             0,
@@ -265,11 +273,11 @@
             0});
             this.nmbrUpDwnPersonAdult.Name = "nmbrUpDwnPersonAdult";
             this.nmbrUpDwnPersonAdult.Size = new System.Drawing.Size(55, 20);
-            this.nmbrUpDwnPersonAdult.TabIndex = 23;
+            this.nmbrUpDwnPersonAdult.TabIndex = 11;
             // 
             // nmbrUpDwnPersonChild
             // 
-            this.nmbrUpDwnPersonChild.Location = new System.Drawing.Point(315, 200);
+            this.nmbrUpDwnPersonChild.Location = new System.Drawing.Point(463, 249);
             this.nmbrUpDwnPersonChild.Maximum = new decimal(new int[] {
             20,
             0,
@@ -277,11 +285,11 @@
             0});
             this.nmbrUpDwnPersonChild.Name = "nmbrUpDwnPersonChild";
             this.nmbrUpDwnPersonChild.Size = new System.Drawing.Size(55, 20);
-            this.nmbrUpDwnPersonChild.TabIndex = 24;
+            this.nmbrUpDwnPersonChild.TabIndex = 12;
             // 
             // nmbrUpDwnPersonInfnt
             // 
-            this.nmbrUpDwnPersonInfnt.Location = new System.Drawing.Point(376, 200);
+            this.nmbrUpDwnPersonInfnt.Location = new System.Drawing.Point(612, 249);
             this.nmbrUpDwnPersonInfnt.Maximum = new decimal(new int[] {
             20,
             0,
@@ -289,11 +297,11 @@
             0});
             this.nmbrUpDwnPersonInfnt.Name = "nmbrUpDwnPersonInfnt";
             this.nmbrUpDwnPersonInfnt.Size = new System.Drawing.Size(55, 20);
-            this.nmbrUpDwnPersonInfnt.TabIndex = 25;
+            this.nmbrUpDwnPersonInfnt.TabIndex = 13;
             // 
             // nmbrUpDwnRoomCount
             // 
-            this.nmbrUpDwnRoomCount.Location = new System.Drawing.Point(254, 229);
+            this.nmbrUpDwnRoomCount.Location = new System.Drawing.Point(254, 280);
             this.nmbrUpDwnRoomCount.Maximum = new decimal(new int[] {
             10,
             0,
@@ -301,7 +309,7 @@
             0});
             this.nmbrUpDwnRoomCount.Name = "nmbrUpDwnRoomCount";
             this.nmbrUpDwnRoomCount.Size = new System.Drawing.Size(55, 20);
-            this.nmbrUpDwnRoomCount.TabIndex = 26;
+            this.nmbrUpDwnRoomCount.TabIndex = 14;
             // 
             // radioBtnMealNoMeal
             // 
@@ -389,71 +397,78 @@
             // 
             // dttmpckrFromDate
             // 
-            this.dttmpckrFromDate.Location = new System.Drawing.Point(254, 164);
+            this.dttmpckrFromDate.Location = new System.Drawing.Point(254, 215);
             this.dttmpckrFromDate.Name = "dttmpckrFromDate";
             this.dttmpckrFromDate.Size = new System.Drawing.Size(204, 20);
-            this.dttmpckrFromDate.TabIndex = 21;
+            this.dttmpckrFromDate.TabIndex = 9;
             this.dttmpckrFromDate.ValueChanged += new System.EventHandler(this.dttmpckrFromDate_ValueChanged);
             // 
             // dttmpckrToDate
             // 
-            this.dttmpckrToDate.Location = new System.Drawing.Point(464, 164);
+            this.dttmpckrToDate.Location = new System.Drawing.Point(464, 215);
             this.dttmpckrToDate.Name = "dttmpckrToDate";
             this.dttmpckrToDate.Size = new System.Drawing.Size(203, 20);
-            this.dttmpckrToDate.TabIndex = 22;
+            this.dttmpckrToDate.TabIndex = 10;
             this.dttmpckrToDate.ValueChanged += new System.EventHandler(this.dttmpckrToDate_ValueChanged);
             // 
             // txtboxPlace
             // 
-            this.txtboxPlace.Location = new System.Drawing.Point(254, 105);
+            this.txtboxPlace.Location = new System.Drawing.Point(254, 156);
             this.txtboxPlace.Name = "txtboxPlace";
             this.txtboxPlace.Size = new System.Drawing.Size(205, 20);
-            this.txtboxPlace.TabIndex = 19;
+            this.txtboxPlace.TabIndex = 7;
             // 
             // txtboxDstnCvrd
             // 
-            this.txtboxDstnCvrd.Location = new System.Drawing.Point(254, 136);
+            this.txtboxDstnCvrd.Location = new System.Drawing.Point(254, 187);
             this.txtboxDstnCvrd.Name = "txtboxDstnCvrd";
             this.txtboxDstnCvrd.Size = new System.Drawing.Size(413, 20);
-            this.txtboxDstnCvrd.TabIndex = 20;
+            this.txtboxDstnCvrd.TabIndex = 8;
             // 
             // txtboxDptrCity
             // 
-            this.txtboxDptrCity.Location = new System.Drawing.Point(360, 373);
+            this.txtboxDptrCity.Location = new System.Drawing.Point(567, 420);
             this.txtboxDptrCity.Name = "txtboxDptrCity";
             this.txtboxDptrCity.Size = new System.Drawing.Size(100, 20);
-            this.txtboxDptrCity.TabIndex = 39;
+            this.txtboxDptrCity.TabIndex = 20;
             // 
             // txtboxArvlCity
             // 
-            this.txtboxArvlCity.Location = new System.Drawing.Point(254, 373);
+            this.txtboxArvlCity.Location = new System.Drawing.Point(254, 420);
             this.txtboxArvlCity.Name = "txtboxArvlCity";
             this.txtboxArvlCity.Size = new System.Drawing.Size(100, 20);
-            this.txtboxArvlCity.TabIndex = 38;
+            this.txtboxArvlCity.TabIndex = 19;
             // 
             // cmbboxVehicleCtgry
             // 
             this.cmbboxVehicleCtgry.FormattingEnabled = true;
-            this.cmbboxVehicleCtgry.Location = new System.Drawing.Point(254, 407);
+            this.cmbboxVehicleCtgry.Items.AddRange(new object[] {
+            "NONE",
+            "HATCH BACK (4 SEATER)",
+            "SEDAN (4 SEATER)",
+            "SUV (7 SEATER)",
+            "BUS (12 SEATER)",
+            "BUS (17 SEATER)"});
+            this.cmbboxVehicleCtgry.Location = new System.Drawing.Point(254, 458);
             this.cmbboxVehicleCtgry.Name = "cmbboxVehicleCtgry";
-            this.cmbboxVehicleCtgry.Size = new System.Drawing.Size(121, 21);
-            this.cmbboxVehicleCtgry.TabIndex = 40;
+            this.cmbboxVehicleCtgry.Size = new System.Drawing.Size(204, 21);
+            this.cmbboxVehicleCtgry.TabIndex = 21;
             // 
             // txtboxBudget
             // 
-            this.txtboxBudget.Location = new System.Drawing.Point(254, 477);
+            this.txtboxBudget.Location = new System.Drawing.Point(254, 528);
             this.txtboxBudget.Name = "txtboxBudget";
             this.txtboxBudget.Size = new System.Drawing.Size(100, 20);
-            this.txtboxBudget.TabIndex = 42;
+            this.txtboxBudget.TabIndex = 23;
             this.txtboxBudget.Text = "0";
             // 
             // txtboxNote
             // 
-            this.txtboxNote.Location = new System.Drawing.Point(254, 511);
+            this.txtboxNote.Location = new System.Drawing.Point(254, 562);
             this.txtboxNote.Multiline = true;
             this.txtboxNote.Name = "txtboxNote";
             this.txtboxNote.Size = new System.Drawing.Size(392, 68);
-            this.txtboxNote.TabIndex = 43;
+            this.txtboxNote.TabIndex = 24;
             // 
             // radioBtnRqmntTourPlusFlight
             // 
@@ -501,10 +516,10 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(714, 544);
+            this.btnUpdate.Location = new System.Drawing.Point(879, 595);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(128, 35);
-            this.btnUpdate.TabIndex = 48;
+            this.btnUpdate.TabIndex = 25;
             this.btnUpdate.Text = "UPDATE";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -512,10 +527,11 @@
             // cmbboxQueryId
             // 
             this.cmbboxQueryId.FormattingEnabled = true;
-            this.cmbboxQueryId.Location = new System.Drawing.Point(254, 6);
+            this.cmbboxQueryId.Location = new System.Drawing.Point(254, 5);
             this.cmbboxQueryId.Name = "cmbboxQueryId";
             this.cmbboxQueryId.Size = new System.Drawing.Size(204, 21);
-            this.cmbboxQueryId.TabIndex = 49;
+            this.cmbboxQueryId.TabIndex = 0;
+            this.cmbboxQueryId.SelectedIndexChanged += new System.EventHandler(this.cmbboxQueryId_SelectedIndexChanged);
             // 
             // grpboxMeal
             // 
@@ -523,10 +539,10 @@
             this.grpboxMeal.Controls.Add(this.radioBtnMealBrkfstOnly);
             this.grpboxMeal.Controls.Add(this.radioBtnMealBrkfstDnr);
             this.grpboxMeal.Controls.Add(this.radioBtnMealBrkfstLnchDnr);
-            this.grpboxMeal.Location = new System.Drawing.Point(254, 255);
+            this.grpboxMeal.Location = new System.Drawing.Point(254, 306);
             this.grpboxMeal.Name = "grpboxMeal";
             this.grpboxMeal.Size = new System.Drawing.Size(566, 38);
-            this.grpboxMeal.TabIndex = 50;
+            this.grpboxMeal.TabIndex = 15;
             this.grpboxMeal.TabStop = false;
             // 
             // grpboxRqmnt
@@ -535,22 +551,11 @@
             this.grpboxRqmnt.Controls.Add(this.radioBtnRqmntTrnsprtOnly);
             this.grpboxRqmnt.Controls.Add(this.radioBtnRqmntTourPkg);
             this.grpboxRqmnt.Controls.Add(this.radioBtnRqmntTourPlusFlight);
-            this.grpboxRqmnt.Location = new System.Drawing.Point(254, 434);
+            this.grpboxRqmnt.Location = new System.Drawing.Point(254, 485);
             this.grpboxRqmnt.Name = "grpboxRqmnt";
             this.grpboxRqmnt.Size = new System.Drawing.Size(526, 36);
-            this.grpboxRqmnt.TabIndex = 51;
+            this.grpboxRqmnt.TabIndex = 22;
             this.grpboxRqmnt.TabStop = false;
-            // 
-            // lnklblModifyQuery
-            // 
-            this.lnklblModifyQuery.AutoSize = true;
-            this.lnklblModifyQuery.Location = new System.Drawing.Point(616, 4);
-            this.lnklblModifyQuery.Name = "lnklblModifyQuery";
-            this.lnklblModifyQuery.Size = new System.Drawing.Size(226, 13);
-            this.lnklblModifyQuery.TabIndex = 52;
-            this.lnklblModifyQuery.TabStop = true;
-            this.lnklblModifyQuery.Text = "CLICK HERE TO MODIFY EXISTING QUERY";
-            this.lnklblModifyQuery.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblModifyQuery_LinkClicked);
             // 
             // grpboxHtlCtgry
             // 
@@ -558,31 +563,19 @@
             this.grpboxHtlCtgry.Controls.Add(this.chkBox3Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox4Star);
             this.grpboxHtlCtgry.Controls.Add(this.chkBox5Star);
-            this.grpboxHtlCtgry.Location = new System.Drawing.Point(254, 292);
+            this.grpboxHtlCtgry.Location = new System.Drawing.Point(254, 343);
             this.grpboxHtlCtgry.Name = "grpboxHtlCtgry";
             this.grpboxHtlCtgry.Size = new System.Drawing.Size(280, 39);
-            this.grpboxHtlCtgry.TabIndex = 53;
+            this.grpboxHtlCtgry.TabIndex = 16;
             this.grpboxHtlCtgry.TabStop = false;
-            // 
-            // btnLoadQuery
-            // 
-            this.btnLoadQuery.Enabled = false;
-            this.btnLoadQuery.Location = new System.Drawing.Point(470, 4);
-            this.btnLoadQuery.Name = "btnLoadQuery";
-            this.btnLoadQuery.Size = new System.Drawing.Size(113, 23);
-            this.btnLoadQuery.TabIndex = 54;
-            this.btnLoadQuery.Text = "LOAD";
-            this.btnLoadQuery.UseVisualStyleBackColor = true;
-            this.btnLoadQuery.Visible = false;
-            this.btnLoadQuery.Click += new System.EventHandler(this.btnLoadQuery_Click);
             // 
             // btnDeleteQuery
             // 
             this.btnDeleteQuery.Enabled = false;
-            this.btnDeleteQuery.Location = new System.Drawing.Point(15, 544);
+            this.btnDeleteQuery.Location = new System.Drawing.Point(745, 595);
             this.btnDeleteQuery.Name = "btnDeleteQuery";
             this.btnDeleteQuery.Size = new System.Drawing.Size(128, 35);
-            this.btnDeleteQuery.TabIndex = 55;
+            this.btnDeleteQuery.TabIndex = 26;
             this.btnDeleteQuery.Text = "DELETE";
             this.btnDeleteQuery.UseVisualStyleBackColor = true;
             this.btnDeleteQuery.Visible = false;
@@ -591,67 +584,161 @@
             // lblClientName
             // 
             this.lblClientName.AutoSize = true;
-            this.lblClientName.Location = new System.Drawing.Point(525, 45);
+            this.lblClientName.Location = new System.Drawing.Point(251, 112);
             this.lblClientName.Name = "lblClientName";
-            this.lblClientName.Size = new System.Drawing.Size(35, 13);
+            this.lblClientName.Size = new System.Drawing.Size(42, 13);
             this.lblClientName.TabIndex = 56;
-            this.lblClientName.Text = "Name";
+            this.lblClientName.Text = "NAME*";
             // 
             // txtboxClientName
             // 
-            this.txtboxClientName.Location = new System.Drawing.Point(567, 42);
+            this.txtboxClientName.Location = new System.Drawing.Point(295, 109);
             this.txtboxClientName.Name = "txtboxClientName";
             this.txtboxClientName.Size = new System.Drawing.Size(100, 20);
-            this.txtboxClientName.TabIndex = 57;
+            this.txtboxClientName.TabIndex = 5;
             // 
             // lblClientContact
             // 
             this.lblClientContact.AutoSize = true;
-            this.lblClientContact.Location = new System.Drawing.Point(698, 45);
+            this.lblClientContact.Location = new System.Drawing.Point(460, 112);
             this.lblClientContact.Name = "lblClientContact";
-            this.lblClientContact.Size = new System.Drawing.Size(65, 13);
+            this.lblClientContact.Size = new System.Drawing.Size(90, 13);
             this.lblClientContact.TabIndex = 58;
-            this.lblClientContact.Text = "Contact Info";
+            this.lblClientContact.Text = "CONTACT INFO*";
             // 
             // txtboxClientContact
             // 
-            this.txtboxClientContact.Location = new System.Drawing.Point(769, 42);
+            this.txtboxClientContact.Location = new System.Drawing.Point(552, 109);
             this.txtboxClientContact.Name = "txtboxClientContact";
             this.txtboxClientContact.Size = new System.Drawing.Size(100, 20);
-            this.txtboxClientContact.TabIndex = 59;
+            this.txtboxClientContact.TabIndex = 6;
             // 
             // dttmpkrDptrDate
             // 
             this.dttmpkrDptrDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dttmpkrDptrDate.Location = new System.Drawing.Point(464, 333);
+            this.dttmpkrDptrDate.Location = new System.Drawing.Point(571, 386);
             this.dttmpkrDptrDate.Name = "dttmpkrDptrDate";
             this.dttmpkrDptrDate.ShowUpDown = true;
-            this.dttmpkrDptrDate.Size = new System.Drawing.Size(70, 20);
-            this.dttmpkrDptrDate.TabIndex = 37;
+            this.dttmpkrDptrDate.Size = new System.Drawing.Size(96, 20);
+            this.dttmpkrDptrDate.TabIndex = 18;
             // 
             // dttmpkrArvlDate
             // 
             this.dttmpkrArvlDate.Checked = false;
             this.dttmpkrArvlDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dttmpkrArvlDate.Location = new System.Drawing.Point(254, 333);
+            this.dttmpkrArvlDate.Location = new System.Drawing.Point(254, 386);
             this.dttmpkrArvlDate.Name = "dttmpkrArvlDate";
             this.dttmpkrArvlDate.ShowUpDown = true;
-            this.dttmpkrArvlDate.Size = new System.Drawing.Size(70, 20);
-            this.dttmpkrArvlDate.TabIndex = 36;
+            this.dttmpkrArvlDate.Size = new System.Drawing.Size(116, 20);
+            this.dttmpkrArvlDate.TabIndex = 17;
+            // 
+            // lblDepartureTime
+            // 
+            this.lblDepartureTime.AutoSize = true;
+            this.lblDepartureTime.Location = new System.Drawing.Point(462, 390);
+            this.lblDepartureTime.Name = "lblDepartureTime";
+            this.lblDepartureTime.Size = new System.Drawing.Size(103, 13);
+            this.lblDepartureTime.TabIndex = 60;
+            this.lblDepartureTime.Text = "DEPARTURE TIME";
+            // 
+            // lblDepartureCity
+            // 
+            this.lblDepartureCity.AutoSize = true;
+            this.lblDepartureCity.Location = new System.Drawing.Point(460, 424);
+            this.lblDepartureCity.Name = "lblDepartureCity";
+            this.lblDepartureCity.Size = new System.Drawing.Size(101, 13);
+            this.lblDepartureCity.TabIndex = 61;
+            this.lblDepartureCity.Text = "DEPARTURE CITY";
+            // 
+            // lblAdults
+            // 
+            this.lblAdults.AutoSize = true;
+            this.lblAdults.Location = new System.Drawing.Point(251, 253);
+            this.lblAdults.Name = "lblAdults";
+            this.lblAdults.Size = new System.Drawing.Size(50, 13);
+            this.lblAdults.TabIndex = 62;
+            this.lblAdults.Text = "ADULTS";
+            // 
+            // lblChildren
+            // 
+            this.lblChildren.AutoSize = true;
+            this.lblChildren.Location = new System.Drawing.Point(396, 253);
+            this.lblChildren.Name = "lblChildren";
+            this.lblChildren.Size = new System.Drawing.Size(62, 13);
+            this.lblChildren.TabIndex = 63;
+            this.lblChildren.Text = "CHILDREN";
+            // 
+            // lblBabies
+            // 
+            this.lblBabies.AutoSize = true;
+            this.lblBabies.Location = new System.Drawing.Point(554, 253);
+            this.lblBabies.Name = "lblBabies";
+            this.lblBabies.Size = new System.Drawing.Size(53, 13);
+            this.lblBabies.TabIndex = 64;
+            this.lblBabies.Text = "INFANTS";
+            // 
+            // txtBoxGST
+            // 
+            this.txtBoxGST.Location = new System.Drawing.Point(769, 5);
+            this.txtBoxGST.Name = "txtBoxGST";
+            this.txtBoxGST.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxGST.TabIndex = 2;
+            // 
+            // lblGST
+            // 
+            this.lblGST.AutoSize = true;
+            this.lblGST.Location = new System.Drawing.Point(698, 9);
+            this.lblGST.Name = "lblGST";
+            this.lblGST.Size = new System.Drawing.Size(65, 13);
+            this.lblGST.TabIndex = 68;
+            this.lblGST.Text = "GST RATE*";
+            // 
+            // txtBoxMargin
+            // 
+            this.txtBoxMargin.Location = new System.Drawing.Point(567, 5);
+            this.txtBoxMargin.Name = "txtBoxMargin";
+            this.txtBoxMargin.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxMargin.TabIndex = 1;
+            // 
+            // lblMargin
+            // 
+            this.lblMargin.AutoSize = true;
+            this.lblMargin.Location = new System.Drawing.Point(510, 9);
+            this.lblMargin.Name = "lblMargin";
+            this.lblMargin.Size = new System.Drawing.Size(54, 13);
+            this.lblMargin.TabIndex = 67;
+            this.lblMargin.Text = "MARGIN*";
+            // 
+            // lblClientInfo
+            // 
+            this.lblClientInfo.AutoSize = true;
+            this.lblClientInfo.Location = new System.Drawing.Point(12, 112);
+            this.lblClientInfo.Name = "lblClientInfo";
+            this.lblClientInfo.Size = new System.Drawing.Size(45, 13);
+            this.lblClientInfo.TabIndex = 69;
+            this.lblClientInfo.Text = "CLIENT";
             // 
             // FrmEditQueryPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 642);
+            this.Controls.Add(this.lblClientInfo);
+            this.Controls.Add(this.txtBoxGST);
+            this.Controls.Add(this.lblGST);
+            this.Controls.Add(this.txtBoxMargin);
+            this.Controls.Add(this.lblMargin);
+            this.Controls.Add(this.lblBabies);
+            this.Controls.Add(this.lblChildren);
+            this.Controls.Add(this.lblAdults);
+            this.Controls.Add(this.lblDepartureCity);
+            this.Controls.Add(this.lblDepartureTime);
             this.Controls.Add(this.txtboxClientContact);
             this.Controls.Add(this.lblClientContact);
             this.Controls.Add(this.txtboxClientName);
             this.Controls.Add(this.lblClientName);
             this.Controls.Add(this.btnDeleteQuery);
-            this.Controls.Add(this.btnLoadQuery);
             this.Controls.Add(this.grpboxHtlCtgry);
-            this.Controls.Add(this.lnklblModifyQuery);
             this.Controls.Add(this.grpboxRqmnt);
             this.Controls.Add(this.grpboxMeal);
             this.Controls.Add(this.cmbboxQueryId);
@@ -759,9 +846,7 @@
         private System.Windows.Forms.ComboBox cmbboxQueryId;
         private System.Windows.Forms.GroupBox grpboxMeal;
         private System.Windows.Forms.GroupBox grpboxRqmnt;
-        private System.Windows.Forms.LinkLabel lnklblModifyQuery;
         private System.Windows.Forms.GroupBox grpboxHtlCtgry;
-        private System.Windows.Forms.Button btnLoadQuery;
         private System.Windows.Forms.Button btnDeleteQuery;
         private System.Windows.Forms.Label lblClientName;
         private System.Windows.Forms.TextBox txtboxClientName;
@@ -769,6 +854,16 @@
         private System.Windows.Forms.TextBox txtboxClientContact;
         private System.Windows.Forms.DateTimePicker dttmpkrDptrDate;
         private System.Windows.Forms.DateTimePicker dttmpkrArvlDate;
+        private System.Windows.Forms.Label lblDepartureTime;
+        private System.Windows.Forms.Label lblDepartureCity;
+        private System.Windows.Forms.Label lblAdults;
+        private System.Windows.Forms.Label lblChildren;
+        private System.Windows.Forms.Label lblBabies;
+        private System.Windows.Forms.TextBox txtBoxGST;
+        private System.Windows.Forms.Label lblGST;
+        private System.Windows.Forms.TextBox txtBoxMargin;
+        private System.Windows.Forms.Label lblMargin;
+        private System.Windows.Forms.Label lblClientInfo;
     }
 }
 

@@ -38,6 +38,7 @@
             this.fromDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AssignedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnHotelInfo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrdVuUserQueries)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +54,7 @@
             // 
             // BtnCompletedQueries
             // 
-            this.BtnCompletedQueries.Location = new System.Drawing.Point(289, 12);
+            this.BtnCompletedQueries.Location = new System.Drawing.Point(364, 12);
             this.BtnCompletedQueries.Name = "BtnCompletedQueries";
             this.BtnCompletedQueries.Size = new System.Drawing.Size(120, 34);
             this.BtnCompletedQueries.TabIndex = 1;
@@ -63,9 +64,9 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(860, 259);
+            this.BtnExit.Location = new System.Drawing.Point(787, 259);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(77, 27);
+            this.BtnExit.Size = new System.Drawing.Size(150, 27);
             this.BtnExit.TabIndex = 2;
             this.BtnExit.Text = "Exit";
             this.BtnExit.UseVisualStyleBackColor = true;
@@ -88,7 +89,7 @@
             this.DataGrdVuUserQueries.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGrdVuUserQueries.Size = new System.Drawing.Size(925, 150);
             this.DataGrdVuUserQueries.TabIndex = 3;
-            this.DataGrdVuUserQueries.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGrdVuUserQueries_CellContentDoubleClick);
+            this.DataGrdVuUserQueries.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGrdVuUserQueries_CellContentDoubleClick);
             // 
             // QueryId
             // 
@@ -125,11 +126,22 @@
             this.AssignedDate.ReadOnly = true;
             this.AssignedDate.Width = 125;
             // 
+            // BtnHotelInfo
+            // 
+            this.BtnHotelInfo.Location = new System.Drawing.Point(787, 12);
+            this.BtnHotelInfo.Name = "BtnHotelInfo";
+            this.BtnHotelInfo.Size = new System.Drawing.Size(150, 27);
+            this.BtnHotelInfo.TabIndex = 4;
+            this.BtnHotelInfo.Text = "HOTEL INFIRMATION";
+            this.BtnHotelInfo.UseVisualStyleBackColor = true;
+            this.BtnHotelInfo.Click += new System.EventHandler(this.BtnHotelInfo_Click);
+            // 
             // FrmUserPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 298);
+            this.Controls.Add(this.BtnHotelInfo);
             this.Controls.Add(this.DataGrdVuUserQueries);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnCompletedQueries);
@@ -154,5 +166,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn fromDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn toDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AssignedDate;
+        private System.Windows.Forms.Button BtnHotelInfo;
     }
 }
