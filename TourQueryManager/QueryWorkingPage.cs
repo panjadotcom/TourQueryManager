@@ -15,17 +15,24 @@ namespace TourQueryManager
 {
     public partial class FrmQueryWorkingPage : Form
     {
-        Excel.Application xlsAppWorkingHotel;
+       /* Excel.Application xlsAppWorkingHotel;
         Excel.Workbook xlsWorkbookWorkingHotel;
         Excel.Worksheet xlsWorksheetWorkingHotel;
-        Excel.Range xlsRangeWorkingHotel;
+        Excel.Range xlsRangeWorkingHotel; */
+
         static string queryIdWorking = null;
         static string mysqlConnStr = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmQueryWorkingMysqlConn = new MySqlConnection(mysqlConnStr);
         MySqlTransaction frmQueryWorkingMysqlTransaction = null;
-        MySqlDataAdapter frmQueryWorkingMysqlDataAdaptor = null;
+        MySqlDataAdapter frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter();
         DataSet frmQueryWorkingDataSet = null;
-
+        DataSet dataSetHotelCity = new DataSet();
+        DataSet dataSetHotelRating = new DataSet();
+        DataSet dataSetHotelName = new DataSet();
+        DataSet dataSetRoomType = new DataSet();
+        DataSet dataSetHotelMealPlan = new DataSet();
+        MySqlCommand command = new MySqlCommand();
+        String columnNameForMealPlan = "";
         public FrmQueryWorkingPage(string queryId)
         {
             InitializeComponent();
@@ -37,7 +44,7 @@ namespace TourQueryManager
             /* data to be initialized when loading page */
             Text = "Working on QUERYID (" + queryIdWorking + ")";
             
-            xlsAppWorkingHotel = new Excel.Application();
+           // xlsAppWorkingHotel = new Excel.Application();
             try
             {
                 frmQueryWorkingMysqlConn.Open();
@@ -47,11 +54,17 @@ namespace TourQueryManager
                 MessageBox.Show("connection cannot be opened because " + erropen.Message + "");
                 Close();
             }
+
+           
+           
             frmQueryWorkingDataSet = new DataSet();
             string mysqlSelectQueryStr = "SELECT * FROM `queries` WHERE `queryid` = " + queryIdWorking + "";
+            command.Connection = frmQueryWorkingMysqlConn;
+            command.CommandText = mysqlSelectQueryStr;
             try
             {
-                frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectQueryStr, frmQueryWorkingMysqlConn);
+                frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+               // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectQueryStr, frmQueryWorkingMysqlConn);
                 frmQueryWorkingMysqlDataAdaptor.Fill(frmQueryWorkingDataSet, "QUERYID_DATA");
             }
             catch (Exception errquery)
@@ -81,22 +94,59 @@ namespace TourQueryManager
             querydetails = querydetails + "";
             txtboxQueryDetails.Text = querydetails;
 
-            double noOfdays = (DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["todate"].ToString()) -
-                DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["fromdate"].ToString())).TotalDays;
-            numericUpDownWorkingHotelDayNo.Maximum = Convert.ToDecimal(noOfdays);
+            //day no info 
+            numericUpDownWorkingDayNo.Value = 1;
 
-            decimal noOfRooms = Convert.ToDecimal(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["roomcount"]);
-            numericUpDownRoomNo.Maximum = noOfRooms;
+            //arrivalDate
+            dateTimePickerWorkingArrivalDate.Enabled = true;
+
+
+            //Sector Info
+            string mysqlSelectSectorStr = "SELECT DISTINCT hotelarea FROM `hotelinfo` ";
+            command.CommandText = mysqlSelectSectorStr;
+            try
+            {
+                frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+               // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                frmQueryWorkingMysqlDataAdaptor.Fill(frmQueryWorkingDataSet, "SECTOR_DATA");
+                
+            }
+            catch (Exception errquery)
+            {
+                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+            }
+
+            DataRow dr = frmQueryWorkingDataSet.Tables["SECTOR_DATA"].NewRow();
+            dr[0] = "SELECT SECTOR";
+
+            frmQueryWorkingDataSet.Tables["SECTOR_DATA"].Rows.InsertAt(dr, 0);
+
+            CmbboxWrkngHtlSector.Items.Clear();
+            //  CmbboxWrkngHtlSector.Items.Add("SELECT SECTOR");
+            CmbboxWrkngHtlSector.ValueMember = "hotelarea";
+            CmbboxWrkngHtlSector.DisplayMember = "hotelarea";
+            CmbboxWrkngHtlSector.DataSource = frmQueryWorkingDataSet.Tables["SECTOR_DATA"];
+            CmbboxWrkngHtlSector.SelectedIndex = 0;
+           // CmbboxWrkngHtlSector.SelectedValue = 0;
+
+
+
+            /* double noOfdays = (DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["todate"].ToString()) -
+                 DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["fromdate"].ToString())).TotalDays;
+             numericUpDownWorkingHotelDayNo.Maximum = Convert.ToDecimal(noOfdays);
+
+             decimal noOfRooms = Convert.ToDecimal(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["roomcount"]);
+             numericUpDownRoomNo.Maximum = noOfRooms;*/
         }
 
-        private void ButtonSelectHotelExcelFile_Click(object sender, EventArgs e)
+        /*private void ButtonSelectHotelExcelFile_Click(object sender, EventArgs e)
         {
             if (openFileDialogForHotelExcel.ShowDialog() == DialogResult.OK)
             {
                 Debug.WriteLine("File selected = " + openFileDialogForHotelExcel.FileName );
                 try
                 {
-                    /* try to close already opened workbook and create new */
+                    // try to close already opened workbook and create new 
                     xlsWorkbookWorkingHotel.Close(false, null, null);
                     CmbboxWrkngHtlSector.Items.Clear();
                 }
@@ -105,7 +155,7 @@ namespace TourQueryManager
                     Debug.WriteLine("Error in closing excel workbook because " + errXlsClose.Message);
                 }
 
-                /* now open and load sheet names in sector */
+                // now open and load sheet names in sector 
                 xlsWorkbookWorkingHotel = xlsAppWorkingHotel.Workbooks.Open(openFileDialogForHotelExcel.FileName, 0, true, 5, "", "", true, Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
                 CmbboxWrkngHtlSector.Items.Add("SELECT SECTOR");
                 foreach (Excel.Worksheet worksheet in xlsWorkbookWorkingHotel.Worksheets)
@@ -119,7 +169,7 @@ namespace TourQueryManager
                 Debug.WriteLine("Error in Selecting file");
             }
         }
-
+    */
         private void releaseObject(object obj)
         {
             try
@@ -140,7 +190,8 @@ namespace TourQueryManager
 
         private void FrmQueryWorkingPage_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /* perform closing operation */
+            /*
+             //perform closing operation 
             releaseObject(xlsRangeWorkingHotel);
             releaseObject(xlsWorksheetWorkingHotel);
             try
@@ -153,138 +204,253 @@ namespace TourQueryManager
                 Debug.WriteLine("Error in closing workbook because " + errXlsClosing.Message);
             }
             releaseObject(xlsWorkbookWorkingHotel);
-            releaseObject(xlsAppWorkingHotel);
+            releaseObject(xlsAppWorkingHotel); */
         }
 
         private void CmbboxWrkngHtlSector_SelectedIndexChanged(object sender, EventArgs e)
         {
             /* re-initialize worksheet */
-            releaseObject(xlsRangeWorkingHotel);
-            releaseObject(xlsWorksheetWorkingHotel);
-            CmbboxWrkngHtlLocation.Items.Clear();
+            // releaseObject(xlsRangeWorkingHotel);
+            // releaseObject(xlsWorksheetWorkingHotel);
+
+
             if (CmbboxWrkngHtlSector.SelectedIndex == 0)
             {
                 CmbboxWrkngHtlLocation.Text = "--- Select sector first ---";
                 return;
             }
+            else
+            {
+                dataSetHotelCity.Reset();
+                CmbboxWrkngHtlLocation.DataSource = null;
 
-            try
-            {
-                xlsWorksheetWorkingHotel = (Excel.Worksheet)xlsWorkbookWorkingHotel.Worksheets[CmbboxWrkngHtlSector.Text];
-                if (string.Equals(xlsWorksheetWorkingHotel.Name, CmbboxWrkngHtlSector.Text, StringComparison.OrdinalIgnoreCase))
-                {
-                    xlsRangeWorkingHotel = xlsWorksheetWorkingHotel.UsedRange;
-                }
-                else
-                {
-                    releaseObject(xlsWorksheetWorkingHotel);
-                    MessageBox.Show("Filename mismatched");
-                    return;
-                }
-            }
-            catch (Exception errSheetOpening)
-            {
-                Debug.WriteLine("Error in Loading sheet : " + errSheetOpening.Message);
-                MessageBox.Show("Error in Loading sheet : " + errSheetOpening.Message);
-            }
-            CmbboxWrkngHtlLocation.Items.Add("SELECT LOCATION");
-            for (int counter = 1; counter <= xlsRangeWorkingHotel.Rows.Count; counter++)
-            {
-                Object value = null;
 
-                value = (xlsRangeWorkingHotel.Cells[counter, 1] as Excel.Range).Value2;
-                if(value == null)
+
+                command.CommandText = "SELECT DISTINCT `hotelcity` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' ORDER BY `hotelcity`";
+                // MessageBox.Show("Query  " + command.CommandText);
+                try
                 {
-                    continue;
+                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelCity, "HOTEL_CITY_DATA");
+
+                    DataRow dr = dataSetHotelCity.Tables["HOTEL_CITY_DATA"].NewRow();
+                    dr[0] = "SELECT CITY";
+
+                    dataSetHotelCity.Tables["HOTEL_CITY_DATA"].Rows.InsertAt(dr, 0);
+
+
+                    // CmbboxWrkngHtlLocation.Items.Add("SELECT LOCATION");
+                    CmbboxWrkngHtlLocation.ValueMember = "hotelcity";
+                    CmbboxWrkngHtlLocation.DisplayMember = "hotelcity";
+                    CmbboxWrkngHtlLocation.DataSource = dataSetHotelCity.Tables["HOTEL_CITY_DATA"];
+                    // CmbboxWrkngHtlLocation.SelectedValue = 0;
+                    CmbboxWrkngHtlLocation.SelectedIndex = 0;
+
                 }
-                else
+                catch (Exception errquery)
                 {
-                    bool duplicate = false;
-                    foreach (var item in CmbboxWrkngHtlLocation.Items)
-                    {
-                        if(string.Equals(item.ToString(),value.ToString(), StringComparison.OrdinalIgnoreCase))
-                        {
-                            duplicate = true;
-                            break;
-                        }
-                    }
-                    if(duplicate)
-                    {
-                        Debug.WriteLine("City already present in the list " + value.ToString());
-                    }
-                    else
-                    {
-                        CmbboxWrkngHtlLocation.Items.Add(value.ToString());
-                    }
+                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
                 }
             }
-            CmbboxWrkngHtlLocation.SelectedIndex = 0;
+           
         }
 
         private void CmbboxWrkngHtlLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /* update hotel listing present in the selected location */
+
+
+
+            if (CmbboxWrkngHtlLocation.SelectedIndex == 0)
+            {
+                CmbboxWrkngHtlHotelRating.Text = "--- Select city first ---";
+                return;
+            }
+            else
+            {
+
+                CmbboxWrkngHtlHotelRating.DataSource = null;
+                dataSetHotelRating.Reset();
+
+
+                command.CommandText = "SELECT DISTINCT `hotelrating` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "'  ORDER BY `hotelrating`";
+                // MessageBox.Show("Query  " + command.CommandText);
+                try
+                {
+                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelRating, "HOTEL_RATING");
+
+                    DataRow dr = dataSetHotelRating.Tables["HOTEL_RATING"].NewRow();
+                    dr[0] = "SELECT HOTEL RATING";
+
+                    dataSetHotelRating.Tables["HOTEL_RATING"].Rows.InsertAt(dr, 0);
+
+
+
+                    CmbboxWrkngHtlHotelRating.ValueMember = "hotelrating";
+                    CmbboxWrkngHtlHotelRating.DisplayMember = "hotelrating";
+                    CmbboxWrkngHtlHotelRating.DataSource = dataSetHotelRating.Tables["HOTEL_RATING"];
+                    //CmbboxWrkngHtlHotelRating.SelectedValue = 0;
+                    CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
+
+                }
+                catch (Exception errquery)
+                {
+                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                }
+
+            }
+
+
+
+            /*mk
+
+            // update hotel listing present in the selected location 
             DataSet dataSetHotelListing;
-            DataTable dataTableHotelListing;
-            DataRow dataRowHotelListing;
-            if(CmbboxWrkngHtlLocation.SelectedIndex == 0)
+            //   DataTable dataTableHotelListing;
+            //  DataRow dataRowHotelListing;
+
+            CmbboxWrkngHtlHotel.Items.Clear();
+            if (CmbboxWrkngHtlLocation.SelectedIndex == 0)
             {
                 Debug.WriteLine("City not selected");
                 CmbboxWrkngHtlHotel.Text = "--- Select City First ---";
                 return;
             }
             dataSetHotelListing = new DataSet("WORKING");
-            dataTableHotelListing = dataSetHotelListing.Tables.Add("HOTEL_LIST");
-            dataTableHotelListing.Columns.Add("INDEX");
-            dataTableHotelListing.Columns.Add("NAME");
-            dataRowHotelListing = dataTableHotelListing.NewRow();
-            dataRowHotelListing["INDEX"] = "0";
-            dataRowHotelListing["NAME"] = "SELECT HOTEL";
-            dataTableHotelListing.Rows.Add(dataRowHotelListing);
-            for (int counter = 1; counter <= xlsRangeWorkingHotel.Rows.Count; counter++)
+            /*  dataTableHotelListing = dataSetHotelListing.Tables.Add("HOTEL_LIST");
+              dataTableHotelListing.Columns.Add("INDEX");
+              dataTableHotelListing.Columns.Add("NAME");
+              dataRowHotelListing = dataTableHotelListing.NewRow();
+              dataRowHotelListing["INDEX"] = "0";
+              dataRowHotelListing["NAME"] = "SELECT HOTEL";
+              dataTableHotelListing.Rows.Add(dataRowHotelListing);
+              for (int counter = 1; counter <= xlsRangeWorkingHotel.Rows.Count; counter++)
+              {
+                  Object value = null;
+
+                  value = (xlsRangeWorkingHotel.Cells[counter, 1] as Excel.Range).Value2;
+                  if (value == null)
+                  {
+                      continue;
+                  }
+                  if (string.Equals(value.ToString(), CmbboxWrkngHtlLocation.Text, StringComparison.OrdinalIgnoreCase))
+                  {
+                      /* City Matched thus add hotel in the list 
+                      value = (xlsRangeWorkingHotel.Cells[counter, 2] as Excel.Range).Value2;
+                      if(value == null)
+                      {
+                          continue;
+                      }
+
+                      dataRowHotelListing = dataTableHotelListing.NewRow();
+                      dataRowHotelListing["INDEX"] = counter.ToString();
+                      dataRowHotelListing["NAME"] = value.ToString();
+                      dataTableHotelListing.Rows.Add(dataRowHotelListing);
+                  }
+                  else
+                  {
+                      Debug.WriteLine("Cell City : " + value.ToString() + " not matched with the Selected city : " + CmbboxWrkngHtlLocation.Text);
+                  }
+              } //
+
+            command.CommandText = "SELECT hotelname FROM `hotelinfo` ";
+            try
             {
-                Object value = null;
+                frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelListing, "HOTEL_LIST");
 
-                value = (xlsRangeWorkingHotel.Cells[counter, 1] as Excel.Range).Value2;
-                if (value == null)
-                {
-                    continue;
-                }
-                if (string.Equals(value.ToString(), CmbboxWrkngHtlLocation.Text, StringComparison.OrdinalIgnoreCase))
-                {
-                    /* City Matched thus add hotel in the list */
-                    value = (xlsRangeWorkingHotel.Cells[counter, 2] as Excel.Range).Value2;
-                    if(value == null)
-                    {
-                        continue;
-                    }
-
-                    dataRowHotelListing = dataTableHotelListing.NewRow();
-                    dataRowHotelListing["INDEX"] = counter.ToString();
-                    dataRowHotelListing["NAME"] = value.ToString();
-                    dataTableHotelListing.Rows.Add(dataRowHotelListing);
-                }
-                else
-                {
-                    Debug.WriteLine("Cell City : " + value.ToString() + " not matched with the Selected city : " + CmbboxWrkngHtlLocation.Text);
-                }
             }
+            catch (Exception errquery)
+            {
+                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+            }
+            CmbboxWrkngHtlHotel.Items.Add("SELECT HOTEL");
             CmbboxWrkngHtlHotel.DataSource = dataSetHotelListing.Tables["HOTEL_LIST"];
-            CmbboxWrkngHtlHotel.DisplayMember = "NAME";
-            CmbboxWrkngHtlHotel.ValueMember = "INDEX";
-            CmbboxWrkngHtlHotel.SelectedIndex = 0;
+            CmbboxWrkngHtlHotel.DisplayMember = "hotelname";
+           // CmbboxWrkngHtlHotel.ValueMember = "INDEX";
+            CmbboxWrkngHtlHotel.SelectedIndex = 0;  mk*/
         }
 
         private void CmbboxWrkngHtlHotel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /* Hotel selected not populate room type and meal plan etc */
+                                 
+            if (CmbboxWrkngHtlHotel.SelectedIndex == 0)
+            {
+                CmbboxWrkngHtlRoomType.Text = "--- Select hotelName first ---";
+                return;
+            }
+            else
+            {
+                CmbboxWrkngHtlRoomType.DataSource = null;
+                dataSetRoomType.Reset();
+                CmbboxWrkngHtlRoomType.Items.Clear();
+
+               // numericUpDownWorkingRoomNo.Value = 1;
+
+                /* 
+                            command.CommandText = "SELECT `idhotelinfo` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' AND `hotelname` = '" + CmbboxWrkngHtlHotel.SelectedValue + "'  LIMIT 1";
+                             MessageBox.Show("Query::  " + command.CommandText);
+
+                           MySqlDataReader reader = command.ExecuteReader();
+
+                            try
+                            {
+                                if (reader.Read())
+                                {
+                                    a = reader.GetInt32(0);
+                                    MessageBox.Show("idhotelnfo " + a);
+
+                                }
+                            }
+                            catch (Exception errquery)
+                            {
+                                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                            }
+                            */
+                string seasontype = "OFF SEASON";
+                string seasonyear = "2018";
+                command.CommandText = "SELECT  `idhotelrates` , `roomtype` FROM  `hotelrates`  WHERE  `idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " AND  `seasontype` = '" + seasontype + "' AND  `seasonyear` = '" + seasonyear + "' ORDER BY `idhotelrates`";
+               // MessageBox.Show("manoj  " + command.CommandText);
+                try
+                {
+                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetRoomType, "ROOM_TYPE");
+
+                    DataRow dr = dataSetRoomType.Tables["ROOM_TYPE"].NewRow();
+                    dr[0] = 0;
+                    dr[1] = "SELECT ROOM TYPE";
+                    dataSetRoomType.Tables["ROOM_TYPE"].Rows.InsertAt(dr, 0);
+
+
+                    CmbboxWrkngHtlRoomType.ValueMember = "idhotelrates";
+                    CmbboxWrkngHtlRoomType.DisplayMember = "roomtype";
+                    CmbboxWrkngHtlRoomType.DataSource = dataSetRoomType.Tables["ROOM_TYPE"];
+
+                    CmbboxWrkngHtlRoomType.SelectedIndex = 0;
+
+                }
+                catch (Exception errquery)
+                {
+                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                }
+
+            }
+
+
+
+
+            /* Hotel selected not populate room type and meal plan etc 
             bool hotelMealPlanListed = false;
             bool hotelExtraBedListed = false;
             bool hotelExtraMealListed = false;
             if(CmbboxWrkngHtlHotel.SelectedIndex == 0)
             {
                 Debug.WriteLine("Hotel not selected ::");
-                CmbboxWrkngHtlMealPlan.Text = "--- Select hotel First ---";
+               // CmbboxWrkngHtlMealPlan.Text = "--- Select hotel First ---";
                 return;
             }
             int hotelRowIndex = Convert.ToInt32(CmbboxWrkngHtlHotel.SelectedValue);
@@ -302,11 +468,11 @@ namespace TourQueryManager
             dataRowHotelMealPlan["MEAL_PLAN"] = "SELECT MEAL PLAN";
             dataTableHotelMealPlan.Rows.Add(dataRowHotelMealPlan);
             Object value = null;
-            /* read meal plan cpai single*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 4] as Excel.Range).Value2;
+            // read meal plan cpai single
+           //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 4] as Excel.Range).Value2;
             if(value != null)
             {
-                /*value is not empty */
+                // value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "CPAI SINGLE";
@@ -314,11 +480,11 @@ namespace TourQueryManager
                 hotelMealPlanListed = true;
             }
 
-            /* read meal plan cpai Double*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 5] as Excel.Range).Value2;
+            // read meal plan cpai Double
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 5] as Excel.Range).Value2;
             if (value != null)
             {
-                /*value is not empty */
+                // value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "CPAI DOUBLE";
@@ -326,11 +492,11 @@ namespace TourQueryManager
                 hotelMealPlanListed = true;
             }
 
-            /* read meal plan mapai single*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 6] as Excel.Range).Value2;
+            // read meal plan mapai single
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 6] as Excel.Range).Value2;
             if (value != null)
             {
-                /*value is not empty */
+                // value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "MAPAI SINGLE";
@@ -338,11 +504,11 @@ namespace TourQueryManager
                 hotelMealPlanListed = true;
             }
 
-            /* read meal plan mapai double*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 7] as Excel.Range).Value2;
+            // read meal plan mapai double
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 7] as Excel.Range).Value2;
             if (value != null)
             {
-                /*value is not empty */
+                //value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "MAPAI DOUBLE";
@@ -350,11 +516,11 @@ namespace TourQueryManager
                 hotelMealPlanListed = true;
             }
 
-            /* read meal plan apai single*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 8] as Excel.Range).Value2;
+            // read meal plan apai single
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 8] as Excel.Range).Value2;
             if (value != null)
             {
-                /*value is not empty */
+                //value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "APAI SINGLE";
@@ -362,11 +528,11 @@ namespace TourQueryManager
                 hotelMealPlanListed = true;
             }
 
-            /* read meal plan apai double*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 9] as Excel.Range).Value2;
+            // read meal plan apai double
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 9] as Excel.Range).Value2;
             if (value != null)
             {
-                /*value is not empty */
+                //value is not empty 
                 dataRowHotelMealPlan = dataTableHotelMealPlan.NewRow();
                 dataRowHotelMealPlan["MEAL_RATE"] = value.ToString();
                 dataRowHotelMealPlan["MEAL_PLAN"] = "APAI DOUBLE";
@@ -380,18 +546,18 @@ namespace TourQueryManager
             CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
 
             numericUpDownExtraBed.Value = 0;
-            numericUpDownExtraMeal.Value = 0;
+            // numericUpDownExtraMeal.Value = 0;
 
 
-            /* Check extra bed present or not*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 10] as Excel.Range).Value2;
+            // Check extra bed present or not
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 10] as Excel.Range).Value2;
             if (value != null)
             {
                 hotelExtraBedListed = true;
             }
 
-            /* Check extra meal present or not*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 11] as Excel.Range).Value2;
+            // Check extra meal present or not
+            //mk  value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 11] as Excel.Range).Value2;
             if (value != null)
             {
                 hotelExtraMealListed = true;
@@ -399,7 +565,8 @@ namespace TourQueryManager
 
             CmbboxWrkngHtlMealPlan.Enabled = hotelMealPlanListed;
             numericUpDownExtraBed.Enabled = hotelExtraBedListed;
-            numericUpDownExtraMeal.Enabled = hotelExtraMealListed;
+            //mk numericUpDownExtraMeal.Enabled = hotelExtraMealListed;
+            */
         }
 
         private void buttonHotelAddRow_Click(object sender, EventArgs e)
@@ -441,21 +608,21 @@ namespace TourQueryManager
             }
             */
             int index = dataGrdVuWorkingHotels.Rows.Add();
-            dataGrdVuWorkingHotels.Rows[index].Cells["DAYS"].Value = numericUpDownWorkingHotelDayNo.Value.ToString();
+            //mk  dataGrdVuWorkingHotels.Rows[index].Cells["DAYS"].Value = numericUpDownWorkingHotelDayNo.Value.ToString();
             dataGrdVuWorkingHotels.Rows[index].Cells["Sector"].Value = CmbboxWrkngHtlSector.Text;
             dataGrdVuWorkingHotels.Rows[index].Cells["Location"].Value = CmbboxWrkngHtlLocation.Text;
             dataGrdVuWorkingHotels.Rows[index].Cells["Hotel"].Value = CmbboxWrkngHtlHotel.Text; ;
             dataGrdVuWorkingHotels.Rows[index].Cells["RoomType"].Value = "NOT DECLARED YET";
-            dataGrdVuWorkingHotels.Rows[index].Cells["RoomNo"].Value = numericUpDownRoomNo.Value.ToString();
+            //mk dataGrdVuWorkingHotels.Rows[index].Cells["RoomNo"].Value = numericUpDownRoomNo.Value.ToString();
             dataGrdVuWorkingHotels.Rows[index].Cells["MealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["ExtraBed"].Value = numericUpDownExtraBed.Value.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["ExtraMeal"].Value = numericUpDownExtraMeal.Value.ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["ExtraBed"].Value = numericUpDownNoOfPersons.Value.ToString();
+            //mk  dataGrdVuWorkingHotels.Rows[index].Cells["ExtraMeal"].Value = numericUpDownExtraMeal.Value.ToString();
 
             /* Check extra bed present or not*/
             Int32 extraMealPrice;
             Int32 extraBedPrice;
             Object value = null;
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 10] as Excel.Range).Value2;
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 10] as Excel.Range).Value2;
             if (value == null)
             {
                 extraBedPrice = 0;
@@ -464,10 +631,10 @@ namespace TourQueryManager
             {
                 extraBedPrice = Convert.ToInt32(value.ToString());
             }
-            extraBedPrice = extraBedPrice * Convert.ToInt32(numericUpDownExtraBed.Value);
+            extraBedPrice = extraBedPrice * Convert.ToInt32(numericUpDownNoOfPersons.Value);
 
             /* Check extra meal present or not*/
-            value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 11] as Excel.Range).Value2;
+            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 11] as Excel.Range).Value2;
             if (value == null)
             {
                 extraMealPrice = 0;
@@ -476,11 +643,14 @@ namespace TourQueryManager
             {
                 extraMealPrice = Convert.ToInt32(value.ToString());
             }
-            extraMealPrice = extraMealPrice * Convert.ToInt32(numericUpDownExtraMeal.Value);
+            //mk     extraMealPrice = extraMealPrice * Convert.ToInt32(numericUpDownExtraMeal.Value);
 
             Int32 hotelPrice = Convert.ToInt32(CmbboxWrkngHtlMealPlan.SelectedValue) + extraMealPrice + extraBedPrice;
 
             dataGrdVuWorkingHotels.Rows[index].Cells["HotelPrice"].Value = hotelPrice.ToString();
+
+            CmbboxWrkngHtlSector.SelectedIndex = 0;
+
         }
 
         private void ButtonWorkingDone_Click(object sender, EventArgs e)
@@ -604,6 +774,189 @@ namespace TourQueryManager
         {
             /* exit without doing anything*/
             Close();
+        }
+
+        private void numericUpDownRoomNo_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblWorkingNarration_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblWorkingHotelMealPlan_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CmbboxWrkngHtlHotelRating_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+
+            if (CmbboxWrkngHtlHotelRating.SelectedIndex == 0)
+            {
+                CmbboxWrkngHtlHotel.Text = "--- Select rating first ---";
+                return;
+            }
+            else
+            {
+                CmbboxWrkngHtlHotel.DataSource = null;
+                dataSetHotelName.Reset();
+                CmbboxWrkngHtlHotel.Items.Clear();
+
+
+
+                command.CommandText = "SELECT DISTINCT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
+                // MessageBox.Show("Query  " + command.CommandText);
+                try
+                {
+                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
+                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelName, "HOTEL_NAME");
+
+                    DataRow dr = dataSetHotelName.Tables["HOTEL_NAME"].NewRow();
+                    dr[0] = 0;
+                    dr[1] = "SELECT HOTEL ";
+
+                    dataSetHotelName.Tables["HOTEL_NAME"].Rows.InsertAt(dr, 0);
+
+
+                    CmbboxWrkngHtlHotel.ValueMember = "idhotelinfo";
+
+                    CmbboxWrkngHtlHotel.DisplayMember = "hotelname";
+                    CmbboxWrkngHtlHotel.DataSource = dataSetHotelName.Tables["HOTEL_NAME"];
+                    // CmbboxWrkngHtlHotel.SelectedValue = 0;
+                    CmbboxWrkngHtlHotel.SelectedIndex = 0;
+
+                }
+                catch (Exception errquery)
+                {
+                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                }
+            }
+        }
+
+        private void CmbboxWrkngHtlRoomType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CmbboxWrkngHtlMealPlan.Items.Clear();
+           CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "EPAI", "CPAI", "MAPAI", "APAI"});
+            CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
+        }
+
+        private void numericUpDownExtraBed_ValueChanged(object sender, EventArgs e)
+        {/*
+            if (numericUpDownNoOfPersons.Value != 0)
+            {
+                CmbboxWrkngHtlMealPlan.Items.Clear();
+                CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "SINGLE EPAI", "SINGLE CPAI", "SINGLE MAPAI", "SINGLE APAI", "DOUBLE EPAI", "DOUBLE CPAI", "DOUBLE MAPAI", "DOUBLE APAI", "EXT_BED EPAI", "EXT_BED CPAI", "EXT_BED MAPAI", "EXT_BED APAI" });
+                CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
+            }*/
+        }
+
+        private void CmbboxWrkngHtlMealPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           columnNameForMealPlan = "";
+            if (CmbboxWrkngHtlMealPlan.SelectedIndex == 0)
+            { btnWorkingAddRoom.Enabled = false; }
+            else
+            {
+                btnWorkingAddRoom.Enabled = true;
+                int noOfPersons = (Int32)numericUpDownNoOfPersons.Value;
+
+                switch (noOfPersons)
+                {
+                    case 3:
+
+                }
+                if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE EPAI"))
+                {
+                    columnNameForMealPlan = "mealepaipricesingle";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE CPAI"))
+                {
+                    columnNameForMealPlan = "mealcpaipricesingle";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE MAPAI"))
+                {
+                    columnNameForMealPlan = "mealmapaipricesingle";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE APAI"))
+                {
+                    columnNameForMealPlan = "mealapaipricesingle";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE EPAI"))
+                {
+                    columnNameForMealPlan = "mealepaipricedouble";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE CPAI"))
+                {
+                    columnNameForMealPlan = "mealcpaipricedouble";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE MAPAI"))
+                {
+                    columnNameForMealPlan = "mealmapaipricedouble";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE APAI"))
+                {
+                    columnNameForMealPlan = "mealapaipricedouble";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED EPAI"))
+                {
+                    columnNameForMealPlan = "mealepaipriceextbed";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED CPAI"))
+                {
+                    columnNameForMealPlan = "mealcpaipriceextbed";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED MAPAI"))
+                {
+                    columnNameForMealPlan = "mealmapaipriceextbed";
+                }
+                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED APAI"))
+                {
+                    columnNameForMealPlan = "mealapaipriceextbed";
+                }
+
+
+            }
+        }
+
+        private void btnWorkingAddRoom_Click(object sender, EventArgs e)
+        {
+            
+
+            if (columnNameForMealPlan.Equals("") && ((Int32)CmbboxWrkngHtlRoomType.SelectedValue <= 0))
+            {
+                MessageBox.Show("PLEASE ENTER ALL INFORMATION");
+            }
+            else {
+
+                int roomNo = (Int32)numericUpDownWorkingRoomNo.Value;
+               
+                command.CommandText = "SELECT `" + columnNameForMealPlan + "` FROM  `hotelrates` WHERE `idhotelrates` = " + CmbboxWrkngHtlRoomType.SelectedValue;
+
+                int price = (Int32)command.ExecuteScalar();
+
+                int rows = dataGridViewRoomsInfo.Rows.Count;
+               int index = dataGridViewRoomsInfo.Rows.Add();
+
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkRoom"].Value = numericUpDownWorkingRoomNo.Value.ToString();
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value = CmbboxWrkngHtlRoomType.Text;
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;
+
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value = numericUpDownNoOfPersons.Value.ToString();
+                dataGridViewRoomsInfo.Rows[index].Cells["WrkPrice"].Value = price.ToString();
+                numericUpDownWorkingRoomNo.Value = roomNo + 1;
+
+            }
+
+
+
+
+
         }
     }
 }
