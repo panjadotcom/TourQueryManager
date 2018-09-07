@@ -76,14 +76,23 @@ namespace TourQueryManager
                     btnUpdateMysqlCommand.CommandText = "INSERT INTO `appusers` ( `username`, `password`, `name`, `phone`, `email`, `information` )"
                         + " VALUES ( '" + txtboxUsername.Text + "', '" + txtboxPassword.Text + "', '" + txtboxName.Text + "', '" + txtboxPhone.Text + "', '" + txtboxEmailId.Text + "', '" + txtboxInfo.Text + "' ) ";
                 }
-                MessageBox.Show("Mysql Command is " + btnUpdateMysqlCommand.CommandText );
                 btnUpdateMysqlCommand.ExecuteNonQuery();
                 frmEditUserMysqlTransaction.Commit();
+                if (isAgentFlag)
+                {
+                    MessageBox.Show("New Agent " + txtboxName.Text + " created successfully");
+                }
+                else
+                {
+                    MessageBox.Show("New User " + txtboxUsername.Text + " created successfully");
+                }
+                
             }
-            catch(Exception errcmd)
+            catch (Exception errcmd)
             {
                 MessageBox.Show("Command not executed because " + errcmd.Message + "");
             }
+            Close();
         }
 
         private void FrmEditUserPage_FormClosing(object sender, FormClosingEventArgs e)

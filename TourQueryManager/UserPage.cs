@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace TourQueryManager
 {
@@ -28,12 +29,12 @@ namespace TourQueryManager
             if (DataGrdVuUserQueries.Rows.Count > 0)
             {
                 /* Open new Form of Working and pass queryId to the working */
-                MessageBox.Show("Data Row selected : \n" +
+               /* MessageBox.Show("Data Row selected : \n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
                     DataGrdVuUserQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n" );
+                    DataGrdVuUserQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n" );*/
                 if (openWorkingPage)
                 {
                     FrmQueryWorkingPage frmQueryWorkingPage = new FrmQueryWorkingPage(DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
@@ -57,12 +58,14 @@ namespace TourQueryManager
         private void DataGrdVuUserQueriesLoad(string buttonClicked)
         {
             string mysqlSelectQuery = null;
+            int btnClickedNumber = 0;
             if (string.Equals(buttonClicked, BtnAssignQueries.Text, StringComparison.OrdinalIgnoreCase))
             {
                 mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
                 "FROM `queries` WHERE " +
                 "`userid` = " + frmUserId.ToString() + " " +
                 "AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated;
+                btnClickedNumber = 1;
             }
             else if (string.Equals(buttonClicked, BtnCompletedQueries.Text, StringComparison.OrdinalIgnoreCase))
             {
@@ -70,6 +73,7 @@ namespace TourQueryManager
                 "FROM `queries` WHERE " +
                 "`userid` = " + frmUserId.ToString() + " " +
                 "AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated;
+                btnClickedNumber = 2;
             }
             else
             {
@@ -87,6 +91,7 @@ namespace TourQueryManager
             }
             
             DataSet queryDataset = new DataSet();
+            DateTime dateTime = DateTime.Today;
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mysqlSelectQuery, frmUserMysqlConnection);
             try
             {
@@ -101,7 +106,19 @@ namespace TourQueryManager
                         DataGrdVuUserQueries.Rows[index].Cells["fromDate"].Value = item["fromdate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["toDate"].Value = item["todate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["Location"].Value = item["place"].ToString();
-                        DataGrdVuUserQueries.Rows[index].Cells["AssignedDate"].Value = item["querystartdate"].ToString(); ;
+                        DataGrdVuUserQueries.Rows[index].Cells["AssignedDate"].Value = item["querystartdate"].ToString();
+                        double noOfdays = (DateTime.Today - DateTime.Parse(item["querystartdate"].ToString())).TotalDays;
+                        if (btnClickedNumber == 1)
+                        {
+                            if (noOfdays > 2)
+                            {
+                                DataGrdVuUserQueries.Rows[index].DefaultCellStyle.BackColor = Color.Red;
+                            }
+                            else if (noOfdays > 1)
+                            {
+                                DataGrdVuUserQueries.Rows[index].DefaultCellStyle.BackColor = Color.Yellow;
+                            }
+                        }
                     }
                 }
             }
@@ -128,6 +145,15 @@ namespace TourQueryManager
         {
             DataGrdVuUserQueriesLoad(BtnCompletedQueries.Text);
             openWorkingPage = false;
+        }
+
+        private void BtnHotelInfo_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Updating Hotel information in Database");
+            FrmHotelsPage frmHotelsPage = new FrmHotelsPage();
+            Hide();
+            frmHotelsPage.ShowDialog();
+            Show();
         }
     }
 }

@@ -43,7 +43,7 @@
             this.btnCreateUser.Location = new System.Drawing.Point(176, 66);
             this.btnCreateUser.Name = "btnCreateUser";
             this.btnCreateUser.Size = new System.Drawing.Size(159, 109);
-            this.btnCreateUser.TabIndex = 0;
+            this.btnCreateUser.TabIndex = 4;
             this.btnCreateUser.Text = "USERS";
             this.btnCreateUser.UseVisualStyleBackColor = true;
             this.btnCreateUser.Click += new System.EventHandler(this.btnCreateUser_Click);
@@ -54,7 +54,7 @@
             this.BtnGenerateVouchers.Location = new System.Drawing.Point(177, 181);
             this.BtnGenerateVouchers.Name = "BtnGenerateVouchers";
             this.BtnGenerateVouchers.Size = new System.Drawing.Size(158, 109);
-            this.BtnGenerateVouchers.TabIndex = 1;
+            this.BtnGenerateVouchers.TabIndex = 2;
             this.BtnGenerateVouchers.Text = "GENERATE VOUCHERS";
             this.BtnGenerateVouchers.UseVisualStyleBackColor = true;
             this.BtnGenerateVouchers.Click += new System.EventHandler(this.BtnGenerateVouchers_Click);
@@ -65,7 +65,7 @@
             this.BtnGenerateReports.Location = new System.Drawing.Point(342, 181);
             this.BtnGenerateReports.Name = "BtnGenerateReports";
             this.BtnGenerateReports.Size = new System.Drawing.Size(158, 109);
-            this.BtnGenerateReports.TabIndex = 3;
+            this.BtnGenerateReports.TabIndex = 5;
             this.BtnGenerateReports.Text = "GENERATE REPORTS";
             this.BtnGenerateReports.UseVisualStyleBackColor = true;
             // 
@@ -75,7 +75,7 @@
             this.btnCreateQuery.Location = new System.Drawing.Point(341, 66);
             this.btnCreateQuery.Name = "btnCreateQuery";
             this.btnCreateQuery.Size = new System.Drawing.Size(159, 109);
-            this.btnCreateQuery.TabIndex = 2;
+            this.btnCreateQuery.TabIndex = 0;
             this.btnCreateQuery.Text = "QUERIES";
             this.btnCreateQuery.UseVisualStyleBackColor = true;
             this.btnCreateQuery.Click += new System.EventHandler(this.btnCreateQuery_Click);
@@ -86,7 +86,7 @@
             this.btnCreateAgent.Location = new System.Drawing.Point(12, 66);
             this.btnCreateAgent.Name = "btnCreateAgent";
             this.btnCreateAgent.Size = new System.Drawing.Size(159, 109);
-            this.btnCreateAgent.TabIndex = 4;
+            this.btnCreateAgent.TabIndex = 3;
             this.btnCreateAgent.Text = "AGENTS";
             this.btnCreateAgent.UseVisualStyleBackColor = true;
             this.btnCreateAgent.Click += new System.EventHandler(this.btnCreateAgent_Click);
