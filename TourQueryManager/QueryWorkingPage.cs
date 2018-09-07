@@ -33,6 +33,8 @@ namespace TourQueryManager
         DataSet dataSetHotelMealPlan = new DataSet();
         MySqlCommand command = new MySqlCommand();
         String columnNameForMealPlan = "";
+        int hotelPricePerDay = 0;
+
         public FrmQueryWorkingPage(string queryId)
         {
             InitializeComponent();
@@ -96,6 +98,7 @@ namespace TourQueryManager
 
             //day no info 
             numericUpDownWorkingDayNo.Value = 1;
+            numericUpDownNoOfCars.Value = 0;
 
             //arrivalDate
             dateTimePickerWorkingArrivalDate.Enabled = true;
@@ -376,7 +379,7 @@ namespace TourQueryManager
 
         private void CmbboxWrkngHtlHotel_SelectedIndexChanged(object sender, EventArgs e)
         {
-                                 
+            
             if (CmbboxWrkngHtlHotel.SelectedIndex == 0)
             {
                 CmbboxWrkngHtlRoomType.Text = "--- Select hotelName first ---";
@@ -571,166 +574,205 @@ namespace TourQueryManager
 
         private void buttonHotelAddRow_Click(object sender, EventArgs e)
         {
-            /* populate data in the datagrid view */
-            if (string.Equals("", openFileDialogForHotelExcel.FileName, StringComparison.OrdinalIgnoreCase))
-            {
-                Debug.WriteLine("buttonHotelAddRow Hotel excel file not selected");
-                MessageBox.Show("Select Hotel Excel file first");
-                return;
-            }
-            int hotelRowIndex = Convert.ToInt32(CmbboxWrkngHtlHotel.SelectedValue);
-            if (hotelRowIndex < 3)
-            {
-                Debug.WriteLine("buttonHotelAddRow Hotel name not selected");
-                MessageBox.Show("Select Hotel first");
-                return;
-            }
-            if (Convert.ToInt32(CmbboxWrkngHtlMealPlan.SelectedValue) < 1)
-            {
-                Debug.WriteLine("buttonHotelAddRow Meal plan not selected");
-                MessageBox.Show("Select Meal plan first");
-                return;
-            }
-            /* check for the days count */
-            /*
-            int index = dataGrdVuWorkingHotels.RowCount;
-            double noOfdays = (DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["todate"].ToString()) - 
-                DateTime.Parse(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["fromdate"].ToString())).TotalDays;
-            if(index >= noOfdays)
-            {
-                Debug.WriteLine("Hotel listing for all days are done");
-                MessageBox.Show("Hotel listing for all days are done");
-                return;
-            }
-            else
-            {
-                Debug.WriteLine("Total days = " + noOfdays.ToString() + " and worked days count is " + index.ToString());
-            }
-            */
+            
+
+
             int index = dataGrdVuWorkingHotels.Rows.Add();
-            //mk  dataGrdVuWorkingHotels.Rows[index].Cells["DAYS"].Value = numericUpDownWorkingHotelDayNo.Value.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["Sector"].Value = CmbboxWrkngHtlSector.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["Location"].Value = CmbboxWrkngHtlLocation.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["Hotel"].Value = CmbboxWrkngHtlHotel.Text; ;
-            dataGrdVuWorkingHotels.Rows[index].Cells["RoomType"].Value = "NOT DECLARED YET";
-            //mk dataGrdVuWorkingHotels.Rows[index].Cells["RoomNo"].Value = numericUpDownRoomNo.Value.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["MealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["ExtraBed"].Value = numericUpDownNoOfPersons.Value.ToString();
-            //mk  dataGrdVuWorkingHotels.Rows[index].Cells["ExtraMeal"].Value = numericUpDownExtraMeal.Value.ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNo"].Value = numericUpDownWorkingDayNo.Value.ToString();            
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayArea"].Value = CmbboxWrkngHtlSector.Text;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayCity"].Value = CmbboxWrkngHtlLocation.Text;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayName"].Value = CmbboxWrkngHtlHotel.Text; ;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNoOfRooms"].Value = (numericUpDownWorkingRoomNo.Value -1).ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDaySim"].Value = chkBoxWorkingSim.Checked.ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayGuide"].Value = chkBoxWorkingGuide.Checked.ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayAdditionalCost"].Value = txtboxWorkingAdditionalCost.Text;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayPrice"].Value = hotelPricePerDay.ToString();
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarrationHdr"].Value = txtboxWorkingNarrationHeader.Text;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarration"].Value = txtboxWorkingNarration.Text;
+            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayUserComment"].Value = txtboxWorkingUserComment.Text;
+            numericUpDownWorkingDayNo.Value = numericUpDownWorkingDayNo.Value + 1;
+            hotelPricePerDay = 0;
+            dateTimePickerWorkingArrivalDate.Visible = false;
+            numericUpDownWorkingRoomNo.Value = 1;
+            btnWorkingAddRoom.Enabled = false;
+            numericUpDownNoOfCars.Value = 0;
+            chkBoxWorkingSim.Checked = false;
+            chkBoxWorkingGuide.Checked = false;
 
-            /* Check extra bed present or not*/
-            Int32 extraMealPrice;
-            Int32 extraBedPrice;
-            Object value = null;
-            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 10] as Excel.Range).Value2;
-            if (value == null)
-            {
-                extraBedPrice = 0;
-            }
-            else
-            {
-                extraBedPrice = Convert.ToInt32(value.ToString());
-            }
-            extraBedPrice = extraBedPrice * Convert.ToInt32(numericUpDownNoOfPersons.Value);
+            //reset all fields
+            txtboxWorkingAdditionalCost.Text = "0";
 
-            /* Check extra meal present or not*/
-            //mk value = (xlsRangeWorkingHotel.Cells[hotelRowIndex, 11] as Excel.Range).Value2;
-            if (value == null)
-            {
-                extraMealPrice = 0;
-            }
-            else
-            {
-                extraMealPrice = Convert.ToInt32(value.ToString());
-            }
-            //mk     extraMealPrice = extraMealPrice * Convert.ToInt32(numericUpDownExtraMeal.Value);
 
-            Int32 hotelPrice = Convert.ToInt32(CmbboxWrkngHtlMealPlan.SelectedValue) + extraMealPrice + extraBedPrice;
-
-            dataGrdVuWorkingHotels.Rows[index].Cells["HotelPrice"].Value = hotelPrice.ToString();
-
+            CmbboxWrkngHtlHotel.SelectedIndex = 0;
+            CmbboxWrkngHtlRoomType.SelectedIndex = 0;
+            
+            CmbboxWrkngHtlLocation.SelectedIndex = 0;
             CmbboxWrkngHtlSector.SelectedIndex = 0;
+           
+            
+            
+
+            CmbboxWrkngHtlLocation.DataSource=null;
+            CmbboxWrkngHtlHotel.DataSource = null;
+            CmbboxWrkngHtlRoomType.DataSource = null;
 
         }
 
         private void ButtonWorkingDone_Click(object sender, EventArgs e)
         {
             /* upload data of work done in the database */
-            int hotelWorkingRowsCount = dataGrdVuWorkingHotels.RowCount;
-            if(hotelWorkingRowsCount < 1)
+            int workingHotelDayRowsCount = dataGrdVuWorkingHotels.RowCount;
+            int workingHotelRoomsRowsCount = dataGridViewRoomsInfo.RowCount;
+            if (workingHotelDayRowsCount < 1 && workingHotelRoomsRowsCount < 1)
             {
                 MessageBox.Show("Working area is empty.");
                 return;
             }
+            else { 
+            bool querySuccessDay = true;
+            bool querySuccessRoom = true;
             bool querySuccess = true;
-            MySqlCommand mySqlCommandButtonWorkingDone = frmQueryWorkingMysqlConn.CreateCommand();
+                MySqlCommand mySqlCommandButtonWorkingDone = frmQueryWorkingMysqlConn.CreateCommand();
             frmQueryWorkingMysqlTransaction = frmQueryWorkingMysqlConn.BeginTransaction();
             mySqlCommandButtonWorkingDone.Connection = frmQueryWorkingMysqlConn;
             mySqlCommandButtonWorkingDone.Transaction = frmQueryWorkingMysqlTransaction;
             mySqlCommandButtonWorkingDone.CommandType = CommandType.Text;
-            string mysqlInsertQueryStr = "INSERT INTO `queryworkinghotel` ( " +
+            string mysqlInsertQueryStr = "INSERT INTO `queryworkingday` ( " +
                 "`queryid`, " +
                 "`dayno`, " +
-                "`roomno`, " +
                 "`area`, " +
                 "`city`, " +
                 "`hotel`, " +
-                "`roomtype`, " +
-                "`mealplan`," +
-                "`extrabed`, " +
-                "`extrameal`, " +
-                "`price` ) " +
+                "`pricehotel`, " +
+                "`narrationhdr`," +
+                "`narration`, " +
+                "`additionalcost`, " +
+                "`usercomment` , " +
+                "`sim`, " +
+                "`guide` ) " +
                 "VALUES ( " +
                 "@queryid_var, " +
                 "@dayno_var, " +
-                "@roomno_var, " +
+                
                 "@area_var, " +
                 "@city_var, " +
                 "@hotel_var, " +
-                "@roomtype_var, " +
-                "@mealplan_var, " +
-                "@extrabed_var, " +
-                "@extrameal_var, " +
-                "@price_var )";
+                "@pricehotel_var, " +
+                "@narrationhdr_var, " +
+                "@narration_var, " +
+                "@additionalcost_var, " +
+                "@usercomment_var, " +
+                "@sim_var, " +
+                "@guide_var )";
             mySqlCommandButtonWorkingDone.CommandText = mysqlInsertQueryStr;
             mySqlCommandButtonWorkingDone.Prepare();
             mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@queryid_var", "Text");
             mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@dayno_var", 1);
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomno_var", 1);
+            
             mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@area_var", "Text");
             mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@city_var", "Text");
             mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@hotel_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomtype_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@mealplan_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@extrabed_var", 1);
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@extrameal_var", 1);
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@price_var", 1);
-            for (int index = 0; index < hotelWorkingRowsCount; index++)
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@pricehotel_var", 1);
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@narrationhdr_var", "Text");
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@narration_var", "Text");
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@additionalcost_var", 1);
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@usercomment_var", "Text");
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@sim_var", "Text");
+            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@guide_var", "Text");
+
+                for (int index = 0; index < workingHotelDayRowsCount; index++)
             {
                 /* insert row data in database */
                 mySqlCommandButtonWorkingDone.Parameters["@queryid_var"].Value = queryIdWorking;
-                mySqlCommandButtonWorkingDone.Parameters["@dayno_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["DAYS"].Value);
-                mySqlCommandButtonWorkingDone.Parameters["@roomno_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["RoomNo"].Value);
-                mySqlCommandButtonWorkingDone.Parameters["@area_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["Sector"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@city_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["Location"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@hotel_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["Hotel"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@mealplan_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["MealPlan"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@extrabed_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["ExtraBed"].Value);
-                mySqlCommandButtonWorkingDone.Parameters["@extrameal_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["ExtraMeal"].Value);
-                mySqlCommandButtonWorkingDone.Parameters["@price_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["HotelPrice"].Value);
-                try
+                mySqlCommandButtonWorkingDone.Parameters["@dayno_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNo"].Value);
+                
+                mySqlCommandButtonWorkingDone.Parameters["@area_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayArea"].Value.ToString();
+                mySqlCommandButtonWorkingDone.Parameters["@city_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayCity"].Value.ToString();
+                mySqlCommandButtonWorkingDone.Parameters["@hotel_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayName"].Value.ToString();
+                mySqlCommandButtonWorkingDone.Parameters["@pricehotel_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayPrice"].Value);
+                    mySqlCommandButtonWorkingDone.Parameters["@narrationhdr_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarrationHdr"].Value.ToString(); 
+                    mySqlCommandButtonWorkingDone.Parameters["@narration_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarration"].Value.ToString();
+                    mySqlCommandButtonWorkingDone.Parameters["@additionalcost_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayAdditionalCost"].Value);
+                mySqlCommandButtonWorkingDone.Parameters["@usercomment_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayUserComment"].Value.ToString();
+                    mySqlCommandButtonWorkingDone.Parameters["@sim_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDaySim"].Value.ToString();
+                mySqlCommandButtonWorkingDone.Parameters["@guide_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayGuide"].Value.ToString();
+                    try
                 {
                     mySqlCommandButtonWorkingDone.ExecuteNonQuery();
                     
                 }
                 catch (Exception errquery)
                 {
-                    MessageBox.Show("Error while executing insert query because:\n" + errquery.Message);
-                    querySuccess = false;
+                    MessageBox.Show("queryworkingday  : Error while executing insert query because:\n" + errquery.Message);
+                    querySuccessDay = false;
                     break;
                 }
-            }
-            if(querySuccess)
+
+                    }
+
+
+                // room data
+
+                string mysqlInsertRoomDetailQueryStr = "INSERT INTO `queryworkingroom` ( " +
+                "`idqueryworkingday`, " +
+                "`queryid`, " +
+                "`dayno`, " +
+                "`roomtype`, " +
+                "`mealplan`, " +
+                "`extrabed`, " +
+                "`roomprice` ) " +
+                "VALUES ( " +
+                "@idqueryworkingday_var, " +
+                "@queryid_room_var, " +
+                "@dayno_room_var, " +
+
+                "@roomtype_var, " +
+                "@mealplan_var, " +
+                "@extrabed_var, " +
+                
+                "@roomprice_var )";
+                mySqlCommandButtonWorkingDone.CommandText = mysqlInsertRoomDetailQueryStr;
+                mySqlCommandButtonWorkingDone.Prepare();
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@idqueryworkingday_var", 1);
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@queryid_room_var", "Text");
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@dayno_room_var", 1);
+
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomtype_var", "Text");
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@mealplan_var", "Text");
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@extrabed_var", "Text");
+                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomprice_var", 1);
+
+                for (int index = 0; index < workingHotelRoomsRowsCount; index++)
+                {
+                    /* insert row data in database */
+                    command.CommandText = "SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` ="+ queryIdWorking + " AND `dayno` ="+ Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value);
+                    int idQueryWorkingDay =(Int32) command.ExecuteScalar();
+                    MessageBox.Show(command.CommandText+"  and  "+ idQueryWorkingDay);
+                    mySqlCommandButtonWorkingDone.Parameters["@idqueryworkingday_var"].Value = idQueryWorkingDay;
+                    mySqlCommandButtonWorkingDone.Parameters["@queryid_room_var"].Value = queryIdWorking;
+                    mySqlCommandButtonWorkingDone.Parameters["@dayno_room_var"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value);
+
+                    mySqlCommandButtonWorkingDone.Parameters["@roomtype_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value.ToString();
+                    mySqlCommandButtonWorkingDone.Parameters["@mealplan_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value.ToString();
+                    mySqlCommandButtonWorkingDone.Parameters["@extrabed_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value.ToString();
+                    mySqlCommandButtonWorkingDone.Parameters["@roomprice_var"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkPrice"].Value);
+                    
+                    try
+                    {
+                        mySqlCommandButtonWorkingDone.ExecuteNonQuery();
+
+                    }
+                    catch (Exception errquery)
+                    {
+                        MessageBox.Show("queryworkingRoom :: Error while executing insert query because:\n" + errquery.Message);
+                        querySuccessRoom = false;
+                        break;
+                    }
+                }
+                    //end room data
+
+
+                    if (querySuccessDay && querySuccessRoom)
             {
                 MessageBox.Show("Query Executed successfully now changing query status");
                 mysqlInsertQueryStr = "UPDATE `queries` SET " +
@@ -768,6 +810,7 @@ namespace TourQueryManager
             }
             MessageBox.Show("Work for Query id = " + queryIdWorking + " is done successfully ");
             Close();
+                }
         }
 
         private void ButtonWorkingCancel_Click(object sender, EventArgs e)
@@ -868,57 +911,71 @@ namespace TourQueryManager
 
                 switch (noOfPersons)
                 {
+                    case 1:
+                        {
+                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
+                            {
+                                columnNameForMealPlan = "mealepaipricesingle";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
+                            {
+                                columnNameForMealPlan = "mealcpaipricesingle";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
+                            {
+                                columnNameForMealPlan = "mealmapaipricesingle";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
+                            {
+                                columnNameForMealPlan = "mealapaipricesingle";
+                            }
+                            break;  
+                        }
+                    case 2:
+                        {
+                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
+                            {
+                                columnNameForMealPlan = "mealepaipricedouble";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
+                            {
+                                columnNameForMealPlan = "mealcpaipricedouble";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
+                            {
+                                columnNameForMealPlan = "mealmapaipricedouble";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
+                            {
+                                columnNameForMealPlan = "mealapaipricedouble";
+                            }
+                            break;
+                        }
                     case 3:
+                        {
+                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
+                            {
+                                columnNameForMealPlan = "mealepaipriceextbed";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
+                            {
+                                columnNameForMealPlan = "mealcpaipriceextbed";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
+                            {
+                                columnNameForMealPlan = "mealmapaipriceextbed";
+                            }
+                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
+                            {
+                                columnNameForMealPlan = "mealapaipriceextbed";
+                            }
+                            break;
+                        }
 
+                    default: break;
                 }
-                if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE EPAI"))
-                {
-                    columnNameForMealPlan = "mealepaipricesingle";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE CPAI"))
-                {
-                    columnNameForMealPlan = "mealcpaipricesingle";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE MAPAI"))
-                {
-                    columnNameForMealPlan = "mealmapaipricesingle";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("SINGLE APAI"))
-                {
-                    columnNameForMealPlan = "mealapaipricesingle";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE EPAI"))
-                {
-                    columnNameForMealPlan = "mealepaipricedouble";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE CPAI"))
-                {
-                    columnNameForMealPlan = "mealcpaipricedouble";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE MAPAI"))
-                {
-                    columnNameForMealPlan = "mealmapaipricedouble";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("DOUBLE APAI"))
-                {
-                    columnNameForMealPlan = "mealapaipricedouble";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED EPAI"))
-                {
-                    columnNameForMealPlan = "mealepaipriceextbed";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED CPAI"))
-                {
-                    columnNameForMealPlan = "mealcpaipriceextbed";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED MAPAI"))
-                {
-                    columnNameForMealPlan = "mealmapaipriceextbed";
-                }
-                else if (CmbboxWrkngHtlMealPlan.Text.Equals("EXT_BED APAI"))
-                {
-                    columnNameForMealPlan = "mealapaipriceextbed";
-                }
+               
+               
 
 
             }
@@ -935,28 +992,41 @@ namespace TourQueryManager
             else {
 
                 int roomNo = (Int32)numericUpDownWorkingRoomNo.Value;
-               
+                
                 command.CommandText = "SELECT `" + columnNameForMealPlan + "` FROM  `hotelrates` WHERE `idhotelrates` = " + CmbboxWrkngHtlRoomType.SelectedValue;
 
                 int price = (Int32)command.ExecuteScalar();
 
                 int rows = dataGridViewRoomsInfo.Rows.Count;
                int index = dataGridViewRoomsInfo.Rows.Add();
-
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value = numericUpDownWorkingDayNo.Value.ToString();
                 dataGridViewRoomsInfo.Rows[index].Cells["wrkRoom"].Value = numericUpDownWorkingRoomNo.Value.ToString();
                 dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value = CmbboxWrkngHtlRoomType.Text;
                 dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;
 
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value = numericUpDownNoOfPersons.Value.ToString();
+                dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value = (numericUpDownNoOfPersons.Value == 3 ? 1 : 0) ;
                 dataGridViewRoomsInfo.Rows[index].Cells["WrkPrice"].Value = price.ToString();
                 numericUpDownWorkingRoomNo.Value = roomNo + 1;
-
+                hotelPricePerDay += price;
             }
 
 
+            btnWorkingAddRoom.Enabled = false;
+            numericUpDownNoOfPersons.Value = 1;
 
+        }
 
-
+        private void numericUpDownNoOfCars_ValueChanged(object sender, EventArgs e)
+        {
+            if (numericUpDownNoOfCars.Value == 0)
+            { CmbboxWrkngCarType.Enabled = false;
+                CmbboxWrkngCarPurpose.Enabled = false;
+            }
+            else
+            {
+                CmbboxWrkngCarType.Enabled = true;
+                CmbboxWrkngCarPurpose.Enabled = true;
+            }
         }
     }
 }
