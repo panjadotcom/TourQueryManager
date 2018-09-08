@@ -97,23 +97,38 @@ CREATE TABLE `tourquerymanagement`.`queries` (
   CONSTRAINT `foreignappuser` FOREIGN KEY (`userid`) REFERENCES `appusers` (`userid`) ON DELETE SET NULL
 );
 
-CREATE TABLE `tourquerymanagement`.`queryworkinghotel` (
-  `idqueryworkinghotel` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `queryworkingday` (
+  `idqueryworkingday` int(11) NOT NULL AUTO_INCREMENT,
   `queryid` varchar(20) NOT NULL,
   `dayno` int(11) NOT NULL,
-  `roomno` int(11) NOT NULL,
   `area` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
   `hotel` varchar(45) DEFAULT NULL,
-  `roomtype` varchar(45) DEFAULT NULL,
-  `mealplan` varchar(45) DEFAULT NULL,
-  `extrabed` int(11) DEFAULT NULL,
-  `extrameal` int(11) DEFAULT NULL,
-  `price` int(11) DEFAULT NULL,
-  PRIMARY KEY (`queryid`,`dayno`,`roomno`),
-  UNIQUE KEY `idqueryworkinghotel_UNIQUE` (`idqueryworkinghotel`),
+  `pricehotel` int(11) DEFAULT NULL,
+  `narrationhdr` varchar(45) DEFAULT NULL,
+  `narration` varchar(2500) DEFAULT NULL,
+  `additionalcost` int(11) DEFAULT NULL,
+  `usercomment` varchar(2500) DEFAULT NULL,
+  `sim` varchar(5) DEFAULT 'NO',
+  `guide` varchar(5) DEFAULT 'NO',
+  PRIMARY KEY (`queryid`,`dayno`),
+  UNIQUE KEY `idqueryworkinghotel_UNIQUE` (`idqueryworkingday`),
   KEY `foreignworkinghotelqueryid_idx` (`queryid`),
   CONSTRAINT `foreignworkinghotelqueryid` FOREIGN KEY (`queryid`) REFERENCES `queries` (`queryid`)
+);
+
+CREATE TABLE `queryworkingroom` (
+  `idqueryworkingroom` int(11) NOT NULL AUTO_INCREMENT,
+  `idqueryqorkingday` int(11) NOT NULL,
+  `queryid` varchar(20) NOT NULL,
+  `dayno` int(11) NOT NULL,
+  `roomtype` varchar(45) NOT NULL,
+  `mealplan` varchar(45) DEFAULT NULL,
+  `extrabed` varchar(5) NOT NULL DEFAULT 'NO',
+  `roomprice` int(11) DEFAULT NULL,
+  UNIQUE KEY `idqueryworkingroom_UNIQUE` (`idqueryworkingroom`),
+  KEY `foriegnkeyqueryid_idx` (`queryid`),
+  CONSTRAINT `foriegnkeyqueryid` FOREIGN KEY (`queryid`) REFERENCES `queries` (`queryid`)
 );
 
 
