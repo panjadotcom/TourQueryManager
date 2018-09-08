@@ -65,6 +65,8 @@ CREATE TABLE `tourquerymanagement`.`queries` (
   `queryid` varchar(20) NOT NULL,
   `agentid` int(11) DEFAULT NULL,
   `userid` int(11) DEFAULT NULL,
+  `profitmargin` int(11) DEFAULT NULL,
+  `gstrate` int(11) DEFAULT NULL,
   `name` varchar(45) NOT NULL,
   `contact` varchar(100) NOT NULL,
   `querystartdate` date NOT NULL,
@@ -97,7 +99,7 @@ CREATE TABLE `tourquerymanagement`.`queries` (
   CONSTRAINT `foreignappuser` FOREIGN KEY (`userid`) REFERENCES `appusers` (`userid`) ON DELETE SET NULL
 );
 
-CREATE TABLE `queryworkingday` (
+CREATE TABLE `tourquerymanagement`.`queryworkingday` (
   `idqueryworkingday` int(11) NOT NULL AUTO_INCREMENT,
   `queryid` varchar(20) NOT NULL,
   `dayno` int(11) NOT NULL,
@@ -117,9 +119,9 @@ CREATE TABLE `queryworkingday` (
   CONSTRAINT `foreignworkinghotelqueryid` FOREIGN KEY (`queryid`) REFERENCES `queries` (`queryid`)
 );
 
-CREATE TABLE `queryworkingroom` (
+CREATE TABLE `tourquerymanagement`.`queryworkingroom` (
   `idqueryworkingroom` int(11) NOT NULL AUTO_INCREMENT,
-  `idqueryqorkingday` int(11) NOT NULL,
+  `idqueryworkingday` int(11) NOT NULL,
   `queryid` varchar(20) NOT NULL,
   `dayno` int(11) NOT NULL,
   `roomtype` varchar(45) NOT NULL,
