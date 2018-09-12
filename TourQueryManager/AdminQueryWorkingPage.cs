@@ -24,30 +24,34 @@ namespace TourQueryManager
 
         /* following are some contant strings to be used for printing in itenary as it is */
         static string itenaryAvailablityNote = "Note:" +
-            "\n     Subject to weather conditions and availability of Ferry Tickets and other Conditions, the itinerary may be shuffled." +
-            " Please contact for Final Itinerary at the time of Check In." +
-            "\n     Confirmation will be subject to availability at the time of Booking (No Rooms Blocked)" +
-            "\n     Rates subject to change if the Hotel or the Room category quoted is not available at the time of Booking";
+            "\n    $ Subject to weather conditions and availability of Ferry Tickets and other Conditions, the itinerary may be shuffled." +
+            "\n      Please contact for Final Itinerary at the time of Check In." +
+            "\n    $ Confirmation will be subject to availability at the time of Booking (No Rooms Blocked)" +
+            "\n    $ Rates subject to change if the Hotel or the Room category quoted is not available at the time of Booking";
         static string itenaryNotIncludedNote = "The Tour Cost does not include:" +
-            "\n     Cost for supplementary service, optional Tours, Up-gradation Charges, Guide, Additional Sightseeing entrance fees." +
-            "\n     Cost for Airfare, Train fare, Insurance Premiums, Rafting Charges." +
-            "\n     Cost for service provided on a personal request." +
-            "\n     Cost for personal expenses such as laundry, bottled water, soft drinks, incidentals, porter charges, tips etc." +
-            "\n     Activity charges, Scuba, Jet Ski, Snorkeling etc., until and unless mentioned in the inclusions" +
-            "\n     Cost for any other service not mentioned under the “Cost Includes” head." +
-            "\n     Difference in cost arising due to change in Taxes by the Government which will have to be collected directly ON ARRIVAL." +
-            "\n     Difference in cost arising due to extra usage of vehicle, other than scheduled & mentioned in the itinerary." +
-            "\n     Difference in cost arising due to mishaps, political unrest, natural calamities like - landslides, road blockage, etc." +
+            "\n    $ Cost for supplementary service, optional Tours, Up-gradation Charges, Guide, Additional Sightseeing entrance fees." +
+            "\n    $ Cost for Airfare, Train fare, Insurance Premiums, Rafting Charges." +
+            "\n    $ Cost for service provided on a personal request." +
+            "\n    $ Cost for personal expenses such as laundry, bottled water, soft drinks, incidentals, porter charges, tips etc." +
+            "\n    $ Activity charges, Scuba, Jet Ski, Snorkeling etc., until and unless mentioned in the inclusions" +
+            "\n    $ Cost for any other service not mentioned under the “Cost Includes” head." +
+            "\n    $ Difference in cost arising due to change in Taxes by the Government which will have to be collected directly ON ARRIVAL." +
+            "\n    $ Difference in cost arising due to extra usage of vehicle, other than scheduled & mentioned in the itinerary." +
+            "\n    $ Difference in cost arising due to mishaps, political unrest, natural calamities like - landslides, road blockage, etc." +
             "\n      In such case extra will have to be paid on the spot by the guest directly." +
-            "\n     Camera Fee ( Still or Movie)";
+            "\n    $ Camera Fee ( Still or Movie)";
         static string itenaryImportantFacts = "Important Facts for Traveler’s:" +
-            "\n     Please carry original ID proof (Voter ID card/Pass-port/Driving License/etc.) for security purpose & hotel policy." +
-            "\n     We need following for process your booking Guest Name & Contact Number. Naming List with gender& Age." +
-            "\n     High season surcharge will be applicable for every booking on 16th Oct – 25th Oct during Durga Puja & Diwali, 20th Dec – 5th Jan during X-Mass & New Year & during Holi (as per date)." +
-            "\n     In high season, no refund will be applicable within 30 days of the tours start date. (Normal cancellation policy will not applicable on those dates.)" +
-            "\n     For high season booking, 50% payment must be done in the time of confirmation & rest of the amount must be cleared 30 days before of the tour start date.";
+            "\n    $ Please carry original ID proof (Voter ID card/Pass-port/Driving License/etc.) for security purpose & hotel policy." +
+            "\n    $ We need following for process your booking Guest Name & Contact Number. Naming List with gender& Age." +
+            "\n    $ High season surcharge will be applicable for every booking on 16th Oct – 25th Oct during Durga Puja & Diwali, " +
+            "\n      20th Dec – 5th Jan during X-Mass & New Year & during Holi (as per date)." +
+            "\n    $ In high season, no refund will be applicable within 30 days of the tours start date. (Normal cancellation policy will" +
+            "\n      not applicable on those dates.)" +
+            "\n    $ For high season booking, 50% payment must be done in the time of confirmation & rest of the amount must be cleared" +
+            "\n      30 days before of the tour start date.";
         static string itenaryPaymentPolicy = "Payment Policy:" +
-            "\n    1) Any confirmation is subject to an advance deposit of 50% of the package cost and has to be paid immediately, after that we can process the booking." +
+            "\n    1) Any confirmation is subject to an advance deposit of 50% of the package cost and has to be paid immediately," +
+            "\n       after that we can process the booking." +
             "\n    2) Balance Payment has to be made in advance and must be paid & as per time limit given at the time of confirmation." +
             "\n    3) Payments can be remitted through any of the following Banks and is subject to realization.";
 
@@ -135,6 +139,20 @@ namespace TourQueryManager
             }
         }
 
+        private static double GetTextHeight(XGraphics gfx, string text, XFont xFont, double rectWidth)
+        {
+            var fontHeight = xFont.GetHeight();
+            var absoluteTextHeight = gfx.MeasureString(text, xFont).Height;
+            var absoluteTextWidth = gfx.MeasureString(text, xFont).Width;
+
+            if (absoluteTextWidth > rectWidth)
+            {
+                var linesToAdd = (int)Math.Ceiling(absoluteTextWidth / 290) - 1;
+                return absoluteTextHeight + linesToAdd * (fontHeight);
+            }
+            return absoluteTextHeight;
+        }
+
         private void DataGrdVuAdminQueries_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (DataGrdVuAdminQueries.Rows.Count > 0)
@@ -192,7 +210,8 @@ namespace TourQueryManager
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_HOTEL_INFO");
 
                     /* GENERATE PDF ITINERARY OF THE SELECTED QUERY */
-                    Int32 yCordinateUtilized = 0;
+                    double yCordinateUtilized = 0;
+                    double height = 0;
                     PdfDocument pdfDocument = new PdfDocument();
                     PdfPage pdfPage = pdfDocument.AddPage();
                     XGraphics xGraphics = XGraphics.FromPdfPage(pdfPage);
@@ -216,44 +235,59 @@ namespace TourQueryManager
 
                     foreach (DataRow item in queryDataset.Tables["QUERY_HOTEL_INFO"].Rows)
                     {
+                        height = 0;
                         fileContent = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
-                        xRect = new XRect(40, yCordinateUtilized, 560, 10);
-                        yCordinateUtilized += 10;
+                        height = GetTextHeight(xGraphics, fileContent, xFontBodyBold, 560);
+                        xRect = new XRect(40, yCordinateUtilized, 560, height);
+                        yCordinateUtilized += height;
                         xGraphics.DrawRectangle(XBrushes.White, xRect);
                         xTextFormatter.Alignment = XParagraphAlignment.Left;
                         xTextFormatter.DrawString(fileContent, xFontBodyBold, XBrushes.Black, xRect, XStringFormat.TopLeft);
                         fileContent = item["narration"].ToString() + "";
-                        xRect = new XRect(40, yCordinateUtilized, 560, 50);
-                        yCordinateUtilized += 50;
+                        height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
+                        xRect = new XRect(40, yCordinateUtilized, 560, height);
+                        yCordinateUtilized += height;
                         xGraphics.DrawRectangle(XBrushes.White, xRect);
                         xTextFormatter.Alignment = XParagraphAlignment.Left;
                         xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
                     }
 
                     fileContent = itenaryAvailablityNote + "";
-                    xRect = new XRect(40, yCordinateUtilized, 560, 50);
-                    yCordinateUtilized += 50;
+                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
+                    xRect = new XRect(40, yCordinateUtilized, 540, height);
+                    yCordinateUtilized += height;
+                    //xRect = new XRect(40, yCordinateUtilized, 540, 70);
+                    //yCordinateUtilized += 70;
                     xGraphics.DrawRectangle(XBrushes.White, xRect);
                     xTextFormatter.Alignment = XParagraphAlignment.Left;
                     xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
 
                     fileContent = itenaryNotIncludedNote + "";
-                    xRect = new XRect(40, yCordinateUtilized, 560, 50);
-                    yCordinateUtilized += 50;
+                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
+                    xRect = new XRect(40, yCordinateUtilized, 540, height);
+                    yCordinateUtilized += height;
+                    //xRect = new XRect(40, yCordinateUtilized, 560, 170);
+                    //yCordinateUtilized += 170;
                     xGraphics.DrawRectangle(XBrushes.White, xRect);
                     xTextFormatter.Alignment = XParagraphAlignment.Left;
                     xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
 
                     fileContent = itenaryImportantFacts + "";
-                    xRect = new XRect(40, yCordinateUtilized, 560, 50);
-                    yCordinateUtilized += 50;
+                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
+                    xRect = new XRect(40, yCordinateUtilized, 540, height);
+                    yCordinateUtilized += height;
+                    //xRect = new XRect(40, yCordinateUtilized, 560, 120);
+                    //yCordinateUtilized += 120;
                     xGraphics.DrawRectangle(XBrushes.White, xRect);
                     xTextFormatter.Alignment = XParagraphAlignment.Left;
                     xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
 
                     fileContent = itenaryPaymentPolicy + "";
-                    xRect = new XRect(40, yCordinateUtilized, 560, 50);
-                    yCordinateUtilized += 50;
+                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
+                    xRect = new XRect(40, yCordinateUtilized, 540, height);
+                    yCordinateUtilized += height;
+                    //xRect = new XRect(40, yCordinateUtilized, 560, 70);
+                    //yCordinateUtilized += 70;
                     xGraphics.DrawRectangle(XBrushes.White, xRect);
                     xTextFormatter.Alignment = XParagraphAlignment.Left;
                     xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);

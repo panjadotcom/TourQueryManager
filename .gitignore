@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # Certificate for signing
 *TemporaryKey.pfx
+
+# Sql scripts files not needed in the project to be sync
+*.sql
