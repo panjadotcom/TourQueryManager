@@ -18,8 +18,8 @@ namespace TourQueryManager
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FrmHotelsPage());
             //Application.Run(new FrmEditQueryPage());
-            Application.Run(new FrmLoginPage());
-            //Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
+            //Application.Run(new FrmLoginPage());
+            Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
         }
     }
 }

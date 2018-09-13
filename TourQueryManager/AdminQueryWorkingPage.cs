@@ -12,6 +12,9 @@ using MySql.Data.MySqlClient;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Shapes;
+using MigraDoc.Rendering;
 
 namespace TourQueryManager
 {
@@ -22,39 +25,7 @@ namespace TourQueryManager
         static string mysqlConnectionString = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmMysqlConnection = new MySqlConnection(mysqlConnectionString);
 
-        /* following are some contant strings to be used for printing in itenary as it is */
-        static string itenaryAvailablityNote = "Note:" +
-            "\n    $ Subject to weather conditions and availability of Ferry Tickets and other Conditions, the itinerary may be shuffled." +
-            "\n      Please contact for Final Itinerary at the time of Check In." +
-            "\n    $ Confirmation will be subject to availability at the time of Booking (No Rooms Blocked)" +
-            "\n    $ Rates subject to change if the Hotel or the Room category quoted is not available at the time of Booking";
-        static string itenaryNotIncludedNote = "The Tour Cost does not include:" +
-            "\n    $ Cost for supplementary service, optional Tours, Up-gradation Charges, Guide, Additional Sightseeing entrance fees." +
-            "\n    $ Cost for Airfare, Train fare, Insurance Premiums, Rafting Charges." +
-            "\n    $ Cost for service provided on a personal request." +
-            "\n    $ Cost for personal expenses such as laundry, bottled water, soft drinks, incidentals, porter charges, tips etc." +
-            "\n    $ Activity charges, Scuba, Jet Ski, Snorkeling etc., until and unless mentioned in the inclusions" +
-            "\n    $ Cost for any other service not mentioned under the “Cost Includes” head." +
-            "\n    $ Difference in cost arising due to change in Taxes by the Government which will have to be collected directly ON ARRIVAL." +
-            "\n    $ Difference in cost arising due to extra usage of vehicle, other than scheduled & mentioned in the itinerary." +
-            "\n    $ Difference in cost arising due to mishaps, political unrest, natural calamities like - landslides, road blockage, etc." +
-            "\n      In such case extra will have to be paid on the spot by the guest directly." +
-            "\n    $ Camera Fee ( Still or Movie)";
-        static string itenaryImportantFacts = "Important Facts for Traveler’s:" +
-            "\n    $ Please carry original ID proof (Voter ID card/Pass-port/Driving License/etc.) for security purpose & hotel policy." +
-            "\n    $ We need following for process your booking Guest Name & Contact Number. Naming List with gender& Age." +
-            "\n    $ High season surcharge will be applicable for every booking on 16th Oct – 25th Oct during Durga Puja & Diwali, " +
-            "\n      20th Dec – 5th Jan during X-Mass & New Year & during Holi (as per date)." +
-            "\n    $ In high season, no refund will be applicable within 30 days of the tours start date. (Normal cancellation policy will" +
-            "\n      not applicable on those dates.)" +
-            "\n    $ For high season booking, 50% payment must be done in the time of confirmation & rest of the amount must be cleared" +
-            "\n      30 days before of the tour start date.";
-        static string itenaryPaymentPolicy = "Payment Policy:" +
-            "\n    1) Any confirmation is subject to an advance deposit of 50% of the package cost and has to be paid immediately," +
-            "\n       after that we can process the booking." +
-            "\n    2) Balance Payment has to be made in advance and must be paid & as per time limit given at the time of confirmation." +
-            "\n    3) Payments can be remitted through any of the following Banks and is subject to realization.";
-
+        
         public FrmAdminQueryWorkingPage(string frmAdminQueryWorkingArgument)
         {
             InitializeComponent();
@@ -210,92 +181,54 @@ namespace TourQueryManager
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_HOTEL_INFO");
 
                     /* GENERATE PDF ITINERARY OF THE SELECTED QUERY */
-                    double yCordinateUtilized = 0;
-                    double height = 0;
-                    PdfDocument pdfDocument = new PdfDocument();
-                    PdfPage pdfPage = pdfDocument.AddPage();
-                    XGraphics xGraphics = XGraphics.FromPdfPage(pdfPage);
-                    XFont xFontBody = new XFont("Times New Roman", 11, XFontStyle.Regular);
-                    XFont xFontHeader = new XFont("Times New Roman", 15, XFontStyle.Bold);
-                    XFont xFontBodyBold = new XFont("Times New Roman", 11, XFontStyle.Bold);
-                    XTextFormatter xTextFormatter = new XTextFormatter(xGraphics);
-                    XImage image = Properties.Resources.imageExcursionHolidaysLetterHead;
-                    xGraphics.DrawImage(image, 0, 0, 605, 95);
-                    yCordinateUtilized += 100;
+                    Document document = new Document();
+                    document.Info.Title = "ITINERARY FOR " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    document.Info.Author = "PANJADOTCOM";
+
+                    /* now cange the style of the document */
+                    MyPdfDocuments.DefineStyles(document);
+
+                    /* add section to document */
+                    Section section = document.AddSection();
+
+                    /* now add image at the top of the page */
+                    string imagePath = saveFileDialogItinerary.FileName + "logo.png";
+                    Properties.Resources.imageExcursionHolidaysLetterHead.Save(imagePath);
+                    MigraDoc.DocumentObjectModel.Shapes.Image image = section.AddImage(imagePath);
+                    image.Width = "21cm";
+                    image.Left = "-2.4cm";
+
+                    /* now add Header of the file */
                     string fileContent;
                     double noOfnights = (DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString()) -
                         DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString())).TotalDays;
                     fileContent = DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + " Tour\r\n" +
-                        noOfnights.ToString() + " Nights and " + (noOfnights+1).ToString() + " Days";
-                    XRect xRect = new XRect(40, yCordinateUtilized, 560, 40);
-                    yCordinateUtilized += 40;
-                    xGraphics.DrawRectangle(XBrushes.White, xRect);
-                    xTextFormatter.Alignment = XParagraphAlignment.Center;
-                    xTextFormatter.DrawString(fileContent, xFontHeader, XBrushes.Black, xRect, XStringFormat.TopLeft);
+                        noOfnights.ToString() + " Nights and " + (noOfnights + 1).ToString() + " Days";
+                    Paragraph paragraph = section.AddParagraph(fileContent, "Heading1");
 
+                    /* add day wise narration */
                     foreach (DataRow item in queryDataset.Tables["QUERY_HOTEL_INFO"].Rows)
                     {
-                        height = 0;
-                        fileContent = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
-                        height = GetTextHeight(xGraphics, fileContent, xFontBodyBold, 560);
-                        xRect = new XRect(40, yCordinateUtilized, 560, height);
-                        yCordinateUtilized += height;
-                        xGraphics.DrawRectangle(XBrushes.White, xRect);
-                        xTextFormatter.Alignment = XParagraphAlignment.Left;
-                        xTextFormatter.DrawString(fileContent, xFontBodyBold, XBrushes.Black, xRect, XStringFormat.TopLeft);
-                        fileContent = item["narration"].ToString() + "";
-                        height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
-                        xRect = new XRect(40, yCordinateUtilized, 560, height);
-                        yCordinateUtilized += height;
-                        xGraphics.DrawRectangle(XBrushes.White, xRect);
-                        xTextFormatter.Alignment = XParagraphAlignment.Left;
-                        xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
+                        string hdr = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
+                        string content = item["narration"].ToString() + "";
+                        MyPdfDocuments.WriteHdrContentParagraph(section, hdr, content);
                     }
 
-                    fileContent = itenaryAvailablityNote + "";
-                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
-                    xRect = new XRect(40, yCordinateUtilized, 540, height);
-                    yCordinateUtilized += height;
-                    //xRect = new XRect(40, yCordinateUtilized, 540, 70);
-                    //yCordinateUtilized += 70;
-                    xGraphics.DrawRectangle(XBrushes.White, xRect);
-                    xTextFormatter.Alignment = XParagraphAlignment.Left;
-                    xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
+                    /* add notes in the document */
+                    MyPdfDocuments.WriteNoteParagraph(section);
+                    MyPdfDocuments.WriteNotIncludedParagraph(section);
+                    MyPdfDocuments.WriteImportantFactsParagraph(section);
+                    MyPdfDocuments.WritePaymentPolicyParagraph(section);
 
-                    fileContent = itenaryNotIncludedNote + "";
-                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
-                    xRect = new XRect(40, yCordinateUtilized, 540, height);
-                    yCordinateUtilized += height;
-                    //xRect = new XRect(40, yCordinateUtilized, 560, 170);
-                    //yCordinateUtilized += 170;
-                    xGraphics.DrawRectangle(XBrushes.White, xRect);
-                    xTextFormatter.Alignment = XParagraphAlignment.Left;
-                    xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
-
-                    fileContent = itenaryImportantFacts + "";
-                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
-                    xRect = new XRect(40, yCordinateUtilized, 540, height);
-                    yCordinateUtilized += height;
-                    //xRect = new XRect(40, yCordinateUtilized, 560, 120);
-                    //yCordinateUtilized += 120;
-                    xGraphics.DrawRectangle(XBrushes.White, xRect);
-                    xTextFormatter.Alignment = XParagraphAlignment.Left;
-                    xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
-
-                    fileContent = itenaryPaymentPolicy + "";
-                    height = GetTextHeight(xGraphics, fileContent, xFontBody, 560);
-                    xRect = new XRect(40, yCordinateUtilized, 540, height);
-                    yCordinateUtilized += height;
-                    //xRect = new XRect(40, yCordinateUtilized, 560, 70);
-                    //yCordinateUtilized += 70;
-                    xGraphics.DrawRectangle(XBrushes.White, xRect);
-                    xTextFormatter.Alignment = XParagraphAlignment.Left;
-                    xTextFormatter.DrawString(fileContent, xFontBody, XBrushes.Black, xRect, XStringFormat.TopLeft);
-
+                    PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always);
+                    renderer.Document = document;
+                    renderer.RenderDocument();
                     try
                     {
                         /* try to save file */
-                        pdfDocument.Save(saveFileDialogItinerary.FileName);
+                        renderer.PdfDocument.Save(saveFileDialogItinerary.FileName);
+                        Process.Start(saveFileDialogItinerary.FileName);
+                        System.IO.File.Delete(imagePath);
                     }
                     catch (Exception errSave)
                     {
@@ -304,8 +237,9 @@ namespace TourQueryManager
                     }
                     finally
                     {
-                        pdfDocument.Close();
+                        renderer.PdfDocument.Close();
                     }
+
                     /*/////////////////////////////PDF OF ITENARY CREATED AND SAVED//////////////////////////////////////////////////*/
                     MySqlCommand mySqlCommand = frmMysqlConnection.CreateCommand();
                     MySqlTransaction mySqlTransaction = frmMysqlConnection.BeginTransaction();
