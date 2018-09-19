@@ -312,7 +312,17 @@ namespace TourQueryManager
                 btnUpdateMysqlCommand.Parameters["@contact_var"].Value = txtboxClientContact.Text;
             }
 
-            btnUpdateMysqlCommand.Parameters["@place_var"].Value = txtboxPlace.Text;
+            if (string.Equals(txtboxClientContact.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Place Field cannot be empty");
+                frmEditQueryMysqlTransaction.Dispose();
+                lblPlace.ForeColor = Color.Red;
+                return;
+            }
+            else
+            {
+                btnUpdateMysqlCommand.Parameters["@place_var"].Value = txtboxPlace.Text;
+            }
 
             btnUpdateMysqlCommand.Parameters["@destinationcovered_var"].Value = txtboxDstnCvrd.Text;
 
