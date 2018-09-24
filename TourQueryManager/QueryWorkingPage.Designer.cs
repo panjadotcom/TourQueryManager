@@ -29,21 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmQueryWorkingPage));
-            this.dataGrdVuWorkingHotels = new System.Windows.Forms.DataGridView();
-            this.wrkHotelDayNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayArrivalTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayCity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayNoOfRooms = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDaySim = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayGuide = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayAdditionalCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayNarrationHdr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayNarration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkHotelDayUserComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtboxQueryDetails = new System.Windows.Forms.TextBox();
             this.lblQueryDetails = new System.Windows.Forms.Label();
             this.CmbboxWrkngHtlSector = new System.Windows.Forms.ComboBox();
@@ -59,192 +44,64 @@
             this.lblWorkingHotelCity = new System.Windows.Forms.Label();
             this.lblWorkingHotelHotel = new System.Windows.Forms.Label();
             this.lblWrkngHotelRoomType = new System.Windows.Forms.Label();
-            this.lblWrkngHotelRoomInfo = new System.Windows.Forms.Label();
             this.lblWorkingHotelMealPlan = new System.Windows.Forms.Label();
             this.ButtonWorkingDone = new System.Windows.Forms.Button();
             this.ButtonWorkingCancel = new System.Windows.Forms.Button();
             this.lblWorkingDayAndHotelRoomInfo = new System.Windows.Forms.Label();
             this.lblWorkingArrivalTime = new System.Windows.Forms.Label();
-            this.lblWorkingHotelInfo = new System.Windows.Forms.Label();
-            this.lblWorkingTravelInfo = new System.Windows.Forms.Label();
             this.lblWrkngCarType = new System.Windows.Forms.Label();
             this.CmbboxWrkngCarType = new System.Windows.Forms.ComboBox();
             this.lblWrkngNoOfCars = new System.Windows.Forms.Label();
             this.numericUpDownNoOfCars = new System.Windows.Forms.NumericUpDown();
             this.lblWrkngCarPurpose = new System.Windows.Forms.Label();
             this.CmbboxWrkngCarPurpose = new System.Windows.Forms.ComboBox();
-            this.lblWorkingNoOfGuids = new System.Windows.Forms.Label();
-            this.lblWorkingNoOfSims = new System.Windows.Forms.Label();
-            this.lblWorkingUserComment = new System.Windows.Forms.Label();
+            this.lblTourInclusions = new System.Windows.Forms.Label();
             this.lblWorkingAdditionalCost = new System.Windows.Forms.Label();
             this.txtboxWorkingAdditionalCost = new System.Windows.Forms.TextBox();
-            this.txtboxWorkingUserComment = new System.Windows.Forms.TextBox();
+            this.txtboxTourInclusions = new System.Windows.Forms.TextBox();
             this.dttmpkrWorkingArvlTime = new System.Windows.Forms.DateTimePicker();
             this.chkBoxWorkingGuide = new System.Windows.Forms.CheckBox();
             this.chkBoxWorkingSim = new System.Windows.Forms.CheckBox();
-            this.lblWorkingRoomNo = new System.Windows.Forms.Label();
-            this.numericUpDownWorkingRoomNo = new System.Windows.Forms.NumericUpDown();
             this.btnWorkingAddRoom = new System.Windows.Forms.Button();
-            this.txtboxWorkingNarration = new System.Windows.Forms.TextBox();
+            this.txtboxNarration = new System.Windows.Forms.TextBox();
             this.lblWorkingNarration = new System.Windows.Forms.Label();
             this.dataGridViewRoomsInfo = new System.Windows.Forms.DataGridView();
-            this.wrkDayNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkRoom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hotelRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wrkRoomType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkNoOfPersons = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wrkMealPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numericUpDownWorkingDayNo = new System.Windows.Forms.NumericUpDown();
+            this.HotelSingleBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelDoubleShairingPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelExtraBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateTimePickerWorkingArrivalDate = new System.Windows.Forms.DateTimePicker();
             this.lblWorkingHotelRating = new System.Windows.Forms.Label();
             this.CmbboxWrkngHtlHotelRating = new System.Windows.Forms.ComboBox();
-            this.txtboxWorkingNarrationHeader = new System.Windows.Forms.TextBox();
+            this.txtboxNarrationHeader = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.CmbboxWrkngSeasonType = new System.Windows.Forms.ComboBox();
             this.txtboxWorkingFlightCost = new System.Windows.Forms.TextBox();
-            this.lblWorkingFlightCost = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrdVuWorkingHotels)).BeginInit();
+            this.lblCarCost = new System.Windows.Forms.Label();
+            this.grpboxTravelDetails = new System.Windows.Forms.GroupBox();
+            this.groupBoxFlightDetails = new System.Windows.Forms.GroupBox();
+            this.txtBoxFlightPrice = new System.Windows.Forms.TextBox();
+            this.lblFlightCost = new System.Windows.Forms.Label();
+            this.txtboxFlightToCity = new System.Windows.Forms.TextBox();
+            this.lblFlightToCity = new System.Windows.Forms.Label();
+            this.txtboxFlightFromCity = new System.Windows.Forms.TextBox();
+            this.lblFlightFromCity = new System.Windows.Forms.Label();
+            this.txtBoxFlightNo = new System.Windows.Forms.TextBox();
+            this.lblFlightNo = new System.Windows.Forms.Label();
+            this.checkBoxTravelDetails = new System.Windows.Forms.CheckBox();
+            this.checkBoxFlightDetails = new System.Windows.Forms.CheckBox();
+            this.groupBoxHotelDetails = new System.Windows.Forms.GroupBox();
+            this.lblDayCounter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfPersons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfCars)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWorkingRoomNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRoomsInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWorkingDayNo)).BeginInit();
+            this.grpboxTravelDetails.SuspendLayout();
+            this.groupBoxFlightDetails.SuspendLayout();
+            this.groupBoxHotelDetails.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dataGrdVuWorkingHotels
-            // 
-            this.dataGrdVuWorkingHotels.AllowUserToAddRows = false;
-            this.dataGrdVuWorkingHotels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGrdVuWorkingHotels.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.wrkHotelDayNo,
-            this.wrkHotelDayDate,
-            this.wrkHotelDayArrivalTime,
-            this.wrkHotelDayArea,
-            this.wrkHotelDayCity,
-            this.wrkHotelDayName,
-            this.wrkHotelDayNoOfRooms,
-            this.wrkHotelDaySim,
-            this.wrkHotelDayGuide,
-            this.wrkHotelDayAdditionalCost,
-            this.wrkHotelDayPrice,
-            this.wrkHotelDayNarrationHdr,
-            this.wrkHotelDayNarration,
-            this.wrkHotelDayUserComment});
-            this.dataGrdVuWorkingHotels.Location = new System.Drawing.Point(15, 529);
-            this.dataGrdVuWorkingHotels.MultiSelect = false;
-            this.dataGrdVuWorkingHotels.Name = "dataGrdVuWorkingHotels";
-            this.dataGrdVuWorkingHotels.ReadOnly = true;
-            this.dataGrdVuWorkingHotels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrdVuWorkingHotels.Size = new System.Drawing.Size(913, 151);
-            this.dataGrdVuWorkingHotels.TabIndex = 0;
-            // 
-            // wrkHotelDayNo
-            // 
-            this.wrkHotelDayNo.FillWeight = 50F;
-            this.wrkHotelDayNo.HeaderText = "DAY NO";
-            this.wrkHotelDayNo.Name = "wrkHotelDayNo";
-            this.wrkHotelDayNo.ReadOnly = true;
-            this.wrkHotelDayNo.Width = 50;
-            // 
-            // wrkHotelDayDate
-            // 
-            this.wrkHotelDayDate.FillWeight = 90F;
-            this.wrkHotelDayDate.HeaderText = "DATE";
-            this.wrkHotelDayDate.Name = "wrkHotelDayDate";
-            this.wrkHotelDayDate.ReadOnly = true;
-            this.wrkHotelDayDate.Width = 90;
-            // 
-            // wrkHotelDayArrivalTime
-            // 
-            this.wrkHotelDayArrivalTime.HeaderText = "ARRIVAL TIME";
-            this.wrkHotelDayArrivalTime.Name = "wrkHotelDayArrivalTime";
-            this.wrkHotelDayArrivalTime.ReadOnly = true;
-            // 
-            // wrkHotelDayArea
-            // 
-            this.wrkHotelDayArea.HeaderText = "AREA";
-            this.wrkHotelDayArea.Name = "wrkHotelDayArea";
-            this.wrkHotelDayArea.ReadOnly = true;
-            this.wrkHotelDayArea.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkHotelDayArea.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // wrkHotelDayCity
-            // 
-            this.wrkHotelDayCity.FillWeight = 90F;
-            this.wrkHotelDayCity.HeaderText = "CITY";
-            this.wrkHotelDayCity.Name = "wrkHotelDayCity";
-            this.wrkHotelDayCity.ReadOnly = true;
-            this.wrkHotelDayCity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkHotelDayCity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkHotelDayCity.Width = 90;
-            // 
-            // wrkHotelDayName
-            // 
-            this.wrkHotelDayName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.wrkHotelDayName.HeaderText = "HOTEL";
-            this.wrkHotelDayName.MinimumWidth = 50;
-            this.wrkHotelDayName.Name = "wrkHotelDayName";
-            this.wrkHotelDayName.ReadOnly = true;
-            this.wrkHotelDayName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkHotelDayName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // wrkHotelDayNoOfRooms
-            // 
-            this.wrkHotelDayNoOfRooms.FillWeight = 50F;
-            this.wrkHotelDayNoOfRooms.HeaderText = "ROOMS";
-            this.wrkHotelDayNoOfRooms.MinimumWidth = 50;
-            this.wrkHotelDayNoOfRooms.Name = "wrkHotelDayNoOfRooms";
-            this.wrkHotelDayNoOfRooms.ReadOnly = true;
-            this.wrkHotelDayNoOfRooms.Width = 50;
-            // 
-            // wrkHotelDaySim
-            // 
-            this.wrkHotelDaySim.HeaderText = "SIM";
-            this.wrkHotelDaySim.Name = "wrkHotelDaySim";
-            this.wrkHotelDaySim.ReadOnly = true;
-            this.wrkHotelDaySim.Width = 50;
-            // 
-            // wrkHotelDayGuide
-            // 
-            this.wrkHotelDayGuide.HeaderText = "GUIDE";
-            this.wrkHotelDayGuide.Name = "wrkHotelDayGuide";
-            this.wrkHotelDayGuide.ReadOnly = true;
-            this.wrkHotelDayGuide.Width = 70;
-            // 
-            // wrkHotelDayAdditionalCost
-            // 
-            this.wrkHotelDayAdditionalCost.HeaderText = "ADDITIONAL COST";
-            this.wrkHotelDayAdditionalCost.Name = "wrkHotelDayAdditionalCost";
-            this.wrkHotelDayAdditionalCost.ReadOnly = true;
-            // 
-            // wrkHotelDayPrice
-            // 
-            this.wrkHotelDayPrice.HeaderText = "HOTEL PRICE";
-            this.wrkHotelDayPrice.Name = "wrkHotelDayPrice";
-            this.wrkHotelDayPrice.ReadOnly = true;
-            this.wrkHotelDayPrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // wrkHotelDayNarrationHdr
-            // 
-            this.wrkHotelDayNarrationHdr.HeaderText = "NARRATION HEADER";
-            this.wrkHotelDayNarrationHdr.Name = "wrkHotelDayNarrationHdr";
-            this.wrkHotelDayNarrationHdr.ReadOnly = true;
-            this.wrkHotelDayNarrationHdr.Visible = false;
-            // 
-            // wrkHotelDayNarration
-            // 
-            this.wrkHotelDayNarration.HeaderText = "NARRATION";
-            this.wrkHotelDayNarration.Name = "wrkHotelDayNarration";
-            this.wrkHotelDayNarration.ReadOnly = true;
-            this.wrkHotelDayNarration.Visible = false;
-            // 
-            // wrkHotelDayUserComment
-            // 
-            this.wrkHotelDayUserComment.HeaderText = "USER COMMENT";
-            this.wrkHotelDayUserComment.Name = "wrkHotelDayUserComment";
-            this.wrkHotelDayUserComment.ReadOnly = true;
-            this.wrkHotelDayUserComment.Visible = false;
             // 
             // txtboxQueryDetails
             // 
@@ -269,56 +126,51 @@
             // CmbboxWrkngHtlSector
             // 
             this.CmbboxWrkngHtlSector.FormattingEnabled = true;
-            this.CmbboxWrkngHtlSector.Location = new System.Drawing.Point(619, 92);
+            this.CmbboxWrkngHtlSector.Location = new System.Drawing.Point(134, 19);
             this.CmbboxWrkngHtlSector.Name = "CmbboxWrkngHtlSector";
-            this.CmbboxWrkngHtlSector.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlSector.TabIndex = 2;
+            this.CmbboxWrkngHtlSector.Size = new System.Drawing.Size(268, 21);
+            this.CmbboxWrkngHtlSector.TabIndex = 0;
             this.CmbboxWrkngHtlSector.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlSector_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlLocation
             // 
             this.CmbboxWrkngHtlLocation.FormattingEnabled = true;
-            this.CmbboxWrkngHtlLocation.Location = new System.Drawing.Point(619, 120);
+            this.CmbboxWrkngHtlLocation.Location = new System.Drawing.Point(134, 53);
             this.CmbboxWrkngHtlLocation.Name = "CmbboxWrkngHtlLocation";
-            this.CmbboxWrkngHtlLocation.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlLocation.TabIndex = 3;
+            this.CmbboxWrkngHtlLocation.Size = new System.Drawing.Size(268, 21);
+            this.CmbboxWrkngHtlLocation.TabIndex = 1;
             this.CmbboxWrkngHtlLocation.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlLocation_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlRoomType
             // 
             this.CmbboxWrkngHtlRoomType.FormattingEnabled = true;
-            this.CmbboxWrkngHtlRoomType.Location = new System.Drawing.Point(619, 232);
+            this.CmbboxWrkngHtlRoomType.Location = new System.Drawing.Point(133, 155);
             this.CmbboxWrkngHtlRoomType.Name = "CmbboxWrkngHtlRoomType";
-            this.CmbboxWrkngHtlRoomType.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlRoomType.TabIndex = 6;
+            this.CmbboxWrkngHtlRoomType.Size = new System.Drawing.Size(269, 21);
+            this.CmbboxWrkngHtlRoomType.TabIndex = 4;
             this.CmbboxWrkngHtlRoomType.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlRoomType_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlHotel
             // 
             this.CmbboxWrkngHtlHotel.FormattingEnabled = true;
-            this.CmbboxWrkngHtlHotel.Location = new System.Drawing.Point(618, 175);
+            this.CmbboxWrkngHtlHotel.Location = new System.Drawing.Point(133, 121);
             this.CmbboxWrkngHtlHotel.Name = "CmbboxWrkngHtlHotel";
-            this.CmbboxWrkngHtlHotel.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlHotel.TabIndex = 5;
+            this.CmbboxWrkngHtlHotel.Size = new System.Drawing.Size(269, 21);
+            this.CmbboxWrkngHtlHotel.TabIndex = 3;
             this.CmbboxWrkngHtlHotel.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlHotel_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlMealPlan
             // 
             this.CmbboxWrkngHtlMealPlan.FormattingEnabled = true;
-            this.CmbboxWrkngHtlMealPlan.Location = new System.Drawing.Point(619, 283);
+            this.CmbboxWrkngHtlMealPlan.Location = new System.Drawing.Point(133, 223);
             this.CmbboxWrkngHtlMealPlan.Name = "CmbboxWrkngHtlMealPlan";
-            this.CmbboxWrkngHtlMealPlan.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlMealPlan.TabIndex = 8;
+            this.CmbboxWrkngHtlMealPlan.Size = new System.Drawing.Size(269, 21);
+            this.CmbboxWrkngHtlMealPlan.TabIndex = 6;
             this.CmbboxWrkngHtlMealPlan.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlMealPlan_SelectedIndexChanged);
             // 
             // numericUpDownNoOfPersons
             // 
-            this.numericUpDownNoOfPersons.Location = new System.Drawing.Point(620, 257);
-            this.numericUpDownNoOfPersons.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
+            this.numericUpDownNoOfPersons.Location = new System.Drawing.Point(571, 105);
             this.numericUpDownNoOfPersons.Minimum = new decimal(new int[] {
             1,
             0,
@@ -337,7 +189,7 @@
             // buttonHotelAddRow
             // 
             this.buttonHotelAddRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonHotelAddRow.Location = new System.Drawing.Point(1096, 547);
+            this.buttonHotelAddRow.Location = new System.Drawing.Point(1159, 657);
             this.buttonHotelAddRow.Name = "buttonHotelAddRow";
             this.buttonHotelAddRow.Size = new System.Drawing.Size(97, 23);
             this.buttonHotelAddRow.TabIndex = 19;
@@ -348,7 +200,7 @@
             // labelWorkingHotelNoOfPersons
             // 
             this.labelWorkingHotelNoOfPersons.AutoSize = true;
-            this.labelWorkingHotelNoOfPersons.Location = new System.Drawing.Point(492, 259);
+            this.labelWorkingHotelNoOfPersons.Location = new System.Drawing.Point(476, 106);
             this.labelWorkingHotelNoOfPersons.Name = "labelWorkingHotelNoOfPersons";
             this.labelWorkingHotelNoOfPersons.Size = new System.Drawing.Size(88, 13);
             this.labelWorkingHotelNoOfPersons.TabIndex = 6;
@@ -363,63 +215,52 @@
             // lblWorkingHotelSector
             // 
             this.lblWorkingHotelSector.AutoSize = true;
-            this.lblWorkingHotelSector.Location = new System.Drawing.Point(491, 98);
+            this.lblWorkingHotelSector.Location = new System.Drawing.Point(70, 23);
             this.lblWorkingHotelSector.Name = "lblWorkingHotelSector";
-            this.lblWorkingHotelSector.Size = new System.Drawing.Size(51, 13);
-            this.lblWorkingHotelSector.TabIndex = 6;
+            this.lblWorkingHotelSector.Size = new System.Drawing.Size(57, 13);
+            this.lblWorkingHotelSector.TabIndex = 8;
             this.lblWorkingHotelSector.Text = "SECTOR";
             // 
             // lblWorkingHotelCity
             // 
             this.lblWorkingHotelCity.AutoSize = true;
-            this.lblWorkingHotelCity.Location = new System.Drawing.Point(492, 123);
+            this.lblWorkingHotelCity.Location = new System.Drawing.Point(92, 57);
             this.lblWorkingHotelCity.Name = "lblWorkingHotelCity";
-            this.lblWorkingHotelCity.Size = new System.Drawing.Size(31, 13);
-            this.lblWorkingHotelCity.TabIndex = 6;
+            this.lblWorkingHotelCity.Size = new System.Drawing.Size(35, 13);
+            this.lblWorkingHotelCity.TabIndex = 9;
             this.lblWorkingHotelCity.Text = "CITY";
             // 
             // lblWorkingHotelHotel
             // 
             this.lblWorkingHotelHotel.AutoSize = true;
-            this.lblWorkingHotelHotel.Location = new System.Drawing.Point(491, 175);
+            this.lblWorkingHotelHotel.Location = new System.Drawing.Point(79, 125);
             this.lblWorkingHotelHotel.Name = "lblWorkingHotelHotel";
-            this.lblWorkingHotelHotel.Size = new System.Drawing.Size(43, 13);
-            this.lblWorkingHotelHotel.TabIndex = 6;
+            this.lblWorkingHotelHotel.Size = new System.Drawing.Size(48, 13);
+            this.lblWorkingHotelHotel.TabIndex = 11;
             this.lblWorkingHotelHotel.Text = "HOTEL";
             // 
             // lblWrkngHotelRoomType
             // 
             this.lblWrkngHotelRoomType.AutoSize = true;
-            this.lblWrkngHotelRoomType.Location = new System.Drawing.Point(491, 232);
+            this.lblWrkngHotelRoomType.Location = new System.Drawing.Point(47, 159);
             this.lblWrkngHotelRoomType.Name = "lblWrkngHotelRoomType";
-            this.lblWrkngHotelRoomType.Size = new System.Drawing.Size(71, 13);
-            this.lblWrkngHotelRoomType.TabIndex = 6;
+            this.lblWrkngHotelRoomType.Size = new System.Drawing.Size(80, 13);
+            this.lblWrkngHotelRoomType.TabIndex = 12;
             this.lblWrkngHotelRoomType.Text = "ROOM TYPE";
-            // 
-            // lblWrkngHotelRoomInfo
-            // 
-            this.lblWrkngHotelRoomInfo.AutoSize = true;
-            this.lblWrkngHotelRoomInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWrkngHotelRoomInfo.Location = new System.Drawing.Point(471, 202);
-            this.lblWrkngHotelRoomInfo.Name = "lblWrkngHotelRoomInfo";
-            this.lblWrkngHotelRoomInfo.Size = new System.Drawing.Size(106, 17);
-            this.lblWrkngHotelRoomInfo.TabIndex = 6;
-            this.lblWrkngHotelRoomInfo.Text = "ROOM INFO :";
             // 
             // lblWorkingHotelMealPlan
             // 
             this.lblWorkingHotelMealPlan.AutoSize = true;
-            this.lblWorkingHotelMealPlan.Location = new System.Drawing.Point(491, 283);
+            this.lblWorkingHotelMealPlan.Location = new System.Drawing.Point(51, 227);
             this.lblWorkingHotelMealPlan.Name = "lblWorkingHotelMealPlan";
-            this.lblWorkingHotelMealPlan.Size = new System.Drawing.Size(67, 13);
-            this.lblWorkingHotelMealPlan.TabIndex = 6;
+            this.lblWorkingHotelMealPlan.Size = new System.Drawing.Size(76, 13);
+            this.lblWorkingHotelMealPlan.TabIndex = 14;
             this.lblWorkingHotelMealPlan.Text = "MEAL PLAN";
-            this.lblWorkingHotelMealPlan.Click += new System.EventHandler(this.lblWorkingHotelMealPlan_Click);
             // 
             // ButtonWorkingDone
             // 
             this.ButtonWorkingDone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonWorkingDone.Location = new System.Drawing.Point(1103, 649);
+            this.ButtonWorkingDone.Location = new System.Drawing.Point(1262, 657);
             this.ButtonWorkingDone.Name = "ButtonWorkingDone";
             this.ButtonWorkingDone.Size = new System.Drawing.Size(97, 23);
             this.ButtonWorkingDone.TabIndex = 20;
@@ -430,7 +271,7 @@
             // ButtonWorkingCancel
             // 
             this.ButtonWorkingCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonWorkingCancel.Location = new System.Drawing.Point(1000, 649);
+            this.ButtonWorkingCancel.Location = new System.Drawing.Point(1056, 657);
             this.ButtonWorkingCancel.Name = "ButtonWorkingCancel";
             this.ButtonWorkingCancel.Size = new System.Drawing.Size(97, 23);
             this.ButtonWorkingCancel.TabIndex = 21;
@@ -441,48 +282,28 @@
             // lblWorkingDayAndHotelRoomInfo
             // 
             this.lblWorkingDayAndHotelRoomInfo.AutoSize = true;
-            this.lblWorkingDayAndHotelRoomInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingDayAndHotelRoomInfo.Location = new System.Drawing.Point(471, 7);
+            this.lblWorkingDayAndHotelRoomInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWorkingDayAndHotelRoomInfo.Location = new System.Drawing.Point(464, 15);
             this.lblWorkingDayAndHotelRoomInfo.Name = "lblWorkingDayAndHotelRoomInfo";
-            this.lblWorkingDayAndHotelRoomInfo.Size = new System.Drawing.Size(46, 17);
+            this.lblWorkingDayAndHotelRoomInfo.Size = new System.Drawing.Size(50, 20);
             this.lblWorkingDayAndHotelRoomInfo.TabIndex = 9;
             this.lblWorkingDayAndHotelRoomInfo.Text = "Day :";
             // 
             // lblWorkingArrivalTime
             // 
             this.lblWorkingArrivalTime.AutoSize = true;
-            this.lblWorkingArrivalTime.Location = new System.Drawing.Point(476, 34);
+            this.lblWorkingArrivalTime.Location = new System.Drawing.Point(482, 71);
             this.lblWorkingArrivalTime.Name = "lblWorkingArrivalTime";
             this.lblWorkingArrivalTime.Size = new System.Drawing.Size(82, 13);
             this.lblWorkingArrivalTime.TabIndex = 10;
             this.lblWorkingArrivalTime.Text = "ARRIVAL TIME";
             // 
-            // lblWorkingHotelInfo
-            // 
-            this.lblWorkingHotelInfo.AutoSize = true;
-            this.lblWorkingHotelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingHotelInfo.Location = new System.Drawing.Point(481, 76);
-            this.lblWorkingHotelInfo.Name = "lblWorkingHotelInfo";
-            this.lblWorkingHotelInfo.Size = new System.Drawing.Size(70, 17);
-            this.lblWorkingHotelInfo.TabIndex = 11;
-            this.lblWorkingHotelInfo.Text = "HOTEL :";
-            // 
-            // lblWorkingTravelInfo
-            // 
-            this.lblWorkingTravelInfo.AutoSize = true;
-            this.lblWorkingTravelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingTravelInfo.Location = new System.Drawing.Point(918, 12);
-            this.lblWorkingTravelInfo.Name = "lblWorkingTravelInfo";
-            this.lblWorkingTravelInfo.Size = new System.Drawing.Size(78, 17);
-            this.lblWorkingTravelInfo.TabIndex = 12;
-            this.lblWorkingTravelInfo.Text = "TRAVEL :";
-            // 
             // lblWrkngCarType
             // 
             this.lblWrkngCarType.AutoSize = true;
-            this.lblWrkngCarType.Location = new System.Drawing.Point(927, 66);
+            this.lblWrkngCarType.Location = new System.Drawing.Point(44, 54);
             this.lblWrkngCarType.Name = "lblWrkngCarType";
-            this.lblWrkngCarType.Size = new System.Drawing.Size(60, 13);
+            this.lblWrkngCarType.Size = new System.Drawing.Size(68, 13);
             this.lblWrkngCarType.TabIndex = 14;
             this.lblWrkngCarType.Text = "CAR TYPE";
             // 
@@ -490,12 +311,13 @@
             // 
             this.CmbboxWrkngCarType.FormattingEnabled = true;
             this.CmbboxWrkngCarType.Items.AddRange(new object[] {
+            "SELECT CAR TYPE",
             "HATCH BACK (4 SEATER)",
             "SEDAN (4 SEATER)",
             "SUV (7 SEATER)",
             "BUS (12 SEATER)",
             "BUS (17 SEATER)"});
-            this.CmbboxWrkngCarType.Location = new System.Drawing.Point(1065, 65);
+            this.CmbboxWrkngCarType.Location = new System.Drawing.Point(118, 50);
             this.CmbboxWrkngCarType.Name = "CmbboxWrkngCarType";
             this.CmbboxWrkngCarType.Size = new System.Drawing.Size(121, 21);
             this.CmbboxWrkngCarType.TabIndex = 11;
@@ -503,26 +325,26 @@
             // lblWrkngNoOfCars
             // 
             this.lblWrkngNoOfCars.AutoSize = true;
-            this.lblWrkngNoOfCars.Location = new System.Drawing.Point(926, 42);
+            this.lblWrkngNoOfCars.Location = new System.Drawing.Point(26, 23);
             this.lblWrkngNoOfCars.Name = "lblWrkngNoOfCars";
-            this.lblWrkngNoOfCars.Size = new System.Drawing.Size(75, 13);
+            this.lblWrkngNoOfCars.Size = new System.Drawing.Size(86, 13);
             this.lblWrkngNoOfCars.TabIndex = 17;
             this.lblWrkngNoOfCars.Text = "NO. OF CARS";
             // 
             // numericUpDownNoOfCars
             // 
-            this.numericUpDownNoOfCars.Location = new System.Drawing.Point(1064, 39);
+            this.numericUpDownNoOfCars.Location = new System.Drawing.Point(118, 19);
             this.numericUpDownNoOfCars.Name = "numericUpDownNoOfCars";
-            this.numericUpDownNoOfCars.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDownNoOfCars.Size = new System.Drawing.Size(75, 20);
             this.numericUpDownNoOfCars.TabIndex = 10;
             this.numericUpDownNoOfCars.ValueChanged += new System.EventHandler(this.numericUpDownNoOfCars_ValueChanged);
             // 
             // lblWrkngCarPurpose
             // 
             this.lblWrkngCarPurpose.AutoSize = true;
-            this.lblWrkngCarPurpose.Location = new System.Drawing.Point(927, 99);
+            this.lblWrkngCarPurpose.Location = new System.Drawing.Point(17, 86);
             this.lblWrkngCarPurpose.Name = "lblWrkngCarPurpose";
-            this.lblWrkngCarPurpose.Size = new System.Drawing.Size(84, 13);
+            this.lblWrkngCarPurpose.Size = new System.Drawing.Size(95, 13);
             this.lblWrkngCarPurpose.TabIndex = 20;
             this.lblWrkngCarPurpose.Text = "CAR PURPOSE";
             // 
@@ -530,51 +352,31 @@
             // 
             this.CmbboxWrkngCarPurpose.FormattingEnabled = true;
             this.CmbboxWrkngCarPurpose.Items.AddRange(new object[] {
-            "Full Day",
-            "Half Day",
-            "Airport Arrival",
-            "Airport Departure"});
-            this.CmbboxWrkngCarPurpose.Location = new System.Drawing.Point(1064, 99);
+            "SELECT PURPOSE",
+            "FULL DAY",
+            "HALF DAY",
+            "AIRPORT ARIVAL",
+            "AIRPORT DEPARTURE"});
+            this.CmbboxWrkngCarPurpose.Location = new System.Drawing.Point(118, 82);
             this.CmbboxWrkngCarPurpose.Name = "CmbboxWrkngCarPurpose";
             this.CmbboxWrkngCarPurpose.Size = new System.Drawing.Size(121, 21);
             this.CmbboxWrkngCarPurpose.TabIndex = 12;
             // 
-            // lblWorkingNoOfGuids
+            // lblTourInclusions
             // 
-            this.lblWorkingNoOfGuids.AutoSize = true;
-            this.lblWorkingNoOfGuids.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingNoOfGuids.Location = new System.Drawing.Point(905, 170);
-            this.lblWorkingNoOfGuids.Name = "lblWorkingNoOfGuids";
-            this.lblWorkingNoOfGuids.Size = new System.Drawing.Size(130, 15);
-            this.lblWorkingNoOfGuids.TabIndex = 22;
-            this.lblWorkingNoOfGuids.Text = " GUIDE REQUIRED";
-            // 
-            // lblWorkingNoOfSims
-            // 
-            this.lblWorkingNoOfSims.AutoSize = true;
-            this.lblWorkingNoOfSims.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingNoOfSims.Location = new System.Drawing.Point(906, 196);
-            this.lblWorkingNoOfSims.Name = "lblWorkingNoOfSims";
-            this.lblWorkingNoOfSims.Size = new System.Drawing.Size(112, 15);
-            this.lblWorkingNoOfSims.TabIndex = 24;
-            this.lblWorkingNoOfSims.Text = " SIM REQUIRED";
-            // 
-            // lblWorkingUserComment
-            // 
-            this.lblWorkingUserComment.AutoSize = true;
-            this.lblWorkingUserComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingUserComment.Location = new System.Drawing.Point(934, 418);
-            this.lblWorkingUserComment.Name = "lblWorkingUserComment";
-            this.lblWorkingUserComment.Size = new System.Drawing.Size(119, 15);
-            this.lblWorkingUserComment.TabIndex = 26;
-            this.lblWorkingUserComment.Text = "USER COMMENT";
-            this.lblWorkingUserComment.Click += new System.EventHandler(this.lblWorkingNarration_Click);
+            this.lblTourInclusions.AutoSize = true;
+            this.lblTourInclusions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTourInclusions.Location = new System.Drawing.Point(1053, 529);
+            this.lblTourInclusions.Name = "lblTourInclusions";
+            this.lblTourInclusions.Size = new System.Drawing.Size(132, 15);
+            this.lblTourInclusions.TabIndex = 26;
+            this.lblTourInclusions.Text = "TOUR INCLUSIONS";
             // 
             // lblWorkingAdditionalCost
             // 
             this.lblWorkingAdditionalCost.AutoSize = true;
             this.lblWorkingAdditionalCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingAdditionalCost.Location = new System.Drawing.Point(911, 223);
+            this.lblWorkingAdditionalCost.Location = new System.Drawing.Point(1053, 359);
             this.lblWorkingAdditionalCost.Name = "lblWorkingAdditionalCost";
             this.lblWorkingAdditionalCost.Size = new System.Drawing.Size(154, 15);
             this.lblWorkingAdditionalCost.TabIndex = 27;
@@ -582,28 +384,28 @@
             // 
             // txtboxWorkingAdditionalCost
             // 
-            this.txtboxWorkingAdditionalCost.Location = new System.Drawing.Point(1065, 221);
+            this.txtboxWorkingAdditionalCost.Location = new System.Drawing.Point(1207, 357);
             this.txtboxWorkingAdditionalCost.Name = "txtboxWorkingAdditionalCost";
             this.txtboxWorkingAdditionalCost.Size = new System.Drawing.Size(100, 20);
             this.txtboxWorkingAdditionalCost.TabIndex = 15;
             this.txtboxWorkingAdditionalCost.Text = "0";
             // 
-            // txtboxWorkingUserComment
+            // txtboxTourInclusions
             // 
-            this.txtboxWorkingUserComment.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.txtboxWorkingUserComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtboxWorkingUserComment.Location = new System.Drawing.Point(935, 438);
-            this.txtboxWorkingUserComment.Multiline = true;
-            this.txtboxWorkingUserComment.Name = "txtboxWorkingUserComment";
-            this.txtboxWorkingUserComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtboxWorkingUserComment.Size = new System.Drawing.Size(258, 103);
-            this.txtboxWorkingUserComment.TabIndex = 18;
+            this.txtboxTourInclusions.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtboxTourInclusions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtboxTourInclusions.Location = new System.Drawing.Point(1056, 548);
+            this.txtboxTourInclusions.Multiline = true;
+            this.txtboxTourInclusions.Name = "txtboxTourInclusions";
+            this.txtboxTourInclusions.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtboxTourInclusions.Size = new System.Drawing.Size(303, 103);
+            this.txtboxTourInclusions.TabIndex = 18;
             // 
             // dttmpkrWorkingArvlTime
             // 
             this.dttmpkrWorkingArvlTime.Checked = false;
             this.dttmpkrWorkingArvlTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dttmpkrWorkingArvlTime.Location = new System.Drawing.Point(619, 34);
+            this.dttmpkrWorkingArvlTime.Location = new System.Drawing.Point(571, 70);
             this.dttmpkrWorkingArvlTime.Name = "dttmpkrWorkingArvlTime";
             this.dttmpkrWorkingArvlTime.ShowUpDown = true;
             this.dttmpkrWorkingArvlTime.Size = new System.Drawing.Size(96, 20);
@@ -612,77 +414,51 @@
             // chkBoxWorkingGuide
             // 
             this.chkBoxWorkingGuide.AutoSize = true;
-            this.chkBoxWorkingGuide.Location = new System.Drawing.Point(1065, 167);
+            this.chkBoxWorkingGuide.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkBoxWorkingGuide.Location = new System.Drawing.Point(1056, 297);
             this.chkBoxWorkingGuide.Name = "chkBoxWorkingGuide";
-            this.chkBoxWorkingGuide.Size = new System.Drawing.Size(68, 17);
+            this.chkBoxWorkingGuide.Size = new System.Drawing.Size(169, 21);
             this.chkBoxWorkingGuide.TabIndex = 13;
-            this.chkBoxWorkingGuide.Text = "YES/NO";
+            this.chkBoxWorkingGuide.Text = "GUIDE REQUIRED?";
             this.chkBoxWorkingGuide.UseVisualStyleBackColor = true;
             // 
             // chkBoxWorkingSim
             // 
             this.chkBoxWorkingSim.AutoSize = true;
-            this.chkBoxWorkingSim.Location = new System.Drawing.Point(1064, 196);
+            this.chkBoxWorkingSim.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkBoxWorkingSim.Location = new System.Drawing.Point(1055, 326);
             this.chkBoxWorkingSim.Name = "chkBoxWorkingSim";
-            this.chkBoxWorkingSim.Size = new System.Drawing.Size(68, 17);
+            this.chkBoxWorkingSim.Size = new System.Drawing.Size(147, 21);
             this.chkBoxWorkingSim.TabIndex = 14;
-            this.chkBoxWorkingSim.Text = "YES/NO";
+            this.chkBoxWorkingSim.Text = "SIM REQUIRED?";
             this.chkBoxWorkingSim.UseVisualStyleBackColor = true;
-            // 
-            // lblWorkingRoomNo
-            // 
-            this.lblWorkingRoomNo.AutoSize = true;
-            this.lblWorkingRoomNo.Location = new System.Drawing.Point(616, 208);
-            this.lblWorkingRoomNo.Name = "lblWorkingRoomNo";
-            this.lblWorkingRoomNo.Size = new System.Drawing.Size(68, 13);
-            this.lblWorkingRoomNo.TabIndex = 40;
-            this.lblWorkingRoomNo.Text = "ROOM NO : ";
-            // 
-            // numericUpDownWorkingRoomNo
-            // 
-            this.numericUpDownWorkingRoomNo.Enabled = false;
-            this.numericUpDownWorkingRoomNo.Location = new System.Drawing.Point(690, 204);
-            this.numericUpDownWorkingRoomNo.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownWorkingRoomNo.Name = "numericUpDownWorkingRoomNo";
-            this.numericUpDownWorkingRoomNo.ReadOnly = true;
-            this.numericUpDownWorkingRoomNo.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDownWorkingRoomNo.TabIndex = 41;
-            this.numericUpDownWorkingRoomNo.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // btnWorkingAddRoom
             // 
-            this.btnWorkingAddRoom.Location = new System.Drawing.Point(782, 283);
+            this.btnWorkingAddRoom.Location = new System.Drawing.Point(6, 257);
             this.btnWorkingAddRoom.Name = "btnWorkingAddRoom";
-            this.btnWorkingAddRoom.Size = new System.Drawing.Size(97, 23);
-            this.btnWorkingAddRoom.TabIndex = 9;
-            this.btnWorkingAddRoom.Text = "ADD ROOM";
+            this.btnWorkingAddRoom.Size = new System.Drawing.Size(396, 23);
+            this.btnWorkingAddRoom.TabIndex = 7;
+            this.btnWorkingAddRoom.Text = "ADD DIFFERENT HOTEL FOR SAME DAY";
             this.btnWorkingAddRoom.UseVisualStyleBackColor = true;
             this.btnWorkingAddRoom.Click += new System.EventHandler(this.btnWorkingAddRoom_Click);
             // 
-            // txtboxWorkingNarration
+            // txtboxNarration
             // 
-            this.txtboxWorkingNarration.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.txtboxWorkingNarration.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtboxWorkingNarration.Location = new System.Drawing.Point(935, 293);
-            this.txtboxWorkingNarration.Multiline = true;
-            this.txtboxWorkingNarration.Name = "txtboxWorkingNarration";
-            this.txtboxWorkingNarration.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtboxWorkingNarration.Size = new System.Drawing.Size(258, 115);
-            this.txtboxWorkingNarration.TabIndex = 17;
+            this.txtboxNarration.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtboxNarration.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtboxNarration.Location = new System.Drawing.Point(1056, 407);
+            this.txtboxNarration.Multiline = true;
+            this.txtboxNarration.Name = "txtboxNarration";
+            this.txtboxNarration.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtboxNarration.Size = new System.Drawing.Size(303, 115);
+            this.txtboxNarration.TabIndex = 17;
             // 
             // lblWorkingNarration
             // 
             this.lblWorkingNarration.AutoSize = true;
             this.lblWorkingNarration.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingNarration.Location = new System.Drawing.Point(911, 260);
+            this.lblWorkingNarration.Location = new System.Drawing.Point(1053, 389);
             this.lblWorkingNarration.Name = "lblWorkingNarration";
             this.lblWorkingNarration.Size = new System.Drawing.Size(85, 15);
             this.lblWorkingNarration.TabIndex = 43;
@@ -693,36 +469,35 @@
             this.dataGridViewRoomsInfo.AllowUserToAddRows = false;
             this.dataGridViewRoomsInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRoomsInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.wrkDayNo,
-            this.wrkRoom,
+            this.hotelRating,
+            this.HotelId,
             this.wrkRoomType,
-            this.wrkNoOfPersons,
             this.wrkMealPlan,
-            this.wrkExtraBed,
-            this.wrkPrice});
-            this.dataGridViewRoomsInfo.Location = new System.Drawing.Point(436, 310);
+            this.HotelSingleBedPrice,
+            this.HotelDoubleShairingPrice,
+            this.HotelExtraBedPrice});
+            this.dataGridViewRoomsInfo.Location = new System.Drawing.Point(437, 468);
             this.dataGridViewRoomsInfo.MultiSelect = false;
             this.dataGridViewRoomsInfo.Name = "dataGridViewRoomsInfo";
             this.dataGridViewRoomsInfo.ReadOnly = true;
             this.dataGridViewRoomsInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewRoomsInfo.Size = new System.Drawing.Size(492, 212);
+            this.dataGridViewRoomsInfo.Size = new System.Drawing.Size(613, 212);
             this.dataGridViewRoomsInfo.TabIndex = 45;
             // 
-            // wrkDayNo
+            // hotelRating
             // 
-            this.wrkDayNo.FillWeight = 70F;
-            this.wrkDayNo.HeaderText = "DAY";
-            this.wrkDayNo.Name = "wrkDayNo";
-            this.wrkDayNo.ReadOnly = true;
-            this.wrkDayNo.Width = 50;
+            this.hotelRating.FillWeight = 70F;
+            this.hotelRating.HeaderText = "HOTEL RATING";
+            this.hotelRating.Name = "hotelRating";
+            this.hotelRating.ReadOnly = true;
+            this.hotelRating.Width = 50;
             // 
-            // wrkRoom
+            // HotelId
             // 
-            this.wrkRoom.FillWeight = 70F;
-            this.wrkRoom.HeaderText = "ROOM";
-            this.wrkRoom.Name = "wrkRoom";
-            this.wrkRoom.ReadOnly = true;
-            this.wrkRoom.Width = 50;
+            this.HotelId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.HotelId.HeaderText = "HOTEL ID";
+            this.HotelId.Name = "HotelId";
+            this.HotelId.ReadOnly = true;
             // 
             // wrkRoomType
             // 
@@ -731,15 +506,7 @@
             this.wrkRoomType.ReadOnly = true;
             this.wrkRoomType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.wrkRoomType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkRoomType.Width = 90;
-            // 
-            // wrkNoOfPersons
-            // 
-            this.wrkNoOfPersons.FillWeight = 70F;
-            this.wrkNoOfPersons.HeaderText = "NO. OF PERSONS";
-            this.wrkNoOfPersons.Name = "wrkNoOfPersons";
-            this.wrkNoOfPersons.ReadOnly = true;
-            this.wrkNoOfPersons.Width = 70;
+            this.wrkRoomType.Width = 80;
             // 
             // wrkMealPlan
             // 
@@ -748,174 +515,285 @@
             this.wrkMealPlan.ReadOnly = true;
             this.wrkMealPlan.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.wrkMealPlan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.wrkMealPlan.Width = 80;
             // 
-            // wrkExtraBed
+            // HotelSingleBedPrice
             // 
-            this.wrkExtraBed.FillWeight = 50F;
-            this.wrkExtraBed.HeaderText = "EXTRA BED";
-            this.wrkExtraBed.Name = "wrkExtraBed";
-            this.wrkExtraBed.ReadOnly = true;
-            this.wrkExtraBed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkExtraBed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkExtraBed.Width = 50;
+            this.HotelSingleBedPrice.HeaderText = "SINGLE BED PRICE";
+            this.HotelSingleBedPrice.Name = "HotelSingleBedPrice";
+            this.HotelSingleBedPrice.ReadOnly = true;
             // 
-            // wrkPrice
+            // HotelDoubleShairingPrice
             // 
-            this.wrkPrice.FillWeight = 50F;
-            this.wrkPrice.HeaderText = "PRICE";
-            this.wrkPrice.Name = "wrkPrice";
-            this.wrkPrice.ReadOnly = true;
-            this.wrkPrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkPrice.Width = 50;
+            this.HotelDoubleShairingPrice.HeaderText = "DOUBLE BED PRICE";
+            this.HotelDoubleShairingPrice.Name = "HotelDoubleShairingPrice";
+            this.HotelDoubleShairingPrice.ReadOnly = true;
             // 
-            // numericUpDownWorkingDayNo
+            // HotelExtraBedPrice
             // 
-            this.numericUpDownWorkingDayNo.Enabled = false;
-            this.numericUpDownWorkingDayNo.Location = new System.Drawing.Point(519, 7);
-            this.numericUpDownWorkingDayNo.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownWorkingDayNo.Name = "numericUpDownWorkingDayNo";
-            this.numericUpDownWorkingDayNo.ReadOnly = true;
-            this.numericUpDownWorkingDayNo.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDownWorkingDayNo.TabIndex = 46;
-            this.numericUpDownWorkingDayNo.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.HotelExtraBedPrice.HeaderText = "EXTRA BED PRICE";
+            this.HotelExtraBedPrice.Name = "HotelExtraBedPrice";
+            this.HotelExtraBedPrice.ReadOnly = true;
             // 
             // dateTimePickerWorkingArrivalDate
             // 
-            this.dateTimePickerWorkingArrivalDate.Location = new System.Drawing.Point(619, 8);
+            this.dateTimePickerWorkingArrivalDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerWorkingArrivalDate.Location = new System.Drawing.Point(571, 12);
             this.dateTimePickerWorkingArrivalDate.Name = "dateTimePickerWorkingArrivalDate";
-            this.dateTimePickerWorkingArrivalDate.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePickerWorkingArrivalDate.Size = new System.Drawing.Size(200, 26);
             this.dateTimePickerWorkingArrivalDate.TabIndex = 0;
             this.dateTimePickerWorkingArrivalDate.ValueChanged += new System.EventHandler(this.dateTimePickerWorkingArrivalDate_ValueChanged);
             // 
             // lblWorkingHotelRating
             // 
             this.lblWorkingHotelRating.AutoSize = true;
-            this.lblWorkingHotelRating.Location = new System.Drawing.Point(492, 147);
+            this.lblWorkingHotelRating.Location = new System.Drawing.Point(28, 91);
             this.lblWorkingHotelRating.Name = "lblWorkingHotelRating";
-            this.lblWorkingHotelRating.Size = new System.Drawing.Size(87, 13);
-            this.lblWorkingHotelRating.TabIndex = 49;
+            this.lblWorkingHotelRating.Size = new System.Drawing.Size(99, 13);
+            this.lblWorkingHotelRating.TabIndex = 10;
             this.lblWorkingHotelRating.Text = "HOTEL RATING";
             // 
             // CmbboxWrkngHtlHotelRating
             // 
             this.CmbboxWrkngHtlHotelRating.FormattingEnabled = true;
-            this.CmbboxWrkngHtlHotelRating.Location = new System.Drawing.Point(619, 147);
+            this.CmbboxWrkngHtlHotelRating.Location = new System.Drawing.Point(134, 87);
             this.CmbboxWrkngHtlHotelRating.Name = "CmbboxWrkngHtlHotelRating";
-            this.CmbboxWrkngHtlHotelRating.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngHtlHotelRating.TabIndex = 4;
+            this.CmbboxWrkngHtlHotelRating.Size = new System.Drawing.Size(268, 21);
+            this.CmbboxWrkngHtlHotelRating.TabIndex = 2;
             this.CmbboxWrkngHtlHotelRating.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlHotelRating_SelectedIndexChanged);
             // 
-            // txtboxWorkingNarrationHeader
+            // txtboxNarrationHeader
             // 
-            this.txtboxWorkingNarrationHeader.Location = new System.Drawing.Point(1016, 257);
-            this.txtboxWorkingNarrationHeader.Name = "txtboxWorkingNarrationHeader";
-            this.txtboxWorkingNarrationHeader.Size = new System.Drawing.Size(169, 20);
-            this.txtboxWorkingNarrationHeader.TabIndex = 16;
+            this.txtboxNarrationHeader.Location = new System.Drawing.Point(1158, 386);
+            this.txtboxNarrationHeader.Name = "txtboxNarrationHeader";
+            this.txtboxNarrationHeader.Size = new System.Drawing.Size(201, 20);
+            this.txtboxNarrationHeader.TabIndex = 16;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(477, 57);
+            this.label1.Location = new System.Drawing.Point(34, 193);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 13);
-            this.label1.TabIndex = 50;
+            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.TabIndex = 13;
             this.label1.Text = "SEASON TYPE";
             // 
             // CmbboxWrkngSeasonType
             // 
             this.CmbboxWrkngSeasonType.FormattingEnabled = true;
-            this.CmbboxWrkngSeasonType.Items.AddRange(new object[] {
-            "OFF SEASON",
-            "PEAK SEASON"});
-            this.CmbboxWrkngSeasonType.Location = new System.Drawing.Point(619, 58);
+            this.CmbboxWrkngSeasonType.Location = new System.Drawing.Point(133, 189);
             this.CmbboxWrkngSeasonType.Name = "CmbboxWrkngSeasonType";
-            this.CmbboxWrkngSeasonType.Size = new System.Drawing.Size(121, 21);
-            this.CmbboxWrkngSeasonType.TabIndex = 51;
+            this.CmbboxWrkngSeasonType.Size = new System.Drawing.Size(269, 21);
+            this.CmbboxWrkngSeasonType.TabIndex = 5;
+            this.CmbboxWrkngSeasonType.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngSeasonType_SelectedIndexChanged);
             // 
             // txtboxWorkingFlightCost
             // 
-            this.txtboxWorkingFlightCost.Location = new System.Drawing.Point(1064, 133);
+            this.txtboxWorkingFlightCost.Location = new System.Drawing.Point(118, 114);
             this.txtboxWorkingFlightCost.Name = "txtboxWorkingFlightCost";
-            this.txtboxWorkingFlightCost.Size = new System.Drawing.Size(100, 20);
+            this.txtboxWorkingFlightCost.Size = new System.Drawing.Size(121, 20);
             this.txtboxWorkingFlightCost.TabIndex = 52;
             this.txtboxWorkingFlightCost.Text = "0";
             // 
-            // lblWorkingFlightCost
+            // lblCarCost
             // 
-            this.lblWorkingFlightCost.AutoSize = true;
-            this.lblWorkingFlightCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkingFlightCost.Location = new System.Drawing.Point(906, 135);
-            this.lblWorkingFlightCost.Name = "lblWorkingFlightCost";
-            this.lblWorkingFlightCost.Size = new System.Drawing.Size(122, 15);
-            this.lblWorkingFlightCost.TabIndex = 53;
-            this.lblWorkingFlightCost.Text = "FLIGHT COST(Rs)";
+            this.lblCarCost.AutoSize = true;
+            this.lblCarCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCarCost.Location = new System.Drawing.Point(6, 117);
+            this.lblCarCost.Name = "lblCarCost";
+            this.lblCarCost.Size = new System.Drawing.Size(106, 15);
+            this.lblCarCost.TabIndex = 53;
+            this.lblCarCost.Text = "PER CAR COST";
+            // 
+            // grpboxTravelDetails
+            // 
+            this.grpboxTravelDetails.Controls.Add(this.lblWrkngNoOfCars);
+            this.grpboxTravelDetails.Controls.Add(this.txtboxWorkingFlightCost);
+            this.grpboxTravelDetails.Controls.Add(this.CmbboxWrkngCarType);
+            this.grpboxTravelDetails.Controls.Add(this.lblCarCost);
+            this.grpboxTravelDetails.Controls.Add(this.lblWrkngCarType);
+            this.grpboxTravelDetails.Controls.Add(this.numericUpDownNoOfCars);
+            this.grpboxTravelDetails.Controls.Add(this.lblWrkngCarPurpose);
+            this.grpboxTravelDetails.Controls.Add(this.CmbboxWrkngCarPurpose);
+            this.grpboxTravelDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpboxTravelDetails.Location = new System.Drawing.Point(851, 48);
+            this.grpboxTravelDetails.Name = "grpboxTravelDetails";
+            this.grpboxTravelDetails.Size = new System.Drawing.Size(248, 140);
+            this.grpboxTravelDetails.TabIndex = 54;
+            this.grpboxTravelDetails.TabStop = false;
+            this.grpboxTravelDetails.Text = "TRAVEL:";
+            // 
+            // groupBoxFlightDetails
+            // 
+            this.groupBoxFlightDetails.Controls.Add(this.txtBoxFlightPrice);
+            this.groupBoxFlightDetails.Controls.Add(this.lblFlightCost);
+            this.groupBoxFlightDetails.Controls.Add(this.txtboxFlightToCity);
+            this.groupBoxFlightDetails.Controls.Add(this.lblFlightToCity);
+            this.groupBoxFlightDetails.Controls.Add(this.txtboxFlightFromCity);
+            this.groupBoxFlightDetails.Controls.Add(this.lblFlightFromCity);
+            this.groupBoxFlightDetails.Controls.Add(this.txtBoxFlightNo);
+            this.groupBoxFlightDetails.Controls.Add(this.lblFlightNo);
+            this.groupBoxFlightDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxFlightDetails.Location = new System.Drawing.Point(1107, 48);
+            this.groupBoxFlightDetails.Name = "groupBoxFlightDetails";
+            this.groupBoxFlightDetails.Size = new System.Drawing.Size(207, 140);
+            this.groupBoxFlightDetails.TabIndex = 55;
+            this.groupBoxFlightDetails.TabStop = false;
+            this.groupBoxFlightDetails.Text = "FLIGHTS";
+            // 
+            // txtBoxFlightPrice
+            // 
+            this.txtBoxFlightPrice.Location = new System.Drawing.Point(98, 115);
+            this.txtBoxFlightPrice.Name = "txtBoxFlightPrice";
+            this.txtBoxFlightPrice.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxFlightPrice.TabIndex = 62;
+            // 
+            // lblFlightCost
+            // 
+            this.lblFlightCost.AutoSize = true;
+            this.lblFlightCost.Location = new System.Drawing.Point(6, 117);
+            this.lblFlightCost.Name = "lblFlightCost";
+            this.lblFlightCost.Size = new System.Drawing.Size(86, 13);
+            this.lblFlightCost.TabIndex = 63;
+            this.lblFlightCost.Text = "PRICE/SEAT:";
+            // 
+            // txtboxFlightToCity
+            // 
+            this.txtboxFlightToCity.Location = new System.Drawing.Point(98, 84);
+            this.txtboxFlightToCity.Name = "txtboxFlightToCity";
+            this.txtboxFlightToCity.Size = new System.Drawing.Size(100, 20);
+            this.txtboxFlightToCity.TabIndex = 60;
+            // 
+            // lblFlightToCity
+            // 
+            this.lblFlightToCity.AutoSize = true;
+            this.lblFlightToCity.Location = new System.Drawing.Point(64, 88);
+            this.lblFlightToCity.Name = "lblFlightToCity";
+            this.lblFlightToCity.Size = new System.Drawing.Size(28, 13);
+            this.lblFlightToCity.TabIndex = 61;
+            this.lblFlightToCity.Text = "TO:";
+            // 
+            // txtboxFlightFromCity
+            // 
+            this.txtboxFlightFromCity.Location = new System.Drawing.Point(98, 53);
+            this.txtboxFlightFromCity.Name = "txtboxFlightFromCity";
+            this.txtboxFlightFromCity.Size = new System.Drawing.Size(100, 20);
+            this.txtboxFlightFromCity.TabIndex = 58;
+            // 
+            // lblFlightFromCity
+            // 
+            this.lblFlightFromCity.AutoSize = true;
+            this.lblFlightFromCity.Location = new System.Drawing.Point(46, 57);
+            this.lblFlightFromCity.Name = "lblFlightFromCity";
+            this.lblFlightFromCity.Size = new System.Drawing.Size(46, 13);
+            this.lblFlightFromCity.TabIndex = 59;
+            this.lblFlightFromCity.Text = "FROM:";
+            // 
+            // txtBoxFlightNo
+            // 
+            this.txtBoxFlightNo.Location = new System.Drawing.Point(98, 22);
+            this.txtBoxFlightNo.Name = "txtBoxFlightNo";
+            this.txtBoxFlightNo.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxFlightNo.TabIndex = 54;
+            // 
+            // lblFlightNo
+            // 
+            this.lblFlightNo.AutoSize = true;
+            this.lblFlightNo.Location = new System.Drawing.Point(24, 26);
+            this.lblFlightNo.Name = "lblFlightNo";
+            this.lblFlightNo.Size = new System.Drawing.Size(68, 13);
+            this.lblFlightNo.TabIndex = 57;
+            this.lblFlightNo.Text = "FLIGT NO:";
+            // 
+            // checkBoxTravelDetails
+            // 
+            this.checkBoxTravelDetails.AutoSize = true;
+            this.checkBoxTravelDetails.Location = new System.Drawing.Point(854, 25);
+            this.checkBoxTravelDetails.Name = "checkBoxTravelDetails";
+            this.checkBoxTravelDetails.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxTravelDetails.TabIndex = 56;
+            this.checkBoxTravelDetails.Text = "ENTER TRAVEL DETAILS";
+            this.checkBoxTravelDetails.UseVisualStyleBackColor = true;
+            this.checkBoxTravelDetails.CheckedChanged += new System.EventHandler(this.checkBoxTravelDetails_CheckedChanged);
+            // 
+            // checkBoxFlightDetails
+            // 
+            this.checkBoxFlightDetails.AutoSize = true;
+            this.checkBoxFlightDetails.Location = new System.Drawing.Point(1107, 25);
+            this.checkBoxFlightDetails.Name = "checkBoxFlightDetails";
+            this.checkBoxFlightDetails.Size = new System.Drawing.Size(152, 17);
+            this.checkBoxFlightDetails.TabIndex = 57;
+            this.checkBoxFlightDetails.Text = "ENTER FLIGHT DETAILS";
+            this.checkBoxFlightDetails.UseVisualStyleBackColor = true;
+            this.checkBoxFlightDetails.CheckedChanged += new System.EventHandler(this.checkBoxFlightDetails_CheckedChanged);
+            // 
+            // groupBoxHotelDetails
+            // 
+            this.groupBoxHotelDetails.Controls.Add(this.lblWorkingHotelSector);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlSector);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlLocation);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlRoomType);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlMealPlan);
+            this.groupBoxHotelDetails.Controls.Add(this.label1);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlHotel);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngSeasonType);
+            this.groupBoxHotelDetails.Controls.Add(this.lblWorkingHotelCity);
+            this.groupBoxHotelDetails.Controls.Add(this.lblWorkingHotelHotel);
+            this.groupBoxHotelDetails.Controls.Add(this.lblWorkingHotelRating);
+            this.groupBoxHotelDetails.Controls.Add(this.lblWrkngHotelRoomType);
+            this.groupBoxHotelDetails.Controls.Add(this.CmbboxWrkngHtlHotelRating);
+            this.groupBoxHotelDetails.Controls.Add(this.lblWorkingHotelMealPlan);
+            this.groupBoxHotelDetails.Controls.Add(this.btnWorkingAddRoom);
+            this.groupBoxHotelDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxHotelDetails.Location = new System.Drawing.Point(437, 176);
+            this.groupBoxHotelDetails.Name = "groupBoxHotelDetails";
+            this.groupBoxHotelDetails.Size = new System.Drawing.Size(408, 286);
+            this.groupBoxHotelDetails.TabIndex = 58;
+            this.groupBoxHotelDetails.TabStop = false;
+            this.groupBoxHotelDetails.Text = "HOTEL:";
+            // 
+            // lblDayCounter
+            // 
+            this.lblDayCounter.AutoSize = true;
+            this.lblDayCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDayCounter.Location = new System.Drawing.Point(516, 15);
+            this.lblDayCounter.Name = "lblDayCounter";
+            this.lblDayCounter.Size = new System.Drawing.Size(19, 20);
+            this.lblDayCounter.TabIndex = 59;
+            this.lblDayCounter.Text = "1";
             // 
             // FrmQueryWorkingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1211, 684);
-            this.Controls.Add(this.txtboxWorkingFlightCost);
-            this.Controls.Add(this.lblWorkingFlightCost);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.CmbboxWrkngSeasonType);
-            this.Controls.Add(this.txtboxWorkingNarrationHeader);
-            this.Controls.Add(this.lblWorkingHotelRating);
-            this.Controls.Add(this.CmbboxWrkngHtlHotelRating);
+            this.ClientSize = new System.Drawing.Size(1371, 684);
+            this.Controls.Add(this.lblDayCounter);
+            this.Controls.Add(this.groupBoxHotelDetails);
+            this.Controls.Add(this.checkBoxFlightDetails);
+            this.Controls.Add(this.checkBoxTravelDetails);
+            this.Controls.Add(this.groupBoxFlightDetails);
+            this.Controls.Add(this.grpboxTravelDetails);
+            this.Controls.Add(this.txtboxNarrationHeader);
             this.Controls.Add(this.dateTimePickerWorkingArrivalDate);
-            this.Controls.Add(this.numericUpDownWorkingDayNo);
             this.Controls.Add(this.dataGridViewRoomsInfo);
-            this.Controls.Add(this.txtboxWorkingNarration);
+            this.Controls.Add(this.txtboxNarration);
             this.Controls.Add(this.lblWorkingNarration);
-            this.Controls.Add(this.btnWorkingAddRoom);
-            this.Controls.Add(this.numericUpDownWorkingRoomNo);
-            this.Controls.Add(this.lblWorkingRoomNo);
             this.Controls.Add(this.chkBoxWorkingSim);
             this.Controls.Add(this.chkBoxWorkingGuide);
             this.Controls.Add(this.dttmpkrWorkingArvlTime);
-            this.Controls.Add(this.txtboxWorkingUserComment);
+            this.Controls.Add(this.txtboxTourInclusions);
             this.Controls.Add(this.txtboxWorkingAdditionalCost);
             this.Controls.Add(this.lblWorkingAdditionalCost);
-            this.Controls.Add(this.lblWorkingUserComment);
-            this.Controls.Add(this.lblWorkingNoOfSims);
-            this.Controls.Add(this.lblWorkingNoOfGuids);
-            this.Controls.Add(this.CmbboxWrkngCarPurpose);
-            this.Controls.Add(this.lblWrkngCarPurpose);
-            this.Controls.Add(this.numericUpDownNoOfCars);
-            this.Controls.Add(this.lblWrkngNoOfCars);
-            this.Controls.Add(this.lblWrkngCarType);
-            this.Controls.Add(this.CmbboxWrkngCarType);
-            this.Controls.Add(this.lblWorkingTravelInfo);
-            this.Controls.Add(this.lblWorkingHotelInfo);
+            this.Controls.Add(this.lblTourInclusions);
             this.Controls.Add(this.lblWorkingArrivalTime);
             this.Controls.Add(this.lblWorkingDayAndHotelRoomInfo);
-            this.Controls.Add(this.lblWorkingHotelMealPlan);
-            this.Controls.Add(this.lblWrkngHotelRoomInfo);
             this.Controls.Add(this.labelWorkingHotelNoOfPersons);
-            this.Controls.Add(this.lblWrkngHotelRoomType);
-            this.Controls.Add(this.lblWorkingHotelHotel);
-            this.Controls.Add(this.lblWorkingHotelCity);
-            this.Controls.Add(this.lblWorkingHotelSector);
             this.Controls.Add(this.ButtonWorkingCancel);
             this.Controls.Add(this.ButtonWorkingDone);
             this.Controls.Add(this.buttonHotelAddRow);
             this.Controls.Add(this.numericUpDownNoOfPersons);
-            this.Controls.Add(this.CmbboxWrkngHtlHotel);
-            this.Controls.Add(this.CmbboxWrkngHtlMealPlan);
-            this.Controls.Add(this.CmbboxWrkngHtlRoomType);
-            this.Controls.Add(this.CmbboxWrkngHtlLocation);
-            this.Controls.Add(this.CmbboxWrkngHtlSector);
             this.Controls.Add(this.lblQueryDetails);
             this.Controls.Add(this.txtboxQueryDetails);
-            this.Controls.Add(this.dataGrdVuWorkingHotels);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -924,20 +802,21 @@
             this.Text = "Working";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmQueryWorkingPage_FormClosing);
             this.Load += new System.EventHandler(this.FrmQueryWorkingPage_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrdVuWorkingHotels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfPersons)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfCars)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWorkingRoomNo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRoomsInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWorkingDayNo)).EndInit();
+            this.grpboxTravelDetails.ResumeLayout(false);
+            this.grpboxTravelDetails.PerformLayout();
+            this.groupBoxFlightDetails.ResumeLayout(false);
+            this.groupBoxFlightDetails.PerformLayout();
+            this.groupBoxHotelDetails.ResumeLayout(false);
+            this.groupBoxHotelDetails.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataGrdVuWorkingHotels;
         private System.Windows.Forms.TextBox txtboxQueryDetails;
         private System.Windows.Forms.Label lblQueryDetails;
         private System.Windows.Forms.ComboBox CmbboxWrkngHtlSector;
@@ -953,64 +832,56 @@
         private System.Windows.Forms.Label lblWorkingHotelCity;
         private System.Windows.Forms.Label lblWorkingHotelHotel;
         private System.Windows.Forms.Label lblWrkngHotelRoomType;
-        private System.Windows.Forms.Label lblWrkngHotelRoomInfo;
         private System.Windows.Forms.Label lblWorkingHotelMealPlan;
         private System.Windows.Forms.Button ButtonWorkingDone;
         private System.Windows.Forms.Button ButtonWorkingCancel;
         private System.Windows.Forms.Label lblWorkingDayAndHotelRoomInfo;
         private System.Windows.Forms.Label lblWorkingArrivalTime;
-        private System.Windows.Forms.Label lblWorkingHotelInfo;
-        private System.Windows.Forms.Label lblWorkingTravelInfo;
         private System.Windows.Forms.Label lblWrkngCarType;
         private System.Windows.Forms.ComboBox CmbboxWrkngCarType;
         private System.Windows.Forms.Label lblWrkngNoOfCars;
         private System.Windows.Forms.NumericUpDown numericUpDownNoOfCars;
         private System.Windows.Forms.Label lblWrkngCarPurpose;
         private System.Windows.Forms.ComboBox CmbboxWrkngCarPurpose;
-        private System.Windows.Forms.Label lblWorkingNoOfGuids;
-        private System.Windows.Forms.Label lblWorkingNoOfSims;
-        private System.Windows.Forms.Label lblWorkingUserComment;
+        private System.Windows.Forms.Label lblTourInclusions;
         private System.Windows.Forms.Label lblWorkingAdditionalCost;
         private System.Windows.Forms.TextBox txtboxWorkingAdditionalCost;
-        private System.Windows.Forms.TextBox txtboxWorkingUserComment;
+        private System.Windows.Forms.TextBox txtboxTourInclusions;
         private System.Windows.Forms.DateTimePicker dttmpkrWorkingArvlTime;
         private System.Windows.Forms.CheckBox chkBoxWorkingGuide;
         private System.Windows.Forms.CheckBox chkBoxWorkingSim;
-        private System.Windows.Forms.Label lblWorkingRoomNo;
-        private System.Windows.Forms.NumericUpDown numericUpDownWorkingRoomNo;
         private System.Windows.Forms.Button btnWorkingAddRoom;
-        private System.Windows.Forms.TextBox txtboxWorkingNarration;
+        private System.Windows.Forms.TextBox txtboxNarration;
         private System.Windows.Forms.Label lblWorkingNarration;
         private System.Windows.Forms.DataGridView dataGridViewRoomsInfo;
-        private System.Windows.Forms.NumericUpDown numericUpDownWorkingDayNo;
         private System.Windows.Forms.DateTimePicker dateTimePickerWorkingArrivalDate;
         private System.Windows.Forms.Label lblWorkingHotelRating;
         private System.Windows.Forms.ComboBox CmbboxWrkngHtlHotelRating;
-        private System.Windows.Forms.TextBox txtboxWorkingNarrationHeader;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkDayNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkRoom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkRoomType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkNoOfPersons;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkMealPlan;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkExtraBed;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayArrivalTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayArea;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayCity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayNoOfRooms;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDaySim;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayGuide;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayAdditionalCost;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayNarrationHdr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayNarration;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wrkHotelDayUserComment;
+        private System.Windows.Forms.TextBox txtboxNarrationHeader;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox CmbboxWrkngSeasonType;
         private System.Windows.Forms.TextBox txtboxWorkingFlightCost;
-        private System.Windows.Forms.Label lblWorkingFlightCost;
+        private System.Windows.Forms.Label lblCarCost;
+        private System.Windows.Forms.GroupBox grpboxTravelDetails;
+        private System.Windows.Forms.GroupBox groupBoxFlightDetails;
+        private System.Windows.Forms.TextBox txtBoxFlightPrice;
+        private System.Windows.Forms.Label lblFlightCost;
+        private System.Windows.Forms.TextBox txtboxFlightToCity;
+        private System.Windows.Forms.Label lblFlightToCity;
+        private System.Windows.Forms.TextBox txtboxFlightFromCity;
+        private System.Windows.Forms.Label lblFlightFromCity;
+        private System.Windows.Forms.TextBox txtBoxFlightNo;
+        private System.Windows.Forms.Label lblFlightNo;
+        private System.Windows.Forms.CheckBox checkBoxTravelDetails;
+        private System.Windows.Forms.CheckBox checkBoxFlightDetails;
+        private System.Windows.Forms.GroupBox groupBoxHotelDetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hotelRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HotelId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn wrkRoomType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn wrkMealPlan;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HotelSingleBedPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HotelDoubleShairingPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HotelExtraBedPrice;
+        private System.Windows.Forms.Label lblDayCounter;
     }
 }

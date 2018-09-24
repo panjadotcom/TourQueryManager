@@ -19,7 +19,8 @@ namespace TourQueryManager
             //Application.Run(new FrmHotelsPage());
             //Application.Run(new FrmEditQueryPage());
             //Application.Run(new FrmLoginPage());
-            Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
+            Application.Run(new FrmQueryWorkingPage("51362018922121222"));
+            //Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
         }
     }
 }

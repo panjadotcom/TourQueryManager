@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace TourQueryManager
 {
@@ -19,23 +20,43 @@ namespace TourQueryManager
 
         static string queryIdWorking = null;
         static string mysqlConnStr = Properties.Settings.Default.mysqlConnStr;
-        MySqlConnection frmQueryWorkingMysqlConn = new MySqlConnection(mysqlConnStr);
-        MySqlTransaction frmQueryWorkingMysqlTransaction = null;
-        MySqlDataAdapter frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter();
+        MySqlConnection mySqlConnection = new MySqlConnection(mysqlConnStr);
+        MySqlDataAdapter mysqlDataAdaptor = new MySqlDataAdapter();
         DataSet frmQueryWorkingDataSet = null;
-        DataSet dataSetHotelCity = new DataSet();
-        DataSet dataSetHotelRating = new DataSet();
-        DataSet dataSetHotelName = new DataSet();
-        DataSet dataSetRoomType = new DataSet();
-        DataSet dataSetHotelMealPlan = new DataSet();
         MySqlCommand command = new MySqlCommand();
-        String columnNameForMealPlan = "";
-        int hotelPricePerDay = 0;
-
+        
         public FrmQueryWorkingPage(string queryId)
         {
             InitializeComponent();
             queryIdWorking = queryId;
+        }
+
+        
+        /// <summary>
+        /// This will reset the page 
+        /// </summary>
+        private void FrmQueryWorkingPage_Refresh()
+        {
+            CmbboxWrkngHtlSector_Reload();
+            dataGridViewRoomsInfo.Rows.Clear();
+            dataGridViewRoomsInfo.Refresh();
+            checkBoxTravelDetails.Checked = false;
+            grpboxTravelDetails.Enabled = false;
+            numericUpDownNoOfCars.Value = 0;
+            CmbboxWrkngCarType.SelectedIndex = 0;
+            CmbboxWrkngCarPurpose.SelectedIndex = 0;
+            txtboxWorkingFlightCost.Text = "0";
+            checkBoxFlightDetails.Checked = false;
+            groupBoxFlightDetails.Enabled = false;
+            txtBoxFlightNo.Text = "";
+            txtboxFlightFromCity.Text = "";
+            txtboxFlightToCity.Text = "";
+            txtBoxFlightPrice.Text = "0";
+            chkBoxWorkingGuide.Checked = false;
+            chkBoxWorkingSim.Checked = false;
+            txtboxWorkingAdditionalCost.Text = "0";
+            txtboxNarrationHeader.Text = "";
+            txtboxNarration.Text = "";
         }
 
         private void FrmQueryWorkingPage_Load(object sender, EventArgs e)
@@ -46,7 +67,7 @@ namespace TourQueryManager
            
             try
             {
-                frmQueryWorkingMysqlConn.Open();
+                mySqlConnection.Open();
             }
             catch (Exception erropen)
             {
@@ -58,13 +79,13 @@ namespace TourQueryManager
            
             frmQueryWorkingDataSet = new DataSet();
             string mysqlSelectQueryStr = "SELECT * FROM `queries` WHERE `queryid` = " + queryIdWorking + "";
-            command.Connection = frmQueryWorkingMysqlConn;
+            command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
             {
-                frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
+                mysqlDataAdaptor.SelectCommand = command;
                
-                frmQueryWorkingMysqlDataAdaptor.Fill(frmQueryWorkingDataSet, "QUERYID_DATA");
+                mysqlDataAdaptor.Fill(frmQueryWorkingDataSet, "QUERYID_DATA");
             }
             catch (Exception errquery)
             {
@@ -92,52 +113,18 @@ namespace TourQueryManager
             querydetails = querydetails + "\r\nNOTE = " + frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["note"].ToString();
             querydetails = querydetails + "";
             txtboxQueryDetails.Text = querydetails;
-
-            //day no info 
-            numericUpDownWorkingDayNo.Value = 1;
-            numericUpDownNoOfCars.Value = 0;
-            CmbboxWrkngCarType.Enabled = false;
-            CmbboxWrkngCarPurpose.Enabled = false;
-
-            //arrivalDate
-            dateTimePickerWorkingArrivalDate.Enabled = true;
-
-
-            //Sector Info
-            string mysqlSelectSectorStr = "SELECT DISTINCT hotelarea FROM `hotelinfo` ";
-            command.CommandText = mysqlSelectSectorStr;
             try
             {
-                frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
-              
-                frmQueryWorkingMysqlDataAdaptor.Fill(frmQueryWorkingDataSet, "SECTOR_DATA");
-                
+                mySqlConnection.Close();
             }
-            catch (Exception errquery)
+            catch (Exception errConnClose)
             {
-                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
-
-            DataRow dr = frmQueryWorkingDataSet.Tables["SECTOR_DATA"].NewRow();
-            dr[0] = "SELECT SECTOR";
-
-            frmQueryWorkingDataSet.Tables["SECTOR_DATA"].Rows.InsertAt(dr, 0);
-
-            CmbboxWrkngHtlSector.Items.Clear();
-            //  CmbboxWrkngHtlSector.Items.Add("SELECT SECTOR");
-            CmbboxWrkngHtlSector.ValueMember = "hotelarea";
-            CmbboxWrkngHtlSector.DisplayMember = "hotelarea";
-            CmbboxWrkngHtlSector.DataSource = frmQueryWorkingDataSet.Tables["SECTOR_DATA"];
-            CmbboxWrkngHtlSector.SelectedIndex = 0;
-            CmbboxWrkngSeasonType.SelectedIndex = 0;
-           // CmbboxWrkngHtlSector.SelectedValue = 0;
-
-
-
-           
+            FrmQueryWorkingPage_Refresh();
         }
 
-        
         private void releaseObject(object obj)
         {
             try
@@ -162,629 +149,998 @@ namespace TourQueryManager
             
         }
 
+        private void CmbboxWrkngHtlSector_Reload()
+        {
+            CmbboxWrkngHtlSector.SelectedValue = 0;
+            CmbboxWrkngHtlSector.DataSource = null;
+            CmbboxWrkngHtlSector.Text = "";
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+
+            string selectQueryString = "SELECT DISTINCT `hotelarea` FROM `hotelinfo` ORDER BY `hotelarea`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            DataRow dataRow;
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_AREA");
+                if (dataSet != null)
+                {
+                    dataRow = dataSet.Tables["HOTEL_AREA"].NewRow();
+                    dataRow["hotelarea"] = "SELECT AREA";
+                    dataSet.Tables["HOTEL_AREA"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngHtlSector.DataSource = dataSet.Tables["HOTEL_AREA"];
+                    CmbboxWrkngHtlSector.ValueMember = "hotelarea";
+                    CmbboxWrkngHtlSector.DisplayMember = "hotelarea";
+                    CmbboxWrkngHtlSector.SelectedIndex = 0;
+                    //CmbboxWrkngHtlSector.SelectedValue = 0;
+                }
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in Closing mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+
+            CmbboxWrkngHtlSector.Text = "SELECT SECTOR";
+            btnWorkingAddRoom.Enabled = false;
+        }
+
         private void CmbboxWrkngHtlSector_SelectedIndexChanged(object sender, EventArgs e)
         {
-          
-
-
-            if (CmbboxWrkngHtlSector.SelectedIndex == 0)
+            if ((CmbboxWrkngHtlSector.SelectedIndex == 0) || (CmbboxWrkngHtlSector.SelectedValue == null))
             {
-                CmbboxWrkngHtlLocation.Text = "--- Select sector first ---";
+                CmbboxWrkngHtlLocation.SelectedValue = 0;
+                CmbboxWrkngHtlLocation.DataSource = null;
+                CmbboxWrkngHtlLocation.Text = "";
                 return;
             }
-            else
+            try
             {
-                dataSetHotelCity.Reset();
-                CmbboxWrkngHtlLocation.DataSource = null;
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
 
-
-
-                command.CommandText = "SELECT DISTINCT `hotelcity` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' ORDER BY `hotelcity`";
-                // MessageBox.Show("Query  " + command.CommandText);
-                try
+            string selectQueryString = "SELECT DISTINCT `hotelcity` FROM `hotelinfo` WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.SelectedValue.ToString() + "' ORDER BY `hotelcity`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_CITY");
+                if (dataSet != null)
                 {
-                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
-                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
-                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelCity, "HOTEL_CITY_DATA");
-
-                    DataRow dr = dataSetHotelCity.Tables["HOTEL_CITY_DATA"].NewRow();
-                    dr[0] = "SELECT CITY";
-
-                    dataSetHotelCity.Tables["HOTEL_CITY_DATA"].Rows.InsertAt(dr, 0);
-
-
-                    // CmbboxWrkngHtlLocation.Items.Add("SELECT LOCATION");
+                    DataRow dataRow = dataSet.Tables["HOTEL_CITY"].NewRow();
+                    dataRow["hotelcity"] = "SELECT CITY";
+                    dataSet.Tables["HOTEL_CITY"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngHtlLocation.DataSource = dataSet.Tables["HOTEL_CITY"];
                     CmbboxWrkngHtlLocation.ValueMember = "hotelcity";
                     CmbboxWrkngHtlLocation.DisplayMember = "hotelcity";
-                    CmbboxWrkngHtlLocation.DataSource = dataSetHotelCity.Tables["HOTEL_CITY_DATA"];
-                    // CmbboxWrkngHtlLocation.SelectedValue = 0;
                     CmbboxWrkngHtlLocation.SelectedIndex = 0;
-
-                }
-                catch (Exception errquery)
-                {
-                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                    //CmbboxWrkngHtlLocation.SelectedValue = 0;
                 }
             }
-           
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
         }
 
         private void CmbboxWrkngHtlLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-
-            if (CmbboxWrkngHtlLocation.SelectedIndex == 0)
+            if ((CmbboxWrkngHtlLocation.SelectedIndex == 0) || (CmbboxWrkngHtlLocation.SelectedValue == null))
             {
-                CmbboxWrkngHtlHotelRating.Text = "--- Select city first ---";
-                return;
-            }
-            else
-            {
-
+                CmbboxWrkngHtlHotelRating.SelectedValue = 0;
                 CmbboxWrkngHtlHotelRating.DataSource = null;
-                dataSetHotelRating.Reset();
-
-
-                command.CommandText = "SELECT DISTINCT `hotelrating` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "'  ORDER BY `hotelrating`";
-                // MessageBox.Show("Query  " + command.CommandText);
-                try
-                {
-                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
-                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
-                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelRating, "HOTEL_RATING");
-
-                    DataRow dr = dataSetHotelRating.Tables["HOTEL_RATING"].NewRow();
-                    dr[0] = "SELECT HOTEL RATING";
-
-                    dataSetHotelRating.Tables["HOTEL_RATING"].Rows.InsertAt(dr, 0);
-
-
-
-                    CmbboxWrkngHtlHotelRating.ValueMember = "hotelrating";
-                    CmbboxWrkngHtlHotelRating.DisplayMember = "hotelrating";
-                    CmbboxWrkngHtlHotelRating.DataSource = dataSetHotelRating.Tables["HOTEL_RATING"];
-                    //CmbboxWrkngHtlHotelRating.SelectedValue = 0;
-                    CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
-
-                }
-                catch (Exception errquery)
-                {
-                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
-                }
-
-            }
-
-
-
-        }
-
-        private void CmbboxWrkngHtlHotel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-            if (CmbboxWrkngHtlHotel.SelectedIndex > 0 )
-            {
-                CmbboxWrkngHtlRoomType.DataSource = null;
-                dataSetRoomType.Reset();
-                CmbboxWrkngHtlRoomType.Items.Clear();
-
-                // numericUpDownWorkingRoomNo.Value = 1;
-
-                /* 
-                            command.CommandText = "SELECT `idhotelinfo` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' AND `hotelname` = '" + CmbboxWrkngHtlHotel.SelectedValue + "'  LIMIT 1";
-                             MessageBox.Show("Query::  " + command.CommandText);
-
-                           MySqlDataReader reader = command.ExecuteReader();
-
-                            try
-                            {
-                                if (reader.Read())
-                                {
-                                    a = reader.GetInt32(0);
-                                    MessageBox.Show("idhotelnfo " + a);
-
-                                }
-                            }
-                            catch (Exception errquery)
-                            {
-                                MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
-                            }
-                            */
-                string seasontype = CmbboxWrkngSeasonType.Text;
-                string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
-               // MessageBox.Show(seasontype +"  and  "+ seasonyear);
-                command.CommandText = "SELECT  `idhotelrates` , `roomtype` FROM  `hotelrates`  WHERE  `idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " AND  `seasontype` = '" + seasontype + "' AND  `seasonyear` = '" + seasonyear + "' ORDER BY `idhotelrates`";
-                // MessageBox.Show("manoj  " + command.CommandText);
-                try
-                {
-                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
-                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
-                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetRoomType, "ROOM_TYPE");
-
-                    DataRow dr = dataSetRoomType.Tables["ROOM_TYPE"].NewRow();
-                    dr[0] = 0;
-                    dr[1] = "SELECT ROOM TYPE";
-                    dataSetRoomType.Tables["ROOM_TYPE"].Rows.InsertAt(dr, 0);
-
-
-                    CmbboxWrkngHtlRoomType.ValueMember = "idhotelrates";
-                    CmbboxWrkngHtlRoomType.DisplayMember = "roomtype";
-                    CmbboxWrkngHtlRoomType.DataSource = dataSetRoomType.Tables["ROOM_TYPE"];
-
-                    CmbboxWrkngHtlRoomType.SelectedIndex = 0;
-
-                }
-                catch (Exception errquery)
-                {
-                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
-                }
-
-            }
-            else
-            {
-                CmbboxWrkngHtlRoomType.Text = "--- Select hotelName first ---";
+                CmbboxWrkngHtlHotelRating.Text = "";
                 return;
-               
-
-            }
-
-
-
-
-        }
-
-        private void buttonHotelAddRow_Click(object sender, EventArgs e)
-        {
-            
-
-
-            int index = dataGrdVuWorkingHotels.Rows.Add();
-            
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNo"].Value = numericUpDownWorkingDayNo.Value.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayDate"].Value = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy-MM-dd");
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayArrivalTime"].Value = dttmpkrWorkingArvlTime.Value.ToString("hh:mm:ss tt");
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayArea"].Value = CmbboxWrkngHtlSector.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayCity"].Value = CmbboxWrkngHtlLocation.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayName"].Value = CmbboxWrkngHtlHotel.Text; ;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNoOfRooms"].Value = (numericUpDownWorkingRoomNo.Value -1).ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDaySim"].Value = chkBoxWorkingSim.Checked.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayGuide"].Value = chkBoxWorkingGuide.Checked.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayAdditionalCost"].Value = txtboxWorkingAdditionalCost.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayPrice"].Value = hotelPricePerDay.ToString();
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarrationHdr"].Value = txtboxWorkingNarrationHeader.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarration"].Value = txtboxWorkingNarration.Text;
-            dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayUserComment"].Value = txtboxWorkingUserComment.Text;
-            numericUpDownWorkingDayNo.Value = numericUpDownWorkingDayNo.Value + 1;
-            hotelPricePerDay = 0;
-            dateTimePickerWorkingArrivalDate.Visible = false;
-            dateTimePickerWorkingArrivalDate.Value = dateTimePickerWorkingArrivalDate.Value.AddDays(1);
-            numericUpDownWorkingRoomNo.Value = 1;
-            btnWorkingAddRoom.Enabled = false;
-            numericUpDownNoOfCars.Value = 0;
-            chkBoxWorkingSim.Checked = false;
-            chkBoxWorkingGuide.Checked = false;
-
-            //reset all fields
-            txtboxWorkingAdditionalCost.Text = "0";
-            txtboxWorkingFlightCost.Text = "0";
-
-            CmbboxWrkngHtlHotel.SelectedIndex = 0;
-            CmbboxWrkngHtlRoomType.SelectedIndex = 0;
-            
-            CmbboxWrkngHtlLocation.SelectedIndex = 0;
-            CmbboxWrkngHtlSector.SelectedIndex = 0;
-           
-            
-            
-
-            CmbboxWrkngHtlLocation.DataSource=null;
-            CmbboxWrkngHtlHotel.DataSource = null;
-            CmbboxWrkngHtlRoomType.DataSource = null;
-
-        }
-
-        private void ButtonWorkingDone_Click(object sender, EventArgs e)
-        {
-            /* upload data of work done in the database */
-            int workingHotelDayRowsCount = dataGrdVuWorkingHotels.RowCount;
-            int workingHotelRoomsRowsCount = dataGridViewRoomsInfo.RowCount;
-            if (workingHotelDayRowsCount < 1 && workingHotelRoomsRowsCount < 1)
-            {
-                MessageBox.Show("Working area is empty.");
-                return;
-            }
-            else { 
-            bool querySuccessDay = true;
-            bool querySuccessRoom = true;
-            bool querySuccess = true;
-                MySqlCommand mySqlCommandButtonWorkingDone = frmQueryWorkingMysqlConn.CreateCommand();
-            frmQueryWorkingMysqlTransaction = frmQueryWorkingMysqlConn.BeginTransaction();
-            mySqlCommandButtonWorkingDone.Connection = frmQueryWorkingMysqlConn;
-            mySqlCommandButtonWorkingDone.Transaction = frmQueryWorkingMysqlTransaction;
-            mySqlCommandButtonWorkingDone.CommandType = CommandType.Text;
-            string mysqlInsertQueryStr = "INSERT INTO `queryworkingday` ( " +
-                "`queryid`, " +
-                "`dayno`, " +
-                "`area`, " +
-                "`city`, " +
-                "`hotel`, " +
-                "`pricehotel`, " +
-                "`narrationhdr`," +
-                "`narration`, " +
-                "`additionalcost`, " +
-                "`usercomment` , " +
-                "`sim`, " +
-                "`guide` ) " +
-                "VALUES ( " +
-                "@queryid_var, " +
-                "@dayno_var, " +
-                
-                "@area_var, " +
-                "@city_var, " +
-                "@hotel_var, " +
-                "@pricehotel_var, " +
-                "@narrationhdr_var, " +
-                "@narration_var, " +
-                "@additionalcost_var, " +
-                "@usercomment_var, " +
-                "@sim_var, " +
-                "@guide_var )";
-            mySqlCommandButtonWorkingDone.CommandText = mysqlInsertQueryStr;
-            mySqlCommandButtonWorkingDone.Prepare();
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@queryid_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@dayno_var", 1);
-            
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@area_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@city_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@hotel_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@pricehotel_var", 1);
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@narrationhdr_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@narration_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@additionalcost_var", 1);
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@usercomment_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@sim_var", "Text");
-            mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@guide_var", "Text");
-
-                for (int index = 0; index < workingHotelDayRowsCount; index++)
-            {
-                /* insert row data in database */
-                mySqlCommandButtonWorkingDone.Parameters["@queryid_var"].Value = queryIdWorking;
-                mySqlCommandButtonWorkingDone.Parameters["@dayno_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNo"].Value);
-                
-                mySqlCommandButtonWorkingDone.Parameters["@area_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayArea"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@city_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayCity"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@hotel_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayName"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@pricehotel_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayPrice"].Value);
-                    mySqlCommandButtonWorkingDone.Parameters["@narrationhdr_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarrationHdr"].Value.ToString(); 
-                    mySqlCommandButtonWorkingDone.Parameters["@narration_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayNarration"].Value.ToString();
-                    mySqlCommandButtonWorkingDone.Parameters["@additionalcost_var"].Value = Convert.ToInt32(dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayAdditionalCost"].Value);
-                mySqlCommandButtonWorkingDone.Parameters["@usercomment_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayUserComment"].Value.ToString();
-                    mySqlCommandButtonWorkingDone.Parameters["@sim_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDaySim"].Value.ToString();
-                mySqlCommandButtonWorkingDone.Parameters["@guide_var"].Value = dataGrdVuWorkingHotels.Rows[index].Cells["wrkHotelDayGuide"].Value.ToString();
-                    try
-                {
-                    mySqlCommandButtonWorkingDone.ExecuteNonQuery();
-                    
-                }
-                catch (Exception errquery)
-                {
-                    MessageBox.Show("queryworkingday  : Error while executing insert query because:\n" + errquery.Message);
-                    querySuccessDay = false;
-                    break;
-                }
-
-                    }
-
-
-                // room data
-
-                string mysqlInsertRoomDetailQueryStr = "INSERT INTO `queryworkingroom` ( " +
-                "`idqueryworkingday`, " +
-                "`queryid`, " +
-                "`dayno`, " +
-                "`roomtype`, " +
-                "`mealplan`, " +
-                "`extrabed`, " +
-                "`roomprice` ) " +
-                "VALUES ( " +
-                "@idqueryworkingday_var, " +
-                "@queryid_room_var, " +
-                "@dayno_room_var, " +
-
-                "@roomtype_var, " +
-                "@mealplan_var, " +
-                "@extrabed_var, " +
-                
-                "@roomprice_var )";
-                mySqlCommandButtonWorkingDone.CommandText = mysqlInsertRoomDetailQueryStr;
-                mySqlCommandButtonWorkingDone.Prepare();
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@idqueryworkingday_var", 1);
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@queryid_room_var", "Text");
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@dayno_room_var", 1);
-
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomtype_var", "Text");
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@mealplan_var", "Text");
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@extrabed_var", "Text");
-                mySqlCommandButtonWorkingDone.Parameters.AddWithValue("@roomprice_var", 1);
-
-                for (int index = 0; index < workingHotelRoomsRowsCount; index++)
-                {
-                    /* insert row data in database */
-                    command.CommandText = "SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` ="+ queryIdWorking + " AND `dayno` ="+ Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value);
-                    int idQueryWorkingDay =(Int32) command.ExecuteScalar();
-                    MessageBox.Show(command.CommandText+"  and  "+ idQueryWorkingDay);
-                    mySqlCommandButtonWorkingDone.Parameters["@idqueryworkingday_var"].Value = idQueryWorkingDay;
-                    mySqlCommandButtonWorkingDone.Parameters["@queryid_room_var"].Value = queryIdWorking;
-                    mySqlCommandButtonWorkingDone.Parameters["@dayno_room_var"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value);
-
-                    mySqlCommandButtonWorkingDone.Parameters["@roomtype_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value.ToString();
-                    mySqlCommandButtonWorkingDone.Parameters["@mealplan_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value.ToString();
-                    mySqlCommandButtonWorkingDone.Parameters["@extrabed_var"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value.ToString();
-                    mySqlCommandButtonWorkingDone.Parameters["@roomprice_var"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["wrkPrice"].Value);
-                    
-                    try
-                    {
-                        mySqlCommandButtonWorkingDone.ExecuteNonQuery();
-
-                    }
-                    catch (Exception errquery)
-                    {
-                        MessageBox.Show("queryworkingRoom :: Error while executing insert query because:\n" + errquery.Message);
-                        querySuccessRoom = false;
-                        break;
-                    }
-                }
-                    //end room data
-
-
-                    if (querySuccessDay && querySuccessRoom)
-            {
-                MessageBox.Show("Query Executed successfully now changing query status");
-                mysqlInsertQueryStr = "UPDATE `queries` SET " +
-                    "`querylastupdatetime` = NOW(), " +
-                    "`querycurrentstate` = " + Properties.Resources.queryStageDoneByUser + " " +
-                    "WHERE " +
-                    "queryid = " + queryIdWorking;
-                mySqlCommandButtonWorkingDone.CommandText = mysqlInsertQueryStr;
-                mySqlCommandButtonWorkingDone.Prepare();
-                try
-                {
-                    mySqlCommandButtonWorkingDone.ExecuteNonQuery();
-
-                }
-                catch (Exception errquery)
-                {
-                    MessageBox.Show("Error while executing insert query because:\n" + errquery.Message);
-                    querySuccess = false;
-                }
             }
             try
             {
-                if (querySuccess)
-                {
-                    frmQueryWorkingMysqlTransaction.Commit();
-                }
-                else
-                {
-                    frmQueryWorkingMysqlTransaction.Rollback();
-                }
+                mySqlConnection.Open();
             }
-            catch (Exception errcommit)
+            catch (Exception errConnOpen)
             {
-                MessageBox.Show("Error while executing insert query because:\n" + errcommit.Message);
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
-            MessageBox.Show("Work for Query id = " + queryIdWorking + " is done successfully ");
-            Close();
+
+            string selectQueryString = "SELECT DISTINCT `hotelrating` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "'  ORDER BY `hotelrating`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_RATING");
+                if (dataSet != null)
+                {
+                    DataRow dataRow = dataSet.Tables["HOTEL_RATING"].NewRow();
+                    dataRow["hotelrating"] = "SELECT HOTEL RATING";
+                    dataSet.Tables["HOTEL_RATING"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngHtlHotelRating.DataSource = dataSet.Tables["HOTEL_RATING"];
+                    CmbboxWrkngHtlHotelRating.ValueMember = "hotelrating";
+                    CmbboxWrkngHtlHotelRating.DisplayMember = "hotelrating";
+                    CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
+                    //CmbboxWrkngHtlHotelRating.SelectedValue = 0;
                 }
-        }
-
-        private void ButtonWorkingCancel_Click(object sender, EventArgs e)
-        {
-            /* exit without doing anything*/
-            Close();
-        }
-
-        private void numericUpDownRoomNo_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblWorkingNarration_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblWorkingHotelMealPlan_Click(object sender, EventArgs e)
-        {
-
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
         }
 
         private void CmbboxWrkngHtlHotelRating_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-
-            if (CmbboxWrkngHtlHotelRating.SelectedIndex == 0)
+            if ((CmbboxWrkngHtlHotelRating.SelectedIndex == 0) || (CmbboxWrkngHtlHotelRating.SelectedValue == null))
             {
-                CmbboxWrkngHtlHotel.Text = "--- Select rating first ---";
+                CmbboxWrkngHtlHotel.SelectedValue = 0;
+                CmbboxWrkngHtlHotel.DataSource = null;
+                CmbboxWrkngHtlHotel.Text = "";
                 return;
             }
-            else
+            try
             {
-                CmbboxWrkngHtlHotel.DataSource = null;
-                dataSetHotelName.Reset();
-                CmbboxWrkngHtlHotel.Items.Clear();
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
 
-
-
-                command.CommandText = "SELECT DISTINCT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
-                // MessageBox.Show("Query  " + command.CommandText);
-                try
+            string selectQueryString = "SELECT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_NAME");
+                if (dataSet != null)
                 {
-                    frmQueryWorkingMysqlDataAdaptor.SelectCommand = command;
-                    // frmQueryWorkingMysqlDataAdaptor = new MySqlDataAdapter(mysqlSelectSectorStr, frmQueryWorkingMysqlConn);
-                    frmQueryWorkingMysqlDataAdaptor.Fill(dataSetHotelName, "HOTEL_NAME");
-
-                    DataRow dr = dataSetHotelName.Tables["HOTEL_NAME"].NewRow();
-                    dr[0] = 0;
-                    dr[1] = "SELECT HOTEL ";
-
-                    dataSetHotelName.Tables["HOTEL_NAME"].Rows.InsertAt(dr, 0);
-
-
+                    DataRow dataRow = dataSet.Tables["HOTEL_NAME"].NewRow();
+                    dataRow["idhotelinfo"] = 0;
+                    dataRow["hotelname"] = "SELECT HOTEL";
+                    dataSet.Tables["HOTEL_NAME"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngHtlHotel.DataSource = dataSet.Tables["HOTEL_NAME"];
                     CmbboxWrkngHtlHotel.ValueMember = "idhotelinfo";
-
                     CmbboxWrkngHtlHotel.DisplayMember = "hotelname";
-                    CmbboxWrkngHtlHotel.DataSource = dataSetHotelName.Tables["HOTEL_NAME"];
-                    // CmbboxWrkngHtlHotel.SelectedValue = 0;
                     CmbboxWrkngHtlHotel.SelectedIndex = 0;
+                    //CmbboxWrkngHtlHotel.SelectedValue = 0;
+                }
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+        }
 
-                }
-                catch (Exception errquery)
+        private void CmbboxWrkngHtlHotel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((CmbboxWrkngHtlHotel.SelectedIndex == 0) || (CmbboxWrkngHtlHotel.SelectedValue == null))
+            {
+                CmbboxWrkngHtlRoomType.SelectedValue = 0;
+                CmbboxWrkngHtlRoomType.DataSource = null;
+                CmbboxWrkngHtlRoomType.Text = "";
+                return;
+            }
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+
+            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            string selectQueryString = "SELECT DISTINCT `roomtype` FROM `hotelrates` WHERE " +
+                "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
+                "AND `seasonyear` = " + seasonyear +" ORDER BY `roomtype`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_ROOM_TYPE");
+                if (dataSet != null)
                 {
-                    MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
+                    string zeroIndexString = "";
+                    if (dataSet.Tables["HOTEL_ROOM_TYPE"].Rows.Count == 0)
+                    {
+                        zeroIndexString = "NOT EXIST FOR " + seasonyear;
+                    }
+                    else
+                    {
+                        zeroIndexString = "SELECT ROOM TYPE";
+                    }
+                    DataRow dataRow = dataSet.Tables["HOTEL_ROOM_TYPE"].NewRow();
+                    dataRow["roomtype"] = zeroIndexString;
+                    dataSet.Tables["HOTEL_ROOM_TYPE"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngHtlRoomType.DataSource = dataSet.Tables["HOTEL_ROOM_TYPE"];
+                    CmbboxWrkngHtlRoomType.ValueMember = "roomtype";
+                    CmbboxWrkngHtlRoomType.DisplayMember = "roomtype";
+                    CmbboxWrkngHtlRoomType.SelectedIndex = 0;
+                    //CmbboxWrkngHtlRoomType.SelectedValue = 0;
                 }
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
         }
 
         private void CmbboxWrkngHtlRoomType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CmbboxWrkngHtlMealPlan.Items.Clear();
-           CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "EPAI", "CPAI", "MAPAI", "APAI"});
-            CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
+            if ((CmbboxWrkngHtlRoomType.SelectedIndex == 0) || (CmbboxWrkngHtlRoomType.SelectedValue == null))
+            {
+                CmbboxWrkngSeasonType.SelectedValue = 0;
+                CmbboxWrkngSeasonType.DataSource = null;
+                CmbboxWrkngSeasonType.Text = "";
+                return;
+            }
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+
+            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            string selectQueryString = "SELECT DISTINCT `seasontype` FROM `hotelrates` WHERE " +
+                "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
+                "AND `seasonyear` = " + seasonyear + " " +
+                "AND `roomtype` = '" + CmbboxWrkngHtlRoomType.Text +"' " +
+                "ORDER BY `seasontype`";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_SEASON_TYPE");
+                if (dataSet != null)
+                {
+                    string zeroIndexString = "";
+                    if (dataSet.Tables["HOTEL_SEASON_TYPE"].Rows.Count == 0)
+                    {
+                        zeroIndexString = "NOT EXIST FOR " + seasonyear;
+                    }
+                    else
+                    {
+                        zeroIndexString = "SELECT SEASON";
+                    }
+                    DataRow dataRow = dataSet.Tables["HOTEL_SEASON_TYPE"].NewRow();
+                    dataRow["seasontype"] = zeroIndexString;
+                    dataSet.Tables["HOTEL_SEASON_TYPE"].Rows.InsertAt(dataRow, 0);
+                    CmbboxWrkngSeasonType.DataSource = dataSet.Tables["HOTEL_SEASON_TYPE"];
+                    CmbboxWrkngSeasonType.ValueMember = "seasontype";
+                    CmbboxWrkngSeasonType.DisplayMember = "seasontype";
+                    CmbboxWrkngSeasonType.SelectedIndex = 0;
+                    //CmbboxWrkngHtlRoomType.SelectedValue = 0;
+                }
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
         }
 
-        private void numericUpDownExtraBed_ValueChanged(object sender, EventArgs e)
-        {/*
-            if (numericUpDownNoOfPersons.Value != 0)
+        private void CmbboxWrkngSeasonType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((CmbboxWrkngSeasonType.SelectedIndex == 0) || (CmbboxWrkngSeasonType.SelectedValue == null))
             {
                 CmbboxWrkngHtlMealPlan.Items.Clear();
-                CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "SINGLE EPAI", "SINGLE CPAI", "SINGLE MAPAI", "SINGLE APAI", "DOUBLE EPAI", "DOUBLE CPAI", "DOUBLE MAPAI", "DOUBLE APAI", "EXT_BED EPAI", "EXT_BED CPAI", "EXT_BED MAPAI", "EXT_BED APAI" });
-                CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
-            }*/
+                CmbboxWrkngHtlMealPlan.Text = "";
+                return;
+            }
+            CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "EPAI", "CPAI", "MAPAI", "APAI" });
+            CmbboxWrkngHtlMealPlan.SelectedIndex = 0;
         }
 
         private void CmbboxWrkngHtlMealPlan_SelectedIndexChanged(object sender, EventArgs e)
         {
-           columnNameForMealPlan = "";
-            if (CmbboxWrkngHtlMealPlan.SelectedIndex == 0)
-            { btnWorkingAddRoom.Enabled = false; }
-            else
+            if ((CmbboxWrkngHtlMealPlan.SelectedIndex == 0)/* || (CmbboxWrkngHtlMealPlan.SelectedValue == null)*/)
             {
-                btnWorkingAddRoom.Enabled = true;
-                int noOfPersons = (Int32)numericUpDownNoOfPersons.Value;
-
-                switch (noOfPersons)
-                {
-                    case 1:
-                        {
-                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
-                            {
-                                columnNameForMealPlan = "mealepaipricesingle";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
-                            {
-                                columnNameForMealPlan = "mealcpaipricesingle";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
-                            {
-                                columnNameForMealPlan = "mealmapaipricesingle";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
-                            {
-                                columnNameForMealPlan = "mealapaipricesingle";
-                            }
-                            break;  
-                        }
-                    case 2:
-                        {
-                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
-                            {
-                                columnNameForMealPlan = "mealepaipricedouble";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
-                            {
-                                columnNameForMealPlan = "mealcpaipricedouble";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
-                            {
-                                columnNameForMealPlan = "mealmapaipricedouble";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
-                            {
-                                columnNameForMealPlan = "mealapaipricedouble";
-                            }
-                            break;
-                        }
-                    case 3:
-                        {
-                            if (CmbboxWrkngHtlMealPlan.Text.Equals("EPAI"))
-                            {
-                                columnNameForMealPlan = " (mealepaipricedouble + mealepaipriceextbed) AS Total ";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("CPAI"))
-                            {
-                                columnNameForMealPlan = " (mealcpaipricedouble + mealcpaipriceextbed) AS Total ";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("MAPAI"))
-                            {
-                                columnNameForMealPlan = " (mealmapaipricedouble + mealmapaipriceextbed) AS Total ";
-                            }
-                            else if (CmbboxWrkngHtlMealPlan.Text.Equals("APAI"))
-                            {
-                                columnNameForMealPlan = " (mealapaipricedouble + mealapaipriceextbed) AS Total ";
-                            }
-                            break;
-                        }
-
-                    default: break;
-                }
-               
-               
-
-
+                btnWorkingAddRoom.Enabled = false;
+                return;
             }
+            btnWorkingAddRoom.Enabled = true;
         }
 
         private void btnWorkingAddRoom_Click(object sender, EventArgs e)
         {
-            
-
-            if (columnNameForMealPlan.Equals("") && ((Int32)CmbboxWrkngHtlRoomType.SelectedValue <= 0))
+            /* select rates of the room type depending on the year, selected season, meal plan and roomtype. */
+            string mealPlanSelectString = "";
+            switch (CmbboxWrkngHtlMealPlan.SelectedIndex)
             {
-                MessageBox.Show("PLEASE ENTER ALL INFORMATION");
+                case 1:
+                    mealPlanSelectString = "`mealepaipricesingle` as `pricesingle`, `mealepaipricedouble` as `pricedouble`, `mealepaipriceextbed` as `priceextbed`";
+                    break;
+                case 2:
+                    mealPlanSelectString = "`mealcpaipricesingle` as `pricesingle`, `mealcpaipricedouble` as `pricedouble`, `mealcpaipriceextbed` as `priceextbed`";
+                    break;
+                case 3:
+                    mealPlanSelectString = "`mealmapaipricesingle` as `pricesingle`, `mealmapaipricedouble` as `pricedouble`, `mealmapaipriceextbed` as `priceextbed`";
+                    break;
+                case 4:
+                    mealPlanSelectString = "`mealapaipricesingle` as `pricesingle`, `mealapaipricedouble` as `pricedouble`, `mealapaipriceextbed` as `priceextbed`";
+                    break;
+                default:
+                    MessageBox.Show("SELECT PROPER MEAL PLAN FIRST", "SELECT MEAL PLAN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
             }
-            else {
 
-                int roomNo = (Int32)numericUpDownWorkingRoomNo.Value;
-                
-                command.CommandText = "SELECT  " + columnNameForMealPlan + "  FROM  `hotelrates` WHERE `idhotelrates` = " + CmbboxWrkngHtlRoomType.SelectedValue;
-               
-                // int price = (Int32)command.ExecuteScalar();
-                int price = 0;
-                
-                using (MySqlDataReader reader = command.ExecuteReader())
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+
+
+            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            string selectQueryString = "SELECT " + mealPlanSelectString +
+                " FROM  `hotelrates`  WHERE " +
+                "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
+                "AND `roomtype` = '" + CmbboxWrkngHtlRoomType.Text + "' " +
+                "AND `seasontype` = '" + CmbboxWrkngSeasonType.Text + "' " +
+                "AND `seasonyear` = '" + seasonyear + "' ";
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_ROOM_RATES");
+                if (dataSet != null)
                 {
-                    while(reader.Read())
-                    price = Convert.ToInt32(reader[0]);
+                    if (dataSet.Tables["HOTEL_ROOM_RATES"].Rows.Count > 0)
+                    {
+                        /* query gets successfully executed */
+                        int index = dataGridViewRoomsInfo.Rows.Add();
+                        dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value = CmbboxWrkngHtlHotelRating.Text;
+                        dataGridViewRoomsInfo.Rows[index].Cells["HotelId"].Value = CmbboxWrkngHtlHotel.SelectedValue.ToString();
+                        dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value = CmbboxWrkngHtlRoomType.Text;
+                        dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;
+                        dataGridViewRoomsInfo.Rows[index].Cells["HotelSingleBedPrice"].Value = dataSet.Tables["HOTEL_ROOM_RATES"].Rows[0]["pricesingle"].ToString();
+                        dataGridViewRoomsInfo.Rows[index].Cells["HotelDoubleShairingPrice"].Value = dataSet.Tables["HOTEL_ROOM_RATES"].Rows[0]["pricedouble"].ToString();
+                        dataGridViewRoomsInfo.Rows[index].Cells["HotelExtraBedPrice"].Value = dataSet.Tables["HOTEL_ROOM_RATES"].Rows[0]["priceextbed"].ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Price not present in for\n hotel = " + CmbboxWrkngHtlHotel.Text + 
+                            ",\n season = " + CmbboxWrkngSeasonType.Text +
+                            " and\n year = " + seasonyear +
+                            ".\n PLease check the rates table first", "Price not present", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-                int rows = dataGridViewRoomsInfo.Rows.Count;
-               int index = dataGridViewRoomsInfo.Rows.Add();
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkDayNo"].Value = numericUpDownWorkingDayNo.Value.ToString();
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkRoom"].Value = numericUpDownWorkingRoomNo.Value.ToString();
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value = CmbboxWrkngHtlRoomType.Text;
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkNoOfPersons"].Value = numericUpDownNoOfPersons.Value.ToString();
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value = CmbboxWrkngHtlMealPlan.Text;                
-                dataGridViewRoomsInfo.Rows[index].Cells["wrkExtraBed"].Value = (numericUpDownNoOfPersons.Value == 3 ? 1 : 0) ;
-                dataGridViewRoomsInfo.Rows[index].Cells["WrkPrice"].Value = price.ToString();
-                numericUpDownWorkingRoomNo.Value = roomNo + 1;
-                hotelPricePerDay += price;
+                else
+                {
+                    MessageBox.Show("Price not present in for the selected HOTEL , season, and year. PLease check the rates table first", "Price not present", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception errSelectQry)
+            {
+                MessageBox.Show("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+                Debug.WriteLine("Error in query = " + selectQueryString + " because of " + errSelectQry.Message);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            // instead of reseting whole sector reset just hotel rating.
+            CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// this will check for the values present in the form
+        /// </summary>
+        /// <returns>
+        /// true: if all fields are ok.
+        /// false: otherwise
+        /// </returns>
+        private bool ValidateWorkingFields()
+        {
+            /* validate date */
+            if (DateTime.Today >= dateTimePickerWorkingArrivalDate.Value.Date)
+            {
+                MessageBox.Show("Date cannot be of less than or equal to Today's date", "Error in date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
 
+            /* validate no of persons */
+            if (numericUpDownNoOfPersons.Value < 1)
+            {
+                MessageBox.Show("Atleast 1 person is mendatory", "In sufficient person count", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-            btnWorkingAddRoom.Enabled = false;
-            numericUpDownNoOfPersons.Value = 1;
+            /* validate rooms in hotel */
+            if (dataGridViewRoomsInfo.RowCount < 1)
+            {
+                MessageBox.Show("Atleast 1 entry is mendatory in Hotel Grid info", "In sufficient hotels count", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
+            /* validate if travel selected */
+            if (checkBoxTravelDetails.Checked)
+            {
+                if (numericUpDownNoOfCars.Value < 1)
+                {
+                    MessageBox.Show("Atleast 1 car is mendatory ", "In sufficient car count", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (CmbboxWrkngCarType.SelectedIndex < 1)
+                {
+                    MessageBox.Show("Select car type first", "Car type not selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (CmbboxWrkngCarPurpose.SelectedIndex < 1)
+                {
+                    MessageBox.Show("Car purpose is not selected", "Car purpose not selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (string.Equals(txtboxWorkingFlightCost.Text, ""))
+                {
+                    MessageBox.Show("Car cost field is empty", "Car cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                try
+                {
+                    if (Convert.ToInt32(txtboxWorkingFlightCost.Text) < 1)
+                    {
+                        MessageBox.Show("Car cost is 0", "Car cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+                catch (Exception errcost)
+                {
+                    MessageBox.Show("Car cost field is not proper: " + errcost.Message , "Car cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            /* check for flights */
+            if (checkBoxFlightDetails.Checked)
+            {
+                if (string.Equals(txtBoxFlightNo.Text, ""))
+                {
+                    MessageBox.Show("Flight number is not provided", "Flight number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtboxFlightFromCity.Text, ""))
+                {
+                    MessageBox.Show("Flight from city is not provided", "Flight from city", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtboxFlightToCity.Text, ""))
+                {
+                    MessageBox.Show("Flight to city is not provided", "Flight to city", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtBoxFlightPrice.Text,""))
+                {
+                    MessageBox.Show("Flight cost field is not provided", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                try
+                {
+                    if (Convert.ToInt32(txtBoxFlightPrice.Text) < 1)
+                    {
+                        MessageBox.Show("Flight cost is 0", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+                catch (Exception errcost)
+                {
+                    MessageBox.Show("Flight cost field is not proper: " + errcost.Message, "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            // validate extra cost
+            try
+            {
+                if (Convert.ToInt32(txtboxWorkingAdditionalCost.Text) < 1)
+                {
+                    txtboxWorkingAdditionalCost.Text = "0";
+                }
+            }
+            catch (Exception errcost)
+            {
+                MessageBox.Show("Additional cost field is not proper: " + errcost.Message, "Additional cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // validate narration hdr and narration field.
+            if (string.Equals(txtboxNarrationHeader.Text, ""))
+            {
+                MessageBox.Show("Tour day narration header is not provided", "Narration header", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.Equals(txtboxNarration.Text, ""))
+            {
+                MessageBox.Show("Tour day narration is not provided", "Narration text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.Equals(txtboxTourInclusions.Text, ""))
+            {
+                MessageBox.Show("Tour inclusion field is not provided", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            // All checked now return success
+            return true;
+        }
+
+        /// <summary>
+        /// This will update the data from working page to database
+        /// </summary>
+        private bool UpdateDayWorkingInDatabase()
+        {
+            /* update database */
+            bool isSuccessResult = true;
+            string mysqlInsertQueryString = "";
+            string dateString = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy-MM-dd") +
+                " " + dttmpkrWorkingArvlTime.Value.ToString("HH:mm:ss");
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+            MySqlTransaction mySqlTransaction = mySqlConnection.BeginTransaction();
+            mySqlCommand.Connection = mySqlConnection;
+            mySqlCommand.Transaction = mySqlTransaction;
+            mySqlCommand.CommandType = CommandType.Text;
+            mySqlCommand.Parameters.AddWithValue("@var_queryid", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_dayno", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_date", "Text");
+            mySqlCommand.Parameters["@var_queryid"].Value = queryIdWorking;
+            mySqlCommand.Parameters["@var_dayno"].Value = Convert.ToInt32(lblDayCounter.Text);
+            mySqlCommand.Parameters["@var_date"].Value = dateString;
+
+            // prepare insert query for working day
+            mysqlInsertQueryString = "INSERT INTO `queryworkingday` ( " +
+                "`queryid`, " +
+                "`dayno`, " +
+                "`date`, " +
+                "`narrationhdr`, " +
+                "`narration`, " +
+                "`tourinclusions`, " +
+                "`sim`, " +
+                "`guide`, " +
+                "`additionalcost` " +
+                ") VALUES ( " +
+                "@var_queryid, " +
+                "@var_dayno, " +
+                "@var_date, " +
+                "@var_narrationhdr, " +
+                "@var_narration, " +
+                "@var_tourinclusions, " +
+                "@var_sim, " +
+                "@var_guide, " +
+                "@var_additionalcost " +
+                ")";
+            mySqlCommand.CommandText = mysqlInsertQueryString;
+            mySqlCommand.Prepare();
+            mySqlCommand.Parameters.AddWithValue("@var_narrationhdr", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_narration", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_tourinclusions", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_sim", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_guide", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_additionalcost", 1);
+
+            mySqlCommand.Parameters["@var_narrationhdr"].Value = txtboxNarrationHeader.Text;
+            mySqlCommand.Parameters["@var_narration"].Value = txtboxNarration.Text;
+            mySqlCommand.Parameters["@var_tourinclusions"].Value = txtboxTourInclusions.Text;
+            mySqlCommand.Parameters["@var_sim"].Value = chkBoxWorkingSim.Checked ? "YES" : "NO";
+            mySqlCommand.Parameters["@var_guide"].Value = chkBoxWorkingGuide.Checked ? "YES" : "NO";
+            mySqlCommand.Parameters["@var_additionalcost"].Value = Convert.ToInt32(txtboxWorkingAdditionalCost.Text);
+            try
+            {
+                int result = mySqlCommand.ExecuteNonQuery();
+                MessageBox.Show("queryworkingday: Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception errquery)
+            {
+                isSuccessResult = false;
+                MessageBox.Show("queryworkingday:Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // prepare insert query for working hotel
+            if (isSuccessResult)
+            {
+                mysqlInsertQueryString = "INSERT INTO `queryworkinghotel` ( " +
+                    "`idqueryworkingday`, " +
+                    "`queryid`, " +
+                    "`hotelrating`, " +
+                    "`idhotelinfo`, " +
+                    "`date`, " +
+                    "`roomtype`, " +
+                    "`mealplan`, " +
+                    "`singlebedprice`, " +
+                    "`doublebedprice`, " +
+                    "`extrabedprice`, " +
+                    "`note` " +
+                    ") VALUES ( " +
+                    "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
+                    "@var_queryid, " +
+                    "@var_hotelrating, " +
+                    "@var_idhotelinfo, " +
+                    "@var_date, " +
+                    "@var_roomtype, " +
+                    "@var_mealplan, " +
+                    "@var_singlebedprice, " +
+                    "@var_doublebedprice, " +
+                    "@var_extrabedprice, " +
+                    "@var_note " +
+                    ")";
+                mySqlCommand.CommandText = mysqlInsertQueryString;
+                mySqlCommand.Prepare();
+                mySqlCommand.Parameters.AddWithValue("@var_hotelrating", "Text");
+                mySqlCommand.Parameters.AddWithValue("@var_idhotelinfo", 1);
+                mySqlCommand.Parameters.AddWithValue("@var_roomtype", "Text");
+                mySqlCommand.Parameters.AddWithValue("@var_mealplan", "Text");
+                mySqlCommand.Parameters.AddWithValue("@var_singlebedprice", 1);
+                mySqlCommand.Parameters.AddWithValue("@var_doublebedprice", 1);
+                mySqlCommand.Parameters.AddWithValue("@var_extrabedprice", 1);
+                mySqlCommand.Parameters.AddWithValue("@var_note", "Text");
+                for (int index = 0; index < dataGridViewRoomsInfo.RowCount; index++)
+                {
+                    mySqlCommand.Parameters["@var_hotelrating"].Value = dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString();
+                    mySqlCommand.Parameters["@var_idhotelinfo"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelId"].Value.ToString());
+                    mySqlCommand.Parameters["@var_roomtype"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value.ToString();
+                    mySqlCommand.Parameters["@var_mealplan"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value.ToString();
+                    mySqlCommand.Parameters["@var_singlebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelSingleBedPrice"].Value.ToString());
+                    mySqlCommand.Parameters["@var_doublebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelDoubleShairingPrice"].Value.ToString());
+                    mySqlCommand.Parameters["@var_extrabedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelExtraBedPrice"].Value.ToString());
+                    mySqlCommand.Parameters["@var_note"].Value = "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking;
+                    try
+                    {
+                        int result = mySqlCommand.ExecuteNonQuery();
+                        MessageBox.Show("queryworkinghotel:Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + "\nExecuted with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception errquery)
+                    {
+                        isSuccessResult = false;
+                        MessageBox.Show("queryworkinghotel Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + ": Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+            // prepare travel details if checked
+            if (isSuccessResult)
+            {
+                if (checkBoxTravelDetails.Checked)
+                {
+                    mysqlInsertQueryString = "INSERT INTO `queryworkingtravel` ( " +
+                    "`idqueryworkingday`, " +
+                    "`queryid`, " +
+                    "`date`, " +
+                    "`cartype`, " +
+                    "`carcount`, " +
+                    "`pricepercar`, " +
+                    "`carhirefor`, " +
+                    "`note` " +
+                    ") VALUES ( " +
+                    "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
+                    "@var_queryid, " +
+                    "@var_date, " +
+                    "@var_cartype, " +
+                    "@var_carcount, " +
+                    "@var_pricepercar, " +
+                    "@var_carhirefor, " +
+                    "@var_note " +
+                    ")";
+                    mySqlCommand.CommandText = mysqlInsertQueryString;
+                    mySqlCommand.Prepare();
+                    mySqlCommand.Parameters.AddWithValue("@var_cartype", "Text");
+                    mySqlCommand.Parameters.AddWithValue("@var_carcount", 1);
+                    mySqlCommand.Parameters.AddWithValue("@var_pricepercar", 1);
+                    mySqlCommand.Parameters.AddWithValue("@var_carhirefor", "Text");
+                    mySqlCommand.Parameters["@var_cartype"].Value = CmbboxWrkngCarType.Text;
+                    mySqlCommand.Parameters["@var_carcount"].Value = Convert.ToInt32(numericUpDownNoOfCars.Value);
+                    mySqlCommand.Parameters["@var_pricepercar"].Value = Convert.ToInt32(txtboxWorkingFlightCost.Text);
+                    mySqlCommand.Parameters["@var_carhirefor"].Value = CmbboxWrkngCarPurpose.Text;
+                    mySqlCommand.Parameters["@var_note"].Value = "NOTE for " + queryIdWorking;
+                    try
+                    {
+                        int result = mySqlCommand.ExecuteNonQuery();
+                        MessageBox.Show("queryworkingtravel : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception errquery)
+                    {
+                        isSuccessResult = false;
+                        MessageBox.Show("queryworkingtravel : Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+            // prepare insert query string for flight.
+            if (isSuccessResult)
+            {
+                if (checkBoxFlightDetails.Checked)
+                {
+                    mysqlInsertQueryString = "INSERT INTO `queryworkingflight` ( " +
+                    "`idqueryworkingday`, " +
+                    "`queryid`, " +
+                    "`date`, " +
+                    "`fromcity`, " +
+                    "`tocity`, " +
+                    "`flightnumber`, " +
+                    "`rateperticket`, " +
+                    "`personcount`, " +
+                    "`note` " +
+                    ") VALUES ( " +
+                    "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
+                    "@var_queryid, " +
+                    "@var_date, " +
+                    "@var_fromcity, " +
+                    "@var_tocity, " +
+                    "@var_flightnumber, " +
+                    "@var_rateperticket, " +
+                    "@var_personcount, " +
+                    "@var_note " +
+                    ")";
+                    mySqlCommand.CommandText = mysqlInsertQueryString;
+                    mySqlCommand.Prepare();
+                    mySqlCommand.Parameters.AddWithValue("@var_fromcity", "Text");
+                    mySqlCommand.Parameters.AddWithValue("@var_toCity", "Text");
+                    mySqlCommand.Parameters.AddWithValue("@var_flightnumber", "Text");
+                    mySqlCommand.Parameters.AddWithValue("@var_rateperticket", 1);
+                    mySqlCommand.Parameters.AddWithValue("@var_personcount", 1);
+                    mySqlCommand.Parameters["@var_fromcity"].Value = txtboxFlightFromCity.Text;
+                    mySqlCommand.Parameters["@var_tocity"].Value = txtboxFlightToCity.Text;
+                    mySqlCommand.Parameters["@var_flightnumber"].Value = txtBoxFlightNo.Text;
+                    mySqlCommand.Parameters["@var_rateperticket"].Value = Convert.ToInt32(txtBoxFlightPrice.Text);
+                    mySqlCommand.Parameters["@var_personcount"].Value = Convert.ToInt32(numericUpDownNoOfPersons.Value);
+                    mySqlCommand.Parameters["@var_note"].Value = "NOTE for " + queryIdWorking;
+                    try
+                    {
+                        int result = mySqlCommand.ExecuteNonQuery();
+                        MessageBox.Show("queryworkingflight : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception errquery)
+                    {
+                        isSuccessResult = false;
+                        MessageBox.Show("queryworkingflight : Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            // now commit the changes done in the database.
+            try
+            {
+                if (isSuccessResult)
+                {
+                    mySqlTransaction.Commit();
+                }
+                else
+                {
+                    mySqlTransaction.Rollback();
+                    mySqlTransaction.Dispose();
+                }
+            }
+            catch (Exception errcommit)
+            {
+                MessageBox.Show("Error in commiting the transaction because:\n" + errcommit.Message, "Error in Commiting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                mySqlTransaction.Rollback();
+                mySqlTransaction.Dispose();
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            return isSuccessResult;
+        }
+
+        private void buttonHotelAddRow_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show(chkBoxWorkingSim.Checked ? "YES" : "NO", "Date", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            if (ValidateWorkingFields())
+            {
+                if (UpdateDayWorkingInDatabase())
+                {
+                    int dayNo = Convert.ToInt32(lblDayCounter.Text);
+                    /* increament the date and day no.*/
+                    lblDayCounter.Text = (dayNo + 1).ToString();
+                    DateTime dateTime = dateTimePickerWorkingArrivalDate.Value;
+                    dateTimePickerWorkingArrivalDate.Value = dateTime.AddDays(1);
+                    dateTimePickerWorkingArrivalDate.Enabled = false;
+                    FrmQueryWorkingPage_Refresh();
+                }
+            }
+        }
+
+        private void ButtonWorkingDone_Click(object sender, EventArgs e)
+        {
+            if (ValidateWorkingFields())
+            {
+                if (UpdateDayWorkingInDatabase())
+                {
+                    /* update state of the query to done by user and then close page */
+                    Close();
+                }
+            }
+            DialogResult dialogResult = MessageBox.Show("Finish with previous date?", "Validation Failed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (string.Equals(lblDayCounter.Text, "1"))
+                {
+                    MessageBox.Show("This is first date thus work cannot be finished. Press CANCEL butten to cancel");
+                }
+                else
+                {
+                    MessageBox.Show("Finishing with previous date");
+                    /* update state of the query to done by user and then close page */
+                    Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Update the page and retry.");
+            }
+        }
+
+        private void ButtonWorkingCancel_Click(object sender, EventArgs e)
+        {
+            /* exit while deleting everything from working tables related to this queryid */
+            string mysqlInsertQueryString = "";
+            bool isSuccessResult = true;
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+            MySqlTransaction mySqlTransaction = mySqlConnection.BeginTransaction();
+            mySqlCommand.Connection = mySqlConnection;
+            mySqlCommand.Transaction = mySqlTransaction;
+            mySqlCommand.CommandType = CommandType.Text;
+            mySqlCommand.Parameters.AddWithValue("@var_queryid", "Text");
+            mySqlCommand.Parameters["@var_queryid"].Value = queryIdWorking;
+
+            // prepare insert query for working day
+            string[] tablenames = { "queryworkingflight", "queryworkinghotel", "queryworkingtravel", "queryworkingday"};
+            foreach (var table in tablenames)
+            {
+                mysqlInsertQueryString = "DELETE FROM `"+ table +"` WHERE `queryid` = @var_queryid";
+                mySqlCommand.CommandText = mysqlInsertQueryString;
+                mySqlCommand.Prepare();
+                try
+                {
+                    int result = mySqlCommand.ExecuteNonQuery();
+                    Debug.WriteLine("Query Executed for rows deletion from " + table + ". with result = " + result.ToString());
+                }
+                catch (Exception errquery)
+                {
+                    isSuccessResult = false;
+                    MessageBox.Show("Error while executing for rows deletion from " + table + " because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
+            }
+            try
+            {
+                if (isSuccessResult)
+                {
+                    mySqlTransaction.Commit();
+                }
+                else
+                {
+                    mySqlTransaction.Rollback();
+                    mySqlTransaction.Dispose();
+                }
+            }
+            catch (Exception errcommit)
+            {
+                MessageBox.Show("Error in commiting the transaction because:\n" + errcommit.Message, "Error in Commiting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            Close();
+        }
+
+        private void numericUpDownExtraBed_ValueChanged(object sender, EventArgs e)
+        {
+            /* Check for the person count in the query table. if different then ask for update*/
         }
 
         private void numericUpDownNoOfCars_ValueChanged(object sender, EventArgs e)
@@ -802,9 +1158,31 @@ namespace TourQueryManager
 
         private void dateTimePickerWorkingArrivalDate_ValueChanged(object sender, EventArgs e)
         {
-
+            /* check for the starting date in query. if different then ask for update */
         }
 
-       
+        private void checkBoxTravelDetails_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxTravelDetails.Checked)
+            {
+                grpboxTravelDetails.Enabled = true;
+            }
+            else
+            {
+                grpboxTravelDetails.Enabled = false;
+            }
+        }
+
+        private void checkBoxFlightDetails_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxFlightDetails.Checked)
+            {
+                groupBoxFlightDetails.Enabled = true;
+            }
+            else
+            {
+                groupBoxFlightDetails.Enabled = false;
+            }
+        }
     }
 }

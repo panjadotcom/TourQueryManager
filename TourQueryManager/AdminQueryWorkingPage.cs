@@ -195,63 +195,169 @@ namespace TourQueryManager
                         noOfnights.ToString() + " Nights and " + (noOfnights + 1).ToString() + " Days";
                     Paragraph paragraph = section.AddParagraph(fileContent, "Heading1");
 
+                    double amount = 0;
                     /* add day wise narration */
                     foreach (DataRow item in queryDataset.Tables["QUERY_DAY_INFO"].Rows)
                     {
                         string hdr = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
                         string content = item["narration"].ToString() + "";
                         MyPdfDocuments.WriteHdrContentParagraph(section, hdr, content);
+                        amount = amount + Convert.ToDouble(item["additionalcost"]);
+                    }
+
+                    foreach (DataRow item in queryDataset.Tables["QUERY_TRAVEL_INFO"].Rows)
+                    {
+                        amount = amount + (Convert.ToDouble(item["pricepercar"]) * Convert.ToDouble(item["carcount"]));
                     }
 
                     /* add hotel rates in tabular form */
                     //paragraph = section.AddParagraph("Hotel Information","Heading2");
-                    Table table = new Table();
-                    table.Borders.Width = 0.75;
-                    int columnCount = 3;
+                    Table table = null;
+                    Column column = null;
+                    double columnWidth;
+                    int columnCount;
+                    Row row = null;
                     int rowsCount = 0;
-                    double columnWidth = (21.0 - 5.0) / columnCount;
-                    Column column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                    column.Format.Alignment = ParagraphAlignment.Center;
-                    column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                    column.Format.Alignment = ParagraphAlignment.Center;
-                    column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                    column.Format.Alignment = ParagraphAlignment.Center;
+                    int personCount = 0;
+                    string hotelIdList = "";
 
-                    Row row = table.AddRow();
-                    row.Shading.Color = Colors.PaleGoldenrod;
-                    rowsCount++;
-                    Cell cell = row.Cells[0];
-                    cell.AddParagraph("CATEGORY/PER PERSON RATES");
-                    cell = row.Cells[1];
-                    cell.AddParagraph("02 PAX");
-                    cell = row.Cells[2];
-                    cell.AddParagraph("EXTRA BED");
+                    personCount = Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["adults"].ToString())
+                        + Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["children"].ToString());
 
-                    row = table.AddRow();
-                    row.Shading.Color = Colors.PaleTurquoise;
-                    rowsCount++;
-                    cell = row.Cells[0];
-                    cell.AddParagraph("DELUXE HOTELS");
-                    cell = row.Cells[1];
-                    cell.AddParagraph("20300");
-                    cell = row.Cells[2];
-                    cell.AddParagraph("11900");
+                    Int32 extraAmountPerPerson = Convert.ToInt32(amount / personCount);
 
-                    row = table.AddRow();
-                    row.Shading.Color = Colors.PapayaWhip;
-                    rowsCount++;
-                    cell = row.Cells[0];
-                    cell.AddParagraph("SUPERIOR HOTELS");
-                    cell = row.Cells[1];
-                    cell.AddParagraph("23100");
-                    cell = row.Cells[2];
-                    cell.AddParagraph("12800");
-                    table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
-                    section.Add(table);
+                    if (personCount == 1)
+                    {
+                        columnCount = 2;
+                    }
+                    else if (personCount == 2)
+                    {
+                        columnCount = 3;
+                    }
+                    else if (personCount > 2)
+                    {
+                        columnCount = 5;
+                    }
+                    else
+                    {
+                        columnCount = 0;
+                    }
+                    rowsCount = 0;
+                    if (columnCount > 0)
+                    {
+                        columnWidth = (21.0 - 5.0) / columnCount;
+                        table = section.AddTable();
+                        table.Borders.Visible = true;
+                        table.Borders.Width = 0.75;
+                        for (int index = 0; index < columnCount; index++)
+                        {
+                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+                            column.Format.Alignment = ParagraphAlignment.Center;
+                        }
+                        row = table.AddRow();
+                        rowsCount++;
+                        row.Shading.Color = Colors.PaleVioletRed;
+                        row.Cells[0].AddParagraph("CATEGORY/PER PERSON RATES");
+                        row.Cells[1].AddParagraph("SINGLE/NO SHARING");
+                        if (columnCount > 2)
+                        {
+                            row.Cells[2].AddParagraph("DOUBLE SHARING");
+                        }
+                        if (columnCount > 3)
+                        {
+                            row.Cells[3].AddParagraph("EXTRA ADULT/CHILD WITH BED");
+                            row.Cells[4].AddParagraph("CHILD WITH NO BED (5 - 12 YRS)");
+                        }
 
+                        var hotelRateMatrix = new Int32[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+                        foreach (DataRow item in queryDataset.Tables["QUERY_HOTEL_INFO"].Rows)
+                        {
+                            hotelIdList = hotelIdList + item["idhotelinfo"].ToString() + ";";
+                            if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                            {
+                                hotelRateMatrix[0, 0]++;
+                                hotelRateMatrix[0, 1] += Convert.ToInt32(item["singlebedprice"]);
+                                hotelRateMatrix[0, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
+                                hotelRateMatrix[0, 3] += Convert.ToInt32(item["extrabedprice"]);
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                            {
+                                hotelRateMatrix[1, 0]++;
+                                hotelRateMatrix[1, 1] += Convert.ToInt32(item["singlebedprice"]);
+                                hotelRateMatrix[1, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
+                                hotelRateMatrix[1, 3] += Convert.ToInt32(item["extrabedprice"]);
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                            {
+                                hotelRateMatrix[2, 0]++;
+                                hotelRateMatrix[2, 1] += Convert.ToInt32(item["singlebedprice"]);
+                                hotelRateMatrix[2, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
+                                hotelRateMatrix[2, 3] += Convert.ToInt32(item["extrabedprice"]);
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                            {
+                                hotelRateMatrix[3, 0]++;
+                                hotelRateMatrix[3, 1] += Convert.ToInt32(item["singlebedprice"]);
+                                hotelRateMatrix[3, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
+                                hotelRateMatrix[3, 3] += Convert.ToInt32(item["extrabedprice"]);
+                            }
+                        }
+
+                        for (int index = 0; index < 4; index++)
+                        {
+                            if (hotelRateMatrix[index, 0] > 0)
+                            {
+                                string hotelRating = "";
+                                switch (index)
+                                {
+                                    case 0:
+                                        hotelRating = "BASIC";
+                                        break;
+                                    case 1:
+                                        hotelRating = "3 STAR";
+                                        break;
+                                    case 2:
+                                        hotelRating = "4 STAR";
+                                        break;
+                                    case 3:
+                                        hotelRating = "5 STAR";
+                                        break;
+                                    default:
+                                        hotelRating = "UNKNOWN";
+                                        break;
+                                }
+                                row = table.AddRow();
+                                rowsCount++;
+                                if ((rowsCount % 2) == 0)
+                                {
+                                    row.Shading.Color = Colors.PaleTurquoise;
+                                }
+                                else
+                                {
+                                    row.Shading.Color = Colors.PapayaWhip;
+                                }
+                                row.Cells[0].AddParagraph(hotelRating);
+                                hotelRateMatrix[index, 1] += Convert.ToInt32(extraAmountPerPerson);
+                                row.Cells[1].AddParagraph(hotelRateMatrix[index, 1].ToString());
+                                if (columnCount > 2)
+                                {
+                                    hotelRateMatrix[index, 2] += Convert.ToInt32(extraAmountPerPerson);
+                                    row.Cells[2].AddParagraph(hotelRateMatrix[index, 2].ToString());
+                                }
+                                if (columnCount > 3)
+                                {
+                                    hotelRateMatrix[index, 3] += Convert.ToInt32(extraAmountPerPerson);
+                                    row.Cells[3].AddParagraph(hotelRateMatrix[index, 3].ToString());
+                                    row.Cells[4].AddParagraph(extraAmountPerPerson.ToString());
+                                }
+                            }
+                        }
+                        table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
+                    }
+                    
                     /* add flight information in the itenary */
                     rowsCount = 0;
-                    double amount = 0;
+                    amount = 0;
                     foreach (DataRow item in queryDataset.Tables["QUERY_FLIGHT_INFO"].Rows)
                     {
                         if (rowsCount == 0)
@@ -262,19 +368,12 @@ namespace TourQueryManager
 
                             table = section.AddTable();
                             table.Borders.Visible = true;
-                            //table.TopPadding = 5;
-                            //table.BottomPadding = 5;
                             table.Borders.Width = 0.75;
-                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                            column.Format.Alignment = ParagraphAlignment.Center;
-                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                            column.Format.Alignment = ParagraphAlignment.Center;
-                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                            column.Format.Alignment = ParagraphAlignment.Center;
-                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                            column.Format.Alignment = ParagraphAlignment.Center;
-                            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                            column.Format.Alignment = ParagraphAlignment.Center;
+                            for (int index = 0; index < columnCount; index++)
+                            {
+                                column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+                                column.Format.Alignment = ParagraphAlignment.Center;
+                            }
                             row = table.AddRow();
                             rowsCount++;
                             row.Shading.Color = Colors.PaleGoldenrod;
@@ -296,11 +395,11 @@ namespace TourQueryManager
                         }
                         row.Cells[0].AddParagraph(item["date"].ToString());
                         row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[1].AddParagraph(item["fromcity"].ToString());
+                        row.Cells[1].AddParagraph(item["fromcity"].ToString().ToUpper());
                         row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[2].AddParagraph(item["tocity"].ToString());
+                        row.Cells[2].AddParagraph(item["tocity"].ToString().ToUpper());
                         row.Cells[2].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[3].AddParagraph(item["flightnumber"].ToString());
+                        row.Cells[3].AddParagraph(item["flightnumber"].ToString().ToUpper());
                         row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
                         amount = amount + Convert.ToDouble(item["rateperticket"].ToString());
                         
