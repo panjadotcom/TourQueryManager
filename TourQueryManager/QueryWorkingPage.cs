@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
-using System.Diagnostics;
 
 namespace TourQueryManager
 {
@@ -73,6 +72,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("connection cannot be opened because " + erropen.Message + "");
                 Close();
+                return;
             }
 
            
@@ -121,6 +121,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
             FrmQueryWorkingPage_Refresh();
         }
@@ -162,6 +163,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string selectQueryString = "SELECT DISTINCT `hotelarea` FROM `hotelinfo` ORDER BY `hotelarea`";
@@ -196,6 +198,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in Closing mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             CmbboxWrkngHtlSector.Text = "SELECT SECTOR";
@@ -219,6 +222,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string selectQueryString = "SELECT DISTINCT `hotelcity` FROM `hotelinfo` WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.SelectedValue.ToString() + "' ORDER BY `hotelcity`";
@@ -272,6 +276,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string selectQueryString = "SELECT DISTINCT `hotelrating` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "'  ORDER BY `hotelrating`";
@@ -325,6 +330,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string selectQueryString = "SELECT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
@@ -379,6 +385,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
@@ -444,6 +451,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
             string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
@@ -518,6 +526,15 @@ namespace TourQueryManager
 
         private void btnWorkingAddRoom_Click(object sender, EventArgs e)
         {
+            /* check for the uniqueness of the hotel rating */
+            for (int index = 0; index < dataGridViewRoomsInfo.RowCount; index++)
+            {
+                if (string.Equals(dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString(), CmbboxWrkngHtlHotelRating.Text))
+                {
+                    MessageBox.Show("Multiple entries for " + CmbboxWrkngHtlHotelRating.Text + " is not allowed.", "Error: multiple entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
             /* select rates of the room type depending on the year, selected season, meal plan and roomtype. */
             string mealPlanSelectString = "";
             switch (CmbboxWrkngHtlMealPlan.SelectedIndex)
@@ -547,6 +564,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
 
 
@@ -769,6 +787,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return false;
             }
             MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
             MySqlTransaction mySqlTransaction = mySqlConnection.BeginTransaction();
@@ -822,7 +841,7 @@ namespace TourQueryManager
             try
             {
                 int result = mySqlCommand.ExecuteNonQuery();
-                MessageBox.Show("queryworkingday: Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Debug.WriteLine("queryworkingday: Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception errquery)
             {
@@ -881,7 +900,7 @@ namespace TourQueryManager
                     try
                     {
                         int result = mySqlCommand.ExecuteNonQuery();
-                        MessageBox.Show("queryworkinghotel:Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + "\nExecuted with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Debug.WriteLine("queryworkinghotel:Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + "\nExecuted with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception errquery)
                     {
@@ -929,7 +948,7 @@ namespace TourQueryManager
                     try
                     {
                         int result = mySqlCommand.ExecuteNonQuery();
-                        MessageBox.Show("queryworkingtravel : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Debug.WriteLine("queryworkingtravel : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception errquery)
                     {
@@ -981,7 +1000,7 @@ namespace TourQueryManager
                     try
                     {
                         int result = mySqlCommand.ExecuteNonQuery();
-                        MessageBox.Show("queryworkingflight : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Debug.WriteLine("queryworkingflight : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception errquery)
                     {
@@ -1006,8 +1025,11 @@ namespace TourQueryManager
             catch (Exception errcommit)
             {
                 MessageBox.Show("Error in commiting the transaction because:\n" + errcommit.Message, "Error in Commiting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                mySqlTransaction.Rollback();
-                mySqlTransaction.Dispose();
+                if (isSuccessResult)
+                {
+                    mySqlTransaction.Rollback();
+                    mySqlTransaction.Dispose();
+                }
             }
             try
             {
@@ -1023,11 +1045,27 @@ namespace TourQueryManager
 
         private void buttonHotelAddRow_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(chkBoxWorkingSim.Checked ? "YES" : "NO", "Date", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            //MessageBox.Show(dateTimePickerWorkingArrivalDate.Value.AddDays(-1).ToString("yyyy-MM-dd"), "Date", MessageBoxButtons.OK, MessageBoxIcon.Hand); return;
             if (ValidateWorkingFields())
             {
                 if (UpdateDayWorkingInDatabase())
                 {
+                    if (string.Equals(lblDayCounter.Text, "1"))
+                    {
+                        UpdateQueryState(2, dateTimePickerWorkingArrivalDate.Value.ToString("yyyy-MM-dd"));
+                        if (numericUpDownNoOfPersons.Value != (Convert.ToInt32(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["adults"]) + Convert.ToInt32(frmQueryWorkingDataSet.Tables["QUERYID_DATA"].Rows[0]["children"])))
+                        {
+                            DialogResult dialogResult = MessageBox.Show("Person counts differ from that of query. Update person count in original query", "Person Count Differ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                UpdateQueryState(4, numericUpDownNoOfPersons.Value.ToString());
+                            }
+                            else
+                            {
+                                Debug.WriteLine("Person count not updated");
+                            }
+                        }
+                    }
                     int dayNo = Convert.ToInt32(lblDayCounter.Text);
                     /* increament the date and day no.*/
                     lblDayCounter.Text = (dayNo + 1).ToString();
@@ -1039,16 +1077,140 @@ namespace TourQueryManager
             }
         }
 
+        private void UpdateQueryState(int caseFlag, string updateString)
+        {
+            bool isSuccessResult = true;
+            string mysqlUpdateQueryString = "";
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch (Exception errConnOpen)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+                return;
+            }
+            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+            MySqlTransaction mySqlTransaction = mySqlConnection.BeginTransaction();
+            mySqlCommand.Connection = mySqlConnection;
+            mySqlCommand.Transaction = mySqlTransaction;
+            mySqlCommand.CommandType = CommandType.Text;
+            mySqlCommand.Parameters.AddWithValue("@var_queryid", "Text");
+            mySqlCommand.Parameters["@var_queryid"].Value = queryIdWorking;
+            
+
+            switch (caseFlag)
+            {
+                case 1:
+                    mysqlUpdateQueryString = "UPDATE `queries` SET " +
+                    "`querylastupdatetime` = NOW(), " +
+                    "`querycurrentstate` = @var_querycurrentstate " +
+                    "WHERE " +
+                    "`queryid` = @var_queryid";
+                    mySqlCommand.Parameters.AddWithValue("@var_querycurrentstate", 1);
+                    mySqlCommand.Parameters["@var_querycurrentstate"].Value = Convert.ToInt32(updateString);
+                    break;
+                case 2:
+                    mysqlUpdateQueryString = "UPDATE `queries` SET " +
+                    "`querylastupdatetime` = NOW(), " +
+                    "`fromdate` = @var_date " +
+                    "WHERE " +
+                    "`queryid` = @var_queryid";
+                    mySqlCommand.Parameters.AddWithValue("@var_date", "Text");
+                    mySqlCommand.Parameters["@var_date"].Value = updateString;
+                    break;
+                case 3:
+                    mysqlUpdateQueryString = "UPDATE `queries` SET " +
+                    "`querylastupdatetime` = NOW(), " +
+                    "`todate` = @var_date " +
+                    "WHERE " +
+                    "`queryid` = @var_queryid";
+                    mySqlCommand.Parameters.AddWithValue("@var_date", "Text");
+                    mySqlCommand.Parameters["@var_date"].Value = updateString;
+                    break;
+                case 4:
+                    mysqlUpdateQueryString = "UPDATE `queries` SET " +
+                    "`querylastupdatetime` = NOW(), " +
+                    "`adults` = @var_adults, " +
+                    "`children` = 0 " +
+                    "WHERE " +
+                    "`queryid` = @var_queryid";
+                    mySqlCommand.Parameters.AddWithValue("@var_adults", 1);
+                    mySqlCommand.Parameters["@var_adults"].Value = updateString;
+                    break;
+                default:
+                    mysqlUpdateQueryString = "UPDATE `queries` SET " +
+                    "`querylastupdatetime` = NOW() " +
+                    "WHERE " +
+                    "`queryid` = @var_queryid";
+                    break;
+            }
+
+            
+            mySqlCommand.CommandText = mysqlUpdateQueryString;
+            mySqlCommand.Prepare();
+            try
+            {
+                int result = mySqlCommand.ExecuteNonQuery();
+                Debug.WriteLine("queryworkingday: Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception errquery)
+            {
+                isSuccessResult = false;
+                MessageBox.Show("queryworkingday:Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            // now commit the changes done in the database.
+            try
+            {
+                if (isSuccessResult)
+                {
+                    mySqlTransaction.Commit();
+                }
+                else
+                {
+                    mySqlTransaction.Rollback();
+                    mySqlTransaction.Dispose();
+                }
+            }
+            catch (Exception errcommit)
+            {
+                MessageBox.Show("Error in commiting the transaction because:\n" + errcommit.Message, "Error in Commiting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (isSuccessResult)
+                {
+                    mySqlTransaction.Rollback();
+                    mySqlTransaction.Dispose();
+                }
+            }
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch (Exception errConnClose)
+            {
+                MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+        }
+
         private void ButtonWorkingDone_Click(object sender, EventArgs e)
         {
+            DateTime dateTime = dateTimePickerWorkingArrivalDate.Value;
             if (ValidateWorkingFields())
             {
                 if (UpdateDayWorkingInDatabase())
                 {
                     /* update state of the query to done by user and then close page */
+                    Debug.WriteLine("Update query return success");
+                    UpdateQueryState(3, dateTime.ToString("yyyy-MM-dd"));
+                    UpdateQueryState(1, Properties.Resources.queryStageDoneByUser);
+                    Debug.WriteLine("Closing on success");
                     Close();
+                    return;
                 }
+                Debug.WriteLine("Update query return failure");
             }
+            Debug.WriteLine("validation return failure");
             DialogResult dialogResult = MessageBox.Show("Finish with previous date?", "Validation Failed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
@@ -1058,8 +1220,11 @@ namespace TourQueryManager
                 }
                 else
                 {
-                    MessageBox.Show("Finishing with previous date");
+                    Debug.WriteLine("Finishing with previous date");
+                    
                     /* update state of the query to done by user and then close page */
+                    UpdateQueryState(3, dateTime.AddDays(-1).ToString("yyyy-MM-dd"));
+                    UpdateQueryState(1, Properties.Resources.queryStageDoneByUser);
                     Close();
                 }
             }
@@ -1082,6 +1247,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnOpen.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
             MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
             MySqlTransaction mySqlTransaction = mySqlConnection.BeginTransaction();
@@ -1133,7 +1299,6 @@ namespace TourQueryManager
             catch (Exception errConnClose)
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Close();
             }
             Close();
         }

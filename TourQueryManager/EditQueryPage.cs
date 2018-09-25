@@ -352,7 +352,7 @@ namespace TourQueryManager
             }
             if(mealRadioBtnChkFlag)
             {
-                btnUpdateMysqlCommand.Parameters["@meal_var"].Value = "No Meal";
+                btnUpdateMysqlCommand.Parameters["@meal_var"].Value = "NOT PROVIDED";
             }
 
             string hotelCtgryString = "";
@@ -400,7 +400,7 @@ namespace TourQueryManager
             }
             if (rqmntRadioBtnChkFlag)
             {
-                btnUpdateMysqlCommand.Parameters["@requirement_var"].Value = "Hotel Only";
+                btnUpdateMysqlCommand.Parameters["@requirement_var"].Value = "NOT SELECTED";
             }
 
             if (string.Equals(txtboxBudget.Text, "", StringComparison.OrdinalIgnoreCase))
