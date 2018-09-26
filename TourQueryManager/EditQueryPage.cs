@@ -40,7 +40,7 @@ namespace TourQueryManager
             frmEditQueryDataSet = new DataSet();
             string userSelectMysqlQueryString = "SELECT `userid`, `username`, `name` FROM `appusers` WHERE `userid` > 1 ORDER BY `userid`";
             string agentSelectMysqlQueryString = "SELECT `agentid`, `name` FROM `agents` ORDER BY `agentid`";
-            string querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 ORDER BY `queryno`";
+            string querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() +" ORDER BY `queryno`";
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(userSelectMysqlQueryString, frmEditQueryMysqlConn);

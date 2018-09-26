@@ -56,6 +56,8 @@ namespace TourQueryManager
             txtboxWorkingAdditionalCost.Text = "0";
             txtboxNarrationHeader.Text = "";
             txtboxNarration.Text = "";
+            txtboxTourInclusions.Enabled = false;
+            chkBoxTourInclusions.Checked = false;
         }
 
         private void FrmQueryWorkingPage_Load(object sender, EventArgs e)
@@ -760,10 +762,14 @@ namespace TourQueryManager
                 MessageBox.Show("Tour day narration is not provided", "Narration text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (string.Equals(txtboxTourInclusions.Text, ""))
+
+            if (chkBoxTourInclusions.Checked)
             {
-                MessageBox.Show("Tour inclusion field is not provided", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                if (string.Equals(txtboxTourInclusions.Text, ""))
+                {
+                    MessageBox.Show("Tour inclusion field is not provided", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
             }
             // All checked now return success
             return true;
@@ -1072,6 +1078,7 @@ namespace TourQueryManager
                     DateTime dateTime = dateTimePickerWorkingArrivalDate.Value;
                     dateTimePickerWorkingArrivalDate.Value = dateTime.AddDays(1);
                     dateTimePickerWorkingArrivalDate.Enabled = false;
+                    numericUpDownNoOfPersons.Enabled = false;
                     FrmQueryWorkingPage_Refresh();
                 }
             }
@@ -1348,6 +1355,11 @@ namespace TourQueryManager
             {
                 groupBoxFlightDetails.Enabled = false;
             }
+        }
+
+        private void chkBoxTourInclusions_CheckedChanged(object sender, EventArgs e)
+        {
+            txtboxTourInclusions.Enabled = chkBoxTourInclusions.Checked;
         }
     }
 }

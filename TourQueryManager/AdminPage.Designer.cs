@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAdminPage));
             this.btnCreateUser = new System.Windows.Forms.Button();
             this.BtnGenerateVouchers = new System.Windows.Forms.Button();
-            this.BtnGenerateReports = new System.Windows.Forms.Button();
+            this.BtnReports = new System.Windows.Forms.Button();
             this.btnCreateQuery = new System.Windows.Forms.Button();
             this.btnCreateAgent = new System.Windows.Forms.Button();
             this.BtnGenerateItinerary = new System.Windows.Forms.Button();
@@ -59,15 +59,15 @@
             this.BtnGenerateVouchers.UseVisualStyleBackColor = true;
             this.BtnGenerateVouchers.Click += new System.EventHandler(this.BtnGenerateVouchers_Click);
             // 
-            // BtnGenerateReports
+            // BtnReports
             // 
-            this.BtnGenerateReports.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnGenerateReports.Location = new System.Drawing.Point(342, 181);
-            this.BtnGenerateReports.Name = "BtnGenerateReports";
-            this.BtnGenerateReports.Size = new System.Drawing.Size(158, 109);
-            this.BtnGenerateReports.TabIndex = 5;
-            this.BtnGenerateReports.Text = "GENERATE REPORTS";
-            this.BtnGenerateReports.UseVisualStyleBackColor = true;
+            this.BtnReports.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnReports.Location = new System.Drawing.Point(342, 181);
+            this.BtnReports.Name = "BtnReports";
+            this.BtnReports.Size = new System.Drawing.Size(158, 109);
+            this.BtnReports.TabIndex = 5;
+            this.BtnReports.Text = "REPORTS";
+            this.BtnReports.UseVisualStyleBackColor = true;
             // 
             // btnCreateQuery
             // 
@@ -108,7 +108,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(513, 380);
             this.Controls.Add(this.btnCreateAgent);
-            this.Controls.Add(this.BtnGenerateReports);
+            this.Controls.Add(this.BtnReports);
             this.Controls.Add(this.btnCreateQuery);
             this.Controls.Add(this.BtnGenerateItinerary);
             this.Controls.Add(this.BtnGenerateVouchers);
@@ -127,7 +127,7 @@
 
         private System.Windows.Forms.Button btnCreateUser;
         private System.Windows.Forms.Button BtnGenerateVouchers;
-        private System.Windows.Forms.Button BtnGenerateReports;
+        private System.Windows.Forms.Button BtnReports;
         private System.Windows.Forms.Button btnCreateQuery;
         private System.Windows.Forms.Button btnCreateAgent;
         private System.Windows.Forms.Button BtnGenerateItinerary;

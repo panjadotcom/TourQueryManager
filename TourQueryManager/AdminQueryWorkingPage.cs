@@ -170,10 +170,16 @@ namespace TourQueryManager
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_TRAVEL_INFO");
 
                     /* GENERATE PDF ITINERARY OF THE SELECTED QUERY */
+                    double gstRate = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["gstrate"]);
+                    gstRate = gstRate / 100;
+                    double profitMargin = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["profitmargin"]);
+                    profitMargin = profitMargin / 100;
+                    double multiplyFactor = (1.0 + gstRate) * (1.0 + profitMargin);
+                    Debug.WriteLine("GST RATE = " + gstRate.ToString() + " and PROFIT MARGIN = " + profitMargin.ToString() + "AND MULTIPLY FACTOR = " + multiplyFactor.ToString());
                     Document document = new Document();
                     document.Info.Title = "ITINERARY FOR " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
                     document.Info.Author = "PANJADOTCOM";
-
+                    
                     /* now cange the style of the document */
                     MyPdfDocuments.DefineStyles(document);
 
@@ -197,10 +203,12 @@ namespace TourQueryManager
 
                     double amount = 0;
                     /* add day wise narration */
+                    string tourIncContent = "";
                     foreach (DataRow item in queryDataset.Tables["QUERY_DAY_INFO"].Rows)
                     {
                         string hdr = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
                         string content = item["narration"].ToString() + "";
+                        tourIncContent = tourIncContent + item["tourinclusions"].ToString() + "\n";
                         MyPdfDocuments.WriteHdrContentParagraph(section, hdr, content);
                         amount = amount + Convert.ToDouble(item["additionalcost"]);
                     }
@@ -223,6 +231,8 @@ namespace TourQueryManager
 
                     personCount = Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["adults"].ToString())
                         + Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["children"].ToString());
+
+                    /* add gst rate and profitmargin in amount first. */
 
                     Int32 extraAmountPerPerson = Convert.ToInt32(amount / personCount);
 
@@ -338,17 +348,21 @@ namespace TourQueryManager
                                 }
                                 row.Cells[0].AddParagraph(hotelRating);
                                 hotelRateMatrix[index, 1] += Convert.ToInt32(extraAmountPerPerson);
-                                row.Cells[1].AddParagraph(hotelRateMatrix[index, 1].ToString());
+                                amount = Convert.ToDouble(hotelRateMatrix[index, 1]) * multiplyFactor;
+                                row.Cells[1].AddParagraph(Convert.ToInt32(amount).ToString());
                                 if (columnCount > 2)
                                 {
                                     hotelRateMatrix[index, 2] += Convert.ToInt32(extraAmountPerPerson);
-                                    row.Cells[2].AddParagraph(hotelRateMatrix[index, 2].ToString());
+                                    amount = Convert.ToDouble(hotelRateMatrix[index, 2]) * multiplyFactor;
+                                    row.Cells[2].AddParagraph(Convert.ToInt32(amount).ToString());
                                 }
                                 if (columnCount > 3)
                                 {
                                     hotelRateMatrix[index, 3] += Convert.ToInt32(extraAmountPerPerson);
-                                    row.Cells[3].AddParagraph(hotelRateMatrix[index, 3].ToString());
-                                    row.Cells[4].AddParagraph(extraAmountPerPerson.ToString());
+                                    amount = Convert.ToDouble(hotelRateMatrix[index, 3]) * multiplyFactor;
+                                    row.Cells[3].AddParagraph(Convert.ToInt32(amount).ToString());
+                                    amount = Convert.ToDouble(extraAmountPerPerson) * multiplyFactor;
+                                    row.Cells[4].AddParagraph(Convert.ToInt32(amount).ToString());
                                 }
                             }
                         }
@@ -407,7 +421,8 @@ namespace TourQueryManager
                     if (rowsCount > 0)
                     {
                         table.Rows[1].Cells[4].MergeDown = rowsCount - 2;
-                        table.Rows[1].Cells[4].AddParagraph(amount.ToString());
+                        amount = amount * multiplyFactor;
+                        table.Rows[1].Cells[4].AddParagraph(Convert.ToInt32(amount).ToString());
                         table.Rows[1].Cells[4].Shading.Color = Colors.WhiteSmoke;
                         table.Rows[1].Cells[4].VerticalAlignment = VerticalAlignment.Center;
                         table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
@@ -415,6 +430,9 @@ namespace TourQueryManager
                     
                     /* add notes in the document */
                     MyPdfDocuments.WriteNoteParagraph(section);
+                    string tourIncHdr = "The tour cost includes:";
+                    /* edit content of tour inclusion */
+                    MyPdfDocuments.WriteHdrContentListingBullets(section, tourIncHdr, tourIncContent);
                     MyPdfDocuments.WriteNotIncludedParagraph(section);
                     MyPdfDocuments.WriteImportantFactsParagraph(section);
                     MyPdfDocuments.WritePaymentPolicyParagraph(section);
