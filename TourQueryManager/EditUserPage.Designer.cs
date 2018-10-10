@@ -41,10 +41,10 @@
             this.lblInfo = new System.Windows.Forms.Label();
             this.txtboxEmailId = new System.Windows.Forms.TextBox();
             this.lblEmailId = new System.Windows.Forms.Label();
-            this.txtboxUserId = new System.Windows.Forms.TextBox();
             this.lblUserId = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
+            this.comboBoxId = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.PctrBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,14 +146,6 @@
             this.lblEmailId.TabIndex = 10;
             this.lblEmailId.Text = "Email Id";
             // 
-            // txtboxUserId
-            // 
-            this.txtboxUserId.Location = new System.Drawing.Point(488, 25);
-            this.txtboxUserId.Name = "txtboxUserId";
-            this.txtboxUserId.ReadOnly = true;
-            this.txtboxUserId.Size = new System.Drawing.Size(73, 20);
-            this.txtboxUserId.TabIndex = 1;
-            // 
             // lblUserId
             // 
             this.lblUserId.AutoSize = true;
@@ -183,18 +175,27 @@
             this.PctrBoxLogo.TabIndex = 31;
             this.PctrBoxLogo.TabStop = false;
             // 
+            // comboBoxId
+            // 
+            this.comboBoxId.FormattingEnabled = true;
+            this.comboBoxId.Location = new System.Drawing.Point(477, 25);
+            this.comboBoxId.Name = "comboBoxId";
+            this.comboBoxId.Size = new System.Drawing.Size(91, 21);
+            this.comboBoxId.TabIndex = 32;
+            this.comboBoxId.SelectedIndexChanged += new System.EventHandler(this.comboBoxId_SelectedIndexChanged);
+            // 
             // FrmEditUserPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 433);
+            this.Controls.Add(this.comboBoxId);
             this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtboxInfo);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.txtboxEmailId);
             this.Controls.Add(this.lblEmailId);
-            this.Controls.Add(this.txtboxUserId);
             this.Controls.Add(this.lblUserId);
             this.Controls.Add(this.txtboxPhone);
             this.Controls.Add(this.lblPhone);
@@ -230,9 +231,9 @@
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.TextBox txtboxEmailId;
         private System.Windows.Forms.Label lblEmailId;
-        private System.Windows.Forms.TextBox txtboxUserId;
         private System.Windows.Forms.Label lblUserId;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.PictureBox PctrBoxLogo;
+        private System.Windows.Forms.ComboBox comboBoxId;
     }
 }

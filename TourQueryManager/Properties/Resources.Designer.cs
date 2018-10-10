@@ -83,6 +83,16 @@ namespace TourQueryManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ExcursionHolidaysSmallLogo {
+            get {
+                object obj = ResourceManager.GetObject("ExcursionHolidaysSmallLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap imageExcursionHolidaysLetterHead {
             get {
                 object obj = ResourceManager.GetObject("imageExcursionHolidaysLetterHead", resourceCulture);

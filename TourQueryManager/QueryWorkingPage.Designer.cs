@@ -65,13 +65,6 @@
             this.txtboxNarration = new System.Windows.Forms.TextBox();
             this.lblWorkingNarration = new System.Windows.Forms.Label();
             this.dataGridViewRoomsInfo = new System.Windows.Forms.DataGridView();
-            this.hotelRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HotelId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkRoomType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wrkMealPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HotelSingleBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HotelDoubleShairingPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HotelExtraBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateTimePickerWorkingArrivalDate = new System.Windows.Forms.DateTimePicker();
             this.lblWorkingHotelRating = new System.Windows.Forms.Label();
             this.CmbboxWrkngHtlHotelRating = new System.Windows.Forms.ComboBox();
@@ -95,12 +88,21 @@
             this.groupBoxHotelDetails = new System.Windows.Forms.GroupBox();
             this.lblDayCounter = new System.Windows.Forms.Label();
             this.chkBoxTourInclusions = new System.Windows.Forms.CheckBox();
+            this.dataGridViewHotelList = new System.Windows.Forms.DataGridView();
+            this.hotelRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wrkRoomType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wrkMealPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelSingleBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelDoubleShairingPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HotelExtraBedPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfPersons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfCars)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRoomsInfo)).BeginInit();
             this.grpboxTravelDetails.SuspendLayout();
             this.groupBoxFlightDetails.SuspendLayout();
             this.groupBoxHotelDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHotelList)).BeginInit();
             this.SuspendLayout();
             // 
             // txtboxQueryDetails
@@ -111,7 +113,7 @@
             this.txtboxQueryDetails.Name = "txtboxQueryDetails";
             this.txtboxQueryDetails.ReadOnly = true;
             this.txtboxQueryDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtboxQueryDetails.Size = new System.Drawing.Size(416, 498);
+            this.txtboxQueryDetails.Size = new System.Drawing.Size(416, 431);
             this.txtboxQueryDetails.TabIndex = 18;
             // 
             // lblQueryDetails
@@ -479,57 +481,6 @@
             this.dataGridViewRoomsInfo.Size = new System.Drawing.Size(443, 126);
             this.dataGridViewRoomsInfo.TabIndex = 8;
             // 
-            // hotelRating
-            // 
-            this.hotelRating.FillWeight = 70F;
-            this.hotelRating.HeaderText = "HOTEL RATING";
-            this.hotelRating.Name = "hotelRating";
-            this.hotelRating.ReadOnly = true;
-            this.hotelRating.Width = 50;
-            // 
-            // HotelId
-            // 
-            this.HotelId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.HotelId.HeaderText = "HOTEL ID";
-            this.HotelId.Name = "HotelId";
-            this.HotelId.ReadOnly = true;
-            // 
-            // wrkRoomType
-            // 
-            this.wrkRoomType.HeaderText = "ROOM TYPE";
-            this.wrkRoomType.Name = "wrkRoomType";
-            this.wrkRoomType.ReadOnly = true;
-            this.wrkRoomType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkRoomType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkRoomType.Width = 80;
-            // 
-            // wrkMealPlan
-            // 
-            this.wrkMealPlan.HeaderText = "MEAL PLAN";
-            this.wrkMealPlan.Name = "wrkMealPlan";
-            this.wrkMealPlan.ReadOnly = true;
-            this.wrkMealPlan.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.wrkMealPlan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.wrkMealPlan.Width = 80;
-            // 
-            // HotelSingleBedPrice
-            // 
-            this.HotelSingleBedPrice.HeaderText = "SINGLE BED PRICE";
-            this.HotelSingleBedPrice.Name = "HotelSingleBedPrice";
-            this.HotelSingleBedPrice.ReadOnly = true;
-            // 
-            // HotelDoubleShairingPrice
-            // 
-            this.HotelDoubleShairingPrice.HeaderText = "DOUBLE BED PRICE";
-            this.HotelDoubleShairingPrice.Name = "HotelDoubleShairingPrice";
-            this.HotelDoubleShairingPrice.ReadOnly = true;
-            // 
-            // HotelExtraBedPrice
-            // 
-            this.HotelExtraBedPrice.HeaderText = "EXTRA BED PRICE";
-            this.HotelExtraBedPrice.Name = "HotelExtraBedPrice";
-            this.HotelExtraBedPrice.ReadOnly = true;
-            // 
             // dateTimePickerWorkingArrivalDate
             // 
             this.dateTimePickerWorkingArrivalDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -771,11 +722,77 @@
             this.chkBoxTourInclusions.UseVisualStyleBackColor = true;
             this.chkBoxTourInclusions.CheckedChanged += new System.EventHandler(this.chkBoxTourInclusions_CheckedChanged);
             // 
+            // dataGridViewHotelList
+            // 
+            this.dataGridViewHotelList.AllowUserToAddRows = false;
+            this.dataGridViewHotelList.AllowUserToDeleteRows = false;
+            this.dataGridViewHotelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHotelList.Location = new System.Drawing.Point(15, 462);
+            this.dataGridViewHotelList.MultiSelect = false;
+            this.dataGridViewHotelList.Name = "dataGridViewHotelList";
+            this.dataGridViewHotelList.ReadOnly = true;
+            this.dataGridViewHotelList.RowHeadersVisible = false;
+            this.dataGridViewHotelList.Size = new System.Drawing.Size(413, 172);
+            this.dataGridViewHotelList.TabIndex = 26;
+            // 
+            // hotelRating
+            // 
+            this.hotelRating.FillWeight = 70F;
+            this.hotelRating.HeaderText = "HOTEL RATING";
+            this.hotelRating.Name = "hotelRating";
+            this.hotelRating.ReadOnly = true;
+            this.hotelRating.Width = 50;
+            // 
+            // HotelId
+            // 
+            this.HotelId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.HotelId.HeaderText = "HOTEL ID";
+            this.HotelId.MinimumWidth = 30;
+            this.HotelId.Name = "HotelId";
+            this.HotelId.ReadOnly = true;
+            // 
+            // wrkRoomType
+            // 
+            this.wrkRoomType.HeaderText = "ROOM TYPE";
+            this.wrkRoomType.Name = "wrkRoomType";
+            this.wrkRoomType.ReadOnly = true;
+            this.wrkRoomType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.wrkRoomType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.wrkRoomType.Width = 80;
+            // 
+            // wrkMealPlan
+            // 
+            this.wrkMealPlan.HeaderText = "MEAL PLAN";
+            this.wrkMealPlan.Name = "wrkMealPlan";
+            this.wrkMealPlan.ReadOnly = true;
+            this.wrkMealPlan.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.wrkMealPlan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.wrkMealPlan.Width = 80;
+            // 
+            // HotelSingleBedPrice
+            // 
+            this.HotelSingleBedPrice.HeaderText = "SINGLE BED PRICE";
+            this.HotelSingleBedPrice.Name = "HotelSingleBedPrice";
+            this.HotelSingleBedPrice.ReadOnly = true;
+            // 
+            // HotelDoubleShairingPrice
+            // 
+            this.HotelDoubleShairingPrice.HeaderText = "DOUBLE BED PRICE";
+            this.HotelDoubleShairingPrice.Name = "HotelDoubleShairingPrice";
+            this.HotelDoubleShairingPrice.ReadOnly = true;
+            // 
+            // HotelExtraBedPrice
+            // 
+            this.HotelExtraBedPrice.HeaderText = "EXTRA BED PRICE";
+            this.HotelExtraBedPrice.Name = "HotelExtraBedPrice";
+            this.HotelExtraBedPrice.ReadOnly = true;
+            // 
             // FrmQueryWorkingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 646);
+            this.Controls.Add(this.dataGridViewHotelList);
             this.Controls.Add(this.chkBoxTourInclusions);
             this.Controls.Add(this.lblDayCounter);
             this.Controls.Add(this.groupBoxHotelDetails);
@@ -819,6 +836,7 @@
             this.groupBoxFlightDetails.PerformLayout();
             this.groupBoxHotelDetails.ResumeLayout(false);
             this.groupBoxHotelDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHotelList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -882,6 +900,9 @@
         private System.Windows.Forms.CheckBox checkBoxTravelDetails;
         private System.Windows.Forms.CheckBox checkBoxFlightDetails;
         private System.Windows.Forms.GroupBox groupBoxHotelDetails;
+        private System.Windows.Forms.Label lblDayCounter;
+        private System.Windows.Forms.CheckBox chkBoxTourInclusions;
+        private System.Windows.Forms.DataGridView dataGridViewHotelList;
         private System.Windows.Forms.DataGridViewTextBoxColumn hotelRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelId;
         private System.Windows.Forms.DataGridViewTextBoxColumn wrkRoomType;
@@ -889,7 +910,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelSingleBedPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelDoubleShairingPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelExtraBedPrice;
-        private System.Windows.Forms.Label lblDayCounter;
-        private System.Windows.Forms.CheckBox chkBoxTourInclusions;
     }
 }

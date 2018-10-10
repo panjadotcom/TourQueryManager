@@ -121,6 +121,7 @@ namespace TourQueryManager
                         }
                     }
                 }
+                DataGrdVuUserQueries.ClearSelection();
             }
             catch (Exception errQuery)
             {

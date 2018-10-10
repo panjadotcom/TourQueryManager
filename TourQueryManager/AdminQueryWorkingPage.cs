@@ -95,6 +95,7 @@ namespace TourQueryManager
                         DataGrdVuAdminQueries.Rows[index].Cells["AssignedDate"].Value = item["querystartdate"].ToString();
                     }
                 }
+                DataGrdVuAdminQueries.ClearSelection();
             }
             catch (Exception errQuery)
             {
@@ -123,9 +124,9 @@ namespace TourQueryManager
                     DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
                     DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
                     DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
-                    FrmQueryWorkingPage frmQueryWorkingPage = new FrmQueryWorkingPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    FrmVouchersOptionsPage frmVouchersOptionsPage = new FrmVouchersOptionsPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
-                    frmQueryWorkingPage.ShowDialog();
+                    frmVouchersOptionsPage.ShowDialog();
                     Show();
                 }
                 else
@@ -255,7 +256,7 @@ namespace TourQueryManager
                     rowsCount = 0;
                     if (columnCount > 0)
                     {
-                        columnWidth = (21.0 - 5.0) / columnCount;
+                        columnWidth = (21.0 - 2.0) / columnCount;
                         table = section.AddTable();
                         table.Borders.Visible = true;
                         table.Borders.Width = 0.75;
@@ -378,7 +379,7 @@ namespace TourQueryManager
                         {
                             paragraph = section.AddParagraph("AIR FARE PER PERSON EXTRA", "Heading3");
                             columnCount = 5;
-                            columnWidth = (21.0 - 5.0) / columnCount;
+                            columnWidth = (21.0 - 2.0) / columnCount;
 
                             table = section.AddTable();
                             table.Borders.Visible = true;

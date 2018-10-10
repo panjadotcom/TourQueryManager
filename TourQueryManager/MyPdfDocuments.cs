@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 
 namespace TourQueryManager
@@ -39,15 +40,56 @@ namespace TourQueryManager
             " after that we can process the booking." +
             "\n Balance Payment has to be made in advance and must be paid & as per time limit given at the time of confirmation." +
             "\n Payments can be remitted through any of the following Banks and is subject to realization.";
+        private static readonly string hotelVoucherRemark = "Please note that while your booking had been confirmed and is guaranteed," +
+            " the rooming list with your name may not be adjusted in the hotel's reservation system until closer to arrival.";
+        private static readonly string hotelVoucherTermAndCondition = "You must present a photo ID at the time of check in. " +
+            "Hotel may ask for credit card or cash deposit for the extra services at the time of check in.\n" +
+            "All extra charges should be collected directly from clients prior to departure such as parking, phone calls, room service, city tax, etc.\n" +
+            "We don't accept any responsibility for additional expenses due to the changes or delays in air, road, rail, sea or indeed of any other causes, " +
+            "all such expenses will have to be borne by passengers.\n" +
+            "In case of wrong residency & nationality selected by user at the time of booking; " +
+            "the supplement charges may be applicable and need to be paid to the hotel by guest on check in/ check out.\n" +
+            "Any special request for bed type, early check in, late checkout, smoking rooms, etc. " +
+            "are not guaranteed as subject to availability at the time of check in.\n" +
+            "Early check out will attract full cancellation charges unless otherwise specified.";
+        private static readonly string hotelVoucherPolicy = "Children share the bed with parents " +
+            "1 Car park YES (without additional debit notes). " +
+            "Key Collection 00:00 - 00:00. " +
+            "Check-in hour 15:00 - 00:00. " +
+            "Children get free accommodation, " +
+            "meals payable on the spot 0 12. " +
+            "Deposit on arrival. " +
+            "Early departure. " +
+            "Identification card at arrival. " +
+            "No hen/stag or any other parties allowed. " +
+            "Minimum check-in age 18.1 children between 6 to 11 are sharing beds with parents " +
+            "in ALL room type Check in time is 14:00pm " +
+            "Check out time is 12:00noon " +
+            "No-Show or Early check out 100% of total stay will be charged. " +
+            "1 children between 6 to 11 are sharing beds with parents in ALL room type.\n" +
+            "City tax and Resort fee are to be paid directly at hotel if applicable.\n" +
+            "Note: All Confirm bookings will be auto-cancel at 11:45 pm on last cancellation date.";
+        private static readonly string contactDetailsExcursionHolidays = "Phone : 1204545485\n" +
+            "Email : info @excursionholidays.com";
+        private static readonly string agencyAddressExcursionHolidays = "EXCURSION HOLIDAYS PVT LTD(TPG)\n" +
+            "#208, Express Green Plaza,\n" +
+            "Sector - 1 Vaishali\n" +
+            "City : Ghaziabad\n" +
+            "Phone : 1204545485\n" +
+            "Email : info @excursionholidays.com";
 
         /// <summary>
         /// Defines the styles used in the document.
         /// </summary>
         public static void DefineStyles(Document document)
         {
+            document.Info.Author = "PANJADOTCOM";
+
             // Set top space position to 0 as image should be visible in this
             document.DefaultPageSetup.TopMargin = Unit.FromCentimeter(0.1);
             document.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(1);
+            document.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(1);
+            document.DefaultPageSetup.RightMargin = Unit.FromCentimeter(1);
 
             // Get the predefined style Normal.
             Style style = document.Styles["Normal"];
@@ -73,7 +115,7 @@ namespace TourQueryManager
             style = document.Styles["Heading2"];
             style.Font.Size = 12;
             style.Font.Bold = true;
-            style.Font.Color = Colors.Black;
+            style.Font.Color = Colors.DarkSlateBlue;
             style.ParagraphFormat.PageBreakBefore = false;
             style.ParagraphFormat.SpaceBefore = 6;
             style.ParagraphFormat.SpaceAfter = 6;
@@ -97,11 +139,12 @@ namespace TourQueryManager
 
             // Create a new style called TextBox based on style Normal
             style = document.Styles.AddStyle("TextBox", "Normal");
-            style.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
-            style.ParagraphFormat.Borders.Width = 2.5;
+            style.Font.Size = 10;
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+            style.ParagraphFormat.Borders.Width = 0.5;
             style.ParagraphFormat.Borders.Distance = "3pt";
             //TODO: Colors
-            style.ParagraphFormat.Shading.Color = Colors.SkyBlue;
+            style.ParagraphFormat.Borders.Color = Colors.SkyBlue;
 
             // Create a new style called TOC based on style Normal
             style = document.Styles.AddStyle("TOC", "Normal");
@@ -110,7 +153,9 @@ namespace TourQueryManager
 
             // Create a new style called MyBulletList based on style Normal
             style = document.Styles.AddStyle("MyBulletList", "Normal");
-            style.ParagraphFormat.LeftIndent = "0.5cm";
+            style.ParagraphFormat.LeftIndent = "1cm";
+            style.ParagraphFormat.FirstLineIndent = "-0.5cm";
+            style.Font.Size = 12;
         }
 
         /// <WriteNote>
@@ -182,6 +227,30 @@ namespace TourQueryManager
         /// This will print content in the listing form.
         /// </summary>
         /// 
+        public static void WriteHdrContentListingBullets(Cell section, string hdr, string content)
+        {
+            Paragraph paragraph = section.AddParagraph();
+            paragraph.AddFormattedText(hdr, "Heading2");
+            string[] lines = content.Split('\n');
+            for (int index = 0; index < lines.Length; index++)
+            {
+                if (string.Equals(lines[index], ""))
+                {
+                    continue;
+                }
+                ListInfo listInfo = new ListInfo();
+                listInfo.ContinuePreviousList = index > 0;
+                listInfo.ListType = ListType.BulletList1;
+                paragraph = section.AddParagraph(lines[index]);
+                paragraph.Style = "MyBulletList";
+                paragraph.Format.ListInfo = listInfo;
+            }
+        }
+
+        /// <summary>
+        /// This will print content in the listing form.
+        /// </summary>
+        /// 
         public static void WriteHdrContentListingNumbers(Section section, string hdr, string content)
         {
             Paragraph paragraph = section.AddParagraph(hdr, "Heading3");
@@ -199,6 +268,62 @@ namespace TourQueryManager
                 paragraph.Style = "MyBulletList";
                 paragraph.Format.ListInfo = listInfo;
             }
+        }
+
+        /// <WriteHdrContentParagraph>
+        /// this will write the header with heading3 style and content after that
+        /// </WriteHdrContentParagraph>
+        public static void WriteHdrContentParagraph(Cell cell, string hdr, string content)
+        {
+            Paragraph paragraph = cell.AddParagraph();
+            paragraph.AddFormattedText(hdr + "\n", "Heading2");
+            paragraph.Format.Font.Size = 12;
+            paragraph.AddText(content);
+            
+        }
+        
+        public static void WriteAgencyAddressDetails(Cell cell)
+        {
+            Paragraph paragraph = cell.AddParagraph();
+            paragraph.AddFormattedText(agencyAddressExcursionHolidays, "Heading3");
+        }
+
+        public static void WriteHotelVoucherStaticDetails(Section section)
+        {
+            Table table = null;
+            Column column = null;
+            int columnCount = 0;
+            double columnWidth = 0;
+            Row row = null;
+            int rowsCount = 0;
+            Cell cell = null;
+
+            table = section.AddTable();
+            table.Format.SpaceBefore = 5;
+            table.Borders.Visible = true;
+            table.Borders.Width = 0.75;
+            table.Borders.Color = Colors.SkyBlue;
+            columnCount = 1;
+            columnWidth = (21.0 - 2.0) / columnCount;
+            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+            column.Format.Alignment = ParagraphAlignment.Left;
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentParagraph(cell, "Remarks", hotelVoucherRemark);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "Booking Terms & Condition", hotelVoucherTermAndCondition);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "Hotel Policies", hotelVoucherPolicy);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentParagraph(cell, "Contact Details:", contactDetailsExcursionHolidays);
+            table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.SkyBlue);
         }
     }
 }

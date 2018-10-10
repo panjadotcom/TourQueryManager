@@ -322,6 +322,7 @@ namespace TourQueryManager
                 CmbboxWrkngHtlHotel.SelectedValue = 0;
                 CmbboxWrkngHtlHotel.DataSource = null;
                 CmbboxWrkngHtlHotel.Text = "";
+                dataGridViewHotelList.DataSource = null;
                 return;
             }
             try
@@ -334,13 +335,39 @@ namespace TourQueryManager
                 Close();
                 return;
             }
-
-            string selectQueryString = "SELECT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            string selectQueryString = null;
+            MySqlDataAdapter mySqlDataAdapter = null;
             DataSet dataSet = new DataSet();
             try
             {
+                selectQueryString = "SELECT `idhotelinfo`, `hotelname` FROM `hotelinfo`  WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "'  ORDER BY `hotelname`";
+                mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_NAME");
+                selectQueryString = "SELECT " +
+                    "`T1`.hotelname AS `HOTEL NAME`, " +
+                    "`T2`.roomtype AS `ROOM TYPE`, " +
+                    "`T2`.seasontype AS `SEASON`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SINGLE`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DOUBLE`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRIPLE`, " +
+                    "`T2`.mealcpaipricesingle AS `CPAI SINGLE`, " +
+                    "`T2`.mealcpaipricedouble AS `CPAI DOUBLE`, " +
+                    "`T2`.mealcpaipriceextbed AS `CPAI TRIPLE`, " +
+                    "`T2`.mealmapaipricesingle AS `MAPAI SINGLE`, " +
+                    "`T2`.mealmapaipricedouble AS `MAPAI DOUBLE`, " +
+                    "`T2`.mealmapaipriceextbed AS `MAPAI TRIPLE`, " +
+                    "`T2`.mealapaipricesingle AS `APAI SINGLE`, " +
+                    "`T2`.mealapaipricedouble AS `APAI DOUBLE`, " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRIPLE` " +
+                    "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
+                    "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
+                    "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
+                    "AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
+                    "AND `seasonyear` = " + seasonyear + " " +
+                    "ORDER BY `hotelname`";
+                mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
                 if (dataSet != null)
                 {
                     DataRow dataRow = dataSet.Tables["HOTEL_NAME"].NewRow();
@@ -351,6 +378,7 @@ namespace TourQueryManager
                     CmbboxWrkngHtlHotel.ValueMember = "idhotelinfo";
                     CmbboxWrkngHtlHotel.DisplayMember = "hotelname";
                     CmbboxWrkngHtlHotel.SelectedIndex = 0;
+                    dataGridViewHotelList.DataSource = dataSet.Tables["HOTEL_RATE_LIST"];
                     //CmbboxWrkngHtlHotel.SelectedValue = 0;
                 }
             }
@@ -510,6 +538,7 @@ namespace TourQueryManager
             {
                 CmbboxWrkngHtlMealPlan.Items.Clear();
                 CmbboxWrkngHtlMealPlan.Text = "";
+                btnWorkingAddRoom.Enabled = false;
                 return;
             }
             CmbboxWrkngHtlMealPlan.Items.AddRange(new String[] { "SELECT MEAL TYPE", "EPAI", "CPAI", "MAPAI", "APAI" });

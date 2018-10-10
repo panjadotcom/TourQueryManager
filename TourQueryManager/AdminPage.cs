@@ -34,7 +34,7 @@ namespace TourQueryManager
         private void btnCreateQuery_Click(object sender, EventArgs e)
         {
             /* load the new screen to create the new Query */
-            FrmEditQueryPage frmQuery = new FrmEditQueryPage();
+            FrmQueryOptionsPage frmQuery = new FrmQueryOptionsPage();
             Hide();
             frmQuery.ShowDialog();
             Show();
@@ -46,24 +46,6 @@ namespace TourQueryManager
             FrmEditUserPage frmEditUserPage = new FrmEditUserPage("Agent");
             Hide();
             frmEditUserPage.ShowDialog();
-            Show();
-        }
-
-        private void BtnGenerateItinerary_Click(object sender, EventArgs e)
-        {
-            /* this will be used to generated user worked queries */
-            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("ITINERARY");
-            Hide();
-            frmAdminQueryWorkingPage.ShowDialog();
-            Show();
-        }
-
-        private void BtnGenerateVouchers_Click(object sender, EventArgs e)
-        {
-            /* this will be used to generate vouchers and finishing the queries */
-            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("VOUCHERS");
-            Hide();
-            frmAdminQueryWorkingPage.ShowDialog();
             Show();
         }
     }

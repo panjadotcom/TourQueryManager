@@ -15,14 +15,17 @@ namespace TourQueryManager
     public partial class FrmEditQueryPage : Form
     {
         static string mysqlConnStr = Properties.Settings.Default.mysqlConnStr;
+        static string queryActivityFlagStr = null;
         MySqlConnection frmEditQueryMysqlConn = new MySqlConnection(mysqlConnStr);
         MySqlTransaction frmEditQueryMysqlTransaction = null;
         MySqlDataAdapter frmEditQueryMysqlDataAdaptor = null;
         DataSet frmEditQueryDataSet = null;
         bool updateQueryFlag = false;
-        public FrmEditQueryPage()
+
+        public FrmEditQueryPage(string queryActivityFlag)
         {
             InitializeComponent();
+            queryActivityFlagStr = queryActivityFlag;
         }
 
         private void FrmEditQueryPage_Load(object sender, EventArgs e)
@@ -40,7 +43,32 @@ namespace TourQueryManager
             frmEditQueryDataSet = new DataSet();
             string userSelectMysqlQueryString = "SELECT `userid`, `username`, `name` FROM `appusers` WHERE `userid` > 1 ORDER BY `userid`";
             string agentSelectMysqlQueryString = "SELECT `agentid`, `name` FROM `agents` ORDER BY `agentid`";
-            string querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() +" ORDER BY `queryno`";
+            string querySelectMysqlQueryString = null;
+            if (string.Equals(queryActivityFlagStr, "NEW QUERY"))
+            {
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` = 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() + " ORDER BY `queryno`";
+                btnUpdate.Text = "INSERT";
+            }
+            else if (string.Equals(queryActivityFlagStr, "UPDATE RAW QUERY"))
+            {
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() + " ORDER BY `queryno`";
+                btnUpdate.Text = "EXIT";
+            }
+            else if (string.Equals(queryActivityFlagStr, "FINALIZE OFFER"))
+            {
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageMailed.ToString() + " ORDER BY `queryno`";
+                btnUpdate.Text = "EXIT";
+            }
+            else if (string.Equals(queryActivityFlagStr, "UPDATE ACCEPTED OFFER"))
+            {
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageDealDone.ToString() + " ORDER BY `queryno`";
+                btnUpdate.Text = "EXIT";
+            }
+            else
+            {
+                Close();
+                return;
+            }
             try
             {
                 frmEditQueryMysqlDataAdaptor = new MySqlDataAdapter(userSelectMysqlQueryString, frmEditQueryMysqlConn);
@@ -58,13 +86,31 @@ namespace TourQueryManager
                     cmbboxUserId.ValueMember = "userid";
                     cmbboxUserId.DisplayMember = "username";
                     DataRow dataRow = frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"].NewRow();
-                    dataRow["queryid"] = "NEW QUERY";
+                    if (string.Equals(queryActivityFlagStr, "NEW QUERY"))
+                    {
+                        dataRow["queryid"] = "NEW QUERY";
+                    }
+                    else
+                    {
+                        if (frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"].Rows.Count == 0)
+                        {
+                            MessageBox.Show("No Data present in the database to " + queryActivityFlagStr, "No Data present", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            dataRow["queryid"] = "NO QUERY PRESENT";
+                            /* Close this form as form is useless in this case */
+                            Close();
+                        }
+                        else
+                        {
+                            dataRow["queryid"] = "SELECT QUERY";
+                        }
+                        
+                    }
                     frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"].Rows.InsertAt(dataRow, 0);
                     cmbboxQueryId.DataSource = frmEditQueryDataSet.Tables["QUERY_COMBO_BOX"];
                     cmbboxQueryId.ValueMember = "queryid";
                     cmbboxQueryId.DisplayMember = "queryid";
                     cmbboxQueryId.SelectedIndex = 0;
-                    cmbboxQueryId.SelectedValue = 0;
+                    //cmbboxQueryId.SelectedValue = 0;
                 }
             }
             catch (Exception errquery)
@@ -73,7 +119,6 @@ namespace TourQueryManager
             }
             cmbboxUserId.SelectedValue = 0;
             cmbboxAgentId.SelectedValue = 0;
-            btnUpdate.Text = "INSERT";
         }
 
         private void FrmEditQueryPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -92,6 +137,11 @@ namespace TourQueryManager
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             /* generate insert query and upload into database */
+            if (string.Equals(btnUpdate.Text, "EXIT"))
+            {
+                Close();
+                return;
+            }
             string mysqlInsertQueryStr;
             MySqlCommand btnUpdateMysqlCommand = frmEditQueryMysqlConn.CreateCommand();
             frmEditQueryMysqlTransaction = frmEditQueryMysqlConn.BeginTransaction();
@@ -536,12 +586,23 @@ namespace TourQueryManager
             radioBtnRqmntTourPkg.Checked = false;
             radioBtnRqmntTourPlusFlight.Checked = false;
             radioBtnRqmntTrnsprtOnly.Checked = false;
+            dttmpckrFromDate.Value = DateTime.Now;
+            dttmpckrToDate.Value = DateTime.Now;
+            dttmpkrArvlDate.Value = DateTime.Now;
+            dttmpkrDptrDate.Value = DateTime.Now;
             if ((cmbboxQueryId.SelectedIndex == 0) || (cmbboxQueryId.SelectedValue == null))
             {
                 btnDeleteQuery.Enabled = false;
                 btnDeleteQuery.Visible = false;
                 updateQueryFlag = false;
-                btnUpdate.Text = "INSERT";
+                if (string.Equals(queryActivityFlagStr, "NEW QUERY"))
+                {
+                    btnUpdate.Text = "INSERT";
+                }
+                else
+                {
+                    btnUpdate.Text = "EXIT";
+                }
                 return;
             }
             btnDeleteQuery.Enabled = true;
