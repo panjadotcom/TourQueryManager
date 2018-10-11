@@ -75,8 +75,14 @@ namespace TourQueryManager
             "#208, Express Green Plaza,\n" +
             "Sector - 1 Vaishali\n" +
             "City : Ghaziabad\n" +
-            "Phone : 1204545485\n" +
-            "Email : info @excursionholidays.com";
+            "Phone : 1204545485\n";
+        private static readonly string flightVoucherNote = 
+            "Carriage and other services provided by the carrier are subject to conditions of carriage which hereby incorporated by reference.\n" +
+            "These conditions may be obtained from the issuing carrier. If the passenger's journey involves an ultimate destination or stop in a\n" +
+            "country other than country of departure the Warsaw convention may be applicable and the convention governs and in most cases\n" +
+            "limits the liability of carriers for death or personal injury and in respect of loss of or damage to baggage.";
+        private static readonly string flightVoucherInsuranceNote = "Don't Forget to purchase travel insurance for your Visit. " +
+            "Please Contact your travel agent to purchase travel insurance";
 
         /// <summary>
         /// Defines the styles used in the document.
@@ -284,8 +290,27 @@ namespace TourQueryManager
         
         public static void WriteAgencyAddressDetails(Cell cell)
         {
-            Paragraph paragraph = cell.AddParagraph();
-            paragraph.AddFormattedText(agencyAddressExcursionHolidays, "Heading3");
+            Paragraph paragraph;
+            //paragraph.AddFormattedText(agencyAddressExcursionHolidays, "Heading3");
+            string[] lines = agencyAddressExcursionHolidays.Split('\n');
+            for (int index = 0; index < lines.Length; index++)
+            {
+                if (string.Equals(lines[index], ""))
+                {
+                    continue;
+                }
+                paragraph = cell.AddParagraph();
+                if (index > 0)
+                {
+                    paragraph.AddFormattedText(lines[index]);
+                    paragraph.Format.Font.Size = 10;
+                }
+                else
+                {
+                    paragraph.AddFormattedText(lines[index]);
+                    paragraph.Format.Font.Bold = true;
+                }                
+            }
         }
 
         public static void WriteHotelVoucherStaticDetails(Section section)
@@ -324,6 +349,16 @@ namespace TourQueryManager
             cell = row.Cells[0];
             WriteHdrContentParagraph(cell, "Contact Details:", contactDetailsExcursionHolidays);
             table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.SkyBlue);
+        }
+
+        public static void WriteFlightVoucherNote(Cell cell)
+        {
+            Paragraph paragraph = cell.AddParagraph();
+            paragraph.AddText(flightVoucherNote + "\n\n");
+            paragraph.Format.Alignment = ParagraphAlignment.Left;
+            paragraph = cell.AddParagraph();
+            paragraph.Format.Font.Color = Colors.Red;
+            paragraph.AddText(flightVoucherInsuranceNote);
         }
     }
 }
