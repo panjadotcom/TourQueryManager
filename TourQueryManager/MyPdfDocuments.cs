@@ -13,33 +13,33 @@ namespace TourQueryManager
     class MyPdfDocuments
     {
         /* following are some contant strings to be used for printing in itenary as it is */
-        private static readonly string itenaryAvailablityNote = " Subject to weather conditions and availability of Ferry Tickets and other Conditions, the itinerary may be shuffled." +
-            " Please contact for Final Itinerary at the time of Check In." +
-            "\n Confirmation will be subject to availability at the time of Booking (No Rooms Blocked)" +
-            "\n Rates subject to change if the Hotel or the Room category quoted is not available at the time of Booking";
-        private static readonly string itenaryNotIncludedNote = " Cost for supplementary service, optional Tours, Up-gradation Charges, Guide, Additional Sightseeing entrance fees." +
-            "\n Cost for Airfare, Train fare, Insurance Premiums, Rafting Charges." +
-            "\n Cost for service provided on a personal request." +
-            "\n Cost for personal expenses such as laundry, bottled water, soft drinks, incidentals, porter charges, tips etc." +
-            "\n Activity charges, Scuba, Jet Ski, Snorkeling etc., until and unless mentioned in the inclusions" +
-            "\n Cost for any other service not mentioned under the “Cost Includes” head." +
-            "\n Difference in cost arising due to change in Taxes by the Government which will have to be collected directly ON ARRIVAL." +
-            "\n Difference in cost arising due to extra usage of vehicle, other than scheduled & mentioned in the itinerary." +
-            "\n Difference in cost arising due to mishaps, political unrest, natural calamities like - landslides, road blockage, etc." +
-            " In such case extra will have to be paid on the spot by the guest directly." +
-            "\n Camera Fee ( Still or Movie)";
-        private static readonly string itenaryImportantFacts = " Please carry original ID proof (Voter ID card/Pass-port/Driving License/etc.) for security purpose & hotel policy." +
-            "\n We need following for process your booking Guest Name & Contact Number. Naming List with gender & Age." +
-            "\n High season surcharge will be applicable for every booking on 16th Oct – 25th Oct during Durga Puja & Diwali, " +
-            "20th Dec – 5th Jan during X-Mass & New Year & during Holi (as per date)." +
-            "\n In high season, no refund will be applicable within 30 days of the tours start date. (Normal cancellation policy will" +
-            " not applicable on those dates.)" +
-            "\n For high season booking, 50% payment must be done in the time of confirmation & rest of the amount must be cleared" +
+        private static readonly string itenaryAvailablityNote = "Subject to weather conditions and availability of Ferry Tickets and other Conditions, the itinerary may be shuffled." +
+            " Please contact for Final Itinerary at the time of Check In.\n" +
+            "Confirmation will be subject to availability at the time of Booking (No Rooms Blocked).\n" +
+            "Rates subject to change if the Hotel or the Room category quoted is not available at the time of Booking";
+        private static readonly string itenaryNotIncludedNote = "Cost for supplementary service, optional Tours, Up-gradation Charges, Guide, Additional Sightseeing entrance fees.\n" +
+            "Cost for Airfare, Train fare, Insurance Premiums, Rafting Charges.\n" +
+            "Cost for service provided on a personal request.\n" +
+            "Cost for personal expenses such as laundry, bottled water, soft drinks, incidentals, porter charges, tips etc.\n" +
+            "Activity charges, Scuba, Jet Ski, Snorkeling etc., until and unless mentioned in the inclusions.\n" +
+            "Cost for any other service not mentioned under the “Cost Includes” head.\n" +
+            "Difference in cost arising due to change in Taxes by the Government which will have to be collected directly ON ARRIVAL.\n" +
+            "Difference in cost arising due to extra usage of vehicle, other than scheduled & mentioned in the itinerary.\n" +
+            "Difference in cost arising due to mishaps, political unrest, natural calamities like - landslides, road blockage, etc." +
+            " In such case extra will have to be paid on the spot by the guest directly.\n" +
+            "Camera Fee ( Still or Movie)";
+        private static readonly string itenaryImportantFacts = "Please carry original ID proof (Voter ID card/Pass-port/Driving License/etc.) for security purpose & hotel policy.\n" +
+            "We need following for process your booking Guest Name & Contact Number. Naming List with gender & Age.\n" +
+            "High season surcharge will be applicable for every booking on 16th Oct – 25th Oct during Durga Puja & Diwali, " +
+            "20th Dec – 5th Jan during X-Mass & New Year & during Holi (as per date).\n" +
+            "In high season, no refund will be applicable within 30 days of the tours start date. (Normal cancellation policy will" +
+            " not applicable on those dates.)\n" +
+            "For high season booking, 50% payment must be done in the time of confirmation & rest of the amount must be cleared" +
             " 30 days before of the tour start date.";
-        private static readonly string itenaryPaymentPolicy = " Any confirmation is subject to an advance deposit of 50% of the package cost and has to be paid immediately," +
-            " after that we can process the booking." +
-            "\n Balance Payment has to be made in advance and must be paid & as per time limit given at the time of confirmation." +
-            "\n Payments can be remitted through any of the following Banks and is subject to realization.";
+        private static readonly string itenaryPaymentPolicy = "Any confirmation is subject to an advance deposit of 50% of the package cost and has to be paid immediately," +
+            " after that we can process the booking.\n" +
+            "Balance Payment has to be made in advance and must be paid & as per time limit given at the time of confirmation.\n" +
+            "Payments can be remitted through any of the following Banks and is subject to realization.";
         private static readonly string hotelVoucherRemark = "Please note that while your booking had been confirmed and is guaranteed," +
             " the rooming list with your name may not be adjusted in the hotel's reservation system until closer to arrival.";
         private static readonly string hotelVoucherTermAndCondition = "You must present a photo ID at the time of check in. " +
@@ -164,41 +164,41 @@ namespace TourQueryManager
             style.Font.Size = 12;
         }
 
-        /// <WriteNote>
+        /// <summary>
         /// this will write the note in the document
-        /// </WriteNote>
+        /// </summary>
         public static void WriteNoteParagraph(Section section)
         {
             WriteHdrContentListingBullets(section, "Note:", itenaryAvailablityNote);
         }
 
-        /// <WriteNotncluded>
+        /// <summary>
         /// this will write the note in the document
-        /// </WriteNotncluded>
+        /// </summary>
         public static void WriteNotIncludedParagraph(Section section)
         {
             WriteHdrContentListingBullets(section, "The Tour Cost does not include:", itenaryNotIncludedNote);
         }
 
-        /// <WriteImportantFacts>
+        /// <summary>
         /// this will write the note in the document
-        /// </WriteImportantFacts>
+        /// </summary>
         public static void WriteImportantFactsParagraph(Section section)
         {
             WriteHdrContentListingBullets(section, "Important Facts for Traveler’s:", itenaryImportantFacts);
         }
 
-        /// <WritePaymentPolicy>
+        /// <summary>
         /// this will write the note in the document
-        /// </WritePaymentPolicy>
+        /// </summary>
         public static void WritePaymentPolicyParagraph(Section section)
         {
             WriteHdrContentListingNumbers(section, "Payment Policy:", itenaryPaymentPolicy);
         }
 
-        /// <WriteHdrContentParagraph>
+        /// <summary>
         /// this will write the header with heading3 style and content after that
-        /// </WriteHdrContentParagraph>
+        /// </summary>
         public static void WriteHdrContentParagraph(Section section, string hdr, string content)
         {
             Paragraph paragraph = section.AddParagraph(hdr, "Heading3");
@@ -256,7 +256,6 @@ namespace TourQueryManager
         /// <summary>
         /// This will print content in the listing form.
         /// </summary>
-        /// 
         public static void WriteHdrContentListingNumbers(Section section, string hdr, string content)
         {
             Paragraph paragraph = section.AddParagraph(hdr, "Heading3");
@@ -276,9 +275,35 @@ namespace TourQueryManager
             }
         }
 
-        /// <WriteHdrContentParagraph>
+        /// <summary>
+        /// This will write content in listing format in table cell
+        /// </summary>
+        /// <param name="section">this is cell field</param>
+        /// <param name="hdr">header portion of the content</param>
+        /// <param name="content">actual content</param>
+        public static void WriteHdrContentListingNumbers(Cell section, string hdr, string content)
+        {
+            Paragraph paragraph = section.AddParagraph();
+            paragraph.AddFormattedText(hdr, "Heading2");
+            string[] lines = content.Split('\n');
+            for (int index = 0; index < lines.Length; index++)
+            {
+                if (string.Equals(lines[index], ""))
+                {
+                    continue;
+                }
+                ListInfo listInfo = new ListInfo();
+                listInfo.ContinuePreviousList = index > 0;
+                listInfo.ListType = ListType.NumberList1;
+                paragraph = section.AddParagraph(lines[index]);
+                paragraph.Style = "MyBulletList";
+                paragraph.Format.ListInfo = listInfo;
+            }
+        }
+
+        /// <summary>
         /// this will write the header with heading3 style and content after that
-        /// </WriteHdrContentParagraph>
+        /// </summary>
         public static void WriteHdrContentParagraph(Cell cell, string hdr, string content)
         {
             Paragraph paragraph = cell.AddParagraph();
@@ -288,6 +313,10 @@ namespace TourQueryManager
             
         }
         
+        /// <summary>
+        /// this will write agency address detail in table cell.
+        /// </summary>
+        /// <param name="cell">content will be written in this cell.</param>
         public static void WriteAgencyAddressDetails(Cell cell)
         {
             Paragraph paragraph;
@@ -313,6 +342,10 @@ namespace TourQueryManager
             }
         }
 
+        /// <summary>
+        /// this will write hotel vouchers static details in provided section
+        /// </summary>
+        /// <param name="section">content will be writen in this section</param>
         public static void WriteHotelVoucherStaticDetails(Section section)
         {
             Table table = null;
@@ -351,6 +384,10 @@ namespace TourQueryManager
             table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.SkyBlue);
         }
 
+        /// <summary>
+        /// Flight voucher will be written in the cell format
+        /// </summary>
+        /// <param name="cell">content will be writen in this cell</param>
         public static void WriteFlightVoucherNote(Cell cell)
         {
             Paragraph paragraph = cell.AddParagraph();
@@ -359,6 +396,52 @@ namespace TourQueryManager
             paragraph = cell.AddParagraph();
             paragraph.Format.Font.Color = Colors.Red;
             paragraph.AddText(flightVoucherInsuranceNote);
+        }
+
+        /// <summary>
+        /// This will write static details in the tabular form
+        /// </summary>
+        /// <param name="section">content will be written in this section</param>
+        public static void WriteItineraryLastStaticDetails(Section section, string tourIncContent)
+        {
+            Table table = null;
+            Column column = null;
+            int columnCount = 0;
+            double columnWidth = 0;
+            Row row = null;
+            int rowsCount = 0;
+            Cell cell = null;
+
+            table = section.AddTable();
+            table.Format.SpaceBefore = 5;
+            table.Borders.Visible = false;
+            table.Borders.Width = 0.75;
+            table.Borders.Color = Colors.Transparent;
+            columnCount = 1;
+            columnWidth = (21.0 - 2.0) / columnCount;
+            column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+            column.Format.Alignment = ParagraphAlignment.Left;
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "Note:", itenaryAvailablityNote);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "The tour cost includes:", tourIncContent);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "The Tour Cost does not include:", itenaryNotIncludedNote);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingBullets(cell, "Important Facts for Traveler’s:", itenaryImportantFacts);
+            row = table.AddRow();
+            rowsCount++;
+            cell = row.Cells[0];
+            WriteHdrContentListingNumbers(cell, "Payment Policy:", itenaryPaymentPolicy);
+            table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Transparent);
         }
     }
 }

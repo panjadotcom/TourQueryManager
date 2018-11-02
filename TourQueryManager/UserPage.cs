@@ -15,7 +15,6 @@ namespace TourQueryManager
     public partial class FrmUserPage : Form
     {
         static UInt32 frmUserId;
-        bool openWorkingPage = false;
         static string mysqlConnectionString = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmUserMysqlConnection = new MySqlConnection(mysqlConnectionString);
         public FrmUserPage(UInt32 userId)
@@ -29,18 +28,39 @@ namespace TourQueryManager
             if (DataGrdVuUserQueries.Rows.Count > 0)
             {
                 /* Open new Form of Working and pass queryId to the working */
-               /* MessageBox.Show("Data Row selected : \n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
-                    DataGrdVuUserQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n" );*/
-                if (openWorkingPage)
+                try
                 {
+                    Debug.WriteLine("Data Row selected For Working Itinerary: \n" +
+                        DataGrdVuUserQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
+                        DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
+                        DataGrdVuUserQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
+                        DataGrdVuUserQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
+                        DataGrdVuUserQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
+                }
+                catch (Exception errSelection)
+                {
+                    Debug.WriteLine("Error in selecting rows. Err Msg = " + errSelection.Message);
+                    return;
+                }
+                if (radioButtonWorkingItinary.Checked)
+                {
+                    
                     FrmQueryWorkingPage frmQueryWorkingPage = new FrmQueryWorkingPage(DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
                     frmQueryWorkingPage.ShowDialog();
                     Show();
+                }
+                //else if (radioButtonWorkingVouchers.Checked)
+                else if (radioButtonCompletedItinerary.Checked)/* this line needs to be deleted after testing */
+                {
+                    FrmVouchersWorkingOptionPage frmVouchersWorkingOptionPage = new FrmVouchersWorkingOptionPage(DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    Hide();
+                    frmVouchersWorkingOptionPage.ShowDialog();
+                    Show();
+                }
+                else
+                {
+                    Debug.WriteLine("Usefull radio button not selected. thus not doing anything\n");
                 }
             }
             else
@@ -49,35 +69,50 @@ namespace TourQueryManager
             }
         }
 
-        private void BtnAssignQueries_Click(object sender, EventArgs e)
-        {
-            DataGrdVuUserQueriesLoad(BtnAssignQueries.Text);
-            openWorkingPage = true;
-        }
-
-        private void DataGrdVuUserQueriesLoad(string buttonClicked)
+        private void DataGrdVuUserQueriesLoad()
         {
             string mysqlSelectQuery = null;
-            int btnClickedNumber = 0;
-            if (string.Equals(buttonClicked, BtnAssignQueries.Text, StringComparison.OrdinalIgnoreCase))
-            {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
+            mysqlSelectQuery = "SELECT `queryid`, `querycurrentstate`, `place`, `fromdate`, `todate`, `querystartdate` " +
                 "FROM `queries` WHERE " +
-                "`userid` = " + frmUserId.ToString() + " " +
+                "`userid` = " + frmUserId.ToString() + " ";
+
+            bool isColourEnable = false;
+            DataGrdVuUserQueries.Rows.Clear();
+            if (radioButtonWorkingItinary.Checked)
+            {
+                mysqlSelectQuery = mysqlSelectQuery +
                 "AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated;
-                btnClickedNumber = 1;
+                isColourEnable = true;
             }
-            else if (string.Equals(buttonClicked, BtnCompletedQueries.Text, StringComparison.OrdinalIgnoreCase))
+            else if (radioButtonWorkingVouchers.Checked)
             {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`userid` = " + frmUserId.ToString() + " " +
-                "AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated;
-                btnClickedNumber = 2;
+                mysqlSelectQuery = mysqlSelectQuery +
+                "AND `querycurrentstate` > " + Properties.Resources.queryStageRejected + " " +
+                "AND `querycurrentstate` < " + Properties.Resources.queryStageVoucherCompleted;
+                isColourEnable = true;
+            }
+            else if (radioButtonCompletedItinerary.Checked)
+            {
+                mysqlSelectQuery = mysqlSelectQuery +
+                "AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated + " " +
+                "AND `querycurrentstate` < " + Properties.Resources.queryStageRejected;
+                isColourEnable = false;
+            }
+            else if (radioButtonCompletedBooking.Checked)
+            {
+                mysqlSelectQuery = mysqlSelectQuery +
+                "AND `querycurrentstate` = " + Properties.Resources.queryStageVoucherCompleted;
+                isColourEnable = false;
+            }
+            else if (radioButtonAllQueries.Checked)
+            {
+                //mysqlSelectQuery = mysqlSelectQuery +
+                //"AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated;
+                isColourEnable = false;
             }
             else
             {
-                MessageBox.Show("Wrong method invoked");
+                MessageBox.Show("No Option is selected");
                 return;
             }
 
@@ -91,24 +126,23 @@ namespace TourQueryManager
             }
             
             DataSet queryDataset = new DataSet();
-            DateTime dateTime = DateTime.Today;
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mysqlSelectQuery, frmUserMysqlConnection);
             try
             {
                 mySqlDataAdapter.Fill(queryDataset, "ASSIGNED_QUERIES");
-                DataGrdVuUserQueries.Rows.Clear();
                 if (queryDataset != null)
                 {
                     foreach (DataRow item in queryDataset.Tables["ASSIGNED_QUERIES"].Rows)
                     {
                         int index = DataGrdVuUserQueries.Rows.Add();
                         DataGrdVuUserQueries.Rows[index].Cells["QueryId"].Value = item["queryid"].ToString();
+                        DataGrdVuUserQueries.Rows[index].Cells["QueryState"].Value = item["querycurrentstate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["fromDate"].Value = item["fromdate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["toDate"].Value = item["todate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["Location"].Value = item["place"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["AssignedDate"].Value = item["querystartdate"].ToString();
                         double noOfdays = (DateTime.Today - DateTime.Parse(item["querystartdate"].ToString())).TotalDays;
-                        if (btnClickedNumber == 1)
+                        if (isColourEnable)
                         {
                             if (noOfdays > 2)
                             {
@@ -121,6 +155,7 @@ namespace TourQueryManager
                         }
                     }
                 }
+                DataGrdVuUserQueries.Sort(QueryState, ListSortDirection.Ascending);
                 DataGrdVuUserQueries.ClearSelection();
             }
             catch (Exception errQuery)
@@ -141,13 +176,7 @@ namespace TourQueryManager
         {
             Close();
         }
-
-        private void BtnCompletedQueries_Click(object sender, EventArgs e)
-        {
-            DataGrdVuUserQueriesLoad(BtnCompletedQueries.Text);
-            openWorkingPage = false;
-        }
-
+        
         private void BtnHotelInfo_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Updating Hotel information in Database");
@@ -155,6 +184,16 @@ namespace TourQueryManager
             Hide();
             frmHotelsPage.ShowDialog();
             Show();
+        }
+
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton.Checked)
+            {
+                //MessageBox.Show("Selection changed in radio button " + radioButton.Text, "Selection Changed in Radio Button", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DataGrdVuUserQueriesLoad();
+            }
         }
     }
 }

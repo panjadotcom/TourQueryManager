@@ -146,6 +146,24 @@ namespace TourQueryManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 7.
+        /// </summary>
+        internal static string queryStageVoucherCompleted {
+            get {
+                return ResourceManager.GetString("queryStageVoucherCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6.
+        /// </summary>
+        internal static string queryStageVoucherIncompleteByUser {
+            get {
+                return ResourceManager.GetString("queryStageVoucherIncompleteByUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Setting {

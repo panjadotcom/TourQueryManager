@@ -118,12 +118,12 @@ namespace TourQueryManager
                 /* Open new Form of Working and pass queryId to the working */
                 if (openVoucherPage)
                 {
-                    MessageBox.Show("Generating VOUCHERS FOR : \n" +
-                    DataGrdVuAdminQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
-                    DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
-                    DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
-                    DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
-                    DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
+                    //MessageBox.Show("Generating VOUCHERS FOR : \n" +
+                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
+                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
+                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
+                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
+                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
                     FrmVouchersOptionsPage frmVouchersOptionsPage = new FrmVouchersOptionsPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
                     frmVouchersOptionsPage.ShowDialog();
@@ -192,7 +192,7 @@ namespace TourQueryManager
                     Properties.Resources.imageExcursionHolidaysLetterHead.Save(imagePath);
                     MigraDoc.DocumentObjectModel.Shapes.Image image = section.AddImage(imagePath);
                     image.Width = "21cm";
-                    image.Left = "-2.4cm";
+                    image.Left = "-1.0cm";
 
                     /* now add Header of the file */
                     string fileContent;
@@ -428,15 +428,9 @@ namespace TourQueryManager
                         table.Rows[1].Cells[4].VerticalAlignment = VerticalAlignment.Center;
                         table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
                     }
-                    
+
                     /* add notes in the document */
-                    MyPdfDocuments.WriteNoteParagraph(section);
-                    string tourIncHdr = "The tour cost includes:";
-                    /* edit content of tour inclusion */
-                    MyPdfDocuments.WriteHdrContentListingBullets(section, tourIncHdr, tourIncContent);
-                    MyPdfDocuments.WriteNotIncludedParagraph(section);
-                    MyPdfDocuments.WriteImportantFactsParagraph(section);
-                    MyPdfDocuments.WritePaymentPolicyParagraph(section);
+                    MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent);
 
                     PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always);
 

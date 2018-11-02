@@ -176,6 +176,24 @@
     <Compile Include="VouchersOptionsPage.Designer.cs">
       <DependentUpon>VouchersOptionsPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="VouchersWorkingFlightPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VouchersWorkingFlightPage.Designer.cs">
+      <DependentUpon>VouchersWorkingFlightPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VouchersWorkingHotelPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VouchersWorkingHotelPage.Designer.cs">
+      <DependentUpon>VouchersWorkingHotelPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VouchersWorkingOptionPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VouchersWorkingOptionPage.Designer.cs">
+      <DependentUpon>VouchersWorkingOptionPage.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdminPage.resx">
       <DependentUpon>AdminPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -221,6 +239,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VouchersOptionsPage.resx">
       <DependentUpon>VouchersOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VouchersWorkingFlightPage.resx">
+      <DependentUpon>VouchersWorkingFlightPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VouchersWorkingHotelPage.resx">
+      <DependentUpon>VouchersWorkingHotelPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VouchersWorkingOptionPage.resx">
+      <DependentUpon>VouchersWorkingOptionPage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
