@@ -34,8 +34,11 @@
             this.groupBoxCurrentStatus = new System.Windows.Forms.GroupBox();
             this.dataGridViewCurrentStatus = new System.Windows.Forms.DataGridView();
             this.groupBoxRequirement = new System.Windows.Forms.GroupBox();
-            this.textBoxRequirement = new System.Windows.Forms.TextBox();
+            this.txtBoxRequirement = new System.Windows.Forms.TextBox();
             this.tableLayoutPanelInputDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.txtBoxAircraftNo = new System.Windows.Forms.TextBox();
+            this.txtBoxFlightClass = new System.Windows.Forms.TextBox();
+            this.txtBoxFlightNo = new System.Windows.Forms.TextBox();
             this.dateTimePickerArrTime = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerArrDate = new System.Windows.Forms.DateTimePicker();
             this.txtBoxArrAirPort = new System.Windows.Forms.TextBox();
@@ -58,9 +61,6 @@
             this.PassangerTicketNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PassangerFfy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblPnrNumber = new System.Windows.Forms.Label();
-            this.txtBoxFlightNo = new System.Windows.Forms.TextBox();
-            this.txtBoxFlightClass = new System.Windows.Forms.TextBox();
-            this.txtBoxAircraftNo = new System.Windows.Forms.TextBox();
             this.lblFlightNo = new System.Windows.Forms.Label();
             this.lblClass = new System.Windows.Forms.Label();
             this.lblAircraftNo = new System.Windows.Forms.Label();
@@ -157,12 +157,13 @@
             this.dataGridViewCurrentStatus.Name = "dataGridViewCurrentStatus";
             this.dataGridViewCurrentStatus.ReadOnly = true;
             this.dataGridViewCurrentStatus.RowHeadersVisible = false;
+            this.dataGridViewCurrentStatus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCurrentStatus.Size = new System.Drawing.Size(435, 266);
             this.dataGridViewCurrentStatus.TabIndex = 28;
             // 
             // groupBoxRequirement
             // 
-            this.groupBoxRequirement.Controls.Add(this.textBoxRequirement);
+            this.groupBoxRequirement.Controls.Add(this.txtBoxRequirement);
             this.groupBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxRequirement.Location = new System.Drawing.Point(3, 3);
             this.groupBoxRequirement.Name = "groupBoxRequirement";
@@ -171,15 +172,16 @@
             this.groupBoxRequirement.TabStop = false;
             this.groupBoxRequirement.Text = "REQUIREMENT";
             // 
-            // textBoxRequirement
+            // txtBoxRequirement
             // 
-            this.textBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxRequirement.Location = new System.Drawing.Point(3, 19);
-            this.textBoxRequirement.Multiline = true;
-            this.textBoxRequirement.Name = "textBoxRequirement";
-            this.textBoxRequirement.ReadOnly = true;
-            this.textBoxRequirement.Size = new System.Drawing.Size(435, 265);
-            this.textBoxRequirement.TabIndex = 29;
+            this.txtBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxRequirement.Location = new System.Drawing.Point(3, 19);
+            this.txtBoxRequirement.Multiline = true;
+            this.txtBoxRequirement.Name = "txtBoxRequirement";
+            this.txtBoxRequirement.ReadOnly = true;
+            this.txtBoxRequirement.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBoxRequirement.Size = new System.Drawing.Size(435, 265);
+            this.txtBoxRequirement.TabIndex = 29;
             // 
             // tableLayoutPanelInputDetails
             // 
@@ -277,6 +279,33 @@
             this.tableLayoutPanelInputDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelInputDetails.Size = new System.Drawing.Size(506, 587);
             this.tableLayoutPanelInputDetails.TabIndex = 0;
+            // 
+            // txtBoxAircraftNo
+            // 
+            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxAircraftNo, 3);
+            this.txtBoxAircraftNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxAircraftNo.Location = new System.Drawing.Point(381, 187);
+            this.txtBoxAircraftNo.Name = "txtBoxAircraftNo";
+            this.txtBoxAircraftNo.Size = new System.Drawing.Size(122, 21);
+            this.txtBoxAircraftNo.TabIndex = 20;
+            // 
+            // txtBoxFlightClass
+            // 
+            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxFlightClass, 3);
+            this.txtBoxFlightClass.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxFlightClass.Location = new System.Drawing.Point(255, 187);
+            this.txtBoxFlightClass.Name = "txtBoxFlightClass";
+            this.txtBoxFlightClass.Size = new System.Drawing.Size(120, 21);
+            this.txtBoxFlightClass.TabIndex = 19;
+            // 
+            // txtBoxFlightNo
+            // 
+            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxFlightNo, 3);
+            this.txtBoxFlightNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxFlightNo.Location = new System.Drawing.Point(129, 187);
+            this.txtBoxFlightNo.Name = "txtBoxFlightNo";
+            this.txtBoxFlightNo.Size = new System.Drawing.Size(120, 21);
+            this.txtBoxFlightNo.TabIndex = 18;
             // 
             // dateTimePickerArrTime
             // 
@@ -386,6 +415,7 @@
             this.BtnDelete.TabIndex = 0;
             this.BtnDelete.Text = "DELETE";
             this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // BtnUpdate
             // 
@@ -397,6 +427,7 @@
             this.BtnUpdate.TabIndex = 1;
             this.BtnUpdate.Text = "UPDATE";
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // BtnExit
             // 
@@ -408,6 +439,7 @@
             this.BtnExit.TabIndex = 2;
             this.BtnExit.Text = "EXIT";
             this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // txtBoxPnr
             // 
@@ -435,6 +467,7 @@
             this.numericUpDownPassangerCount.Name = "numericUpDownPassangerCount";
             this.numericUpDownPassangerCount.Size = new System.Drawing.Size(78, 21);
             this.numericUpDownPassangerCount.TabIndex = 5;
+            this.numericUpDownPassangerCount.ValueChanged += new System.EventHandler(this.numericUpDownPassangerCount_ValueChanged);
             // 
             // dataGridViewPassangerDetails
             // 
@@ -490,33 +523,6 @@
             this.lblPnrNumber.Size = new System.Drawing.Size(120, 15);
             this.lblPnrNumber.TabIndex = 7;
             this.lblPnrNumber.Text = "PNR NUMBER";
-            // 
-            // txtBoxFlightNo
-            // 
-            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxFlightNo, 3);
-            this.txtBoxFlightNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxFlightNo.Location = new System.Drawing.Point(129, 187);
-            this.txtBoxFlightNo.Name = "txtBoxFlightNo";
-            this.txtBoxFlightNo.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxFlightNo.TabIndex = 18;
-            // 
-            // txtBoxFlightClass
-            // 
-            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxFlightClass, 3);
-            this.txtBoxFlightClass.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxFlightClass.Location = new System.Drawing.Point(255, 187);
-            this.txtBoxFlightClass.Name = "txtBoxFlightClass";
-            this.txtBoxFlightClass.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxFlightClass.TabIndex = 19;
-            // 
-            // txtBoxAircraftNo
-            // 
-            this.tableLayoutPanelInputDetails.SetColumnSpan(this.txtBoxAircraftNo, 3);
-            this.txtBoxAircraftNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxAircraftNo.Location = new System.Drawing.Point(381, 187);
-            this.txtBoxAircraftNo.Name = "txtBoxAircraftNo";
-            this.txtBoxAircraftNo.Size = new System.Drawing.Size(122, 21);
-            this.txtBoxAircraftNo.TabIndex = 20;
             // 
             // lblFlightNo
             // 
@@ -708,6 +714,7 @@
             this.txtBoxFare.Name = "txtBoxFare";
             this.txtBoxFare.Size = new System.Drawing.Size(120, 21);
             this.txtBoxFare.TabIndex = 43;
+            this.txtBoxFare.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxGst
             // 
@@ -717,6 +724,7 @@
             this.txtBoxGst.Name = "txtBoxGst";
             this.txtBoxGst.Size = new System.Drawing.Size(120, 21);
             this.txtBoxGst.TabIndex = 44;
+            this.txtBoxGst.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxSurcharge
             // 
@@ -726,6 +734,7 @@
             this.txtBoxSurcharge.Name = "txtBoxSurcharge";
             this.txtBoxSurcharge.Size = new System.Drawing.Size(120, 21);
             this.txtBoxSurcharge.TabIndex = 45;
+            this.txtBoxSurcharge.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxTotalPrice
             // 
@@ -838,7 +847,7 @@
         private System.Windows.Forms.GroupBox groupBoxCurrentStatus;
         private System.Windows.Forms.DataGridView dataGridViewCurrentStatus;
         private System.Windows.Forms.GroupBox groupBoxRequirement;
-        private System.Windows.Forms.TextBox textBoxRequirement;
+        private System.Windows.Forms.TextBox txtBoxRequirement;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInputDetails;
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.Button BtnUpdate;

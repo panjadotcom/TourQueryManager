@@ -178,7 +178,7 @@ namespace TourQueryManager
                 if (dataSet != null)
                 {
                     dataRow = dataSet.Tables["HOTEL_AREA"].NewRow();
-                    dataRow["hotelarea"] = "SELECT AREA";
+                    dataRow["hotelarea"] = "SELECT SECTOR";
                     dataSet.Tables["HOTEL_AREA"].Rows.InsertAt(dataRow, 0);
                     CmbboxWrkngHtlSector.DataSource = dataSet.Tables["HOTEL_AREA"];
                     CmbboxWrkngHtlSector.ValueMember = "hotelarea";
@@ -534,9 +534,9 @@ namespace TourQueryManager
 
         private void CmbboxWrkngSeasonType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CmbboxWrkngHtlMealPlan.Items.Clear();
             if ((CmbboxWrkngSeasonType.SelectedIndex == 0) || (CmbboxWrkngSeasonType.SelectedValue == null))
             {
-                CmbboxWrkngHtlMealPlan.Items.Clear();
                 CmbboxWrkngHtlMealPlan.Text = "";
                 btnWorkingAddRoom.Enabled = false;
                 return;

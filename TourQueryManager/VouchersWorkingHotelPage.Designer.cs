@@ -52,7 +52,7 @@
             this.groupBoxCurrentStatus = new System.Windows.Forms.GroupBox();
             this.dataGridViewCurrentStatus = new System.Windows.Forms.DataGridView();
             this.groupBoxRequirement = new System.Windows.Forms.GroupBox();
-            this.textBoxRequirement = new System.Windows.Forms.TextBox();
+            this.txtBoxRequirement = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanelExtraDetails = new System.Windows.Forms.TableLayoutPanel();
@@ -73,6 +73,8 @@
             this.BtnDelete = new System.Windows.Forms.Button();
             this.dateTimePickerPickUp = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerDropOff = new System.Windows.Forms.DateTimePicker();
+            this.txtBoxBookingPrice = new System.Windows.Forms.TextBox();
+            this.lblBookigPrice = new System.Windows.Forms.Label();
             this.groupBoxHotelDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoomCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHotelList)).BeginInit();
@@ -126,10 +128,10 @@
             // numericUpDownRoomCount
             // 
             this.numericUpDownRoomCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownRoomCount.Location = new System.Drawing.Point(406, 125);
+            this.numericUpDownRoomCount.Location = new System.Drawing.Point(406, 123);
             this.numericUpDownRoomCount.Name = "numericUpDownRoomCount";
             this.numericUpDownRoomCount.Size = new System.Drawing.Size(72, 20);
-            this.numericUpDownRoomCount.TabIndex = 32;
+            this.numericUpDownRoomCount.TabIndex = 5;
             // 
             // txtBoxConfirmationId
             // 
@@ -138,7 +140,7 @@
             this.txtBoxConfirmationId.Location = new System.Drawing.Point(151, 203);
             this.txtBoxConfirmationId.Name = "txtBoxConfirmationId";
             this.txtBoxConfirmationId.Size = new System.Drawing.Size(327, 20);
-            this.txtBoxConfirmationId.TabIndex = 31;
+            this.txtBoxConfirmationId.TabIndex = 8;
             // 
             // lblConfirmationId
             // 
@@ -156,7 +158,7 @@
             this.txtBoxConfirmedBy.Location = new System.Drawing.Point(151, 177);
             this.txtBoxConfirmedBy.Name = "txtBoxConfirmedBy";
             this.txtBoxConfirmedBy.Size = new System.Drawing.Size(327, 20);
-            this.txtBoxConfirmedBy.TabIndex = 29;
+            this.txtBoxConfirmedBy.TabIndex = 7;
             // 
             // lblConfirmedBy
             // 
@@ -202,6 +204,7 @@
             this.CmbboxWrkngHtlSector.Name = "CmbboxWrkngHtlSector";
             this.CmbboxWrkngHtlSector.Size = new System.Drawing.Size(327, 21);
             this.CmbboxWrkngHtlSector.TabIndex = 0;
+            this.CmbboxWrkngHtlSector.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlSector_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlLocation
             // 
@@ -213,6 +216,7 @@
             this.CmbboxWrkngHtlLocation.Name = "CmbboxWrkngHtlLocation";
             this.CmbboxWrkngHtlLocation.Size = new System.Drawing.Size(327, 21);
             this.CmbboxWrkngHtlLocation.TabIndex = 1;
+            this.CmbboxWrkngHtlLocation.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlLocation_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlRoomType
             // 
@@ -224,6 +228,7 @@
             this.CmbboxWrkngHtlRoomType.Name = "CmbboxWrkngHtlRoomType";
             this.CmbboxWrkngHtlRoomType.Size = new System.Drawing.Size(249, 21);
             this.CmbboxWrkngHtlRoomType.TabIndex = 4;
+            this.CmbboxWrkngHtlRoomType.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlRoomType_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlMealPlan
             // 
@@ -235,6 +240,7 @@
             this.CmbboxWrkngHtlMealPlan.Name = "CmbboxWrkngHtlMealPlan";
             this.CmbboxWrkngHtlMealPlan.Size = new System.Drawing.Size(327, 21);
             this.CmbboxWrkngHtlMealPlan.TabIndex = 6;
+            this.CmbboxWrkngHtlMealPlan.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlMealPlan_SelectedIndexChanged);
             // 
             // CmbboxWrkngHtlHotel
             // 
@@ -246,6 +252,7 @@
             this.CmbboxWrkngHtlHotel.Name = "CmbboxWrkngHtlHotel";
             this.CmbboxWrkngHtlHotel.Size = new System.Drawing.Size(327, 21);
             this.CmbboxWrkngHtlHotel.TabIndex = 3;
+            this.CmbboxWrkngHtlHotel.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlHotel_SelectedIndexChanged);
             // 
             // lblWorkingHotelCity
             // 
@@ -293,6 +300,7 @@
             this.CmbboxWrkngHtlHotelRating.Name = "CmbboxWrkngHtlHotelRating";
             this.CmbboxWrkngHtlHotelRating.Size = new System.Drawing.Size(327, 21);
             this.CmbboxWrkngHtlHotelRating.TabIndex = 2;
+            this.CmbboxWrkngHtlHotelRating.SelectedIndexChanged += new System.EventHandler(this.CmbboxWrkngHtlHotelRating_SelectedIndexChanged);
             // 
             // lblWorkingHotelMealPlan
             // 
@@ -341,12 +349,13 @@
             this.dataGridViewCurrentStatus.Name = "dataGridViewCurrentStatus";
             this.dataGridViewCurrentStatus.ReadOnly = true;
             this.dataGridViewCurrentStatus.RowHeadersVisible = false;
+            this.dataGridViewCurrentStatus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCurrentStatus.Size = new System.Drawing.Size(414, 275);
             this.dataGridViewCurrentStatus.TabIndex = 28;
             // 
             // groupBoxRequirement
             // 
-            this.groupBoxRequirement.Controls.Add(this.textBoxRequirement);
+            this.groupBoxRequirement.Controls.Add(this.txtBoxRequirement);
             this.groupBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxRequirement.Location = new System.Drawing.Point(3, 3);
             this.groupBoxRequirement.Name = "groupBoxRequirement";
@@ -355,15 +364,16 @@
             this.groupBoxRequirement.TabStop = false;
             this.groupBoxRequirement.Text = "REQUIREMENT";
             // 
-            // textBoxRequirement
+            // txtBoxRequirement
             // 
-            this.textBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxRequirement.Location = new System.Drawing.Point(3, 19);
-            this.textBoxRequirement.Multiline = true;
-            this.textBoxRequirement.Name = "textBoxRequirement";
-            this.textBoxRequirement.ReadOnly = true;
-            this.textBoxRequirement.Size = new System.Drawing.Size(414, 274);
-            this.textBoxRequirement.TabIndex = 29;
+            this.txtBoxRequirement.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxRequirement.Location = new System.Drawing.Point(3, 19);
+            this.txtBoxRequirement.Multiline = true;
+            this.txtBoxRequirement.Name = "txtBoxRequirement";
+            this.txtBoxRequirement.ReadOnly = true;
+            this.txtBoxRequirement.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBoxRequirement.Size = new System.Drawing.Size(414, 274);
+            this.txtBoxRequirement.TabIndex = 29;
             // 
             // splitContainer1
             // 
@@ -412,20 +422,22 @@
             this.tableLayoutPanelExtraDetails.Controls.Add(this.txtBoxLeadPsngrName, 0, 1);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.dateTimePickerCheckInDate, 0, 3);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.dateTimePickerCheckOutDate, 0, 5);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownAdults, 4, 1);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownChildren, 4, 3);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownInfants, 4, 5);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownAdults, 3, 1);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownChildren, 3, 3);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.numericUpDownInfants, 3, 5);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.BtnExit, 4, 6);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.BtnUpdate, 2, 6);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.lblLeadPsngrName, 0, 0);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.lblCheckIn, 0, 2);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.lblCheckOut, 0, 4);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblAdults, 4, 0);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblChildren, 4, 2);
-            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblInfants, 4, 4);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblAdults, 3, 0);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblChildren, 3, 2);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblInfants, 3, 4);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.BtnDelete, 0, 6);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.dateTimePickerPickUp, 2, 3);
             this.tableLayoutPanelExtraDetails.Controls.Add(this.dateTimePickerDropOff, 2, 5);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.txtBoxBookingPrice, 5, 5);
+            this.tableLayoutPanelExtraDetails.Controls.Add(this.lblBookigPrice, 5, 4);
             this.tableLayoutPanelExtraDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelExtraDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanelExtraDetails.Location = new System.Drawing.Point(0, 0);
@@ -458,6 +470,7 @@
             this.dateTimePickerCheckInDate.Name = "dateTimePickerCheckInDate";
             this.dateTimePickerCheckInDate.Size = new System.Drawing.Size(154, 21);
             this.dateTimePickerCheckInDate.TabIndex = 1;
+            this.dateTimePickerCheckInDate.ValueChanged += new System.EventHandler(this.dateTimePickerCheckInDate_ValueChanged);
             // 
             // dateTimePickerCheckOutDate
             // 
@@ -466,31 +479,31 @@
             this.dateTimePickerCheckOutDate.Location = new System.Drawing.Point(3, 143);
             this.dateTimePickerCheckOutDate.Name = "dateTimePickerCheckOutDate";
             this.dateTimePickerCheckOutDate.Size = new System.Drawing.Size(154, 21);
-            this.dateTimePickerCheckOutDate.TabIndex = 2;
+            this.dateTimePickerCheckOutDate.TabIndex = 3;
             // 
             // numericUpDownAdults
             // 
             this.numericUpDownAdults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownAdults.Location = new System.Drawing.Point(323, 31);
+            this.numericUpDownAdults.Location = new System.Drawing.Point(243, 31);
             this.numericUpDownAdults.Name = "numericUpDownAdults";
             this.numericUpDownAdults.Size = new System.Drawing.Size(74, 21);
-            this.numericUpDownAdults.TabIndex = 3;
+            this.numericUpDownAdults.TabIndex = 5;
             // 
             // numericUpDownChildren
             // 
             this.numericUpDownChildren.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownChildren.Location = new System.Drawing.Point(323, 87);
+            this.numericUpDownChildren.Location = new System.Drawing.Point(243, 87);
             this.numericUpDownChildren.Name = "numericUpDownChildren";
             this.numericUpDownChildren.Size = new System.Drawing.Size(74, 21);
-            this.numericUpDownChildren.TabIndex = 4;
+            this.numericUpDownChildren.TabIndex = 6;
             // 
             // numericUpDownInfants
             // 
             this.numericUpDownInfants.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownInfants.Location = new System.Drawing.Point(323, 143);
+            this.numericUpDownInfants.Location = new System.Drawing.Point(243, 143);
             this.numericUpDownInfants.Name = "numericUpDownInfants";
             this.numericUpDownInfants.Size = new System.Drawing.Size(74, 21);
-            this.numericUpDownInfants.TabIndex = 5;
+            this.numericUpDownInfants.TabIndex = 7;
             // 
             // BtnExit
             // 
@@ -499,9 +512,10 @@
             this.BtnExit.Location = new System.Drawing.Point(323, 171);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(155, 27);
-            this.BtnExit.TabIndex = 6;
+            this.BtnExit.TabIndex = 11;
             this.BtnExit.Text = "EXIT";
             this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // BtnUpdate
             // 
@@ -510,9 +524,10 @@
             this.BtnUpdate.Location = new System.Drawing.Point(163, 171);
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.Size = new System.Drawing.Size(154, 27);
-            this.BtnUpdate.TabIndex = 7;
+            this.BtnUpdate.TabIndex = 9;
             this.BtnUpdate.Text = "UPDATE";
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // lblLeadPsngrName
             // 
@@ -522,7 +537,7 @@
             this.lblLeadPsngrName.Location = new System.Drawing.Point(3, 13);
             this.lblLeadPsngrName.Name = "lblLeadPsngrName";
             this.lblLeadPsngrName.Size = new System.Drawing.Size(234, 15);
-            this.lblLeadPsngrName.TabIndex = 8;
+            this.lblLeadPsngrName.TabIndex = 12;
             this.lblLeadPsngrName.Text = "LEAD PASSANGER NAME";
             // 
             // lblCheckIn
@@ -533,7 +548,7 @@
             this.lblCheckIn.Location = new System.Drawing.Point(3, 69);
             this.lblCheckIn.Name = "lblCheckIn";
             this.lblCheckIn.Size = new System.Drawing.Size(234, 15);
-            this.lblCheckIn.TabIndex = 9;
+            this.lblCheckIn.TabIndex = 13;
             this.lblCheckIn.Text = "CHECK IN AND PICK UP";
             // 
             // lblCheckOut
@@ -544,7 +559,7 @@
             this.lblCheckOut.Location = new System.Drawing.Point(3, 125);
             this.lblCheckOut.Name = "lblCheckOut";
             this.lblCheckOut.Size = new System.Drawing.Size(234, 15);
-            this.lblCheckOut.TabIndex = 10;
+            this.lblCheckOut.TabIndex = 14;
             this.lblCheckOut.Text = "CHECK OUT AND DROP OFF";
             // 
             // lblAdults
@@ -552,10 +567,10 @@
             this.lblAdults.AutoSize = true;
             this.tableLayoutPanelExtraDetails.SetColumnSpan(this.lblAdults, 2);
             this.lblAdults.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblAdults.Location = new System.Drawing.Point(323, 13);
+            this.lblAdults.Location = new System.Drawing.Point(243, 13);
             this.lblAdults.Name = "lblAdults";
-            this.lblAdults.Size = new System.Drawing.Size(155, 15);
-            this.lblAdults.TabIndex = 11;
+            this.lblAdults.Size = new System.Drawing.Size(154, 15);
+            this.lblAdults.TabIndex = 15;
             this.lblAdults.Text = "ADULTS";
             // 
             // lblChildren
@@ -563,10 +578,10 @@
             this.lblChildren.AutoSize = true;
             this.tableLayoutPanelExtraDetails.SetColumnSpan(this.lblChildren, 2);
             this.lblChildren.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblChildren.Location = new System.Drawing.Point(323, 69);
+            this.lblChildren.Location = new System.Drawing.Point(243, 69);
             this.lblChildren.Name = "lblChildren";
-            this.lblChildren.Size = new System.Drawing.Size(155, 15);
-            this.lblChildren.TabIndex = 12;
+            this.lblChildren.Size = new System.Drawing.Size(154, 15);
+            this.lblChildren.TabIndex = 16;
             this.lblChildren.Text = "CHILDREN";
             // 
             // lblInfants
@@ -574,10 +589,10 @@
             this.lblInfants.AutoSize = true;
             this.tableLayoutPanelExtraDetails.SetColumnSpan(this.lblInfants, 2);
             this.lblInfants.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblInfants.Location = new System.Drawing.Point(323, 125);
+            this.lblInfants.Location = new System.Drawing.Point(243, 125);
             this.lblInfants.Name = "lblInfants";
-            this.lblInfants.Size = new System.Drawing.Size(155, 15);
-            this.lblInfants.TabIndex = 13;
+            this.lblInfants.Size = new System.Drawing.Size(154, 15);
+            this.lblInfants.TabIndex = 17;
             this.lblInfants.Text = "INFANTS";
             // 
             // BtnDelete
@@ -587,9 +602,10 @@
             this.BtnDelete.Location = new System.Drawing.Point(3, 171);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(154, 27);
-            this.BtnDelete.TabIndex = 14;
+            this.BtnDelete.TabIndex = 10;
             this.BtnDelete.Text = "DELETE";
             this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // dateTimePickerPickUp
             // 
@@ -599,7 +615,7 @@
             this.dateTimePickerPickUp.Name = "dateTimePickerPickUp";
             this.dateTimePickerPickUp.ShowUpDown = true;
             this.dateTimePickerPickUp.Size = new System.Drawing.Size(74, 21);
-            this.dateTimePickerPickUp.TabIndex = 15;
+            this.dateTimePickerPickUp.TabIndex = 2;
             this.dateTimePickerPickUp.Value = new System.DateTime(2018, 10, 28, 0, 0, 0, 0);
             // 
             // dateTimePickerDropOff
@@ -610,8 +626,26 @@
             this.dateTimePickerDropOff.Name = "dateTimePickerDropOff";
             this.dateTimePickerDropOff.ShowUpDown = true;
             this.dateTimePickerDropOff.Size = new System.Drawing.Size(74, 21);
-            this.dateTimePickerDropOff.TabIndex = 16;
+            this.dateTimePickerDropOff.TabIndex = 4;
             this.dateTimePickerDropOff.Value = new System.DateTime(2018, 10, 28, 0, 0, 0, 0);
+            // 
+            // txtBoxBookingPrice
+            // 
+            this.txtBoxBookingPrice.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxBookingPrice.Location = new System.Drawing.Point(403, 143);
+            this.txtBoxBookingPrice.Name = "txtBoxBookingPrice";
+            this.txtBoxBookingPrice.Size = new System.Drawing.Size(75, 21);
+            this.txtBoxBookingPrice.TabIndex = 8;
+            // 
+            // lblBookigPrice
+            // 
+            this.lblBookigPrice.AutoSize = true;
+            this.lblBookigPrice.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblBookigPrice.Location = new System.Drawing.Point(403, 125);
+            this.lblBookigPrice.Name = "lblBookigPrice";
+            this.lblBookigPrice.Size = new System.Drawing.Size(75, 15);
+            this.lblBookigPrice.TabIndex = 18;
+            this.lblBookigPrice.Text = "PRICE :";
             // 
             // FrmVouchersWorkingHotelPage
             // 
@@ -675,7 +709,7 @@
         private System.Windows.Forms.GroupBox groupBoxCurrentStatus;
         private System.Windows.Forms.DataGridView dataGridViewCurrentStatus;
         private System.Windows.Forms.GroupBox groupBoxRequirement;
-        private System.Windows.Forms.TextBox textBoxRequirement;
+        private System.Windows.Forms.TextBox txtBoxRequirement;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelExtraDetails;
@@ -697,5 +731,7 @@
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.DateTimePicker dateTimePickerPickUp;
         private System.Windows.Forms.DateTimePicker dateTimePickerDropOff;
+        private System.Windows.Forms.TextBox txtBoxBookingPrice;
+        private System.Windows.Forms.Label lblBookigPrice;
     }
 }
