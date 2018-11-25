@@ -76,6 +76,9 @@ namespace TourQueryManager
             "Sector - 1 Vaishali\n" +
             "City : Ghaziabad\n" +
             "Phone : 1204545485\n";
+        private static readonly string agencyAddressExcursionForItinerary = "EXCURSION HOLIDAYS (P) LTD\n" +
+            "#208 Express Green Plaza, Sec-01 Vaishali Ghaziabad, Delhi-NCR 201010\n" +
+            "Office no: +91 (0120) 4545485 Email Id: info @excursionholidays.com";
         private static readonly string flightVoucherNote = 
             "Carriage and other services provided by the carrier are subject to conditions of carriage which hereby incorporated by reference.\n" +
             "These conditions may be obtained from the issuing carrier. If the passenger's journey involves an ultimate destination or stop in a\n" +
@@ -135,7 +138,6 @@ namespace TourQueryManager
             style.ParagraphFormat.SpaceBefore = 6;
             style.ParagraphFormat.SpaceAfter = 3;
             style.ParagraphFormat.Alignment = ParagraphAlignment.Left;
-            style.ParagraphFormat.Shading.Color = Colors.LightBlue;
 
             style = document.Styles[StyleNames.Header];
             style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right);
@@ -339,6 +341,39 @@ namespace TourQueryManager
                     paragraph.AddFormattedText(lines[index]);
                     paragraph.Format.Font.Bold = true;
                 }                
+            }
+        }
+
+        /// <summary>
+        /// This will print Agency address in cell with specified font size
+        /// </summary>
+        /// <param name="cell">Cell Id</param>
+        /// <param name="hdrFontSize">Font size of the header line</param>
+        /// <param name="fontSize">Font size of the normal text</param>
+        public static void WriteAgencyAddressDetails(Cell cell, int hdrFontSize, int fontSize)
+        {
+            Paragraph paragraph;
+            //paragraph.AddFormattedText(agencyAddressExcursionHolidays, "Heading3");
+            string[] lines = agencyAddressExcursionForItinerary.Split('\n');
+            for (int index = 0; index < lines.Length; index++)
+            {
+                if (string.Equals(lines[index], ""))
+                {
+                    continue;
+                }
+                paragraph = cell.AddParagraph();
+                if (index > 0)
+                {
+                    paragraph.AddFormattedText(lines[index]);
+                    paragraph.Format.Font.Size = fontSize;
+                }
+                else
+                {
+                    paragraph.AddFormattedText(lines[index]);
+                    paragraph.Format.Font.Bold = true;
+                    paragraph.Format.Font.Color = Colors.DarkBlue;
+                    paragraph.Format.Font.Size = hdrFontSize;
+                }
             }
         }
 

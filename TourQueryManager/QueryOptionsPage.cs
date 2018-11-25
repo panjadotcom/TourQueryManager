@@ -44,19 +44,10 @@ namespace TourQueryManager
             Show();
         }
 
-        private void BtnGenerateVouchers_Click(object sender, EventArgs e)
-        {
-            /* this will be used to generate vouchers and finishing the queries */
-            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("VOUCHERS");
-            Hide();
-            frmAdminQueryWorkingPage.ShowDialog();
-            Show();
-        }
-
         private void BtnFinalizeOffer_Click(object sender, EventArgs e)
         {
             /* load the new screen to create the new Query */
-            FrmEditQueryPage frmQuery = new FrmEditQueryPage("FINALIZE OFFER");
+            FrmAdminQueryWorkingPage frmQuery = new FrmAdminQueryWorkingPage("FINALIZE OFFER");
             Hide();
             frmQuery.ShowDialog();
             Show();
@@ -65,9 +56,18 @@ namespace TourQueryManager
         private void BtnUpdateAcceptedQuery_Click(object sender, EventArgs e)
         {
             /* load the new screen to create the new Query */
-            FrmEditQueryPage frmQuery = new FrmEditQueryPage("UPDATE ACCEPTED OFFER");
+            FrmAdminQueryWorkingPage frmQuery = new FrmAdminQueryWorkingPage("UPDATE ACCEPTED OFFER");
             Hide();
             frmQuery.ShowDialog();
+            Show();
+        }
+
+        private void BtnGenerateVouchers_Click(object sender, EventArgs e)
+        {
+            /* this will be used to generate vouchers and finishing the queries */
+            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("VOUCHERS");
+            Hide();
+            frmAdminQueryWorkingPage.ShowDialog();
             Show();
         }
     }

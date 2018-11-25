@@ -46,15 +46,22 @@ namespace TourQueryManager
             string querySelectMysqlQueryString = null;
             if (string.Equals(queryActivityFlagStr, "NEW QUERY"))
             {
-                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` = 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() + " ORDER BY `queryno`";
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE " +
+                    "`queryno` = 0 " +
+                    "AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated + " " +
+                    "ORDER BY `queryno`";
                 btnUpdate.Text = "INSERT";
             }
             else if (string.Equals(queryActivityFlagStr, "UPDATE RAW QUERY"))
             {
-                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated.ToString() + " ORDER BY `queryno`";
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE " +
+                    "`queryno` > 0 " +
+                    "AND `querycurrentstate` >= " + Properties.Resources.queryStageGenerated + " " +
+                    "AND `querycurrentstate` <= " + Properties.Resources.queryStageMailed + " " +
+                    "ORDER BY `queryno`";
                 btnUpdate.Text = "EXIT";
             }
-            else if (string.Equals(queryActivityFlagStr, "FINALIZE OFFER"))
+            /*else if (string.Equals(queryActivityFlagStr, "FINALIZE OFFER"))
             {
                 querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageMailed.ToString() + " ORDER BY `queryno`";
                 btnUpdate.Text = "EXIT";
@@ -63,7 +70,7 @@ namespace TourQueryManager
             {
                 querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `querycurrentstate` = " + Properties.Resources.queryStageDealDone.ToString() + " ORDER BY `queryno`";
                 btnUpdate.Text = "EXIT";
-            }
+            }*/
             else
             {
                 Close();
@@ -160,6 +167,7 @@ namespace TourQueryManager
                     " `contact` = @contact_var," +
                     " `place` = @place_var," +
                     " `querylastupdatetime` = NOW()," +
+                    " `querycurrentstate` = " + Properties.Resources.queryStageGenerated + "," +
                     " `destinationcovered` = @destinationcovered_var," +
                     " `fromdate` = @fromdate_var," +
                     " `todate` = @todate_var," +

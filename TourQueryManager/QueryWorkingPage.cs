@@ -39,6 +39,7 @@ namespace TourQueryManager
             CmbboxWrkngHtlSector_Reload();
             dataGridViewRoomsInfo.Rows.Clear();
             dataGridViewRoomsInfo.Refresh();
+            btnWorkingAddRoom.Text = "ADD HOTEL ROOM";
             checkBoxTravelDetails.Checked = false;
             grpboxTravelDetails.Enabled = false;
             numericUpDownNoOfCars.Value = 0;
@@ -348,12 +349,12 @@ namespace TourQueryManager
                     "`T1`.hotelname AS `HOTEL NAME`, " +
                     "`T2`.roomtype AS `ROOM TYPE`, " +
                     "`T2`.seasontype AS `SEASON`, " +
-                    "`T2`.mealepaipricesingle AS `EPAI SINGLE`, " +
-                    "`T2`.mealepaipricedouble AS `EPAI DOUBLE`, " +
-                    "`T2`.mealepaipriceextbed AS `EPAI TRIPLE`, " +
                     "`T2`.mealcpaipricesingle AS `CPAI SINGLE`, " +
                     "`T2`.mealcpaipricedouble AS `CPAI DOUBLE`, " +
                     "`T2`.mealcpaipriceextbed AS `CPAI TRIPLE`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SINGLE`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DOUBLE`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRIPLE`, " +
                     "`T2`.mealmapaipricesingle AS `MAPAI SINGLE`, " +
                     "`T2`.mealmapaipricedouble AS `MAPAI DOUBLE`, " +
                     "`T2`.mealmapaipriceextbed AS `MAPAI TRIPLE`, " +
@@ -654,6 +655,14 @@ namespace TourQueryManager
             }
             // instead of reseting whole sector reset just hotel rating.
             CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
+            if (dataGridViewRoomsInfo.Rows.Count > 0)
+            {
+                btnWorkingAddRoom.Text = "ADD DIFFERENT HOTEL ENTRY FOR SAME DAY";
+            }
+            else
+            {
+                btnWorkingAddRoom.Text = "ADD HOTEL ENTRY";
+            }
         }
 
         /// <summary>

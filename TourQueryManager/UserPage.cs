@@ -50,8 +50,8 @@ namespace TourQueryManager
                     frmQueryWorkingPage.ShowDialog();
                     Show();
                 }
-                //else if (radioButtonWorkingVouchers.Checked)
-                else if (radioButtonCompletedItinerary.Checked)/* this line needs to be deleted after testing */
+                else if (radioButtonWorkingVouchers.Checked)
+                //else if (radioButtonCompletedItinerary.Checked)/* this line needs to be deleted after testing */
                 {
                     FrmVouchersWorkingOptionPage frmVouchersWorkingOptionPage = new FrmVouchersWorkingOptionPage(DataGrdVuUserQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
@@ -72,42 +72,58 @@ namespace TourQueryManager
         private void DataGrdVuUserQueriesLoad()
         {
             string mysqlSelectQuery = null;
-            mysqlSelectQuery = "SELECT `queryid`, `querycurrentstate`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`userid` = " + frmUserId.ToString() + " ";
-
             bool isColourEnable = false;
             DataGrdVuUserQueries.Rows.Clear();
             if (radioButtonWorkingItinary.Checked)
             {
+                mysqlSelectQuery = "SELECT `queryid`, `querycurrentstate`, `place`, `fromdate`, `todate`, `querystartdate` " +
+               "FROM `queries` WHERE " +
+               "`userid` = " + frmUserId.ToString() + " ";
                 mysqlSelectQuery = mysqlSelectQuery +
                 "AND `querycurrentstate` = " + Properties.Resources.queryStageGenerated;
                 isColourEnable = true;
             }
-            else if (radioButtonWorkingVouchers.Checked)
-            {
-                mysqlSelectQuery = mysqlSelectQuery +
-                "AND `querycurrentstate` > " + Properties.Resources.queryStageRejected + " " +
-                "AND `querycurrentstate` < " + Properties.Resources.queryStageVoucherCompleted;
-                isColourEnable = true;
-            }
             else if (radioButtonCompletedItinerary.Checked)
             {
+                mysqlSelectQuery = "SELECT `queryid`, `querycurrentstate`, `place`, `fromdate`, `todate`, `querystartdate` " +
+               "FROM `queries` WHERE " +
+               "`userid` = " + frmUserId.ToString() + " ";
                 mysqlSelectQuery = mysqlSelectQuery +
                 "AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated + " " +
                 "AND `querycurrentstate` < " + Properties.Resources.queryStageRejected;
                 isColourEnable = false;
             }
+            else if (radioButtonWorkingVouchers.Checked)
+            {
+                mysqlSelectQuery = "SELECT `T1`.`queryid`, `T1`.`querycurrentstate`, `T1`.`place`, `T1`.`fromdate`, `T1`.`todate`, `T1`.`querystartdate` " +
+                    "FROM `queries` as `T1` inner join `finalizedqueries` as `T2` on `T1`.`queryid` = `T2`.`queryid` " +
+                    "WHERE " +
+                    "`T2`.`userid` = " + frmUserId.ToString() + " " +
+                    "AND `T1`.`querycurrentstate` > " + Properties.Resources.queryStageRejected + " " +
+                    "AND `T1`.`querycurrentstate` < " + Properties.Resources.queryStageVoucherCompleted;
+                isColourEnable = true;
+            }
             else if (radioButtonCompletedBooking.Checked)
             {
-                mysqlSelectQuery = mysqlSelectQuery +
-                "AND `querycurrentstate` = " + Properties.Resources.queryStageVoucherCompleted;
+                mysqlSelectQuery = "SELECT `T1`.`queryid`, `T1`.`querycurrentstate`, `T1`.`place`, `T1`.`fromdate`, `T1`.`todate`, `T1`.`querystartdate` " +
+                    "FROM `queries` as `T1` inner join `finalizedqueries` as `T2` on `T1`.`queryid` = `T2`.`queryid` " +
+                    "WHERE " +
+                    "`T2`.`userid` = " + frmUserId.ToString() + " " +
+                    "AND `T1`.`querycurrentstate` = " + Properties.Resources.queryStageVoucherCompleted;
                 isColourEnable = false;
             }
             else if (radioButtonAllQueries.Checked)
             {
-                //mysqlSelectQuery = mysqlSelectQuery +
-                //"AND `querycurrentstate` > " + Properties.Resources.queryStageGenerated;
+                mysqlSelectQuery = "SELECT `T1`.`queryid`, `T1`.`querycurrentstate`, `T1`.`place`, `T1`.`fromdate`, `T1`.`todate`, `T1`.`querystartdate` " +
+                   "FROM `queries` as `T1` inner join `finalizedqueries` as `T2` " +
+                   "on `T1`.`queryid` = `T2`.`queryid` " +
+                   "WHERE " +
+                   "`T2`.`userid` = " + frmUserId.ToString() + " " +
+                   "UNION " +
+                   "SELECT `T1`.`queryid`, `T1`.`querycurrentstate`, `T1`.`place`, `T1`.`fromdate`, `T1`.`todate`, `T1`.`querystartdate` " +
+                   "FROM `queries` as `T1` " +
+                   "WHERE " +
+                   "`T1`.`userid` = " + frmUserId.ToString() + " ";
                 isColourEnable = false;
             }
             else

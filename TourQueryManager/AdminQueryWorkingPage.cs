@@ -20,11 +20,9 @@ namespace TourQueryManager
 {
     public partial class FrmAdminQueryWorkingPage : Form
     {
-        bool openVoucherPage = false;
         static string frmArgStr;
         static string mysqlConnectionString = Properties.Settings.Default.mysqlConnStr;
         MySqlConnection frmMysqlConnection = new MySqlConnection(mysqlConnectionString);
-
         
         public FrmAdminQueryWorkingPage(string frmAdminQueryWorkingArgument)
         {
@@ -46,20 +44,31 @@ namespace TourQueryManager
         private void DataGrdVuAdminQueriesLoad(string argumentString)
         {
             string mysqlSelectQuery = null;
-            if (string.Equals(argumentString, "ITINERARY", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(argumentString, "ITINERARY"))
             {
                 mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
                 "FROM `queries` WHERE " +
                 "`querycurrentstate` >= " + Properties.Resources.queryStageDoneByUser +
                 " AND `querycurrentstate` <= " + Properties.Resources.queryStageMailed;
-                openVoucherPage = false;
             }
-            else if (string.Equals(argumentString, "VOUCHERS", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(argumentString, "FINALIZE OFFER"))
             {
                 mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
                 "FROM `queries` WHERE " +
-                "`querycurrentstate` > " + Properties.Resources.queryStageDoneByUser;
-                openVoucherPage = true;
+                "`querycurrentstate` = " + Properties.Resources.queryStageMailed;
+            }
+            else if (string.Equals(argumentString, "UPDATE ACCEPTED OFFER"))
+            {
+                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
+                "FROM `queries` WHERE " +
+                "`querycurrentstate` >= " + Properties.Resources.queryStageDealDone +
+                " AND `querycurrentstate` <= " + Properties.Resources.queryStageVoucherIncompleteByUser;
+            }
+            else if (string.Equals(argumentString, "VOUCHERS"))
+            {
+                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
+                "FROM `queries` WHERE " +
+                "`querycurrentstate` >= " + Properties.Resources.queryStageVoucherCompleted;
             }
             else
             {
@@ -116,7 +125,7 @@ namespace TourQueryManager
             if (DataGrdVuAdminQueries.Rows.Count > 0)
             {
                 /* Open new Form of Working and pass queryId to the working */
-                if (openVoucherPage)
+                if (string.Equals(frmArgStr, "VOUCHERS"))
                 {
                     //MessageBox.Show("Generating VOUCHERS FOR : \n" +
                     //DataGrdVuAdminQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
@@ -124,24 +133,38 @@ namespace TourQueryManager
                     //DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
                     //DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
                     //DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
-                    FrmVouchersOptionsPage frmVouchersOptionsPage = new FrmVouchersOptionsPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    FrmVouchersOptionsPage newFrmPage = new FrmVouchersOptionsPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
-                    frmVouchersOptionsPage.ShowDialog();
+                    newFrmPage.ShowDialog();
                     Show();
                 }
-                else
+                else if (string.Equals(frmArgStr, "FINALIZE OFFER"))
                 {
-                    if(saveFileDialogItinerary.ShowDialog() == DialogResult.OK)
+                    FrmFinalizeQueryPage newFrmPage = new FrmFinalizeQueryPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    Hide();
+                    newFrmPage.ShowDialog();
+                    Show();
+                }
+                else if (string.Equals(frmArgStr, "UPDATE ACCEPTED OFFER"))
+                {
+                    FrmFinalizeQueryPage newFrmPage = new FrmFinalizeQueryPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    Hide();
+                    newFrmPage.ShowDialog();
+                    Show();
+                }
+                else if (string.Equals(frmArgStr, "ITINERARY"))
+                {
+                    if (saveFileDialogItinerary.ShowDialog() == DialogResult.OK)
                     {
                         /* file selected */
-                        Debug.WriteLine("OUT FILE SELECTED : " + saveFileDialogItinerary.FileName );
+                        Debug.WriteLine("OUT FILE SELECTED : " + saveFileDialogItinerary.FileName);
                     }
                     else
                     {
                         Debug.WriteLine("File not selected thus returning");
                         return;
                     }
-                    
+
                     /* get all information from database regarding this queryid*/
                     string mysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
                     try
@@ -169,6 +192,12 @@ namespace TourQueryManager
                     mysqlQueryString = "SELECT * FROM `queryworkingtravel` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
                     mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_TRAVEL_INFO");
+                    mysqlQueryString = "select `T1`.idhotelinfo, `T2`.hotelrating, `T1`.hotelcity , `T1`.hotelname, `T2`.roomtype " +
+                        "from `hotelinfo` as `T1` inner join `queryworkinghotel` as `T2` on `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
+                        "WHERE `T2`.`queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() +"' " +
+                        "order by `T1`.hotelcity";
+                    mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
+                    mySqlDataAdapter.Fill(queryDataset, "HOTEL_USED_INFO");
 
                     /* GENERATE PDF ITINERARY OF THE SELECTED QUERY */
                     double gstRate = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["gstrate"]);
@@ -180,7 +209,7 @@ namespace TourQueryManager
                     Document document = new Document();
                     document.Info.Title = "ITINERARY FOR " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
                     document.Info.Author = "PANJADOTCOM";
-                    
+
                     /* now cange the style of the document */
                     MyPdfDocuments.DefineStyles(document);
 
@@ -188,20 +217,155 @@ namespace TourQueryManager
                     Section section = document.AddSection();
 
                     /* now add image at the top of the page */
+                    Table table = null;
+                    Column column = null;
+                    double columnWidth;
+                    int columnCount = 2;
+                    Row row = null;
+                    int rowsCount = 0;
+                    int personCount = 0;
                     string imagePath = saveFileDialogItinerary.FileName + "logo.png";
-                    Properties.Resources.imageExcursionHolidaysLetterHead.Save(imagePath);
-                    MigraDoc.DocumentObjectModel.Shapes.Image image = section.AddImage(imagePath);
-                    image.Width = "21cm";
-                    image.Left = "-1.0cm";
+                    Properties.Resources.ExcursionHolidaysLogo.Save(imagePath);
+                    table = section.AddTable();
+                    table.Borders.Visible = false;
+                    table.Borders.Width = 0.75;
+                    column = table.AddColumn(Unit.FromCentimeter(3));
+                    column.Format.Alignment = ParagraphAlignment.Left;
+                    column = table.AddColumn(Unit.FromCentimeter(16));
+                    column.Format.Alignment = ParagraphAlignment.Right;
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    MigraDoc.DocumentObjectModel.Shapes.Image image = row.Cells[0].AddImage(imagePath);
+                    image.Width = "3cm";
+                    MyPdfDocuments.WriteAgencyAddressDetails(row.Cells[1], 20, 10);
+                    table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Transparent);
+                    rowsCount = columnCount = 0;
 
-                    /* now add Header of the file */
+                    /* now add summary of the tour in tabular form */
                     string fileContent;
+                    
+                    fileContent = "SUMMARY";
+                    Paragraph paragraph = section.AddParagraph(fileContent, "Heading2");
+
+                    table = section.AddTable();
+                    table.Borders.Visible = true;
+                    table.Borders.Width = 0.5;
+                    table.Borders.Color = Colors.SkyBlue;
+                    columnCount = 4;
+                    columnWidth = (21.0 - 2.0) / columnCount;
+                    for (int index = 0; index < columnCount; index += 2)
+                    {
+                        column = table.AddColumn(Unit.FromCentimeter(columnWidth - 1));
+                        column.Format.Alignment = ParagraphAlignment.Left;
+                        column = table.AddColumn(Unit.FromCentimeter(columnWidth + 1));
+                        column.Format.Alignment = ParagraphAlignment.Left;
+                    }
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Tour Reference", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Customer Name", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["name"].ToString());
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Tour Name", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["place"].ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("No of Days", "Heading3");
                     double noOfnights = (DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString()) -
                         DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString())).TotalDays;
-                    fileContent = DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + " Tour\r\n" +
-                        noOfnights.ToString() + " Nights and " + (noOfnights + 1).ToString() + " Days";
-                    Paragraph paragraph = section.AddParagraph(fileContent, "Heading1");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText(noOfnights.ToString() + " Nights and " + (noOfnights + 1).ToString() + " Days");
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("No of Person", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["adults"].ToString() + " Adult, " +
+                        queryDataset.Tables["SELECTED_QUERY"].Rows[0]["children"].ToString() + " Child and " +
+                        queryDataset.Tables["SELECTED_QUERY"].Rows[0]["babies"].ToString() + " Infant");
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("No of Room", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["roomcount"].ToString());
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Meals", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["meal"].ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Our Courtesy", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText("1 Water botel per day");
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Vehicle", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["vehicalcategory"].ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Train/Flight", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    if (queryDataset.Tables["QUERY_FLIGHT_INFO"].Rows.Count > 0)
+                    {
+                        paragraph.AddFormattedText("YES");
+                    }
+                    else
+                    {
+                        paragraph.AddFormattedText("NO");
+                    }
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Arrive", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["arrivalcity"].ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Departure", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["departurecity"].ToString());
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Tour Start", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["fromdate"].ToString());
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Tour End", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["todate"].ToString());
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Guide", "Heading3");
+                    paragraph = row.Cells[1].AddParagraph();
+                    paragraph.AddFormattedText("As per itinerary");
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Validity", "Heading3");
+                    paragraph = row.Cells[3].AddParagraph();
+                    paragraph.AddFormattedText("One month before tour start date");
+                    table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.5, Colors.SkyBlue);
+                    rowsCount = columnCount = 0;
 
+                    /* Add itinerary in the section below */
+                    fileContent = "ITINERARY";
+                    paragraph = section.AddParagraph(fileContent, "Heading2");
                     double amount = 0;
                     /* add day wise narration */
                     string tourIncContent = "";
@@ -218,17 +382,6 @@ namespace TourQueryManager
                     {
                         amount = amount + (Convert.ToDouble(item["pricepercar"]) * Convert.ToDouble(item["carcount"]));
                     }
-
-                    /* add hotel rates in tabular form */
-                    //paragraph = section.AddParagraph("Hotel Information","Heading2");
-                    Table table = null;
-                    Column column = null;
-                    double columnWidth;
-                    int columnCount;
-                    Row row = null;
-                    int rowsCount = 0;
-                    int personCount = 0;
-                    string hotelIdList = "";
 
                     personCount = Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["adults"].ToString())
                         + Convert.ToInt32(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["children"].ToString());
@@ -283,7 +436,6 @@ namespace TourQueryManager
                         var hotelRateMatrix = new Int32[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
                         foreach (DataRow item in queryDataset.Tables["QUERY_HOTEL_INFO"].Rows)
                         {
-                            hotelIdList = hotelIdList + item["idhotelinfo"].ToString() + ";";
                             if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
                             {
                                 hotelRateMatrix[0, 0]++;
@@ -369,7 +521,8 @@ namespace TourQueryManager
                         }
                         table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
                     }
-                    
+                    /* add hotel rates in tabular form */
+                    int hotelRowsCount = rowsCount;
                     /* add flight information in the itenary */
                     rowsCount = 0;
                     amount = 0;
@@ -417,7 +570,7 @@ namespace TourQueryManager
                         row.Cells[3].AddParagraph(item["flightnumber"].ToString().ToUpper());
                         row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
                         amount = amount + Convert.ToDouble(item["rateperticket"].ToString());
-                        
+
                     }
                     if (rowsCount > 0)
                     {
@@ -432,6 +585,111 @@ namespace TourQueryManager
                     /* add notes in the document */
                     MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent);
 
+                    /* now change cloumn count to rows count;*/
+                    var hotelusedMatrix = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+
+                    foreach (DataRow item in queryDataset.Tables["HOTEL_USED_INFO"].Rows)
+                    {
+                        if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                        {
+                            hotelusedMatrix[0, 0]++;
+                        }
+                        else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                        {
+                            hotelusedMatrix[1, 0]++;
+                        }
+                        else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                        {
+                            hotelusedMatrix[2, 0]++;
+                        }
+                        else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                        {
+                            hotelusedMatrix[3, 0]++;
+                        }
+                    }
+                    if (hotelRowsCount > 0)
+                    {
+                        columnCount = hotelRowsCount;
+                        rowsCount = 0;
+                        int columnIndex = 0;
+                        string lastCity = "";
+                        foreach (DataRow item in queryDataset.Tables["HOTEL_USED_INFO"].Rows)
+                        {
+                            if (rowsCount == 0)
+                            {
+                                paragraph = section.AddParagraph("HOTEL INFORMATION", "Heading3");
+                                columnWidth = (21.0 - 2.0) / columnCount;
+
+                                table = section.AddTable();
+                                table.Borders.Visible = true;
+                                table.Borders.Width = 0.75;
+                                for (int index = 0; index < columnCount; index++)
+                                {
+                                    column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+                                    column.Format.Alignment = ParagraphAlignment.Center;
+                                }
+                                row = table.AddRow();
+                                rowsCount++;
+                                columnIndex = 1;
+                                row.Shading.Color = Colors.PaleGoldenrod;
+                                row.Cells[0].AddParagraph("HOTEL USED");
+                                if (hotelusedMatrix[0, 0] > 0)
+                                {
+                                    row.Cells[columnIndex].AddParagraph("BASIC");
+                                    hotelusedMatrix[0, 1] = columnIndex;
+                                    columnIndex++;
+                                }
+                                if (hotelusedMatrix[1, 0] > 0)
+                                {
+                                    row.Cells[columnIndex].AddParagraph("3 STAR");
+                                    hotelusedMatrix[1, 1] = columnIndex;
+                                    columnIndex++;
+                                }
+                                if (hotelusedMatrix[2, 0] > 0)
+                                {
+                                    row.Cells[columnIndex].AddParagraph("4 STAR");
+                                    hotelusedMatrix[2, 1] = columnIndex;
+                                    columnIndex++;
+                                }
+                                if (hotelusedMatrix[3, 0] > 0)
+                                {
+                                    row.Cells[columnIndex].AddParagraph("5 STAR");
+                                    hotelusedMatrix[3, 1] = columnIndex;
+                                }
+                            }
+                            if (!lastCity.Equals(item["hotelcity"].ToString()))
+                            {
+                                row = table.AddRow();
+                                rowsCount++;
+                                row.VerticalAlignment = VerticalAlignment.Center;
+                                row.Cells[0].AddParagraph("IN " + item["hotelcity"].ToString());
+                                lastCity = item["hotelcity"].ToString();
+                            }
+                            columnIndex = 0;
+                            if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                            {
+                                columnIndex = hotelusedMatrix[0, 1];
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                            {
+                                columnIndex = hotelusedMatrix[1, 1];
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                            {
+                                columnIndex = hotelusedMatrix[2, 1];
+                            }
+                            else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                            {
+                                columnIndex = hotelusedMatrix[3, 1];
+                            }
+                            row.Cells[columnIndex].AddParagraph(item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ")");
+                        }
+                        if (rowsCount > 0)
+                        {
+                            table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
+                        }
+                    }
+                    //////////////////////////////////////////////////////////////////////////////////////////////////
                     PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always);
 
                     try
@@ -485,6 +743,10 @@ namespace TourQueryManager
                         MessageBox.Show("Error in Closing mysql connection because : " + errConnClose.Message);
                     }
 
+                }
+                else
+                {
+                    MessageBox.Show("Wrong argument passed", "Wrong argument", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
