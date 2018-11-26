@@ -180,7 +180,7 @@ namespace TourQueryManager
                     }
 
                     /* get all information from database regarding this queryid*/
-                    string mysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    string mysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     try
                     {
                         frmMysqlConnection.Open();
@@ -194,16 +194,16 @@ namespace TourQueryManager
                     DataSet queryDataset = new DataSet();
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mysqlQueryString, frmMysqlConnection);
                     mySqlDataAdapter.Fill(queryDataset, "SELECTED_QUERY");
-                    mysqlQueryString = "SELECT * FROM `queryworkingday` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    mysqlQueryString = "SELECT * FROM `queryworkingday` WHERE `queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_DAY_INFO");
-                    mysqlQueryString = "SELECT * FROM `queryworkinghotel` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    mysqlQueryString = "SELECT * FROM `queryworkinghotel` WHERE `queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_HOTEL_INFO");
-                    mysqlQueryString = "SELECT * FROM `queryworkingflight` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    mysqlQueryString = "SELECT * FROM `queryworkingflight` WHERE `queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_FLIGHT_INFO");
-                    mysqlQueryString = "SELECT * FROM `queryworkingtravel` WHERE `queryid` = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    mysqlQueryString = "SELECT * FROM `queryworkingtravel` WHERE `queryid` = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     mySqlDataAdapter.SelectCommand.CommandText = mysqlQueryString;
                     mySqlDataAdapter.Fill(queryDataset, "QUERY_TRAVEL_INFO");
                     mysqlQueryString = "select `T1`.idhotelinfo, `T2`.hotelrating, `T1`.hotelcity , `T1`.hotelname, `T2`.roomtype " +
@@ -735,7 +735,7 @@ namespace TourQueryManager
                     "`querylastupdatetime` = NOW(), " +
                     "`querycurrentstate` = " + Properties.Resources.queryStageMailed + " " +
                     "WHERE " +
-                    "queryid = " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
+                    "queryid = '" + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "'";
                     mySqlCommand.Prepare();
 
                     try

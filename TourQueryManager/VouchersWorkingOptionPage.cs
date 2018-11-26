@@ -42,7 +42,7 @@ namespace TourQueryManager
             MySqlDataAdapter mysqlDataAdaptor = new MySqlDataAdapter();
             MySqlCommand command = new MySqlCommand();
             DataSet dataSet = new DataSet();
-            string mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = " + queryId + "";
+            string mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
@@ -59,7 +59,7 @@ namespace TourQueryManager
             querydetails = querydetails + "INSTRUCTIONS = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["specialinstructions"].ToString();
             querydetails = querydetails + "";
             txtBoxQueryDetails.Text = querydetails;
-            mysqlSelectQueryStr = "SELECT * FROM `flightbookinginfo` WHERE `queryid` = " + queryId + "";
+            mysqlSelectQueryStr = "SELECT * FROM `flightbookinginfo` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
@@ -71,7 +71,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
-            mysqlSelectQueryStr = "SELECT * FROM `hotelbookinginfo` WHERE `queryid` = " + queryId + "";
+            mysqlSelectQueryStr = "SELECT * FROM `hotelbookinginfo` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try

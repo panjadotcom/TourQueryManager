@@ -96,6 +96,7 @@
             this.lblDayCounter = new System.Windows.Forms.Label();
             this.chkBoxTourInclusions = new System.Windows.Forms.CheckBox();
             this.dataGridViewHotelList = new System.Windows.Forms.DataGridView();
+            this.BtnUpdateQueryDetails = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfPersons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfCars)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRoomsInfo)).BeginInit();
@@ -108,18 +109,18 @@
             // txtboxQueryDetails
             // 
             this.txtboxQueryDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtboxQueryDetails.Location = new System.Drawing.Point(15, 25);
+            this.txtboxQueryDetails.Location = new System.Drawing.Point(15, 44);
             this.txtboxQueryDetails.Multiline = true;
             this.txtboxQueryDetails.Name = "txtboxQueryDetails";
             this.txtboxQueryDetails.ReadOnly = true;
             this.txtboxQueryDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtboxQueryDetails.Size = new System.Drawing.Size(416, 431);
+            this.txtboxQueryDetails.Size = new System.Drawing.Size(416, 412);
             this.txtboxQueryDetails.TabIndex = 18;
             // 
             // lblQueryDetails
             // 
             this.lblQueryDetails.AutoSize = true;
-            this.lblQueryDetails.Location = new System.Drawing.Point(12, 9);
+            this.lblQueryDetails.Location = new System.Drawing.Point(12, 14);
             this.lblQueryDetails.Name = "lblQueryDetails";
             this.lblQueryDetails.Size = new System.Drawing.Size(93, 13);
             this.lblQueryDetails.TabIndex = 19;
@@ -780,11 +781,23 @@
             this.dataGridViewHotelList.Size = new System.Drawing.Size(413, 172);
             this.dataGridViewHotelList.TabIndex = 26;
             // 
+            // BtnUpdateQueryDetails
+            // 
+            this.BtnUpdateQueryDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnUpdateQueryDetails.Location = new System.Drawing.Point(111, 9);
+            this.BtnUpdateQueryDetails.Name = "BtnUpdateQueryDetails";
+            this.BtnUpdateQueryDetails.Size = new System.Drawing.Size(320, 25);
+            this.BtnUpdateQueryDetails.TabIndex = 27;
+            this.BtnUpdateQueryDetails.Text = "UPDATE QUERY DETAILS";
+            this.BtnUpdateQueryDetails.UseVisualStyleBackColor = true;
+            this.BtnUpdateQueryDetails.Click += new System.EventHandler(this.BtnUpdateQueryDetails_Click);
+            // 
             // FrmQueryWorkingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 646);
+            this.Controls.Add(this.BtnUpdateQueryDetails);
             this.Controls.Add(this.dataGridViewHotelList);
             this.Controls.Add(this.chkBoxTourInclusions);
             this.Controls.Add(this.lblDayCounter);
@@ -903,5 +916,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelSingleBedPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelDoubleShairingPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn HotelExtraBedPrice;
+        private System.Windows.Forms.Button BtnUpdateQueryDetails;
     }
 }

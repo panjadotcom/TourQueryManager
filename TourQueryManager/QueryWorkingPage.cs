@@ -81,7 +81,7 @@ namespace TourQueryManager
            
            
             frmQueryWorkingDataSet = new DataSet();
-            string mysqlSelectQueryStr = "SELECT * FROM `queries` WHERE `queryid` = " + queryIdWorking + "";
+            string mysqlSelectQueryStr = "SELECT * FROM `queries` WHERE `queryid` = '" + queryIdWorking + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
@@ -1398,6 +1398,14 @@ namespace TourQueryManager
         private void chkBoxTourInclusions_CheckedChanged(object sender, EventArgs e)
         {
             txtboxTourInclusions.Enabled = chkBoxTourInclusions.Checked;
+        }
+
+        private void BtnUpdateQueryDetails_Click(object sender, EventArgs e)
+        {
+            FrmEditQueryPage frmQuery = new FrmEditQueryPage(queryIdWorking);
+            Hide();
+            frmQuery.ShowDialog();
+            Show();
         }
     }
 }

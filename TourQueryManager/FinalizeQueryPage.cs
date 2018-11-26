@@ -60,7 +60,7 @@ namespace TourQueryManager
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
-            mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = " + queryId;
+            mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try

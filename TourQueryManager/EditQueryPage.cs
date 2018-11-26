@@ -73,8 +73,14 @@ namespace TourQueryManager
             }*/
             else
             {
-                Close();
-                return;
+                querySelectMysqlQueryString = "SELECT `queryid` FROM `queries` WHERE `queryno` > 0 AND `queryid` = '" + queryActivityFlagStr + "' ORDER BY `queryno`";
+                btnUpdate.Text = "EXIT";
+                txtboxClientName.Visible = false;
+                txtboxClientContact.Visible = false;
+                txtBoxGST.Visible = false;
+                txtBoxMargin.Visible = false;
+                cmbboxAgentId.Visible = false;
+                cmbboxUserId.Visible = false;
             }
             try
             {
@@ -480,14 +486,10 @@ namespace TourQueryManager
             else
             {
                 DateTime today = DateTime.Now;
-                queryIdStr = "5136"
-                    + today.Year.ToString()
-                    + today.Month.ToString()
-                    + today.Day.ToString()
-                    + cmbboxAgentId.SelectedValue.ToString()
-                    + cmbboxUserId.SelectedValue.ToString()
-                    + today.Hour.ToString()
-                    + today.Minute.ToString();
+                queryIdStr = "EHPL" + today.ToString("yyMMddHHmm");
+                //queryIdStr += cmbboxAgentId.SelectedValue.ToString();
+                int randomDigit = (today.Year + today.Month + today.Day + today.Hour + today.Minute + today.Second) % 10000;
+                queryIdStr += randomDigit.ToString();
                 cmbboxQueryId.Text = queryIdStr;
             }
             btnUpdateMysqlCommand.Parameters["@queryid_var"].Value = queryIdStr;
@@ -613,12 +615,20 @@ namespace TourQueryManager
                 }
                 return;
             }
-            btnDeleteQuery.Enabled = true;
-            btnDeleteQuery.Visible = true;
+            if (cmbboxQueryId.Text.Equals(queryActivityFlagStr))
+            {
+                btnDeleteQuery.Enabled = false;
+                btnDeleteQuery.Visible = false;
+            }
+            else
+            {
+                btnDeleteQuery.Enabled = true;
+                btnDeleteQuery.Visible = true;
+            }
             updateQueryFlag = true;
             btnUpdate.Text = "UPDATE";
             frmEditQueryDataSet = new DataSet();
-            string queryDataSelectMysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = " + cmbboxQueryId.Text;
+            string queryDataSelectMysqlQueryString = "SELECT * FROM `queries` WHERE `queryid` = '" + cmbboxQueryId.Text + "'";
             Debug.WriteLine("Query string is " + queryDataSelectMysqlQueryString);
             try
             {

@@ -43,7 +43,7 @@ namespace TourQueryManager
 
 
             dataSet = new DataSet();
-            string mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = " + queryId + "";
+            string mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
@@ -60,7 +60,7 @@ namespace TourQueryManager
             querydetails = querydetails + "INSTRUCTIONS = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["specialinstructions"].ToString();
             querydetails = querydetails + "";
             txtBoxRequirement.Text = querydetails;
-            mysqlSelectQueryStr = "SELECT * FROM `flightbookinginfo` WHERE `queryid` = " + queryId + "";
+            mysqlSelectQueryStr = "SELECT * FROM `flightbookinginfo` WHERE `queryid` = '" + queryId + "'";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
