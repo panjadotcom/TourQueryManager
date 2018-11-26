@@ -31,12 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUserPage));
             this.BtnExit = new System.Windows.Forms.Button();
             this.DataGrdVuUserQueries = new System.Windows.Forms.DataGridView();
-            this.QueryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.QueryState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AssignedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BtnHotelInfo = new System.Windows.Forms.Button();
             this.grpBoxQueries = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelQueryOptions = new System.Windows.Forms.TableLayoutPanel();
@@ -45,6 +39,12 @@
             this.radioButtonWorkingVouchers = new System.Windows.Forms.RadioButton();
             this.radioButtonWorkingItinary = new System.Windows.Forms.RadioButton();
             this.radioButtonCompletedBooking = new System.Windows.Forms.RadioButton();
+            this.QueryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QueryState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AssignedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrdVuUserQueries)).BeginInit();
             this.grpBoxQueries.SuspendLayout();
             this.tableLayoutPanelQueryOptions.SuspendLayout();
@@ -53,11 +53,12 @@
             // BtnExit
             // 
             this.BtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnExit.Location = new System.Drawing.Point(778, 249);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(150, 27);
             this.BtnExit.TabIndex = 2;
-            this.BtnExit.Text = "Exit";
+            this.BtnExit.Text = "EXIT";
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
@@ -84,48 +85,6 @@
             this.DataGrdVuUserQueries.Size = new System.Drawing.Size(916, 150);
             this.DataGrdVuUserQueries.TabIndex = 3;
             this.DataGrdVuUserQueries.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGrdVuUserQueries_CellContentDoubleClick);
-            // 
-            // QueryId
-            // 
-            this.QueryId.HeaderText = "QUERY ID";
-            this.QueryId.Name = "QueryId";
-            this.QueryId.ReadOnly = true;
-            this.QueryId.Width = 150;
-            // 
-            // QueryState
-            // 
-            this.QueryState.HeaderText = "STATE";
-            this.QueryState.Name = "QueryState";
-            this.QueryState.ReadOnly = true;
-            this.QueryState.Width = 50;
-            // 
-            // Location
-            // 
-            this.Location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Location.HeaderText = "LOCATION";
-            this.Location.Name = "Location";
-            this.Location.ReadOnly = true;
-            // 
-            // fromDate
-            // 
-            this.fromDate.HeaderText = "FROM DATE";
-            this.fromDate.Name = "fromDate";
-            this.fromDate.ReadOnly = true;
-            this.fromDate.Width = 125;
-            // 
-            // toDate
-            // 
-            this.toDate.HeaderText = "TO DATE";
-            this.toDate.Name = "toDate";
-            this.toDate.ReadOnly = true;
-            this.toDate.Width = 125;
-            // 
-            // AssignedDate
-            // 
-            this.AssignedDate.HeaderText = "ASSIGNED DATE";
-            this.AssignedDate.Name = "AssignedDate";
-            this.AssignedDate.ReadOnly = true;
-            this.AssignedDate.Width = 125;
             // 
             // BtnHotelInfo
             // 
@@ -178,7 +137,7 @@
             // 
             this.radioButtonCompletedItinerary.AutoSize = true;
             this.radioButtonCompletedItinerary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButtonCompletedItinerary.Location = new System.Drawing.Point(305, 3);
+            this.radioButtonCompletedItinerary.Location = new System.Drawing.Point(154, 3);
             this.radioButtonCompletedItinerary.Name = "radioButtonCompletedItinerary";
             this.radioButtonCompletedItinerary.Size = new System.Drawing.Size(145, 53);
             this.radioButtonCompletedItinerary.TabIndex = 7;
@@ -204,7 +163,7 @@
             // 
             this.radioButtonWorkingVouchers.AutoSize = true;
             this.radioButtonWorkingVouchers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButtonWorkingVouchers.Location = new System.Drawing.Point(154, 3);
+            this.radioButtonWorkingVouchers.Location = new System.Drawing.Point(305, 3);
             this.radioButtonWorkingVouchers.Name = "radioButtonWorkingVouchers";
             this.radioButtonWorkingVouchers.Size = new System.Drawing.Size(145, 53);
             this.radioButtonWorkingVouchers.TabIndex = 0;
@@ -238,6 +197,48 @@
             this.radioButtonCompletedBooking.Text = "COMPLETED BOOKING";
             this.radioButtonCompletedBooking.UseVisualStyleBackColor = true;
             this.radioButtonCompletedBooking.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // QueryId
+            // 
+            this.QueryId.HeaderText = "QUERY ID";
+            this.QueryId.Name = "QueryId";
+            this.QueryId.ReadOnly = true;
+            this.QueryId.Width = 150;
+            // 
+            // QueryState
+            // 
+            this.QueryState.HeaderText = "STATE";
+            this.QueryState.Name = "QueryState";
+            this.QueryState.ReadOnly = true;
+            this.QueryState.Width = 200;
+            // 
+            // Location
+            // 
+            this.Location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Location.HeaderText = "LOCATION";
+            this.Location.Name = "Location";
+            this.Location.ReadOnly = true;
+            // 
+            // fromDate
+            // 
+            this.fromDate.HeaderText = "FROM DATE";
+            this.fromDate.Name = "fromDate";
+            this.fromDate.ReadOnly = true;
+            this.fromDate.Width = 125;
+            // 
+            // toDate
+            // 
+            this.toDate.HeaderText = "TO DATE";
+            this.toDate.Name = "toDate";
+            this.toDate.ReadOnly = true;
+            this.toDate.Width = 125;
+            // 
+            // AssignedDate
+            // 
+            this.AssignedDate.HeaderText = "ASSIGNED DATE";
+            this.AssignedDate.Name = "AssignedDate";
+            this.AssignedDate.ReadOnly = true;
+            this.AssignedDate.Width = 125;
             // 
             // FrmUserPage
             // 

@@ -44,32 +44,31 @@ namespace TourQueryManager
         private void DataGrdVuAdminQueriesLoad(string argumentString)
         {
             string mysqlSelectQuery = null;
+            mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate`, `name`, `querycurrentstate` " +
+                "FROM `queries` WHERE ";
             if (string.Equals(argumentString, "ITINERARY"))
             {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`querycurrentstate` >= " + Properties.Resources.queryStageDoneByUser +
+                mysqlSelectQuery += "`querycurrentstate` >= " + Properties.Resources.queryStageDoneByUser +
                 " AND `querycurrentstate` <= " + Properties.Resources.queryStageMailed;
             }
             else if (string.Equals(argumentString, "FINALIZE OFFER"))
             {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`querycurrentstate` = " + Properties.Resources.queryStageMailed;
+                mysqlSelectQuery += "`querycurrentstate` = " + Properties.Resources.queryStageMailed;
             }
             else if (string.Equals(argumentString, "UPDATE ACCEPTED OFFER"))
             {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`querycurrentstate` >= " + Properties.Resources.queryStageDealDone +
-                " AND `querycurrentstate` <= " + Properties.Resources.queryStageVoucherIncompleteByUser;
+                mysqlSelectQuery += "`querycurrentstate` >= " + Properties.Resources.queryStageDealDone +
+                " AND `querycurrentstate` <= " + Properties.Resources.queryStageVoucherCompleted;
             }
             else if (string.Equals(argumentString, "VOUCHERS"))
             {
-                mysqlSelectQuery = "SELECT `queryid`, `place`, `fromdate`, `todate`, `querystartdate` " +
-                "FROM `queries` WHERE " +
-                "`querycurrentstate` >= " + Properties.Resources.queryStageVoucherCompleted;
+                mysqlSelectQuery += "`querycurrentstate` >= " + Properties.Resources.queryStageVoucherCompleted;
             }
+            else if (string.Equals(argumentString, "VIEW ALL"))
+            {
+                mysqlSelectQuery += "`querycurrentstate` != 0";
+            }
+
             else
             {
                 MessageBox.Show("Wrong method invoked");
@@ -99,6 +98,8 @@ namespace TourQueryManager
                         int index = DataGrdVuAdminQueries.Rows.Add();
                         DataGrdVuAdminQueries.Rows[index].Cells["QueryId"].Value = item["queryid"].ToString();
                         DataGrdVuAdminQueries.Rows[index].Cells["FromDate"].Value = item["fromdate"].ToString();
+                        DataGrdVuAdminQueries.Rows[index].Cells["Name"].Value = item["name"].ToString();
+                        DataGrdVuAdminQueries.Rows[index].Cells["QueryStage"].Value = item["querycurrentstate"].ToString() + " ( " + MyPdfDocuments.PrintCurrentQueryStage(Convert.ToInt32(item["querycurrentstate"])) + " )";
                         DataGrdVuAdminQueries.Rows[index].Cells["ToDate"].Value = item["todate"].ToString();
                         DataGrdVuAdminQueries.Rows[index].Cells["Location"].Value = item["place"].ToString();
                         DataGrdVuAdminQueries.Rows[index].Cells["AssignedDate"].Value = item["querystartdate"].ToString();
@@ -125,14 +126,23 @@ namespace TourQueryManager
             if (DataGrdVuAdminQueries.Rows.Count > 0)
             {
                 /* Open new Form of Working and pass queryId to the working */
+                try
+                {
+                    Debug.WriteLine("Generating VOUCHERS FOR : \n" +
+                    DataGrdVuAdminQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
+                    DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
+                    DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
+                    DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
+                    DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
+                }
+                catch (Exception errSelectedIndex)
+                {
+                    Debug.WriteLine("No rows selected because : " + errSelectedIndex.Message);
+                    return;
+                }
+
                 if (string.Equals(frmArgStr, "VOUCHERS"))
                 {
-                    //MessageBox.Show("Generating VOUCHERS FOR : \n" +
-                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["AssignedDate"].Value.ToString() + "\n" +
-                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n" +
-                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["Location"].Value.ToString() + "\n" +
-                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString() + "\n" +
-                    //DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString() + "\n");
                     FrmVouchersOptionsPage newFrmPage = new FrmVouchersOptionsPage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
                     Hide();
                     newFrmPage.ShowDialog();
@@ -151,6 +161,10 @@ namespace TourQueryManager
                     Hide();
                     newFrmPage.ShowDialog();
                     Show();
+                }
+                else if (string.Equals(frmArgStr, "VIEW ALL"))
+                {
+                    Debug.WriteLine("VIEW ALL QUERY SELECTED Thus nothing to do\n");
                 }
                 else if (string.Equals(frmArgStr, "ITINERARY"))
                 {

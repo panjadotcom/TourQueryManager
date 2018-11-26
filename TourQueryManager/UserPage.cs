@@ -152,7 +152,7 @@ namespace TourQueryManager
                     {
                         int index = DataGrdVuUserQueries.Rows.Add();
                         DataGrdVuUserQueries.Rows[index].Cells["QueryId"].Value = item["queryid"].ToString();
-                        DataGrdVuUserQueries.Rows[index].Cells["QueryState"].Value = item["querycurrentstate"].ToString();
+                        DataGrdVuUserQueries.Rows[index].Cells["QueryState"].Value = item["querycurrentstate"].ToString() + " ( " + MyPdfDocuments.PrintCurrentQueryStage(Convert.ToInt32(item["querycurrentstate"])) + " )";
                         DataGrdVuUserQueries.Rows[index].Cells["fromDate"].Value = item["fromdate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["toDate"].Value = item["todate"].ToString();
                         DataGrdVuUserQueries.Rows[index].Cells["Location"].Value = item["place"].ToString();

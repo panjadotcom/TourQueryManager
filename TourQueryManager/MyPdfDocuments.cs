@@ -478,5 +478,48 @@ namespace TourQueryManager
             WriteHdrContentListingNumbers(cell, "Payment Policy:", itenaryPaymentPolicy);
             table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Transparent);
         }
+
+        /// <summary>
+        /// This will print or return the string value that can be print using query stage
+        /// </summary>
+        /// <param name="stage">integer value of the query stage</param>
+        /// <returns>string equivalent of the query stage</returns>
+        public static string PrintCurrentQueryStage(int stage)
+        {
+            string queryStageStr = "";
+            if (stage == Convert.ToInt16(Properties.Resources.queryStageDealDone))
+            {
+                queryStageStr = "DEAL DONE";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageDoneByUser))
+            {
+                queryStageStr = "WORK DONE BY USER";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageGenerated))
+            {
+                queryStageStr = "QUERY GENERATED";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageMailed))
+            {
+                queryStageStr = "ITINERARY GENERATED";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageRejected))
+            {
+                queryStageStr = "DEAL REJECTED";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageVoucherCompleted))
+            {
+                queryStageStr = "VOUCHERS COMPLETED";
+            }
+            else if (stage == Convert.ToInt16(Properties.Resources.queryStageVoucherIncompleteByUser))
+            {
+                queryStageStr = "VOUCHER IN PROGRESS";
+            }
+            else
+            {
+                queryStageStr = "UNKNOWN";
+            }
+            return queryStageStr;
+        }
     }
 }

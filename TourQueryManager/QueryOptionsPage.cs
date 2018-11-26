@@ -70,5 +70,14 @@ namespace TourQueryManager
             frmAdminQueryWorkingPage.ShowDialog();
             Show();
         }
+
+        private void BtnViewAllQueries_Click(object sender, EventArgs e)
+        {
+            /* this will be used to view queries */
+            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("VIEW ALL");
+            Hide();
+            frmAdminQueryWorkingPage.ShowDialog();
+            Show();
+        }
     }
 }

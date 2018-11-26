@@ -43,7 +43,7 @@ namespace TourQueryManager
 
 
             dataSet = new DataSet();
-            string mysqlSelectQueryStr = "SELECT * FROM `queries` WHERE `queryid` = " + queryId + "";
+            string mysqlSelectQueryStr = "SELECT * FROM `finalizedqueries` WHERE `queryid` = " + queryId + "";
             command.Connection = mySqlConnection;
             command.CommandText = mysqlSelectQueryStr;
             try
@@ -57,25 +57,7 @@ namespace TourQueryManager
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
             }
             string querydetails = "";
-            querydetails = querydetails + "QUERY START DATE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["querystartdate"].ToString();
-            querydetails = querydetails + "\r\nPLACE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["place"].ToString();
-            querydetails = querydetails + "\r\nDESTINATION COVERED = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["destinationcovered"].ToString();
-            querydetails = querydetails + "\r\nFROM DATE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["fromdate"].ToString();
-            querydetails = querydetails + "\r\nTO DATE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["todate"].ToString();
-            querydetails = querydetails + "\r\nADULTS = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["adults"].ToString();
-            querydetails = querydetails + "\r\nCHILDREN = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["children"].ToString();
-            querydetails = querydetails + "\r\nBABIES = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["babies"].ToString();
-            querydetails = querydetails + "\r\nROOM COUNT = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["roomcount"].ToString();
-            querydetails = querydetails + "\r\nMEAL = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["meal"].ToString();
-            querydetails = querydetails + "\r\nHOTEL CATEGORY = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["hotelcategory"].ToString();
-            querydetails = querydetails + "\r\nARRIVAL DATE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["arrivaldate"].ToString();
-            querydetails = querydetails + "\r\nDEPARTURE DATE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["departuredate"].ToString();
-            querydetails = querydetails + "\r\nARRIVAL CITY = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["arrivalcity"].ToString();
-            querydetails = querydetails + "\r\nDEPARTURE CITY = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["departurecity"].ToString();
-            querydetails = querydetails + "\r\nVEHICAL CATEGORY = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["vehicalcategory"].ToString();
-            querydetails = querydetails + "\r\nREQUIREMENT = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["requirement"].ToString();
-            querydetails = querydetails + "\r\nBUDGET = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["budget"].ToString();
-            querydetails = querydetails + "\r\nNOTE = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["note"].ToString();
+            querydetails = querydetails + "INSTRUCTIONS = " + dataSet.Tables["QUERYID_DATA"].Rows[0]["specialinstructions"].ToString();
             querydetails = querydetails + "";
             txtBoxRequirement.Text = querydetails;
             mysqlSelectQueryStr = "SELECT * FROM `flightbookinginfo` WHERE `queryid` = " + queryId + "";
