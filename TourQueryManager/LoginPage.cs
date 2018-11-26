@@ -63,10 +63,10 @@ namespace TourQueryManager
             if (frmLoginDataSet != null)
             {
                 int counter = cmbboxUsername.SelectedIndex;
-                bool areEqualUsername = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text, StringComparison.OrdinalIgnoreCase);
+                bool areEqualUsername = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text);
                 if (areEqualUsername)
                 {
-                    bool areEqualPassword = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["password"].ToString(), txtboxPassword.Text, StringComparison.OrdinalIgnoreCase); ;
+                    bool areEqualPassword = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["password"].ToString(), txtboxPassword.Text); ;
                     if (areEqualPassword)
                     {
                         if (counter == 0)

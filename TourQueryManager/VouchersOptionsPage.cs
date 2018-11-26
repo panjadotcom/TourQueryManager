@@ -248,7 +248,7 @@ namespace TourQueryManager
                     paragraph = row.Cells[5].AddParagraph();
                     double noOfnights = (DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkoutdate"].ToString()) -
                         DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkindate"].ToString())).TotalDays;
-                    paragraph.AddFormattedText(noOfnights.ToString(), "Heading3");
+                    paragraph.AddFormattedText(Convert.ToInt32(noOfnights).ToString(), "Heading3");
 
 
                     table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.SkyBlue);

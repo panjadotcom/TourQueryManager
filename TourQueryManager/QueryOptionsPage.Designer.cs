@@ -139,6 +139,7 @@
             this.BtnUpdatePayment.TabIndex = 5;
             this.BtnUpdatePayment.Text = "UPDATE PAYMENT";
             this.BtnUpdatePayment.UseVisualStyleBackColor = true;
+            this.BtnUpdatePayment.Click += new System.EventHandler(this.BtnUpdatePayment_Click);
             // 
             // BtnGenerateVouchers
             // 

@@ -79,5 +79,14 @@ namespace TourQueryManager
             frmAdminQueryWorkingPage.ShowDialog();
             Show();
         }
+
+        private void BtnUpdatePayment_Click(object sender, EventArgs e)
+        {
+            /* this will be used to view queries */
+            FrmAdminQueryWorkingPage frmAdminQueryWorkingPage = new FrmAdminQueryWorkingPage("PAYMENT UPDATE");
+            Hide();
+            frmAdminQueryWorkingPage.ShowDialog();
+            Show();
+        }
     }
 }

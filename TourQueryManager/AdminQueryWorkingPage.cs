@@ -68,7 +68,10 @@ namespace TourQueryManager
             {
                 mysqlSelectQuery += "`querycurrentstate` != 0";
             }
-
+            else if (string.Equals(argumentString, "PAYMENT UPDATE"))
+            {
+                mysqlSelectQuery += "`querycurrentstate` != 0";
+            }
             else
             {
                 MessageBox.Show("Wrong method invoked");
@@ -165,6 +168,14 @@ namespace TourQueryManager
                 else if (string.Equals(frmArgStr, "VIEW ALL"))
                 {
                     Debug.WriteLine("VIEW ALL QUERY SELECTED Thus nothing to do\n");
+                }
+                else if (string.Equals(frmArgStr, "PAYMENT UPDATE"))
+                {
+                    //MessageBox.Show("UPDATING PAYMENT FOR : "+ DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString() + "\n");
+                    FrmPaymentUpdatePage newFrmPage = new FrmPaymentUpdatePage(DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString());
+                    Hide();
+                    newFrmPage.ShowDialog();
+                    Show();
                 }
                 else if (string.Equals(frmArgStr, "ITINERARY"))
                 {
@@ -295,8 +306,8 @@ namespace TourQueryManager
                     paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["place"].ToString());
                     paragraph = row.Cells[2].AddParagraph();
                     paragraph.AddFormattedText("No of Days", "Heading3");
-                    double noOfnights = (DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString()) -
-                        DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString())).TotalDays;
+                    int noOfnights = Convert.ToInt32((DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["toDate"].Value.ToString()) -
+                        DateTime.Parse(DataGrdVuAdminQueries.SelectedRows[0].Cells["fromDate"].Value.ToString())).TotalDays);
                     paragraph = row.Cells[3].AddParagraph();
                     paragraph.AddFormattedText(noOfnights.ToString() + " Nights and " + (noOfnights + 1).ToString() + " Days");
                     row = table.AddRow();
