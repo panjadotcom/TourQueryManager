@@ -638,6 +638,11 @@ namespace TourQueryManager
                         rowsCount = 0;
                         int columnIndex = 0;
                         string lastCity = "";
+                        DataTable dataTable = new DataTable();
+                        dataTable.Clear();
+                        DataColumn dataColumn = dataTable.Columns.Add("ZERO");
+                        DataRow dataRow = null;//dataTable.NewRow();
+                        //dataRow["ZERO"] = "";
                         foreach (DataRow item in queryDataset.Tables["HOTEL_USED_INFO"].Rows)
                         {
                             if (rowsCount == 0)
@@ -689,6 +694,7 @@ namespace TourQueryManager
                                 row.VerticalAlignment = VerticalAlignment.Center;
                                 row.Cells[0].AddParagraph("IN " + item["hotelcity"].ToString());
                                 lastCity = item["hotelcity"].ToString();
+                                dataTable.Columns.Add(lastCity);
                             }
                             columnIndex = 0;
                             if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
@@ -707,12 +713,29 @@ namespace TourQueryManager
                             {
                                 columnIndex = hotelusedMatrix[3, 1];
                             }
-                            row.Cells[columnIndex].AddParagraph(item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ")");
+                            bool addHotelEntry = true;
+                            for (int index = 0; index < dataTable.Rows.Count; index++)
+                            {
+                                if (dataTable.Rows[index][lastCity].ToString().Equals(item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ")"))
+                                {
+                                    addHotelEntry = false;
+                                    //MessageBox.Show(item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ") FOUND" );
+                                    break;
+                                }
+                            }
+                            if (addHotelEntry)
+                            {
+                                row.Cells[columnIndex].AddParagraph(item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ")");
+                                dataRow = dataTable.NewRow();
+                                dataRow[lastCity] = item["hotelname"].ToString() + "(" + item["roomtype"].ToString() + ")";
+                                dataTable.Rows.Add(dataRow);
+                            }
                         }
                         if (rowsCount > 0)
                         {
                             table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
                         }
+                        dataTable.Clear();
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////////////
                     PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always);

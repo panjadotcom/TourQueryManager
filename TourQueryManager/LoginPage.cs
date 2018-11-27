@@ -63,6 +63,11 @@ namespace TourQueryManager
             if (frmLoginDataSet != null)
             {
                 int counter = cmbboxUsername.SelectedIndex;
+                if (counter < 0)
+                {
+                    MessageBox.Show("Error in login", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 bool areEqualUsername = string.Equals(frmLoginDataSet.Tables["COMBO_BOX"].Rows[counter]["username"].ToString(), cmbboxUsername.Text);
                 if (areEqualUsername)
                 {
