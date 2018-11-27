@@ -601,5 +601,10 @@ namespace TourQueryManager
                 FrmVouchersWorkingFlightPage_Load(null, null);
             }
         }
+
+        private void dateTimePickerDeptDate_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePickerArrDate.MinDate = dateTimePickerDeptDate.Value;
+        }
     }
 }

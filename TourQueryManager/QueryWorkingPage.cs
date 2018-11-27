@@ -1261,7 +1261,19 @@ namespace TourQueryManager
             {
                 if (string.Equals(lblDayCounter.Text, "1"))
                 {
-                    MessageBox.Show("This is first date thus work cannot be finished. Press CANCEL butten to cancel");
+                    Debug.WriteLine("This is first date thus work cannot be finished. Press CANCEL butten to cancel");
+                    dialogResult = MessageBox.Show("This is the first Date. Thus work cannot be finished.\nUpdate Query status as done without doing anything?", "NO WORK DONE", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        Debug.WriteLine("Finishing query without doing work");
+                        /* update state of the query to done by user and then close page */
+                        UpdateQueryState(1, Properties.Resources.queryStageDoneByUser);
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("This is first date thus work cannot be finished. Press CANCEL butten to cancel");
+                    }
                 }
                 else
                 {

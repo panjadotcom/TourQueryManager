@@ -159,7 +159,7 @@
             this.dataGridViewCurrentStatus.RowHeadersVisible = false;
             this.dataGridViewCurrentStatus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCurrentStatus.Size = new System.Drawing.Size(435, 266);
-            this.dataGridViewCurrentStatus.TabIndex = 28;
+            this.dataGridViewCurrentStatus.TabIndex = 0;
             // 
             // groupBoxRequirement
             // 
@@ -181,7 +181,7 @@
             this.txtBoxRequirement.ReadOnly = true;
             this.txtBoxRequirement.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBoxRequirement.Size = new System.Drawing.Size(435, 265);
-            this.txtBoxRequirement.TabIndex = 29;
+            this.txtBoxRequirement.TabIndex = 0;
             // 
             // tableLayoutPanelInputDetails
             // 
@@ -287,7 +287,7 @@
             this.txtBoxAircraftNo.Location = new System.Drawing.Point(381, 187);
             this.txtBoxAircraftNo.Name = "txtBoxAircraftNo";
             this.txtBoxAircraftNo.Size = new System.Drawing.Size(122, 21);
-            this.txtBoxAircraftNo.TabIndex = 20;
+            this.txtBoxAircraftNo.TabIndex = 7;
             // 
             // txtBoxFlightClass
             // 
@@ -296,7 +296,7 @@
             this.txtBoxFlightClass.Location = new System.Drawing.Point(255, 187);
             this.txtBoxFlightClass.Name = "txtBoxFlightClass";
             this.txtBoxFlightClass.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxFlightClass.TabIndex = 19;
+            this.txtBoxFlightClass.TabIndex = 6;
             // 
             // txtBoxFlightNo
             // 
@@ -305,7 +305,7 @@
             this.txtBoxFlightNo.Location = new System.Drawing.Point(129, 187);
             this.txtBoxFlightNo.Name = "txtBoxFlightNo";
             this.txtBoxFlightNo.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxFlightNo.TabIndex = 18;
+            this.txtBoxFlightNo.TabIndex = 5;
             // 
             // dateTimePickerArrTime
             // 
@@ -316,7 +316,7 @@
             this.dateTimePickerArrTime.Name = "dateTimePickerArrTime";
             this.dateTimePickerArrTime.ShowUpDown = true;
             this.dateTimePickerArrTime.Size = new System.Drawing.Size(80, 21);
-            this.dateTimePickerArrTime.TabIndex = 17;
+            this.dateTimePickerArrTime.TabIndex = 15;
             // 
             // dateTimePickerArrDate
             // 
@@ -325,7 +325,7 @@
             this.dateTimePickerArrDate.Location = new System.Drawing.Point(255, 279);
             this.dateTimePickerArrDate.Name = "dateTimePickerArrDate";
             this.dateTimePickerArrDate.Size = new System.Drawing.Size(162, 21);
-            this.dateTimePickerArrDate.TabIndex = 16;
+            this.dateTimePickerArrDate.TabIndex = 14;
             // 
             // txtBoxArrAirPort
             // 
@@ -334,7 +334,7 @@
             this.txtBoxArrAirPort.Location = new System.Drawing.Point(3, 279);
             this.txtBoxArrAirPort.Name = "txtBoxArrAirPort";
             this.txtBoxArrAirPort.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxArrAirPort.TabIndex = 15;
+            this.txtBoxArrAirPort.TabIndex = 12;
             // 
             // txtBoxArrTerminal
             // 
@@ -343,7 +343,7 @@
             this.txtBoxArrTerminal.Location = new System.Drawing.Point(129, 279);
             this.txtBoxArrTerminal.Name = "txtBoxArrTerminal";
             this.txtBoxArrTerminal.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxArrTerminal.TabIndex = 14;
+            this.txtBoxArrTerminal.TabIndex = 13;
             // 
             // dateTimePickerDeptTime
             // 
@@ -354,7 +354,7 @@
             this.dateTimePickerDeptTime.Name = "dateTimePickerDeptTime";
             this.dateTimePickerDeptTime.ShowUpDown = true;
             this.dateTimePickerDeptTime.Size = new System.Drawing.Size(80, 21);
-            this.dateTimePickerDeptTime.TabIndex = 13;
+            this.dateTimePickerDeptTime.TabIndex = 11;
             // 
             // dateTimePickerDeptDate
             // 
@@ -363,7 +363,8 @@
             this.dateTimePickerDeptDate.Location = new System.Drawing.Point(255, 233);
             this.dateTimePickerDeptDate.Name = "dateTimePickerDeptDate";
             this.dateTimePickerDeptDate.Size = new System.Drawing.Size(162, 21);
-            this.dateTimePickerDeptDate.TabIndex = 12;
+            this.dateTimePickerDeptDate.TabIndex = 10;
+            this.dateTimePickerDeptDate.ValueChanged += new System.EventHandler(this.dateTimePickerDeptDate_ValueChanged);
             // 
             // txtBoxDeptTerminal
             // 
@@ -372,7 +373,7 @@
             this.txtBoxDeptTerminal.Location = new System.Drawing.Point(129, 233);
             this.txtBoxDeptTerminal.Name = "txtBoxDeptTerminal";
             this.txtBoxDeptTerminal.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxDeptTerminal.TabIndex = 11;
+            this.txtBoxDeptTerminal.TabIndex = 9;
             // 
             // txtBoxDeptAirport
             // 
@@ -381,7 +382,7 @@
             this.txtBoxDeptAirport.Location = new System.Drawing.Point(3, 233);
             this.txtBoxDeptAirport.Name = "txtBoxDeptAirport";
             this.txtBoxDeptAirport.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxDeptAirport.TabIndex = 10;
+            this.txtBoxDeptAirport.TabIndex = 8;
             // 
             // lblBookingDate
             // 
@@ -424,7 +425,7 @@
             this.BtnUpdate.Location = new System.Drawing.Point(171, 555);
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.Size = new System.Drawing.Size(162, 29);
-            this.BtnUpdate.TabIndex = 1;
+            this.BtnUpdate.TabIndex = 26;
             this.BtnUpdate.Text = "UPDATE";
             this.BtnUpdate.UseVisualStyleBackColor = true;
             this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
@@ -436,7 +437,7 @@
             this.BtnExit.Location = new System.Drawing.Point(339, 555);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(164, 29);
-            this.BtnExit.TabIndex = 2;
+            this.BtnExit.TabIndex = 27;
             this.BtnExit.Text = "EXIT";
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
@@ -448,7 +449,7 @@
             this.txtBoxPnr.Location = new System.Drawing.Point(3, 26);
             this.txtBoxPnr.Name = "txtBoxPnr";
             this.txtBoxPnr.Size = new System.Drawing.Size(162, 21);
-            this.txtBoxPnr.TabIndex = 3;
+            this.txtBoxPnr.TabIndex = 1;
             // 
             // dateTimePickerIssueDate
             // 
@@ -457,7 +458,7 @@
             this.dateTimePickerIssueDate.Location = new System.Drawing.Point(339, 26);
             this.dateTimePickerIssueDate.Name = "dateTimePickerIssueDate";
             this.dateTimePickerIssueDate.Size = new System.Drawing.Size(164, 21);
-            this.dateTimePickerIssueDate.TabIndex = 4;
+            this.dateTimePickerIssueDate.TabIndex = 2;
             // 
             // numericUpDownPassangerCount
             // 
@@ -466,7 +467,7 @@
             this.numericUpDownPassangerCount.Location = new System.Drawing.Point(213, 26);
             this.numericUpDownPassangerCount.Name = "numericUpDownPassangerCount";
             this.numericUpDownPassangerCount.Size = new System.Drawing.Size(78, 21);
-            this.numericUpDownPassangerCount.TabIndex = 5;
+            this.numericUpDownPassangerCount.TabIndex = 3;
             this.numericUpDownPassangerCount.ValueChanged += new System.EventHandler(this.numericUpDownPassangerCount_ValueChanged);
             // 
             // dataGridViewPassangerDetails
@@ -487,7 +488,7 @@
             this.dataGridViewPassangerDetails.RowHeadersWidth = 25;
             this.tableLayoutPanelInputDetails.SetRowSpan(this.dataGridViewPassangerDetails, 5);
             this.dataGridViewPassangerDetails.Size = new System.Drawing.Size(500, 109);
-            this.dataGridViewPassangerDetails.TabIndex = 6;
+            this.dataGridViewPassangerDetails.TabIndex = 4;
             // 
             // PassangerName
             // 
@@ -622,7 +623,7 @@
             this.comboBoxFlightStatus.Location = new System.Drawing.Point(3, 325);
             this.comboBoxFlightStatus.Name = "comboBoxFlightStatus";
             this.comboBoxFlightStatus.Size = new System.Drawing.Size(120, 23);
-            this.comboBoxFlightStatus.TabIndex = 31;
+            this.comboBoxFlightStatus.TabIndex = 16;
             // 
             // txtBoxAirlineRef
             // 
@@ -631,7 +632,7 @@
             this.txtBoxAirlineRef.Location = new System.Drawing.Point(129, 325);
             this.txtBoxAirlineRef.Name = "txtBoxAirlineRef";
             this.txtBoxAirlineRef.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxAirlineRef.TabIndex = 32;
+            this.txtBoxAirlineRef.TabIndex = 17;
             // 
             // txtBoxMeal
             // 
@@ -640,7 +641,7 @@
             this.txtBoxMeal.Location = new System.Drawing.Point(255, 325);
             this.txtBoxMeal.Name = "txtBoxMeal";
             this.txtBoxMeal.Size = new System.Drawing.Size(78, 21);
-            this.txtBoxMeal.TabIndex = 34;
+            this.txtBoxMeal.TabIndex = 18;
             // 
             // numericUpDownStops
             // 
@@ -649,7 +650,7 @@
             this.numericUpDownStops.Location = new System.Drawing.Point(423, 325);
             this.numericUpDownStops.Name = "numericUpDownStops";
             this.numericUpDownStops.Size = new System.Drawing.Size(80, 21);
-            this.numericUpDownStops.TabIndex = 36;
+            this.numericUpDownStops.TabIndex = 20;
             // 
             // lblStatus
             // 
@@ -713,7 +714,7 @@
             this.txtBoxFare.Location = new System.Drawing.Point(3, 509);
             this.txtBoxFare.Name = "txtBoxFare";
             this.txtBoxFare.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxFare.TabIndex = 43;
+            this.txtBoxFare.TabIndex = 21;
             this.txtBoxFare.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxGst
@@ -723,7 +724,7 @@
             this.txtBoxGst.Location = new System.Drawing.Point(129, 509);
             this.txtBoxGst.Name = "txtBoxGst";
             this.txtBoxGst.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxGst.TabIndex = 44;
+            this.txtBoxGst.TabIndex = 22;
             this.txtBoxGst.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxSurcharge
@@ -733,7 +734,7 @@
             this.txtBoxSurcharge.Location = new System.Drawing.Point(255, 509);
             this.txtBoxSurcharge.Name = "txtBoxSurcharge";
             this.txtBoxSurcharge.Size = new System.Drawing.Size(120, 21);
-            this.txtBoxSurcharge.TabIndex = 45;
+            this.txtBoxSurcharge.TabIndex = 23;
             this.txtBoxSurcharge.TextChanged += new System.EventHandler(this.AmountTextChanged);
             // 
             // txtBoxTotalPrice
@@ -743,7 +744,7 @@
             this.txtBoxTotalPrice.Location = new System.Drawing.Point(381, 509);
             this.txtBoxTotalPrice.Name = "txtBoxTotalPrice";
             this.txtBoxTotalPrice.Size = new System.Drawing.Size(122, 21);
-            this.txtBoxTotalPrice.TabIndex = 46;
+            this.txtBoxTotalPrice.TabIndex = 24;
             // 
             // checkBoxConnectingFlight
             // 
@@ -753,7 +754,7 @@
             this.checkBoxConnectingFlight.Location = new System.Drawing.Point(3, 463);
             this.checkBoxConnectingFlight.Name = "checkBoxConnectingFlight";
             this.checkBoxConnectingFlight.Size = new System.Drawing.Size(204, 17);
-            this.checkBoxConnectingFlight.TabIndex = 47;
+            this.checkBoxConnectingFlight.TabIndex = 25;
             this.checkBoxConnectingFlight.Text = "ADD CONNECTING FLIGHT";
             this.checkBoxConnectingFlight.UseVisualStyleBackColor = true;
             // 
@@ -808,7 +809,7 @@
             this.txtBoxBaggageLimit.Location = new System.Drawing.Point(339, 325);
             this.txtBoxBaggageLimit.Name = "txtBoxBaggageLimit";
             this.txtBoxBaggageLimit.Size = new System.Drawing.Size(78, 21);
-            this.txtBoxBaggageLimit.TabIndex = 52;
+            this.txtBoxBaggageLimit.TabIndex = 19;
             // 
             // FrmVouchersWorkingFlightPage
             // 

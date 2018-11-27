@@ -32,6 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentUpdatePage));
             this.dataGridViewCurrentStatus = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanelPaymentForm = new System.Windows.Forms.TableLayoutPanel();
+            this.lblTotalTourCost = new System.Windows.Forms.Label();
+            this.txtBoxTotalTourCost = new System.Windows.Forms.TextBox();
+            this.lblTotalPayment = new System.Windows.Forms.Label();
+            this.txtBoxTotalPayment = new System.Windows.Forms.TextBox();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.ButtonUpdate = new System.Windows.Forms.Button();
@@ -46,10 +50,6 @@
             this.comboBoxTransactionMode = new System.Windows.Forms.ComboBox();
             this.dateTimePickerTransactionDate = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerTransactionTime = new System.Windows.Forms.DateTimePicker();
-            this.txtBoxTotalPayment = new System.Windows.Forms.TextBox();
-            this.lblTotalPayment = new System.Windows.Forms.Label();
-            this.txtBoxTotalTourCost = new System.Windows.Forms.TextBox();
-            this.lblTotalTourCost = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCurrentStatus)).BeginInit();
             this.tableLayoutPanelPaymentForm.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +77,7 @@
             this.tableLayoutPanelPaymentForm.SetRowSpan(this.dataGridViewCurrentStatus, 4);
             this.dataGridViewCurrentStatus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCurrentStatus.Size = new System.Drawing.Size(794, 114);
-            this.dataGridViewCurrentStatus.TabIndex = 32;
+            this.dataGridViewCurrentStatus.TabIndex = 7;
             this.dataGridViewCurrentStatus.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCurrentStatus_CellDoubleClick);
             // 
             // tableLayoutPanelPaymentForm
@@ -98,9 +98,9 @@
             this.tableLayoutPanelPaymentForm.Controls.Add(this.lblTotalPayment, 3, 4);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.txtBoxTotalPayment, 3, 5);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.BtnDelete, 4, 14);
-            this.tableLayoutPanelPaymentForm.Controls.Add(this.ButtonCancel, 6, 14);
+            this.tableLayoutPanelPaymentForm.Controls.Add(this.ButtonCancel, 8, 14);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.dataGridViewCurrentStatus, 0, 0);
-            this.tableLayoutPanelPaymentForm.Controls.Add(this.ButtonUpdate, 8, 14);
+            this.tableLayoutPanelPaymentForm.Controls.Add(this.ButtonUpdate, 6, 14);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.txtBoxNote, 0, 12);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.txtBoxTransactionId, 6, 9);
             this.tableLayoutPanelPaymentForm.Controls.Add(this.txtBoxTransactionAmount, 6, 7);
@@ -134,6 +134,52 @@
             this.tableLayoutPanelPaymentForm.Size = new System.Drawing.Size(800, 450);
             this.tableLayoutPanelPaymentForm.TabIndex = 33;
             // 
+            // lblTotalTourCost
+            // 
+            this.lblTotalTourCost.AutoSize = true;
+            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.lblTotalTourCost, 2);
+            this.lblTotalTourCost.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblTotalTourCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTourCost.Location = new System.Drawing.Point(3, 134);
+            this.lblTotalTourCost.Name = "lblTotalTourCost";
+            this.lblTotalTourCost.Size = new System.Drawing.Size(154, 16);
+            this.lblTotalTourCost.TabIndex = 13;
+            this.lblTotalTourCost.Text = "TOTAL TOUR COST";
+            // 
+            // txtBoxTotalTourCost
+            // 
+            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.txtBoxTotalTourCost, 2);
+            this.txtBoxTotalTourCost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxTotalTourCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBoxTotalTourCost.Location = new System.Drawing.Point(3, 153);
+            this.txtBoxTotalTourCost.Name = "txtBoxTotalTourCost";
+            this.txtBoxTotalTourCost.ReadOnly = true;
+            this.txtBoxTotalTourCost.Size = new System.Drawing.Size(154, 26);
+            this.txtBoxTotalTourCost.TabIndex = 10;
+            // 
+            // lblTotalPayment
+            // 
+            this.lblTotalPayment.AutoSize = true;
+            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.lblTotalPayment, 2);
+            this.lblTotalPayment.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblTotalPayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPayment.Location = new System.Drawing.Point(243, 134);
+            this.lblTotalPayment.Name = "lblTotalPayment";
+            this.lblTotalPayment.Size = new System.Drawing.Size(154, 16);
+            this.lblTotalPayment.TabIndex = 14;
+            this.lblTotalPayment.Text = "TOTAL PAYMENT";
+            // 
+            // txtBoxTotalPayment
+            // 
+            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.txtBoxTotalPayment, 2);
+            this.txtBoxTotalPayment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBoxTotalPayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBoxTotalPayment.Location = new System.Drawing.Point(243, 153);
+            this.txtBoxTotalPayment.Name = "txtBoxTotalPayment";
+            this.txtBoxTotalPayment.ReadOnly = true;
+            this.txtBoxTotalPayment.Size = new System.Drawing.Size(154, 26);
+            this.txtBoxTotalPayment.TabIndex = 11;
+            // 
             // BtnDelete
             // 
             this.tableLayoutPanelPaymentForm.SetColumnSpan(this.BtnDelete, 2);
@@ -141,7 +187,7 @@
             this.BtnDelete.Location = new System.Drawing.Point(323, 423);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(154, 24);
-            this.BtnDelete.TabIndex = 33;
+            this.BtnDelete.TabIndex = 8;
             this.BtnDelete.Text = "DELETE";
             this.BtnDelete.UseVisualStyleBackColor = true;
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
@@ -150,11 +196,11 @@
             // 
             this.tableLayoutPanelPaymentForm.SetColumnSpan(this.ButtonCancel, 2);
             this.ButtonCancel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ButtonCancel.Location = new System.Drawing.Point(483, 423);
+            this.ButtonCancel.Location = new System.Drawing.Point(643, 423);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(154, 24);
-            this.ButtonCancel.TabIndex = 31;
-            this.ButtonCancel.Text = "CANCEL";
+            this.ButtonCancel.TabIndex = 9;
+            this.ButtonCancel.Text = "EXIT";
             this.ButtonCancel.UseVisualStyleBackColor = true;
             this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
@@ -162,10 +208,10 @@
             // 
             this.tableLayoutPanelPaymentForm.SetColumnSpan(this.ButtonUpdate, 2);
             this.ButtonUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ButtonUpdate.Location = new System.Drawing.Point(643, 423);
+            this.ButtonUpdate.Location = new System.Drawing.Point(483, 423);
             this.ButtonUpdate.Name = "ButtonUpdate";
             this.ButtonUpdate.Size = new System.Drawing.Size(154, 24);
-            this.ButtonUpdate.TabIndex = 30;
+            this.ButtonUpdate.TabIndex = 6;
             this.ButtonUpdate.Text = "UPDATE";
             this.ButtonUpdate.UseVisualStyleBackColor = true;
             this.ButtonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
@@ -179,7 +225,7 @@
             this.txtBoxNote.Name = "txtBoxNote";
             this.tableLayoutPanelPaymentForm.SetRowSpan(this.txtBoxNote, 2);
             this.txtBoxNote.Size = new System.Drawing.Size(794, 54);
-            this.txtBoxNote.TabIndex = 34;
+            this.txtBoxNote.TabIndex = 5;
             // 
             // txtBoxTransactionId
             // 
@@ -189,7 +235,7 @@
             this.txtBoxTransactionId.Location = new System.Drawing.Point(483, 273);
             this.txtBoxTransactionId.Name = "txtBoxTransactionId";
             this.txtBoxTransactionId.Size = new System.Drawing.Size(234, 26);
-            this.txtBoxTransactionId.TabIndex = 35;
+            this.txtBoxTransactionId.TabIndex = 2;
             // 
             // txtBoxTransactionAmount
             // 
@@ -199,7 +245,7 @@
             this.txtBoxTransactionAmount.Location = new System.Drawing.Point(483, 213);
             this.txtBoxTransactionAmount.Name = "txtBoxTransactionAmount";
             this.txtBoxTransactionAmount.Size = new System.Drawing.Size(234, 26);
-            this.txtBoxTransactionAmount.TabIndex = 36;
+            this.txtBoxTransactionAmount.TabIndex = 1;
             // 
             // lblTransactionId
             // 
@@ -210,7 +256,7 @@
             this.lblTransactionId.Location = new System.Drawing.Point(483, 254);
             this.lblTransactionId.Name = "lblTransactionId";
             this.lblTransactionId.Size = new System.Drawing.Size(234, 16);
-            this.lblTransactionId.TabIndex = 39;
+            this.lblTransactionId.TabIndex = 17;
             this.lblTransactionId.Text = "TRANSACTION ID";
             // 
             // lblTransacionAmount
@@ -222,7 +268,7 @@
             this.lblTransacionAmount.Location = new System.Drawing.Point(483, 194);
             this.lblTransacionAmount.Name = "lblTransacionAmount";
             this.lblTransacionAmount.Size = new System.Drawing.Size(234, 16);
-            this.lblTransacionAmount.TabIndex = 40;
+            this.lblTransacionAmount.TabIndex = 16;
             this.lblTransacionAmount.Text = "TRANSACTION AMOUNT";
             // 
             // lblTransactionMode
@@ -234,7 +280,7 @@
             this.lblTransactionMode.Location = new System.Drawing.Point(483, 134);
             this.lblTransactionMode.Name = "lblTransactionMode";
             this.lblTransactionMode.Size = new System.Drawing.Size(234, 16);
-            this.lblTransactionMode.TabIndex = 41;
+            this.lblTransactionMode.TabIndex = 15;
             this.lblTransactionMode.Text = "TRANSACTION MODE";
             // 
             // lblTransactionTime
@@ -246,7 +292,7 @@
             this.lblTransactionTime.Location = new System.Drawing.Point(483, 314);
             this.lblTransactionTime.Name = "lblTransactionTime";
             this.lblTransactionTime.Size = new System.Drawing.Size(234, 16);
-            this.lblTransactionTime.TabIndex = 42;
+            this.lblTransactionTime.TabIndex = 18;
             this.lblTransactionTime.Text = "TIME OF TRANSACTION";
             // 
             // lblNote
@@ -258,7 +304,7 @@
             this.lblNote.Location = new System.Drawing.Point(3, 344);
             this.lblNote.Name = "lblNote";
             this.lblNote.Size = new System.Drawing.Size(154, 16);
-            this.lblNote.TabIndex = 43;
+            this.lblNote.TabIndex = 12;
             this.lblNote.Text = "NOTE:";
             // 
             // comboBoxTransactionMode
@@ -278,7 +324,7 @@
             this.comboBoxTransactionMode.Location = new System.Drawing.Point(483, 153);
             this.comboBoxTransactionMode.Name = "comboBoxTransactionMode";
             this.comboBoxTransactionMode.Size = new System.Drawing.Size(234, 24);
-            this.comboBoxTransactionMode.TabIndex = 44;
+            this.comboBoxTransactionMode.TabIndex = 0;
             // 
             // dateTimePickerTransactionDate
             // 
@@ -288,7 +334,7 @@
             this.dateTimePickerTransactionDate.Location = new System.Drawing.Point(483, 333);
             this.dateTimePickerTransactionDate.Name = "dateTimePickerTransactionDate";
             this.dateTimePickerTransactionDate.Size = new System.Drawing.Size(154, 22);
-            this.dateTimePickerTransactionDate.TabIndex = 45;
+            this.dateTimePickerTransactionDate.TabIndex = 3;
             // 
             // dateTimePickerTransactionTime
             // 
@@ -299,53 +345,7 @@
             this.dateTimePickerTransactionTime.Name = "dateTimePickerTransactionTime";
             this.dateTimePickerTransactionTime.ShowUpDown = true;
             this.dateTimePickerTransactionTime.Size = new System.Drawing.Size(74, 22);
-            this.dateTimePickerTransactionTime.TabIndex = 46;
-            // 
-            // txtBoxTotalPayment
-            // 
-            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.txtBoxTotalPayment, 2);
-            this.txtBoxTotalPayment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxTotalPayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxTotalPayment.Location = new System.Drawing.Point(243, 153);
-            this.txtBoxTotalPayment.Name = "txtBoxTotalPayment";
-            this.txtBoxTotalPayment.ReadOnly = true;
-            this.txtBoxTotalPayment.Size = new System.Drawing.Size(154, 26);
-            this.txtBoxTotalPayment.TabIndex = 47;
-            // 
-            // lblTotalPayment
-            // 
-            this.lblTotalPayment.AutoSize = true;
-            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.lblTotalPayment, 2);
-            this.lblTotalPayment.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblTotalPayment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalPayment.Location = new System.Drawing.Point(243, 134);
-            this.lblTotalPayment.Name = "lblTotalPayment";
-            this.lblTotalPayment.Size = new System.Drawing.Size(154, 16);
-            this.lblTotalPayment.TabIndex = 48;
-            this.lblTotalPayment.Text = "TOTAL PAYMENT";
-            // 
-            // txtBoxTotalTourCost
-            // 
-            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.txtBoxTotalTourCost, 2);
-            this.txtBoxTotalTourCost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxTotalTourCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxTotalTourCost.Location = new System.Drawing.Point(3, 153);
-            this.txtBoxTotalTourCost.Name = "txtBoxTotalTourCost";
-            this.txtBoxTotalTourCost.ReadOnly = true;
-            this.txtBoxTotalTourCost.Size = new System.Drawing.Size(154, 26);
-            this.txtBoxTotalTourCost.TabIndex = 49;
-            // 
-            // lblTotalTourCost
-            // 
-            this.lblTotalTourCost.AutoSize = true;
-            this.tableLayoutPanelPaymentForm.SetColumnSpan(this.lblTotalTourCost, 2);
-            this.lblTotalTourCost.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblTotalTourCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalTourCost.Location = new System.Drawing.Point(3, 134);
-            this.lblTotalTourCost.Name = "lblTotalTourCost";
-            this.lblTotalTourCost.Size = new System.Drawing.Size(154, 16);
-            this.lblTotalTourCost.TabIndex = 50;
-            this.lblTotalTourCost.Text = "TOTAL TOUR COST";
+            this.dateTimePickerTransactionTime.TabIndex = 4;
             // 
             // FrmPaymentUpdatePage
             // 

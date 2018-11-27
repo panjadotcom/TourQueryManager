@@ -94,7 +94,7 @@ namespace TourQueryManager
                     }
                     else
                     {
-                        MessageBox.Show("Password Not Matched for " + cmbboxUsername.Text);
+                        MessageBox.Show("Password Not Matched for " + cmbboxUsername.Text, "PASSWORD NOT MATCHED", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace TourQueryManager
             FrmSettingPage frmSettingPage = new FrmSettingPage();
             Hide();
             frmSettingPage.ShowDialog();
-            MessageBox.Show("Restart this application to load the Changed setting.");
+            MessageBox.Show("Restart this application to load the Changed setting.", "RESTART APPLICATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
         }
     }
