@@ -437,7 +437,7 @@ namespace TourQueryManager
         /// This will write static details in the tabular form
         /// </summary>
         /// <param name="section">content will be written in this section</param>
-        public static void WriteItineraryLastStaticDetails(Section section, string tourIncContent)
+        public static void WriteItineraryLastStaticDetails(Section section, string tourIncContent, string tourNotesContent)
         {
             Table table = null;
             Column column = null;
@@ -459,15 +459,11 @@ namespace TourQueryManager
             row = table.AddRow();
             rowsCount++;
             cell = row.Cells[0];
-            WriteHdrContentListingBullets(cell, "Note:", itenaryAvailablityNote);
+            WriteHdrContentListingBullets(cell, "Note:", tourNotesContent);
             row = table.AddRow();
             rowsCount++;
             cell = row.Cells[0];
             WriteHdrContentListingBullets(cell, "The tour cost includes:", tourIncContent);
-            row = table.AddRow();
-            rowsCount++;
-            cell = row.Cells[0];
-            WriteHdrContentListingBullets(cell, "The Tour Cost does not include:", itenaryNotIncludedNote);
             row = table.AddRow();
             rowsCount++;
             cell = row.Cells[0];

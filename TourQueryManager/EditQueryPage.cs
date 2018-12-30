@@ -81,6 +81,8 @@ namespace TourQueryManager
                 txtBoxMargin.Visible = false;
                 cmbboxAgentId.Visible = false;
                 cmbboxUserId.Visible = false;
+                txtBoxUsdRate.Visible = false;
+                lblUsdRate.Visible = false;
             }
             try
             {
@@ -169,6 +171,7 @@ namespace TourQueryManager
                     " `userid` = @userid_var," +
                     " `profitmargin` = @profitmargin_var," +
                     " `gstrate` = @gstrate_var," +
+                    " `usdrate` = @usdrate_var," +
                     " `name` = @name_var," +
                     " `contact` = @contact_var," +
                     " `place` = @place_var," +
@@ -202,6 +205,7 @@ namespace TourQueryManager
                     "`userid`, " +
                     "`profitmargin`, " +
                     "`gstrate`, " +
+                    "`usdrate`, " +
                     "`name`, " +
                     "`contact`, " +
                     "`querystartdate`, " +
@@ -231,6 +235,7 @@ namespace TourQueryManager
                     "@userid_var, " +
                     "@profitmargin_var, " +
                     "@gstrate_var, " +
+                    "@usdrate_var, " +
                     "@name_var, " +
                     "@contact_var, " +
                     "CURDATE(), " +
@@ -262,6 +267,7 @@ namespace TourQueryManager
             btnUpdateMysqlCommand.Parameters.AddWithValue("@userid_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@profitmargin_var", 1);
             btnUpdateMysqlCommand.Parameters.AddWithValue("@gstrate_var", 1);
+            btnUpdateMysqlCommand.Parameters.AddWithValue("@usdrate_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@name_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@contact_var", "Text");
             btnUpdateMysqlCommand.Parameters.AddWithValue("@place_var", "Text");
@@ -321,6 +327,27 @@ namespace TourQueryManager
                 catch (Exception errmargin)
                 {
                     MessageBox.Show("Error in GST : " + errmargin.Message + "");
+                    frmEditQueryMysqlTransaction.Dispose();
+                    lblGST.ForeColor = Color.Red;
+                    return;
+                }
+            }
+
+            if (string.Equals(txtBoxUsdRate.Text, "", StringComparison.OrdinalIgnoreCase))
+            {
+                txtBoxUsdRate.Text = "0.00";
+                btnUpdateMysqlCommand.Parameters["@usdrate_var"].Value = "0.00";
+            }
+            else
+            {
+                try
+                {
+                    double usd = Convert.ToDouble(txtBoxUsdRate.Text);
+                    btnUpdateMysqlCommand.Parameters["@usdrate_var"].Value = txtBoxUsdRate.Text;
+                }
+                catch (Exception errmargin)
+                {
+                    MessageBox.Show("Error in USD : " + errmargin.Message + "");
                     frmEditQueryMysqlTransaction.Dispose();
                     lblGST.ForeColor = Color.Red;
                     return;
@@ -570,6 +597,7 @@ namespace TourQueryManager
             cmbboxUserId.SelectedValue = 0;
             cmbboxAgentId.SelectedValue = 0;
             txtBoxGST.Text = "";
+            txtBoxUsdRate.Text = "0.00";
             txtBoxMargin.Text = "";
             cmbboxVehicleCtgry.Text = "";
             txtboxArvlCity.Text = "";
@@ -649,6 +677,9 @@ namespace TourQueryManager
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["gstrate"].ToString();
                     txtBoxGST.Text = queriesColumnStr;
+
+                    queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["usdrate"].ToString();
+                    txtBoxUsdRate.Text = queriesColumnStr;
 
                     queriesColumnStr = frmEditQueryDataSet.Tables["QUERYID_FULL_FORM"].Rows[0]["name"].ToString();
                     txtboxClientName.Text = queriesColumnStr;

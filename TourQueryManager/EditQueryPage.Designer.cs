@@ -94,6 +94,8 @@
             this.txtBoxMargin = new System.Windows.Forms.TextBox();
             this.lblMargin = new System.Windows.Forms.Label();
             this.lblClientInfo = new System.Windows.Forms.Label();
+            this.txtBoxUsdRate = new System.Windows.Forms.TextBox();
+            this.lblUsdRate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonAdult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonChild)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmbrUpDwnPersonInfnt)).BeginInit();
@@ -153,9 +155,9 @@
             this.lblPlace.AutoSize = true;
             this.lblPlace.Location = new System.Drawing.Point(12, 159);
             this.lblPlace.Name = "lblPlace";
-            this.lblPlace.Size = new System.Drawing.Size(41, 13);
+            this.lblPlace.Size = new System.Drawing.Size(72, 13);
             this.lblPlace.TabIndex = 3;
-            this.lblPlace.Text = "PLACE";
+            this.lblPlace.Text = "TOUR NAME";
             // 
             // lblBudget
             // 
@@ -358,41 +360,41 @@
             // chkBox2Star
             // 
             this.chkBox2Star.AutoSize = true;
-            this.chkBox2Star.Location = new System.Drawing.Point(6, 12);
+            this.chkBox2Star.Location = new System.Drawing.Point(6, 16);
             this.chkBox2Star.Name = "chkBox2Star";
-            this.chkBox2Star.Size = new System.Drawing.Size(57, 17);
+            this.chkBox2Star.Size = new System.Drawing.Size(86, 17);
             this.chkBox2Star.TabIndex = 32;
-            this.chkBox2Star.Text = "BASIC";
+            this.chkBox2Star.Text = "STANDARD";
             this.chkBox2Star.UseVisualStyleBackColor = true;
             // 
             // chkBox4Star
             // 
             this.chkBox4Star.AutoSize = true;
-            this.chkBox4Star.Location = new System.Drawing.Point(146, 12);
+            this.chkBox4Star.Location = new System.Drawing.Point(227, 16);
             this.chkBox4Star.Name = "chkBox4Star";
-            this.chkBox4Star.Size = new System.Drawing.Size(64, 17);
+            this.chkBox4Star.Size = new System.Drawing.Size(82, 17);
             this.chkBox4Star.TabIndex = 34;
-            this.chkBox4Star.Text = "4 STAR";
+            this.chkBox4Star.Text = "SUPERIOR";
             this.chkBox4Star.UseVisualStyleBackColor = true;
             // 
             // chkBox3Star
             // 
             this.chkBox3Star.AutoSize = true;
-            this.chkBox3Star.Location = new System.Drawing.Point(76, 12);
+            this.chkBox3Star.Location = new System.Drawing.Point(125, 16);
             this.chkBox3Star.Name = "chkBox3Star";
-            this.chkBox3Star.Size = new System.Drawing.Size(64, 17);
+            this.chkBox3Star.Size = new System.Drawing.Size(69, 17);
             this.chkBox3Star.TabIndex = 33;
-            this.chkBox3Star.Text = "3 STAR";
+            this.chkBox3Star.Text = "DELUXE";
             this.chkBox3Star.UseVisualStyleBackColor = true;
             // 
             // chkBox5Star
             // 
             this.chkBox5Star.AutoSize = true;
-            this.chkBox5Star.Location = new System.Drawing.Point(216, 12);
+            this.chkBox5Star.Location = new System.Drawing.Point(342, 16);
             this.chkBox5Star.Name = "chkBox5Star";
-            this.chkBox5Star.Size = new System.Drawing.Size(64, 17);
+            this.chkBox5Star.Size = new System.Drawing.Size(70, 17);
             this.chkBox5Star.TabIndex = 35;
-            this.chkBox5Star.Text = "5 STAR";
+            this.chkBox5Star.Text = "LUXORY";
             this.chkBox5Star.UseVisualStyleBackColor = true;
             // 
             // dttmpckrFromDate
@@ -444,11 +446,15 @@
             this.cmbboxVehicleCtgry.FormattingEnabled = true;
             this.cmbboxVehicleCtgry.Items.AddRange(new object[] {
             "NONE",
-            "HATCH BACK (4 SEATER)",
-            "SEDAN (4 SEATER)",
-            "SUV (7 SEATER)",
-            "BUS (12 SEATER)",
-            "BUS (17 SEATER)"});
+            "DESIER/ETIOS (SEDAN)",
+            "INNOVA (SUV)",
+            "SUMO/ZYLO (SUV)",
+            "9 SEATOR (TAMPO TRAVEL)",
+            "11 SEATOR (TAMPO TRAVEL)",
+            "18 SEATOR (MINI COACH)",
+            "27  SEATOR (COACH)",
+            "35  SEATOR (LARGE COACH)",
+            "45  SEATOR (LARGE COACH)"});
             this.cmbboxVehicleCtgry.Location = new System.Drawing.Point(254, 458);
             this.cmbboxVehicleCtgry.Name = "cmbboxVehicleCtgry";
             this.cmbboxVehicleCtgry.Size = new System.Drawing.Size(204, 21);
@@ -565,7 +571,7 @@
             this.grpboxHtlCtgry.Controls.Add(this.chkBox5Star);
             this.grpboxHtlCtgry.Location = new System.Drawing.Point(254, 343);
             this.grpboxHtlCtgry.Name = "grpboxHtlCtgry";
-            this.grpboxHtlCtgry.Size = new System.Drawing.Size(280, 39);
+            this.grpboxHtlCtgry.Size = new System.Drawing.Size(413, 39);
             this.grpboxHtlCtgry.TabIndex = 16;
             this.grpboxHtlCtgry.TabStop = false;
             // 
@@ -679,15 +685,15 @@
             // 
             // txtBoxGST
             // 
-            this.txtBoxGST.Location = new System.Drawing.Point(769, 5);
+            this.txtBoxGST.Location = new System.Drawing.Point(768, 5);
             this.txtBoxGST.Name = "txtBoxGST";
-            this.txtBoxGST.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxGST.Size = new System.Drawing.Size(59, 20);
             this.txtBoxGST.TabIndex = 2;
             // 
             // lblGST
             // 
             this.lblGST.AutoSize = true;
-            this.lblGST.Location = new System.Drawing.Point(698, 9);
+            this.lblGST.Location = new System.Drawing.Point(697, 9);
             this.lblGST.Name = "lblGST";
             this.lblGST.Size = new System.Drawing.Size(65, 13);
             this.lblGST.TabIndex = 68;
@@ -695,15 +701,15 @@
             // 
             // txtBoxMargin
             // 
-            this.txtBoxMargin.Location = new System.Drawing.Point(567, 5);
+            this.txtBoxMargin.Location = new System.Drawing.Point(582, 5);
             this.txtBoxMargin.Name = "txtBoxMargin";
-            this.txtBoxMargin.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxMargin.Size = new System.Drawing.Size(63, 20);
             this.txtBoxMargin.TabIndex = 1;
             // 
             // lblMargin
             // 
             this.lblMargin.AutoSize = true;
-            this.lblMargin.Location = new System.Drawing.Point(510, 9);
+            this.lblMargin.Location = new System.Drawing.Point(525, 9);
             this.lblMargin.Name = "lblMargin";
             this.lblMargin.Size = new System.Drawing.Size(54, 13);
             this.lblMargin.TabIndex = 67;
@@ -718,11 +724,30 @@
             this.lblClientInfo.TabIndex = 69;
             this.lblClientInfo.Text = "CLIENT";
             // 
+            // txtBoxUsdRate
+            // 
+            this.txtBoxUsdRate.Location = new System.Drawing.Point(959, 5);
+            this.txtBoxUsdRate.Name = "txtBoxUsdRate";
+            this.txtBoxUsdRate.Size = new System.Drawing.Size(48, 20);
+            this.txtBoxUsdRate.TabIndex = 70;
+            this.txtBoxUsdRate.Text = "0.00";
+            // 
+            // lblUsdRate
+            // 
+            this.lblUsdRate.AutoSize = true;
+            this.lblUsdRate.Location = new System.Drawing.Point(888, 9);
+            this.lblUsdRate.Name = "lblUsdRate";
+            this.lblUsdRate.Size = new System.Drawing.Size(62, 13);
+            this.lblUsdRate.TabIndex = 71;
+            this.lblUsdRate.Text = "USD RATE";
+            // 
             // FrmEditQueryPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 642);
+            this.Controls.Add(this.txtBoxUsdRate);
+            this.Controls.Add(this.lblUsdRate);
             this.Controls.Add(this.lblClientInfo);
             this.Controls.Add(this.txtBoxGST);
             this.Controls.Add(this.lblGST);
@@ -864,6 +889,8 @@
         private System.Windows.Forms.TextBox txtBoxMargin;
         private System.Windows.Forms.Label lblMargin;
         private System.Windows.Forms.Label lblClientInfo;
+        private System.Windows.Forms.TextBox txtBoxUsdRate;
+        private System.Windows.Forms.Label lblUsdRate;
     }
 }
 

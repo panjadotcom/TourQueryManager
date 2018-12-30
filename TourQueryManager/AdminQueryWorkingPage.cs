@@ -229,8 +229,15 @@ namespace TourQueryManager
                     gstRate = gstRate / 100;
                     double profitMargin = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["profitmargin"]);
                     profitMargin = profitMargin / 100;
+                    double usdRate = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["usdrate"]);
                     double multiplyFactor = (1.0 + gstRate) * (1.0 + profitMargin);
-                    Debug.WriteLine("GST RATE = " + gstRate.ToString() + " and PROFIT MARGIN = " + profitMargin.ToString() + "AND MULTIPLY FACTOR = " + multiplyFactor.ToString());
+                    string currency = "(INR)";
+                    if (usdRate > 0)
+                    {
+                        multiplyFactor = multiplyFactor / usdRate;
+                        currency = "(USD)";
+                    }
+                    Debug.WriteLine("GST RATE = " + gstRate.ToString() + " and PROFIT MARGIN = " + profitMargin.ToString() + " and USD rate = " + usdRate.ToString() + "AND MULTIPLY FACTOR = " + multiplyFactor.ToString());
                     Document document = new Document();
                     document.Info.Title = "ITINERARY FOR " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
                     document.Info.Author = "PANJADOTCOM";
@@ -392,15 +399,27 @@ namespace TourQueryManager
                     fileContent = "ITINERARY";
                     paragraph = section.AddParagraph(fileContent, "Heading2");
                     double amount = 0;
+                    double monumentCost = 0;
                     /* add day wise narration */
                     string tourIncContent = "";
+                    string tourNoteContent = "";
                     foreach (DataRow item in queryDataset.Tables["QUERY_DAY_INFO"].Rows)
                     {
                         string hdr = "Day " + item["dayno"].ToString() + ": " + item["narrationhdr"].ToString() + "";
                         string content = item["narration"].ToString() + "";
-                        tourIncContent = tourIncContent + item["tourinclusions"].ToString() + "\n";
+                        if (!string.Equals(item["tourinclusions"].ToString(),""))
+                        {
+                            tourIncContent = item["tourinclusions"].ToString();
+                        }
+                        if (!string.Equals(item["notes"].ToString(), ""))
+                        {
+                            tourNoteContent = item["notes"].ToString();
+                        }
+                        
                         MyPdfDocuments.WriteHdrContentParagraph(section, hdr, content);
                         amount = amount + Convert.ToDouble(item["additionalcost"]);
+                        amount = amount + Convert.ToDouble(item["guidecost"]);
+                        monumentCost = monumentCost + Convert.ToDouble(item["monumentcost"]);
                     }
 
                     foreach (DataRow item in queryDataset.Tables["QUERY_TRAVEL_INFO"].Rows)
@@ -414,6 +433,7 @@ namespace TourQueryManager
                     /* add gst rate and profitmargin in amount first. */
 
                     Int32 extraAmountPerPerson = Convert.ToInt32(amount / personCount);
+                    extraAmountPerPerson = extraAmountPerPerson + Convert.ToInt32(monumentCost);
 
                     if (personCount == 1)
                     {
@@ -446,7 +466,7 @@ namespace TourQueryManager
                         row = table.AddRow();
                         rowsCount++;
                         row.Shading.Color = Colors.PaleVioletRed;
-                        row.Cells[0].AddParagraph("CATEGORY/PER PERSON RATES");
+                        row.Cells[0].AddParagraph("CATEGORY/PER PERSON RATES " + currency);
                         row.Cells[1].AddParagraph("SINGLE/NO SHARING");
                         if (columnCount > 2)
                         {
@@ -461,28 +481,28 @@ namespace TourQueryManager
                         var hotelRateMatrix = new Int32[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
                         foreach (DataRow item in queryDataset.Tables["QUERY_HOTEL_INFO"].Rows)
                         {
-                            if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                            if (string.Equals(item["hotelrating"].ToString(), "STANDARD"))
                             {
                                 hotelRateMatrix[0, 0]++;
                                 hotelRateMatrix[0, 1] += Convert.ToInt32(item["singlebedprice"]);
                                 hotelRateMatrix[0, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
                                 hotelRateMatrix[0, 3] += Convert.ToInt32(item["extrabedprice"]);
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "DELUXE"))
                             {
                                 hotelRateMatrix[1, 0]++;
                                 hotelRateMatrix[1, 1] += Convert.ToInt32(item["singlebedprice"]);
                                 hotelRateMatrix[1, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
                                 hotelRateMatrix[1, 3] += Convert.ToInt32(item["extrabedprice"]);
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "SUPERIOR"))
                             {
                                 hotelRateMatrix[2, 0]++;
                                 hotelRateMatrix[2, 1] += Convert.ToInt32(item["singlebedprice"]);
                                 hotelRateMatrix[2, 2] += (Convert.ToInt32(item["doublebedprice"]) / 2);
                                 hotelRateMatrix[2, 3] += Convert.ToInt32(item["extrabedprice"]);
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "LUXORY"))
                             {
                                 hotelRateMatrix[3, 0]++;
                                 hotelRateMatrix[3, 1] += Convert.ToInt32(item["singlebedprice"]);
@@ -499,16 +519,16 @@ namespace TourQueryManager
                                 switch (index)
                                 {
                                     case 0:
-                                        hotelRating = "BASIC";
+                                        hotelRating = "STANDARD";
                                         break;
                                     case 1:
-                                        hotelRating = "3 STAR";
+                                        hotelRating = "DELUXE";
                                         break;
                                     case 2:
-                                        hotelRating = "4 STAR";
+                                        hotelRating = "SUPERIOR";
                                         break;
                                     case 3:
-                                        hotelRating = "5 STAR";
+                                        hotelRating = "LUXORY";
                                         break;
                                     default:
                                         hotelRating = "UNKNOWN";
@@ -573,8 +593,8 @@ namespace TourQueryManager
                             row.Cells[0].AddParagraph("DATE");
                             row.Cells[1].AddParagraph("FROM");
                             row.Cells[2].AddParagraph("TO");
-                            row.Cells[3].AddParagraph("FLIGHT NO");
-                            row.Cells[4].AddParagraph("AMOUNT PER PERSON");
+                            row.Cells[3].AddParagraph("FLIGHT/TRAIN NO");
+                            row.Cells[4].AddParagraph("AMOUNT PER PERSON " + currency);
                         }
                         row = table.AddRow();
                         rowsCount++;
@@ -608,26 +628,26 @@ namespace TourQueryManager
                     }
 
                     /* add notes in the document */
-                    MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent);
+                    MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent, tourNoteContent);
 
                     /* now change cloumn count to rows count;*/
                     var hotelusedMatrix = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
                     foreach (DataRow item in queryDataset.Tables["HOTEL_USED_INFO"].Rows)
                     {
-                        if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                        if (string.Equals(item["hotelrating"].ToString(), "STANDARD"))
                         {
                             hotelusedMatrix[0, 0]++;
                         }
-                        else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                        else if (string.Equals(item["hotelrating"].ToString(), "DELUXE"))
                         {
                             hotelusedMatrix[1, 0]++;
                         }
-                        else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                        else if (string.Equals(item["hotelrating"].ToString(), "SUPERIOR"))
                         {
                             hotelusedMatrix[2, 0]++;
                         }
-                        else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                        else if (string.Equals(item["hotelrating"].ToString(), "LUXORY"))
                         {
                             hotelusedMatrix[3, 0]++;
                         }
@@ -665,25 +685,25 @@ namespace TourQueryManager
                                 row.Cells[0].AddParagraph("HOTEL USED");
                                 if (hotelusedMatrix[0, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("BASIC");
+                                    row.Cells[columnIndex].AddParagraph("STANDARD");
                                     hotelusedMatrix[0, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[1, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("3 STAR");
+                                    row.Cells[columnIndex].AddParagraph("DELUXE");
                                     hotelusedMatrix[1, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[2, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("4 STAR");
+                                    row.Cells[columnIndex].AddParagraph("SUPERIOR");
                                     hotelusedMatrix[2, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[3, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("5 STAR");
+                                    row.Cells[columnIndex].AddParagraph("LUXORY");
                                     hotelusedMatrix[3, 1] = columnIndex;
                                 }
                             }
@@ -697,19 +717,19 @@ namespace TourQueryManager
                                 dataTable.Columns.Add(lastCity);
                             }
                             columnIndex = 0;
-                            if (string.Equals(item["hotelrating"].ToString(), "BASIC"))
+                            if (string.Equals(item["hotelrating"].ToString(), "STANDARD"))
                             {
                                 columnIndex = hotelusedMatrix[0, 1];
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "3 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "DELUXE"))
                             {
                                 columnIndex = hotelusedMatrix[1, 1];
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "4 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "SUPERIOR"))
                             {
                                 columnIndex = hotelusedMatrix[2, 1];
                             }
-                            else if (string.Equals(item["hotelrating"].ToString(), "5 STAR"))
+                            else if (string.Equals(item["hotelrating"].ToString(), "LUXORY"))
                             {
                                 columnIndex = hotelusedMatrix[3, 1];
                             }

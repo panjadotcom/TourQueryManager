@@ -249,6 +249,20 @@ namespace TourQueryManager
                     double noOfnights = (DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkoutdate"].ToString()) -
                         DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkindate"].ToString())).TotalDays;
                     paragraph.AddFormattedText(Convert.ToInt32(noOfnights).ToString(), "Heading3");
+                    row = table.AddRow();
+                    rowsCount++;
+                    row.VerticalAlignment = VerticalAlignment.Center;
+                    paragraph = row.Cells[0].AddParagraph();
+                    paragraph.AddFormattedText("Pick Time", "Heading2");
+                    paragraph = row.Cells[1].AddParagraph();
+                    //paragraph.AddFormattedText(dataset.Tables[tableNameHotelRates].Rows[0]["checkindate"].ToString(), "Heading3");
+                    paragraph.AddFormattedText(DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkindate"].ToString()).ToString("HH:mm"), "Heading3");
+                    paragraph = row.Cells[2].AddParagraph();
+                    paragraph.AddFormattedText("Drop Time", "Heading2");
+                    paragraph = row.Cells[3].AddParagraph();
+                    //paragraph.AddFormattedText(dataset.Tables[tableNameHotelRates].Rows[0]["checkoutdate"].ToString(), "Heading3");
+                    paragraph.AddFormattedText(DateTime.Parse(dataset.Tables[tableNameHotelRates].Rows[0]["checkoutdate"].ToString()).ToString("HH:mm"), "Heading3");
+                    row.Cells[4].MergeRight = 1;
 
 
                     table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.SkyBlue);

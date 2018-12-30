@@ -69,7 +69,7 @@ CREATE TABLE `finalizedqueries` (
   `specialinstructions` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`queryid`),
   UNIQUE KEY `idfinalizedqueries_UNIQUE` (`idfinalizedqueries`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `flightbookinginfo` (
   `statusinfo` varchar(256) NOT NULL,
   PRIMARY KEY (`pnr`,`queryid`,`departureinfo`),
   UNIQUE KEY `idflightbookinginfo_UNIQUE` (`idflightbookinginfo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `hotelbookinginfo` (
   `countinfants` int(11) DEFAULT '0',
   PRIMARY KEY (`queryid`,`idconfirmation`,`idhotelinfo`,`roomtype`),
   UNIQUE KEY `idhotelbookinginfo_UNIQUE` (`idhotelbookinginfo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +199,7 @@ CREATE TABLE `ledger` (
   `note` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`queryid`,`transactionid`),
   UNIQUE KEY `idledger_UNIQUE` (`idledger`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `queryworkingflight` (
   `note` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idqueryworkingday`,`queryid`),
   UNIQUE KEY `idqueryworkingflight_UNIQUE` (`idqueryworkingflight`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -346,7 +346,7 @@ CREATE TABLE `queryworkingtravel` (
   `note` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idqueryworkingday`,`queryid`),
   UNIQUE KEY `idqueryworkingtravel_UNIQUE` (`idqueryworkingtravel`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /* Insert default VALUES in	appusers and agents table using following two commnds */

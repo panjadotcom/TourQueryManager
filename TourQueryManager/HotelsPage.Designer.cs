@@ -175,11 +175,11 @@
             // lblStarRating
             // 
             this.lblStarRating.AutoSize = true;
-            this.lblStarRating.Location = new System.Drawing.Point(11, 157);
+            this.lblStarRating.Location = new System.Drawing.Point(6, 157);
             this.lblStarRating.Name = "lblStarRating";
-            this.lblStarRating.Size = new System.Drawing.Size(80, 13);
+            this.lblStarRating.Size = new System.Drawing.Size(87, 13);
             this.lblStarRating.TabIndex = 53;
-            this.lblStarRating.Text = "STAR RATING";
+            this.lblStarRating.Text = "HOTEL RATING";
             // 
             // lblMobile
             // 

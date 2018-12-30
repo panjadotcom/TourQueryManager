@@ -19,6 +19,7 @@ namespace TourQueryManager
 
         static string queryIdWorking = null;
         static string mysqlConnStr = Properties.Settings.Default.mysqlConnStr;
+        static string seasonyear = null;
         MySqlConnection mySqlConnection = new MySqlConnection(mysqlConnStr);
         MySqlDataAdapter mysqlDataAdaptor = new MySqlDataAdapter();
         DataSet frmQueryWorkingDataSet = null;
@@ -40,8 +41,12 @@ namespace TourQueryManager
             dataGridViewRoomsInfo.Rows.Clear();
             dataGridViewRoomsInfo.Refresh();
             btnWorkingAddRoom.Text = "ADD HOTEL ROOM";
+            checkBoxHotelDetails.Checked = false;
+            groupBoxHotelDetails.Enabled = false;
             checkBoxTravelDetails.Checked = false;
             grpboxTravelDetails.Enabled = false;
+            checkBoxTrainDetails.Checked = false;
+            groupBoxTrainDetails.Enabled = false;
             numericUpDownNoOfCars.Value = 0;
             CmbboxWrkngCarType.SelectedIndex = 0;
             CmbboxWrkngCarPurpose.SelectedIndex = 0;
@@ -52,13 +57,20 @@ namespace TourQueryManager
             txtboxFlightFromCity.Text = "";
             txtboxFlightToCity.Text = "";
             txtBoxFlightPrice.Text = "0";
-            chkBoxWorkingGuide.Checked = false;
-            chkBoxWorkingSim.Checked = false;
+            txtBoxTrainFromCity.Text = "";
+            txtBoxTrainNumber.Text = "";
+            txtBoxTrainToCity.Text = "";
+            txtBoxTrainPrice.Text = "0";
+            txtBoxGuideCost.Text = "0";
+            txtBoxMonumentsCost.Text = "0";
             txtboxWorkingAdditionalCost.Text = "0";
             txtboxNarrationHeader.Text = "";
             txtboxNarration.Text = "";
             txtboxTourInclusions.Enabled = false;
             chkBoxTourInclusions.Checked = false;
+            txtBoxItineraryNote.Enabled = false;
+            checkBoxItineraryNote.Checked = false;
+            seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
         }
 
         private void FrmQueryWorkingPage_Load(object sender, EventArgs e)
@@ -215,6 +227,7 @@ namespace TourQueryManager
                 CmbboxWrkngHtlLocation.SelectedValue = 0;
                 CmbboxWrkngHtlLocation.DataSource = null;
                 CmbboxWrkngHtlLocation.Text = "";
+                dataGridViewHotelList.DataSource = null;
                 return;
             }
             try
@@ -234,6 +247,33 @@ namespace TourQueryManager
             try
             {
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_CITY");
+                selectQueryString = "SELECT " +
+                    //"`T1`.hotelarea AS `AREA`, " +
+                    "`T1`.hotelcity AS `CITY`, " +
+                    "`T1`.hotelrating AS `RATING`, " +
+                    "`T1`.hotelname AS `HOTEL`, " +
+                    "`T2`.roomtype AS `ROOM TYPE`, " +
+                    "`T2`.seasontype AS `SEASON`, " +
+                    "`T2`.mealcpaipricesingle AS `CPAI SNGL`, " +
+                    "`T2`.mealcpaipricedouble AS `CPAI DBL`, " +
+                    "`T2`.mealcpaipriceextbed AS `CPAI TRPL`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SNGL`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DBL`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRPL`, " +
+                    "`T2`.mealmapaipricesingle AS `MAPAI SNGL`, " +
+                    "`T2`.mealmapaipricedouble AS `MAPAI DBL`, " +
+                    "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
+                    "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
+                    "`T2`.mealapaipricedouble AS `APAI DBL`, " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
+                    "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
+                    //"AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
+                    //"AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
+                    "AND `seasonyear` = " + seasonyear + " " +
+                    "ORDER BY `hotelcity`";
+                mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
                 if (dataSet != null)
                 {
                     DataRow dataRow = dataSet.Tables["HOTEL_CITY"].NewRow();
@@ -243,6 +283,7 @@ namespace TourQueryManager
                     CmbboxWrkngHtlLocation.ValueMember = "hotelcity";
                     CmbboxWrkngHtlLocation.DisplayMember = "hotelcity";
                     CmbboxWrkngHtlLocation.SelectedIndex = 0;
+                    dataGridViewHotelList.DataSource = dataSet.Tables["HOTEL_RATE_LIST"];
                     //CmbboxWrkngHtlLocation.SelectedValue = 0;
                 }
             }
@@ -288,6 +329,33 @@ namespace TourQueryManager
             try
             {
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATING");
+                selectQueryString = "SELECT " +
+                    //"`T1`.hotelarea AS `AREA`, " +
+                    //"`T1`.hotelcity AS `CITY`, " +
+                    "`T1`.hotelrating AS `RATING`, " +
+                    "`T1`.hotelname AS `HOTEL`, " +
+                    "`T2`.roomtype AS `ROOM TYPE`, " +
+                    "`T2`.seasontype AS `SEASON`, " +
+                    "`T2`.mealcpaipricesingle AS `CPAI SNGL`, " +
+                    "`T2`.mealcpaipricedouble AS `CPAI DBL`, " +
+                    "`T2`.mealcpaipriceextbed AS `CPAI TRPL`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SNGL`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DBL`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRPL`, " +
+                    "`T2`.mealmapaipricesingle AS `MAPAI SNGL`, " +
+                    "`T2`.mealmapaipricedouble AS `MAPAI DBL`, " +
+                    "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
+                    "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
+                    "`T2`.mealapaipricedouble AS `APAI DBL`, " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
+                    "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
+                    "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
+                    //"AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
+                    "AND `seasonyear` = " + seasonyear + " " +
+                    "ORDER BY `hotelrating`";
+                mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
+                mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
                 if (dataSet != null)
                 {
                     DataRow dataRow = dataSet.Tables["HOTEL_RATING"].NewRow();
@@ -297,6 +365,7 @@ namespace TourQueryManager
                     CmbboxWrkngHtlHotelRating.ValueMember = "hotelrating";
                     CmbboxWrkngHtlHotelRating.DisplayMember = "hotelrating";
                     CmbboxWrkngHtlHotelRating.SelectedIndex = 0;
+                    dataGridViewHotelList.DataSource = dataSet.Tables["HOTEL_RATE_LIST"];
                     //CmbboxWrkngHtlHotelRating.SelectedValue = 0;
                 }
             }
@@ -323,7 +392,6 @@ namespace TourQueryManager
                 CmbboxWrkngHtlHotel.SelectedValue = 0;
                 CmbboxWrkngHtlHotel.DataSource = null;
                 CmbboxWrkngHtlHotel.Text = "";
-                dataGridViewHotelList.DataSource = null;
                 return;
             }
             try
@@ -336,7 +404,6 @@ namespace TourQueryManager
                 Close();
                 return;
             }
-            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = null;
             MySqlDataAdapter mySqlDataAdapter = null;
             DataSet dataSet = new DataSet();
@@ -346,21 +413,24 @@ namespace TourQueryManager
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_NAME");
                 selectQueryString = "SELECT " +
-                    "`T1`.hotelname AS `HOTEL NAME`, " +
+                    //"`T1`.hotelarea AS `AREA`, " +
+                    //"`T1`.hotelcity AS `CITY`, " +
+                    //"`T1`.hotelrating AS `RATING`, " +
+                    "`T1`.hotelname AS `HOTEL`, " +
                     "`T2`.roomtype AS `ROOM TYPE`, " +
                     "`T2`.seasontype AS `SEASON`, " +
-                    "`T2`.mealcpaipricesingle AS `CPAI SINGLE`, " +
-                    "`T2`.mealcpaipricedouble AS `CPAI DOUBLE`, " +
-                    "`T2`.mealcpaipriceextbed AS `CPAI TRIPLE`, " +
-                    "`T2`.mealepaipricesingle AS `EPAI SINGLE`, " +
-                    "`T2`.mealepaipricedouble AS `EPAI DOUBLE`, " +
-                    "`T2`.mealepaipriceextbed AS `EPAI TRIPLE`, " +
-                    "`T2`.mealmapaipricesingle AS `MAPAI SINGLE`, " +
-                    "`T2`.mealmapaipricedouble AS `MAPAI DOUBLE`, " +
-                    "`T2`.mealmapaipriceextbed AS `MAPAI TRIPLE`, " +
-                    "`T2`.mealapaipricesingle AS `APAI SINGLE`, " +
-                    "`T2`.mealapaipricedouble AS `APAI DOUBLE`, " +
-                    "`T2`.mealapaipriceextbed AS `APAI TRIPLE` " +
+                    "`T2`.mealcpaipricesingle AS `CPAI SNGL`, " +
+                    "`T2`.mealcpaipricedouble AS `CPAI DBL`, " +
+                    "`T2`.mealcpaipriceextbed AS `CPAI TRPL`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SNGL`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DBL`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRPL`, " +
+                    "`T2`.mealmapaipricesingle AS `MAPAI SNGL`, " +
+                    "`T2`.mealmapaipricedouble AS `MAPAI DBL`, " +
+                    "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
+                    "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
+                    "`T2`.mealapaipricedouble AS `APAI DBL`, " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
                     "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
                     "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
                     "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
@@ -419,7 +489,7 @@ namespace TourQueryManager
                 return;
             }
 
-            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            //string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT DISTINCT `roomtype` FROM `hotelrates` WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
                 "AND `seasonyear` = " + seasonyear +" ORDER BY `roomtype`";
@@ -485,7 +555,7 @@ namespace TourQueryManager
                 return;
             }
 
-            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            //string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT DISTINCT `seasontype` FROM `hotelrates` WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
                 "AND `seasonyear` = " + seasonyear + " " +
@@ -600,7 +670,7 @@ namespace TourQueryManager
             }
 
 
-            string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
+            //string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT " + mealPlanSelectString +
                 " FROM  `hotelrates`  WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
@@ -689,10 +759,13 @@ namespace TourQueryManager
             }
 
             /* validate rooms in hotel */
-            if (dataGridViewRoomsInfo.RowCount < 1)
+            if (checkBoxHotelDetails.Checked)
             {
-                MessageBox.Show("Atleast 1 entry is mendatory in Hotel Grid info", "In sufficient hotels count", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                if (dataGridViewRoomsInfo.RowCount < 1)
+                {
+                    MessageBox.Show("Atleast 1 entry is mendatory in Hotel Grid info", "In sufficient hotels count", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
             }
 
             /* validate if travel selected */
@@ -775,6 +848,72 @@ namespace TourQueryManager
                 }
             }
 
+            /* check for flights */
+            if (checkBoxTrainDetails.Checked)
+            {
+                if (string.Equals(txtBoxTrainNumber.Text, ""))
+                {
+                    MessageBox.Show("Train number is not provided", "Train number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtBoxTrainFromCity.Text, ""))
+                {
+                    MessageBox.Show("Train from city is not provided", "Train from city", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtBoxTrainToCity.Text, ""))
+                {
+                    MessageBox.Show("Train to city is not provided", "Train to city", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if (string.Equals(txtBoxTrainPrice.Text, ""))
+                {
+                    MessageBox.Show("Train cost field is not provided", "Train cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                try
+                {
+                    if (Convert.ToInt32(txtBoxTrainPrice.Text) < 1)
+                    {
+                        MessageBox.Show("Train cost is 0", "Train cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+                catch (Exception errcost)
+                {
+                    MessageBox.Show("Train cost field is not proper: " + errcost.Message, "Train cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            
+            // validate GUIDE cost
+            try
+            {
+                if (Convert.ToInt32(txtBoxGuideCost.Text) < 1)
+                {
+                    txtBoxGuideCost.Text = "0";
+                }
+            }
+            catch (Exception errcost)
+            {
+                MessageBox.Show("Guide cost field is not proper: " + errcost.Message, "Guide cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // validate Monuments cost
+            try
+            {
+                if (Convert.ToInt32(txtBoxMonumentsCost.Text) < 1)
+                {
+                    txtBoxMonumentsCost.Text = "0";
+                }
+            }
+            catch (Exception errcost)
+            {
+                MessageBox.Show("Monuments cost field is not proper: " + errcost.Message, "Monuments cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             // validate extra cost
             try
             {
@@ -805,7 +944,16 @@ namespace TourQueryManager
             {
                 if (string.Equals(txtboxTourInclusions.Text, ""))
                 {
-                    MessageBox.Show("Tour inclusion field is not provided", "Flight cost", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Tour inclusion field is not provided", "Tour inclusion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            if (checkBoxItineraryNote.Checked)
+            {
+                if (string.Equals(txtBoxItineraryNote.Text, ""))
+                {
+                    MessageBox.Show("Tour Note field is not provided", "Notes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
@@ -853,8 +1001,9 @@ namespace TourQueryManager
                 "`narrationhdr`, " +
                 "`narration`, " +
                 "`tourinclusions`, " +
-                "`sim`, " +
-                "`guide`, " +
+                "`notes`, " +
+                "`monumentcost`, " +
+                "`guidecost`, " +
                 "`additionalcost` " +
                 ") VALUES ( " +
                 "@var_queryid, " +
@@ -863,8 +1012,9 @@ namespace TourQueryManager
                 "@var_narrationhdr, " +
                 "@var_narration, " +
                 "@var_tourinclusions, " +
-                "@var_sim, " +
-                "@var_guide, " +
+                "@var_notes, " +
+                "@var_monumentcost, " +
+                "@var_guidecost, " +
                 "@var_additionalcost " +
                 ")";
             mySqlCommand.CommandText = mysqlInsertQueryString;
@@ -872,15 +1022,17 @@ namespace TourQueryManager
             mySqlCommand.Parameters.AddWithValue("@var_narrationhdr", "Text");
             mySqlCommand.Parameters.AddWithValue("@var_narration", "Text");
             mySqlCommand.Parameters.AddWithValue("@var_tourinclusions", "Text");
-            mySqlCommand.Parameters.AddWithValue("@var_sim", "Text");
-            mySqlCommand.Parameters.AddWithValue("@var_guide", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_notes", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_monumentcost", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_guidecost", 1);
             mySqlCommand.Parameters.AddWithValue("@var_additionalcost", 1);
 
             mySqlCommand.Parameters["@var_narrationhdr"].Value = txtboxNarrationHeader.Text;
             mySqlCommand.Parameters["@var_narration"].Value = txtboxNarration.Text;
             mySqlCommand.Parameters["@var_tourinclusions"].Value = txtboxTourInclusions.Text;
-            mySqlCommand.Parameters["@var_sim"].Value = chkBoxWorkingSim.Checked ? "YES" : "NO";
-            mySqlCommand.Parameters["@var_guide"].Value = chkBoxWorkingGuide.Checked ? "YES" : "NO";
+            mySqlCommand.Parameters["@var_notes"].Value = txtBoxItineraryNote.Text;
+            mySqlCommand.Parameters["@var_monumentcost"].Value = Convert.ToInt32(txtBoxMonumentsCost.Text);
+            mySqlCommand.Parameters["@var_guidecost"].Value = Convert.ToInt32(txtBoxGuideCost.Text);
             mySqlCommand.Parameters["@var_additionalcost"].Value = Convert.ToInt32(txtboxWorkingAdditionalCost.Text);
             try
             {
@@ -894,67 +1046,76 @@ namespace TourQueryManager
             }
 
             // prepare insert query for working hotel
+            mySqlCommand.Parameters.AddWithValue("@var_hotelrating", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_idhotelinfo", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_roomtype", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_mealplan", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_singlebedprice", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_doublebedprice", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_extrabedprice", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_note", "Text");
+
             if (isSuccessResult)
             {
-                mysqlInsertQueryString = "INSERT INTO `queryworkinghotel` ( " +
-                    "`idqueryworkingday`, " +
-                    "`queryid`, " +
-                    "`hotelrating`, " +
-                    "`idhotelinfo`, " +
-                    "`date`, " +
-                    "`roomtype`, " +
-                    "`mealplan`, " +
-                    "`singlebedprice`, " +
-                    "`doublebedprice`, " +
-                    "`extrabedprice`, " +
-                    "`note` " +
-                    ") VALUES ( " +
-                    "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
-                    "@var_queryid, " +
-                    "@var_hotelrating, " +
-                    "@var_idhotelinfo, " +
-                    "@var_date, " +
-                    "@var_roomtype, " +
-                    "@var_mealplan, " +
-                    "@var_singlebedprice, " +
-                    "@var_doublebedprice, " +
-                    "@var_extrabedprice, " +
-                    "@var_note " +
-                    ")";
-                mySqlCommand.CommandText = mysqlInsertQueryString;
-                mySqlCommand.Prepare();
-                mySqlCommand.Parameters.AddWithValue("@var_hotelrating", "Text");
-                mySqlCommand.Parameters.AddWithValue("@var_idhotelinfo", 1);
-                mySqlCommand.Parameters.AddWithValue("@var_roomtype", "Text");
-                mySqlCommand.Parameters.AddWithValue("@var_mealplan", "Text");
-                mySqlCommand.Parameters.AddWithValue("@var_singlebedprice", 1);
-                mySqlCommand.Parameters.AddWithValue("@var_doublebedprice", 1);
-                mySqlCommand.Parameters.AddWithValue("@var_extrabedprice", 1);
-                mySqlCommand.Parameters.AddWithValue("@var_note", "Text");
-                for (int index = 0; index < dataGridViewRoomsInfo.RowCount; index++)
+                if (checkBoxHotelDetails.Checked)
                 {
-                    mySqlCommand.Parameters["@var_hotelrating"].Value = dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString();
-                    mySqlCommand.Parameters["@var_idhotelinfo"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelId"].Value.ToString());
-                    mySqlCommand.Parameters["@var_roomtype"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value.ToString();
-                    mySqlCommand.Parameters["@var_mealplan"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value.ToString();
-                    mySqlCommand.Parameters["@var_singlebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelSingleBedPrice"].Value.ToString());
-                    mySqlCommand.Parameters["@var_doublebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelDoubleShairingPrice"].Value.ToString());
-                    mySqlCommand.Parameters["@var_extrabedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelExtraBedPrice"].Value.ToString());
-                    mySqlCommand.Parameters["@var_note"].Value = "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking;
-                    try
+                    mysqlInsertQueryString = "INSERT INTO `queryworkinghotel` ( " +
+                        "`idqueryworkingday`, " +
+                        "`queryid`, " +
+                        "`hotelrating`, " +
+                        "`idhotelinfo`, " +
+                        "`date`, " +
+                        "`roomtype`, " +
+                        "`mealplan`, " +
+                        "`singlebedprice`, " +
+                        "`doublebedprice`, " +
+                        "`extrabedprice`, " +
+                        "`note` " +
+                        ") VALUES ( " +
+                        "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
+                        "@var_queryid, " +
+                        "@var_hotelrating, " +
+                        "@var_idhotelinfo, " +
+                        "@var_date, " +
+                        "@var_roomtype, " +
+                        "@var_mealplan, " +
+                        "@var_singlebedprice, " +
+                        "@var_doublebedprice, " +
+                        "@var_extrabedprice, " +
+                        "@var_note " +
+                        ")";
+                    mySqlCommand.CommandText = mysqlInsertQueryString;
+                    mySqlCommand.Prepare();
+                    for (int index = 0; index < dataGridViewRoomsInfo.RowCount; index++)
                     {
-                        int result = mySqlCommand.ExecuteNonQuery();
-                        Debug.WriteLine("queryworkinghotel:Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + "\nExecuted with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception errquery)
-                    {
-                        isSuccessResult = false;
-                        MessageBox.Show("queryworkinghotel Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + ": Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        mySqlCommand.Parameters["@var_hotelrating"].Value = dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString();
+                        mySqlCommand.Parameters["@var_idhotelinfo"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelId"].Value.ToString());
+                        mySqlCommand.Parameters["@var_roomtype"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkRoomType"].Value.ToString();
+                        mySqlCommand.Parameters["@var_mealplan"].Value = dataGridViewRoomsInfo.Rows[index].Cells["wrkMealPlan"].Value.ToString();
+                        mySqlCommand.Parameters["@var_singlebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelSingleBedPrice"].Value.ToString());
+                        mySqlCommand.Parameters["@var_doublebedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelDoubleShairingPrice"].Value.ToString());
+                        mySqlCommand.Parameters["@var_extrabedprice"].Value = Convert.ToInt32(dataGridViewRoomsInfo.Rows[index].Cells["HotelExtraBedPrice"].Value.ToString());
+                        mySqlCommand.Parameters["@var_note"].Value = "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking;
+                        try
+                        {
+                            int result = mySqlCommand.ExecuteNonQuery();
+                            Debug.WriteLine("queryworkinghotel:Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + "\nExecuted with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception errquery)
+                        {
+                            isSuccessResult = false;
+                            MessageBox.Show("queryworkinghotel Query for " + "NOTE:_" + index.ToString() + "_" + dateString + "_" + queryIdWorking + ": Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
 
             // prepare travel details if checked
+            mySqlCommand.Parameters.AddWithValue("@var_cartype", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_carcount", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_pricepercar", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_carhirefor", "Text");
+
             if (isSuccessResult)
             {
                 if (checkBoxTravelDetails.Checked)
@@ -980,10 +1141,6 @@ namespace TourQueryManager
                     ")";
                     mySqlCommand.CommandText = mysqlInsertQueryString;
                     mySqlCommand.Prepare();
-                    mySqlCommand.Parameters.AddWithValue("@var_cartype", "Text");
-                    mySqlCommand.Parameters.AddWithValue("@var_carcount", 1);
-                    mySqlCommand.Parameters.AddWithValue("@var_pricepercar", 1);
-                    mySqlCommand.Parameters.AddWithValue("@var_carhirefor", "Text");
                     mySqlCommand.Parameters["@var_cartype"].Value = CmbboxWrkngCarType.Text;
                     mySqlCommand.Parameters["@var_carcount"].Value = Convert.ToInt32(numericUpDownNoOfCars.Value);
                     mySqlCommand.Parameters["@var_pricepercar"].Value = Convert.ToInt32(txtboxWorkingFlightCost.Text);
@@ -1003,6 +1160,12 @@ namespace TourQueryManager
             }
 
             // prepare insert query string for flight.
+            mySqlCommand.Parameters.AddWithValue("@var_fromcity", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_toCity", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_flightnumber", "Text");
+            mySqlCommand.Parameters.AddWithValue("@var_rateperticket", 1);
+            mySqlCommand.Parameters.AddWithValue("@var_personcount", 1);
+
             if (isSuccessResult)
             {
                 if (checkBoxFlightDetails.Checked)
@@ -1030,15 +1193,57 @@ namespace TourQueryManager
                     ")";
                     mySqlCommand.CommandText = mysqlInsertQueryString;
                     mySqlCommand.Prepare();
-                    mySqlCommand.Parameters.AddWithValue("@var_fromcity", "Text");
-                    mySqlCommand.Parameters.AddWithValue("@var_toCity", "Text");
-                    mySqlCommand.Parameters.AddWithValue("@var_flightnumber", "Text");
-                    mySqlCommand.Parameters.AddWithValue("@var_rateperticket", 1);
-                    mySqlCommand.Parameters.AddWithValue("@var_personcount", 1);
                     mySqlCommand.Parameters["@var_fromcity"].Value = txtboxFlightFromCity.Text;
                     mySqlCommand.Parameters["@var_tocity"].Value = txtboxFlightToCity.Text;
                     mySqlCommand.Parameters["@var_flightnumber"].Value = txtBoxFlightNo.Text;
                     mySqlCommand.Parameters["@var_rateperticket"].Value = Convert.ToInt32(txtBoxFlightPrice.Text);
+                    mySqlCommand.Parameters["@var_personcount"].Value = Convert.ToInt32(numericUpDownNoOfPersons.Value);
+                    mySqlCommand.Parameters["@var_note"].Value = "NOTE for " + queryIdWorking;
+                    try
+                    {
+                        int result = mySqlCommand.ExecuteNonQuery();
+                        Debug.WriteLine("queryworkingflight : Query Executed. with result = " + result.ToString(), "Days data insertion success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception errquery)
+                    {
+                        isSuccessResult = false;
+                        MessageBox.Show("queryworkingflight : Error while executing insert query because:\n" + errquery.Message, "Error in inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            
+            // prepare insert query string for train.
+            if (isSuccessResult)
+            {
+                if (checkBoxTrainDetails.Checked)
+                {
+                    mysqlInsertQueryString = "INSERT INTO `queryworkingflight` ( " +
+                    "`idqueryworkingday`, " +
+                    "`queryid`, " +
+                    "`date`, " +
+                    "`fromcity`, " +
+                    "`tocity`, " +
+                    "`flightnumber`, " +
+                    "`rateperticket`, " +
+                    "`personcount`, " +
+                    "`note` " +
+                    ") VALUES ( " +
+                    "(SELECT `idqueryworkingday` FROM `queryworkingday` WHERE `queryid` = @var_queryid AND `dayno` = @var_dayno), " +
+                    "@var_queryid, " +
+                    "@var_date, " +
+                    "@var_fromcity, " +
+                    "@var_tocity, " +
+                    "@var_flightnumber, " +
+                    "@var_rateperticket, " +
+                    "@var_personcount, " +
+                    "@var_note " +
+                    ")";
+                    mySqlCommand.CommandText = mysqlInsertQueryString;
+                    mySqlCommand.Prepare();
+                    mySqlCommand.Parameters["@var_fromcity"].Value = txtBoxTrainFromCity.Text;
+                    mySqlCommand.Parameters["@var_tocity"].Value = txtBoxTrainToCity.Text;
+                    mySqlCommand.Parameters["@var_flightnumber"].Value = txtBoxTrainNumber.Text;
+                    mySqlCommand.Parameters["@var_rateperticket"].Value = Convert.ToInt32(txtBoxTrainPrice.Text);
                     mySqlCommand.Parameters["@var_personcount"].Value = Convert.ToInt32(numericUpDownNoOfPersons.Value);
                     mySqlCommand.Parameters["@var_note"].Value = "NOTE for " + queryIdWorking;
                     try
@@ -1381,35 +1586,37 @@ namespace TourQueryManager
         private void dateTimePickerWorkingArrivalDate_ValueChanged(object sender, EventArgs e)
         {
             /* check for the starting date in query. if different then ask for update */
+            seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
         }
 
         private void checkBoxTravelDetails_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxTravelDetails.Checked)
-            {
-                grpboxTravelDetails.Enabled = true;
-            }
-            else
-            {
-                grpboxTravelDetails.Enabled = false;
-            }
+            grpboxTravelDetails.Enabled = checkBoxTravelDetails.Checked;
         }
 
         private void checkBoxFlightDetails_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxFlightDetails.Checked)
-            {
-                groupBoxFlightDetails.Enabled = true;
-            }
-            else
-            {
-                groupBoxFlightDetails.Enabled = false;
-            }
+            groupBoxFlightDetails.Enabled = checkBoxFlightDetails.Checked;
         }
 
         private void chkBoxTourInclusions_CheckedChanged(object sender, EventArgs e)
         {
             txtboxTourInclusions.Enabled = chkBoxTourInclusions.Checked;
+        }
+
+        private void checkBoxHotelDetails_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxHotelDetails.Enabled = checkBoxHotelDetails.Checked;
+        }
+
+        private void checkBoxTrainDetails_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxTrainDetails.Enabled = checkBoxTrainDetails.Checked;
+        }
+
+        private void checkBoxItineraryNote_CheckedChanged(object sender, EventArgs e)
+        {
+            txtBoxItineraryNote.Enabled = checkBoxItineraryNote.Checked;
         }
 
         private void BtnUpdateQueryDetails_Click(object sender, EventArgs e)
@@ -1419,5 +1626,6 @@ namespace TourQueryManager
             frmQuery.ShowDialog();
             Show();
         }
+
     }
 }
