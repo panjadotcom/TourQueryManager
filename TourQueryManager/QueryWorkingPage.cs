@@ -1627,5 +1627,9 @@ namespace TourQueryManager
             Show();
         }
 
+        private void ButtonWorkingCancel_MouseHover(object sender, EventArgs e)
+        {
+
+        }
     }
 }

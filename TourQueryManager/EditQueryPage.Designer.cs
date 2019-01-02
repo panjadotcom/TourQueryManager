@@ -318,10 +318,10 @@
             this.radioBtnMealNoMeal.AutoSize = true;
             this.radioBtnMealNoMeal.Location = new System.Drawing.Point(6, 14);
             this.radioBtnMealNoMeal.Name = "radioBtnMealNoMeal";
-            this.radioBtnMealNoMeal.Size = new System.Drawing.Size(73, 17);
+            this.radioBtnMealNoMeal.Size = new System.Drawing.Size(65, 17);
             this.radioBtnMealNoMeal.TabIndex = 27;
             this.radioBtnMealNoMeal.TabStop = true;
-            this.radioBtnMealNoMeal.Text = "NO MEAL";
+            this.radioBtnMealNoMeal.Text = "No Meal";
             this.radioBtnMealNoMeal.UseVisualStyleBackColor = true;
             // 
             // radioBtnMealBrkfstOnly
@@ -329,10 +329,10 @@
             this.radioBtnMealBrkfstOnly.AutoSize = true;
             this.radioBtnMealBrkfstOnly.Location = new System.Drawing.Point(85, 14);
             this.radioBtnMealBrkfstOnly.Name = "radioBtnMealBrkfstOnly";
-            this.radioBtnMealBrkfstOnly.Size = new System.Drawing.Size(120, 17);
+            this.radioBtnMealBrkfstOnly.Size = new System.Drawing.Size(103, 17);
             this.radioBtnMealBrkfstOnly.TabIndex = 28;
             this.radioBtnMealBrkfstOnly.TabStop = true;
-            this.radioBtnMealBrkfstOnly.Text = "BREAKFAST ONLY";
+            this.radioBtnMealBrkfstOnly.Text = "Bed N Breakfast";
             this.radioBtnMealBrkfstOnly.UseVisualStyleBackColor = true;
             // 
             // radioBtnMealBrkfstLnchDnr
@@ -340,10 +340,10 @@
             this.radioBtnMealBrkfstLnchDnr.AutoSize = true;
             this.radioBtnMealBrkfstLnchDnr.Location = new System.Drawing.Point(359, 14);
             this.radioBtnMealBrkfstLnchDnr.Name = "radioBtnMealBrkfstLnchDnr";
-            this.radioBtnMealBrkfstLnchDnr.Size = new System.Drawing.Size(191, 17);
+            this.radioBtnMealBrkfstLnchDnr.Size = new System.Drawing.Size(72, 17);
             this.radioBtnMealBrkfstLnchDnr.TabIndex = 30;
             this.radioBtnMealBrkfstLnchDnr.TabStop = true;
-            this.radioBtnMealBrkfstLnchDnr.Text = "BREAKFAST + LUNCH + DINNER";
+            this.radioBtnMealBrkfstLnchDnr.Text = "Full Board";
             this.radioBtnMealBrkfstLnchDnr.UseVisualStyleBackColor = true;
             // 
             // radioBtnMealBrkfstDnr
@@ -351,10 +351,10 @@
             this.radioBtnMealBrkfstDnr.AutoSize = true;
             this.radioBtnMealBrkfstDnr.Location = new System.Drawing.Point(211, 14);
             this.radioBtnMealBrkfstDnr.Name = "radioBtnMealBrkfstDnr";
-            this.radioBtnMealBrkfstDnr.Size = new System.Drawing.Size(142, 17);
+            this.radioBtnMealBrkfstDnr.Size = new System.Drawing.Size(75, 17);
             this.radioBtnMealBrkfstDnr.TabIndex = 29;
             this.radioBtnMealBrkfstDnr.TabStop = true;
-            this.radioBtnMealBrkfstDnr.Text = "BREAKFAST + DINNER";
+            this.radioBtnMealBrkfstDnr.Text = "Half Board";
             this.radioBtnMealBrkfstDnr.UseVisualStyleBackColor = true;
             // 
             // chkBox2Star

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmQueryWorkingPage));
             this.txtboxQueryDetails = new System.Windows.Forms.TextBox();
             this.lblQueryDetails = new System.Windows.Forms.Label();
@@ -113,6 +114,7 @@
             this.checkBoxItineraryNote = new System.Windows.Forms.CheckBox();
             this.txtBoxItineraryNote = new System.Windows.Forms.TextBox();
             this.tableLayoutPanelButtons = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTipWorking = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfPersons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoOfCars)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRoomsInfo)).BeginInit();
@@ -311,9 +313,11 @@
             this.ButtonWorkingCancel.Name = "ButtonWorkingCancel";
             this.ButtonWorkingCancel.Size = new System.Drawing.Size(175, 30);
             this.ButtonWorkingCancel.TabIndex = 16;
-            this.ButtonWorkingCancel.Text = "CANCEL";
+            this.ButtonWorkingCancel.Text = "DELETE WORK";
+            this.toolTipWorking.SetToolTip(this.ButtonWorkingCancel, "This will delete all the working done for this query.");
             this.ButtonWorkingCancel.UseVisualStyleBackColor = true;
             this.ButtonWorkingCancel.Click += new System.EventHandler(this.ButtonWorkingCancel_Click);
+            this.ButtonWorkingCancel.MouseHover += new System.EventHandler(this.ButtonWorkingCancel_MouseHover);
             // 
             // lblWorkingDayAndHotelRoomInfo
             // 
@@ -1181,5 +1185,6 @@
         private System.Windows.Forms.CheckBox checkBoxItineraryNote;
         private System.Windows.Forms.TextBox txtBoxItineraryNote;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelButtons;
+        private System.Windows.Forms.ToolTip toolTipWorking;
     }
 }

@@ -231,12 +231,17 @@ namespace TourQueryManager
                     profitMargin = profitMargin / 100;
                     double usdRate = Convert.ToDouble(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["usdrate"]);
                     double multiplyFactor = (1.0 + gstRate) * (1.0 + profitMargin);
-                    string currency = "(INR)";
+                    string currency = "";
                     if (usdRate > 0)
                     {
-                        multiplyFactor = multiplyFactor / usdRate;
                         currency = "(USD)";
                     }
+                    else
+                    {
+                        currency = "(INR)";
+                        usdRate = 1;
+                    }
+                    multiplyFactor = multiplyFactor / usdRate;
                     Debug.WriteLine("GST RATE = " + gstRate.ToString() + " and PROFIT MARGIN = " + profitMargin.ToString() + " and USD rate = " + usdRate.ToString() + "AND MULTIPLY FACTOR = " + multiplyFactor.ToString());
                     Document document = new Document();
                     document.Info.Title = "ITINERARY FOR " + DataGrdVuAdminQueries.SelectedRows[0].Cells["QueryId"].Value.ToString();
@@ -270,7 +275,7 @@ namespace TourQueryManager
                     row.VerticalAlignment = VerticalAlignment.Center;
                     MigraDoc.DocumentObjectModel.Shapes.Image image = row.Cells[0].AddImage(imagePath);
                     image.Width = "3cm";
-                    MyPdfDocuments.WriteAgencyAddressDetails(row.Cells[1], 20, 10);
+                    MyPdfDocuments.WriteAgencyAddressDetails(row.Cells[1], 22, 10);
                     table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Transparent);
                     rowsCount = columnCount = 0;
 
@@ -381,7 +386,7 @@ namespace TourQueryManager
                     paragraph.AddFormattedText("Tour End", "Heading3");
                     paragraph = row.Cells[3].AddParagraph();
                     paragraph.AddFormattedText(queryDataset.Tables["SELECTED_QUERY"].Rows[0]["todate"].ToString());
-                    row = table.AddRow();
+                    /*row = table.AddRow();
                     rowsCount++;
                     row.VerticalAlignment = VerticalAlignment.Center;
                     paragraph = row.Cells[0].AddParagraph();
@@ -391,7 +396,7 @@ namespace TourQueryManager
                     paragraph = row.Cells[2].AddParagraph();
                     paragraph.AddFormattedText("Validity", "Heading3");
                     paragraph = row.Cells[3].AddParagraph();
-                    paragraph.AddFormattedText("One month before tour start date");
+                    paragraph.AddFormattedText("One month before tour start date");*/
                     table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.5, Colors.SkyBlue);
                     rowsCount = columnCount = 0;
 
@@ -454,6 +459,7 @@ namespace TourQueryManager
                     rowsCount = 0;
                     if (columnCount > 0)
                     {
+                        paragraph = section.AddParagraph("PER PERSON RATES " + currency, "Heading3");
                         columnWidth = (21.0 - 2.0) / columnCount;
                         table = section.AddTable();
                         table.Borders.Visible = true;
@@ -465,17 +471,22 @@ namespace TourQueryManager
                         }
                         row = table.AddRow();
                         rowsCount++;
-                        row.Shading.Color = Colors.PaleVioletRed;
-                        row.Cells[0].AddParagraph("CATEGORY/PER PERSON RATES " + currency);
-                        row.Cells[1].AddParagraph("SINGLE/NO SHARING");
+                        row.Shading.Color = Colors.RoyalBlue;
+                        paragraph = row.Cells[0].AddParagraph();
+                        paragraph.AddFormattedText("CATEGORY", "CellHeading3");
+                        paragraph = row.Cells[1].AddParagraph();
+                        paragraph.AddFormattedText("SINGLE", "CellHeading3");
                         if (columnCount > 2)
                         {
-                            row.Cells[2].AddParagraph("DOUBLE SHARING");
+                            paragraph = row.Cells[2].AddParagraph();
+                            paragraph.AddFormattedText("DOUBLE SHARING", "CellHeading3");
                         }
                         if (columnCount > 3)
                         {
-                            row.Cells[3].AddParagraph("EXTRA ADULT/CHILD WITH BED");
-                            row.Cells[4].AddParagraph("CHILD WITH NO BED (5 - 12 YRS)");
+                            paragraph = row.Cells[3].AddParagraph();
+                            paragraph.AddFormattedText("EXT ADULT/CWB", "CellHeading3");
+                            paragraph = row.Cells[4].AddParagraph();
+                            paragraph.AddFormattedText("CNB", "Heading3");
                         }
 
                         var hotelRateMatrix = new Int32[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
@@ -536,14 +547,14 @@ namespace TourQueryManager
                                 }
                                 row = table.AddRow();
                                 rowsCount++;
-                                if ((rowsCount % 2) == 0)
+                                /*if ((rowsCount % 2) == 0)
                                 {
                                     row.Shading.Color = Colors.PaleTurquoise;
                                 }
                                 else
                                 {
                                     row.Shading.Color = Colors.PapayaWhip;
-                                }
+                                }*/
                                 row.Cells[0].AddParagraph(hotelRating);
                                 hotelRateMatrix[index, 1] += Convert.ToInt32(extraAmountPerPerson);
                                 amount = Convert.ToDouble(hotelRateMatrix[index, 1]) * multiplyFactor;
@@ -568,68 +579,6 @@ namespace TourQueryManager
                     }
                     /* add hotel rates in tabular form */
                     int hotelRowsCount = rowsCount;
-                    /* add flight information in the itenary */
-                    rowsCount = 0;
-                    amount = 0;
-                    foreach (DataRow item in queryDataset.Tables["QUERY_FLIGHT_INFO"].Rows)
-                    {
-                        if (rowsCount == 0)
-                        {
-                            paragraph = section.AddParagraph("AIR FARE PER PERSON EXTRA", "Heading3");
-                            columnCount = 5;
-                            columnWidth = (21.0 - 2.0) / columnCount;
-
-                            table = section.AddTable();
-                            table.Borders.Visible = true;
-                            table.Borders.Width = 0.75;
-                            for (int index = 0; index < columnCount; index++)
-                            {
-                                column = table.AddColumn(Unit.FromCentimeter(columnWidth));
-                                column.Format.Alignment = ParagraphAlignment.Center;
-                            }
-                            row = table.AddRow();
-                            rowsCount++;
-                            row.Shading.Color = Colors.PaleGoldenrod;
-                            row.Cells[0].AddParagraph("DATE");
-                            row.Cells[1].AddParagraph("FROM");
-                            row.Cells[2].AddParagraph("TO");
-                            row.Cells[3].AddParagraph("FLIGHT/TRAIN NO");
-                            row.Cells[4].AddParagraph("AMOUNT PER PERSON " + currency);
-                        }
-                        row = table.AddRow();
-                        rowsCount++;
-                        if ((rowsCount % 2) == 0)
-                        {
-                            row.Shading.Color = Colors.PaleTurquoise;
-                        }
-                        else
-                        {
-                            row.Shading.Color = Colors.PapayaWhip;
-                        }
-                        row.Cells[0].AddParagraph(item["date"].ToString());
-                        row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[1].AddParagraph(item["fromcity"].ToString().ToUpper());
-                        row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[2].AddParagraph(item["tocity"].ToString().ToUpper());
-                        row.Cells[2].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[3].AddParagraph(item["flightnumber"].ToString().ToUpper());
-                        row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
-                        amount = amount + Convert.ToDouble(item["rateperticket"].ToString());
-
-                    }
-                    if (rowsCount > 0)
-                    {
-                        table.Rows[1].Cells[4].MergeDown = rowsCount - 2;
-                        amount = amount * multiplyFactor;
-                        table.Rows[1].Cells[4].AddParagraph(Convert.ToInt32(amount).ToString());
-                        table.Rows[1].Cells[4].Shading.Color = Colors.WhiteSmoke;
-                        table.Rows[1].Cells[4].VerticalAlignment = VerticalAlignment.Center;
-                        table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
-                    }
-
-                    /* add notes in the document */
-                    MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent, tourNoteContent);
-
                     /* now change cloumn count to rows count;*/
                     var hotelusedMatrix = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
@@ -681,29 +630,34 @@ namespace TourQueryManager
                                 row = table.AddRow();
                                 rowsCount++;
                                 columnIndex = 1;
-                                row.Shading.Color = Colors.PaleGoldenrod;
-                                row.Cells[0].AddParagraph("HOTEL USED");
+                                row.Shading.Color = Colors.RoyalBlue;
+                                paragraph = row.Cells[0].AddParagraph();
+                                paragraph.AddFormattedText("HOTEL USED", "CellHeading3");
                                 if (hotelusedMatrix[0, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("STANDARD");
+                                    paragraph = row.Cells[columnIndex].AddParagraph();
+                                    paragraph.AddFormattedText("STANDARD", "CellHeading3");
                                     hotelusedMatrix[0, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[1, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("DELUXE");
+                                    paragraph = row.Cells[columnIndex].AddParagraph();
+                                    paragraph.AddFormattedText("DELUXE", "CellHeading3");
                                     hotelusedMatrix[1, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[2, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("SUPERIOR");
+                                    paragraph = row.Cells[columnIndex].AddParagraph();
+                                    paragraph.AddFormattedText("SUPERIOR", "CellHeading3");
                                     hotelusedMatrix[2, 1] = columnIndex;
                                     columnIndex++;
                                 }
                                 if (hotelusedMatrix[3, 0] > 0)
                                 {
-                                    row.Cells[columnIndex].AddParagraph("LUXORY");
+                                    paragraph = row.Cells[columnIndex].AddParagraph();
+                                    paragraph.AddFormattedText("LUXORY", "CellHeading3");
                                     hotelusedMatrix[3, 1] = columnIndex;
                                 }
                             }
@@ -757,6 +711,74 @@ namespace TourQueryManager
                         }
                         dataTable.Clear();
                     }
+                    /* add flight information in the itenary */
+                    rowsCount = 0;
+                    amount = 0;
+                    foreach (DataRow item in queryDataset.Tables["QUERY_FLIGHT_INFO"].Rows)
+                    {
+                        if (rowsCount == 0)
+                        {
+                            paragraph = section.AddParagraph("AIR/TRAIN FARE "+ currency +" PER PERSON EXTRA", "Heading3");
+                            columnCount = 5;
+                            columnWidth = (21.0 - 2.0) / columnCount;
+
+                            table = section.AddTable();
+                            table.Borders.Visible = true;
+                            table.Borders.Width = 0.75;
+                            for (int index = 0; index < columnCount; index++)
+                            {
+                                column = table.AddColumn(Unit.FromCentimeter(columnWidth));
+                                column.Format.Alignment = ParagraphAlignment.Center;
+                            }
+                            row = table.AddRow();
+                            rowsCount++;
+                            row.Shading.Color = Colors.RoyalBlue;
+                            paragraph = row.Cells[0].AddParagraph();
+                            paragraph.AddFormattedText("DATE", "CellHeading3");
+                            paragraph = row.Cells[1].AddParagraph();
+                            paragraph.AddFormattedText("FROM", "CellHeading3");
+                            paragraph = row.Cells[2].AddParagraph();
+                            paragraph.AddFormattedText("TO", "CellHeading3");
+                            paragraph = row.Cells[3].AddParagraph();
+                            paragraph.AddFormattedText("FLIGHT/TRAIN", "CellHeading3");
+                            paragraph = row.Cells[4].AddParagraph();
+                            paragraph.AddFormattedText("AMOUNT", "CellHeading3");
+                        }
+                        row = table.AddRow();
+                        rowsCount++;
+                        /*if ((rowsCount % 2) == 0)
+                        {
+                            row.Shading.Color = Colors.PaleTurquoise;
+                        }
+                        else
+                        {
+                            row.Shading.Color = Colors.PapayaWhip;
+                        }*/
+                        row.Cells[0].AddParagraph(item["date"].ToString());
+                        row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+                        row.Cells[1].AddParagraph(item["fromcity"].ToString().ToUpper());
+                        row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
+                        row.Cells[2].AddParagraph(item["tocity"].ToString().ToUpper());
+                        row.Cells[2].VerticalAlignment = VerticalAlignment.Center;
+                        row.Cells[3].AddParagraph(item["flightnumber"].ToString().ToUpper());
+                        row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
+                        amount = amount + Convert.ToDouble(item["rateperticket"].ToString());
+
+                    }
+                    if (rowsCount > 0)
+                    {
+                        table.Rows[1].Cells[4].MergeDown = rowsCount - 2;
+                        amount = amount / usdRate;
+                        table.Rows[1].Cells[4].AddParagraph(Convert.ToInt32(amount).ToString());
+                        table.Rows[1].Cells[4].Shading.Color = Colors.WhiteSmoke;
+                        table.Rows[1].Cells[4].VerticalAlignment = VerticalAlignment.Center;
+                        table.SetEdge(0, 0, columnCount, rowsCount, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 1.5, Colors.Black);
+                    }
+
+                    /* add notes in the document */
+                    MyPdfDocuments.WriteItineraryLastStaticDetails(section, tourIncContent, tourNoteContent);
+
+                    
                     //////////////////////////////////////////////////////////////////////////////////////////////////
                     PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always);
 

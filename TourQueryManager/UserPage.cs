@@ -62,6 +62,7 @@ namespace TourQueryManager
                 {
                     Debug.WriteLine("Usefull radio button not selected. thus not doing anything\n");
                 }
+                DataGrdVuUserQueriesLoad();
             }
             else
             {
@@ -210,6 +211,11 @@ namespace TourQueryManager
                 //MessageBox.Show("Selection changed in radio button " + radioButton.Text, "Selection Changed in Radio Button", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DataGrdVuUserQueriesLoad();
             }
+        }
+
+        private void FrmUserPage_Load(object sender, EventArgs e)
+        {
+            radioButtonWorkingItinary.Checked = true;
         }
     }
 }
