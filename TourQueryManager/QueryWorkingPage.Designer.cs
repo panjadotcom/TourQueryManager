@@ -829,6 +829,7 @@
             this.dataGridViewHotelList.RowHeadersVisible = false;
             this.dataGridViewHotelList.Size = new System.Drawing.Size(930, 173);
             this.dataGridViewHotelList.TabIndex = 26;
+            this.dataGridViewHotelList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewHotelList_CellDoubleClick);
             // 
             // BtnUpdateQueryDetails
             // 

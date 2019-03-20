@@ -412,7 +412,7 @@ namespace TourQueryManager
                     "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
                     "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
                     "AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
-                    "AND `seasonyear` = " + seasonyear + " " +
+                    "AND `seasonyear` > 0 " +
                     "ORDER BY `hotelname`";
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
@@ -469,7 +469,7 @@ namespace TourQueryManager
             string seasonyear = "2018"; //dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT DISTINCT `roomtype` FROM `hotelrates` WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
-                "AND `seasonyear` = " + seasonyear + " ORDER BY `roomtype`";
+                "AND `seasonyear` > 0 ORDER BY `roomtype`";
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
             DataSet dataSet = new DataSet();
             try

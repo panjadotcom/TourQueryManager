@@ -254,9 +254,6 @@ namespace TourQueryManager
                 CmbBoxRoomType.SelectedValue = 0;
                 CmbBoxRoomType.DataSource = null;
                 CmbBoxRoomType.Text = "";
-                CmbBoxYear.SelectedValue = 0;
-                CmbBoxYear.DataSource = null;
-                CmbBoxYear.Text = "";
                 CmbBoxStarRating.SelectedIndex = 0;
                 CmbBoxSeasonType.SelectedIndex = 0;
                 TxtBoxAddres.Text = "";
@@ -324,21 +321,6 @@ namespace TourQueryManager
                     CmbBoxRoomType.DisplayMember = "roomtype";
                     CmbBoxRoomType.SelectedIndex = 0;
                     CmbBoxRoomType.SelectedValue = 0;
-                    /* now try to read year */
-                    selectQueryString = "SELECT DISTINCT `seasonyear` FROM `hotelrates` " +
-                        "WHERE " +
-                        "`idhotelinfo` = " + dataSet.Tables["HOTEL_INFO"].Rows[0]["idhotelinfo"].ToString() + " " +
-                        "ORDER BY `seasonyear`";
-                    mySqlDataAdapter.SelectCommand.CommandText = selectQueryString;
-                    mySqlDataAdapter.Fill(dataSet, "SEASON_YEAR");
-                    dataRow = dataSet.Tables["SEASON_YEAR"].NewRow();
-                    dataRow["seasonyear"] = "";
-                    dataSet.Tables["SEASON_YEAR"].Rows.InsertAt(dataRow, 0);
-                    CmbBoxYear.DataSource = dataSet.Tables["SEASON_YEAR"];
-                    CmbBoxYear.ValueMember = "seasonyear";
-                    CmbBoxYear.DisplayMember = "seasonyear";
-                    CmbBoxYear.SelectedIndex = 0;
-                    CmbBoxYear.SelectedValue = 0;
                 }
             }
             catch (Exception errSelectQry)
@@ -360,7 +342,7 @@ namespace TourQueryManager
 
         private void Update_hotelrates_fields()
         {
-            if ((CmbBoxRoomType.SelectedIndex == 0) || (CmbBoxSeasonType.SelectedIndex == 0) || (CmbBoxYear.SelectedIndex == 0))
+            if ((CmbBoxRoomType.SelectedIndex == 0) || (CmbBoxSeasonType.SelectedIndex == 0))
             {
                 TxtBoxApaiPriceDouble.Text = "";
                 TxtBoxApaiPriceExtBed.Text = "";
@@ -376,7 +358,7 @@ namespace TourQueryManager
                 TxtBoxMapaiPriceSingle.Text = "";
                 return;
             }
-            if ((CmbBoxRoomType.SelectedValue == null) || (CmbBoxSeasonType.SelectedValue == null) || (CmbBoxYear.SelectedValue == null))
+            if ((CmbBoxRoomType.SelectedValue == null) || (CmbBoxSeasonType.SelectedValue == null))
             {
                 TxtBoxApaiPriceDouble.Text = "";
                 TxtBoxApaiPriceExtBed.Text = "";
@@ -407,7 +389,7 @@ namespace TourQueryManager
                 "WHERE " +
                 "`roomtype` = '" + CmbBoxRoomType.SelectedValue.ToString() + "' " +
                 "AND `seasontype` = '" + CmbBoxSeasonType.Text + "' " +
-                "AND `seasonyear` = '" + CmbBoxYear.SelectedValue.ToString() + "' " +
+                "AND `seasonyear` > '2000' " +
                 "AND `idhotelinfo` = '" + hotelId.ToString() + "' " +
                 "ORDER BY `idhotelrates`";
 
@@ -438,7 +420,6 @@ namespace TourQueryManager
                     else
                     {
                         MessageBox.Show("No data present in database for" +
-                            "\nYear = " + CmbBoxYear.Text + "" +
                             "\nSeason = " + CmbBoxSeasonType.Text +
                             "\nRoom Type = " + CmbBoxRoomType.Text +
                             "\nin hotel = " + CmbBoxHotelName.Text ,
@@ -581,29 +562,6 @@ namespace TourQueryManager
             {
                 errorListString += "\nSeason type is not selected";
                 result = false;
-            }
-            /* validate year*/
-            if (String.Equals("", CmbBoxYear.Text, StringComparison.OrdinalIgnoreCase))
-            {
-                errorListString += "\nSeason year is empty";
-                result = false;
-            }
-            else if(CmbBoxYear.Text.Length != 4)
-            {
-                errorListString += "\nSeason year(" + CmbBoxYear.Text + ") is not in proper format";
-                result = false;
-            }
-            else
-            {
-                try
-                {
-                    Convert.ToInt32(CmbBoxYear.Text);
-                }
-                catch ( Exception errorDigit)
-                {
-                    errorListString += "\nSeason year(" + CmbBoxYear.Text + ") error = " + errorDigit.Message;
-                    result = false;
-                }
             }
             
             /*************************** validate pricess **************************************/
@@ -975,7 +933,7 @@ namespace TourQueryManager
             mySqlCommand.Parameters.AddWithValue("@mealapaipriceextbed", 1);
             mySqlCommand.Parameters["@roomtype"].Value = CmbBoxRoomType.Text;
             mySqlCommand.Parameters["@seasontype"].Value = CmbBoxSeasonType.Text;
-            mySqlCommand.Parameters["@seasonyear"].Value = CmbBoxYear.Text;
+            mySqlCommand.Parameters["@seasonyear"].Value = "2019";
             mySqlCommand.Parameters["@mealepaipricesingle"].Value = Convert.ToInt32(TxtBoxEpaiPriceSingle.Text);
             mySqlCommand.Parameters["@mealepaipricedouble"].Value = Convert.ToInt32(TxtBoxEpaiPriceDouble.Text);
             mySqlCommand.Parameters["@mealepaipriceextbed"].Value = Convert.ToInt32(TxtBoxEpaiPriceExtBed.Text);
@@ -1026,6 +984,38 @@ namespace TourQueryManager
                 Close();
             }
             CmbBoxSector_Reload();
+        }
+
+        private void BtnHotelReport_Click(object sender, EventArgs e)
+        {
+            FrmReportsViewerPage reportsViewerPage = null;
+            string queryString = "SELECT " +
+                    "`T1`.hotelarea AS `AREA`, " +
+                    "`T1`.hotelcity AS `CITY`, " +
+                    "`T1`.hotelrating AS `RATING`, " +
+                    "`T1`.hotelname AS `HOTEL`, " +
+                    "`T2`.roomtype AS `ROOM TYPE`, " +
+                    "`T2`.seasontype AS `SEASON`, " +
+                    "`T2`.mealepaipricesingle AS `EPAI SNGL`, " +
+                    "`T2`.mealepaipricedouble AS `EPAI DBL`, " +
+                    "`T2`.mealepaipriceextbed AS `EPAI TRPL`, " +
+                    "`T2`.mealcpaipricesingle AS `CPAI SNGL`, " +
+                    "`T2`.mealcpaipricedouble AS `CPAI DBL`, " +
+                    "`T2`.mealcpaipriceextbed AS `CPAI TRPL`, " +
+                    "`T2`.mealmapaipricesingle AS `MAPAI SNGL`, " +
+                    "`T2`.mealmapaipricedouble AS `MAPAI DBL`, " +
+                    "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
+                    "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
+                    "`T2`.mealapaipricedouble AS `APAI DBL`, " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
+                    "WHERE `seasonyear` > 0 " +
+                    "ORDER BY `AREA`, `CITY`, `RATING`, `HOTEL`";
+            reportsViewerPage = new FrmReportsViewerPage(queryString);
+            Hide();
+            reportsViewerPage.WindowState = FormWindowState.Maximized;
+            reportsViewerPage.ShowDialog();
+            Show();
         }
     }
 }

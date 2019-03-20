@@ -75,16 +75,15 @@
             this.TxtBoxMapaiPriceExtBed = new System.Windows.Forms.TextBox();
             this.TxtBoxApaiPriceExtBed = new System.Windows.Forms.TextBox();
             this.groupBoxRates = new System.Windows.Forms.GroupBox();
-            this.CmbBoxYear = new System.Windows.Forms.ComboBox();
             this.CmbBoxSeasonType = new System.Windows.Forms.ComboBox();
             this.lblSeasonType = new System.Windows.Forms.Label();
-            this.lblYear = new System.Windows.Forms.Label();
             this.CmbBoxRoomType = new System.Windows.Forms.ComboBox();
             this.groupBoxHotelInfo = new System.Windows.Forms.GroupBox();
             this.groupBoxContactInfo = new System.Windows.Forms.GroupBox();
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnUpdate = new System.Windows.Forms.Button();
             this.PctrBoxLogo = new System.Windows.Forms.PictureBox();
+            this.BtnHotelReport = new System.Windows.Forms.Button();
             this.groupBoxRates.SuspendLayout();
             this.groupBoxHotelInfo.SuspendLayout();
             this.groupBoxContactInfo.SuspendLayout();
@@ -464,10 +463,8 @@
             // 
             // groupBoxRates
             // 
-            this.groupBoxRates.Controls.Add(this.CmbBoxYear);
             this.groupBoxRates.Controls.Add(this.CmbBoxSeasonType);
             this.groupBoxRates.Controls.Add(this.lblSeasonType);
-            this.groupBoxRates.Controls.Add(this.lblYear);
             this.groupBoxRates.Controls.Add(this.CmbBoxRoomType);
             this.groupBoxRates.Controls.Add(this.TxtBoxApaiPriceExtBed);
             this.groupBoxRates.Controls.Add(this.lblRoomType);
@@ -500,15 +497,6 @@
             this.groupBoxRates.TabIndex = 2;
             this.groupBoxRates.TabStop = false;
             // 
-            // CmbBoxYear
-            // 
-            this.CmbBoxYear.FormattingEnabled = true;
-            this.CmbBoxYear.Location = new System.Drawing.Point(708, 19);
-            this.CmbBoxYear.Name = "CmbBoxYear";
-            this.CmbBoxYear.Size = new System.Drawing.Size(100, 21);
-            this.CmbBoxYear.TabIndex = 13;
-            this.CmbBoxYear.SelectedIndexChanged += new System.EventHandler(this.CmbBoxYear_SelectedIndexChanged);
-            // 
             // CmbBoxSeasonType
             // 
             this.CmbBoxSeasonType.FormattingEnabled = true;
@@ -526,15 +514,6 @@
             this.lblSeasonType.Size = new System.Drawing.Size(82, 13);
             this.lblSeasonType.TabIndex = 61;
             this.lblSeasonType.Text = "SEASON TYPE";
-            // 
-            // lblYear
-            // 
-            this.lblYear.AutoSize = true;
-            this.lblYear.Location = new System.Drawing.Point(666, 23);
-            this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(36, 13);
-            this.lblYear.TabIndex = 62;
-            this.lblYear.Text = "YEAR";
             // 
             // CmbBoxRoomType
             // 
@@ -611,11 +590,22 @@
             this.PctrBoxLogo.TabIndex = 29;
             this.PctrBoxLogo.TabStop = false;
             // 
+            // BtnHotelReport
+            // 
+            this.BtnHotelReport.Location = new System.Drawing.Point(12, 429);
+            this.BtnHotelReport.Name = "BtnHotelReport";
+            this.BtnHotelReport.Size = new System.Drawing.Size(409, 23);
+            this.BtnHotelReport.TabIndex = 30;
+            this.BtnHotelReport.Text = "SHOW ALL HOTEL REPORT";
+            this.BtnHotelReport.UseVisualStyleBackColor = true;
+            this.BtnHotelReport.Click += new System.EventHandler(this.BtnHotelReport_Click);
+            // 
             // FrmHotelsPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 464);
+            this.Controls.Add(this.BtnHotelReport);
             this.Controls.Add(this.PctrBoxLogo);
             this.Controls.Add(this.BtnUpdate);
             this.Controls.Add(this.BtnExit);
@@ -694,8 +684,7 @@
         private System.Windows.Forms.Button BtnUpdate;
         private System.Windows.Forms.ComboBox CmbBoxSeasonType;
         private System.Windows.Forms.Label lblSeasonType;
-        private System.Windows.Forms.ComboBox CmbBoxYear;
-        private System.Windows.Forms.Label lblYear;
         private System.Windows.Forms.PictureBox PctrBoxLogo;
+        private System.Windows.Forms.Button BtnHotelReport;
     }
 }

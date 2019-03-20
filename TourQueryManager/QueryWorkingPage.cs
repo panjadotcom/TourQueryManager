@@ -231,7 +231,6 @@ namespace TourQueryManager
             {
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_CITY");
                 selectQueryString = "SELECT " +
-                    //"`T1`.hotelarea AS `AREA`, " +
                     "`T1`.hotelcity AS `CITY`, " +
                     "`T1`.hotelrating AS `RATING`, " +
                     "`T1`.hotelname AS `HOTEL`, " +
@@ -248,12 +247,13 @@ namespace TourQueryManager
                     "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
                     "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
                     "`T2`.mealapaipricedouble AS `APAI DBL`, " +
-                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL`, " +
+                    "`T1`.idhotelinfo AS `HOTELID` " +
                     "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
                     "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
                     //"AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
                     //"AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
-                    "AND `seasonyear` = " + seasonyear + " " +
+                    "AND `seasonyear` > 0 " +
                     "ORDER BY `hotelcity`";
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
@@ -313,8 +313,7 @@ namespace TourQueryManager
             {
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATING");
                 selectQueryString = "SELECT " +
-                    //"`T1`.hotelarea AS `AREA`, " +
-                    //"`T1`.hotelcity AS `CITY`, " +
+                    "`T1`.hotelcity AS `CITY`, " +
                     "`T1`.hotelrating AS `RATING`, " +
                     "`T1`.hotelname AS `HOTEL`, " +
                     "`T2`.roomtype AS `ROOM TYPE`, " +
@@ -330,12 +329,13 @@ namespace TourQueryManager
                     "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
                     "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
                     "`T2`.mealapaipricedouble AS `APAI DBL`, " +
-                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL`, " +
+                    "`T1`.idhotelinfo AS `HOTELID` " +
                     "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
                     "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
                     "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
                     //"AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
-                    "AND `seasonyear` = " + seasonyear + " " +
+                    "AND `seasonyear` > 0 " +
                     "ORDER BY `hotelrating`";
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
@@ -396,9 +396,8 @@ namespace TourQueryManager
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_NAME");
                 selectQueryString = "SELECT " +
-                    //"`T1`.hotelarea AS `AREA`, " +
-                    //"`T1`.hotelcity AS `CITY`, " +
-                    //"`T1`.hotelrating AS `RATING`, " +
+                    "`T1`.hotelcity AS `CITY`, " +
+                    "`T1`.hotelrating AS `RATING`, " +
                     "`T1`.hotelname AS `HOTEL`, " +
                     "`T2`.roomtype AS `ROOM TYPE`, " +
                     "`T2`.seasontype AS `SEASON`, " +
@@ -413,12 +412,13 @@ namespace TourQueryManager
                     "`T2`.mealmapaipriceextbed AS `MAPAI TRPL`, " +
                     "`T2`.mealapaipricesingle AS `APAI SNGL`, " +
                     "`T2`.mealapaipricedouble AS `APAI DBL`, " +
-                    "`T2`.mealapaipriceextbed AS `APAI TRPL` " +
+                    "`T2`.mealapaipriceextbed AS `APAI TRPL`, " +
+                    "`T1`.idhotelinfo AS `HOTELID` " +
                     "FROM `hotelinfo` AS `T1` INNER JOIN `hotelrates` AS `T2` ON `T1`.`idhotelinfo` = `T2`.`idhotelinfo` " +
                     "WHERE `hotelarea` = '" + CmbboxWrkngHtlSector.Text + "' " +
                     "AND `hotelcity` = '" + CmbboxWrkngHtlLocation.Text + "' " +
                     "AND `hotelrating` = '" + CmbboxWrkngHtlHotelRating.Text + "' " +
-                    "AND `seasonyear` = " + seasonyear + " " +
+                    "AND `seasonyear` > 0 " +
                     "ORDER BY `hotelname`";
                 mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
                 mySqlDataAdapter.Fill(dataSet, "HOTEL_RATE_LIST");
@@ -475,7 +475,7 @@ namespace TourQueryManager
             //string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT DISTINCT `roomtype` FROM `hotelrates` WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
-                "AND `seasonyear` = " + seasonyear +" ORDER BY `roomtype`";
+                "AND `seasonyear` > 0 ORDER BY `roomtype`";
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
             DataSet dataSet = new DataSet();
             try
@@ -541,7 +541,7 @@ namespace TourQueryManager
             //string seasonyear = dateTimePickerWorkingArrivalDate.Value.ToString("yyyy");
             string selectQueryString = "SELECT DISTINCT `seasontype` FROM `hotelrates` WHERE " +
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
-                "AND `seasonyear` = " + seasonyear + " " +
+                "AND `seasonyear` > 0 " +
                 "AND `roomtype` = '" + CmbboxWrkngHtlRoomType.Text +"' " +
                 "ORDER BY `seasontype`";
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
@@ -659,7 +659,7 @@ namespace TourQueryManager
                 "`idhotelinfo` = " + CmbboxWrkngHtlHotel.SelectedValue + " " +
                 "AND `roomtype` = '" + CmbboxWrkngHtlRoomType.Text + "' " +
                 "AND `seasontype` = '" + CmbboxWrkngSeasonType.Text + "' " +
-                "AND `seasonyear` = '" + seasonyear + "' ";
+                "AND `seasonyear` > 0 ";
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(selectQueryString, mySqlConnection);
             DataSet dataSet = new DataSet();
             try
@@ -1608,6 +1608,78 @@ namespace TourQueryManager
             Hide();
             frmQuery.ShowDialog();
             Show();
+        }
+
+        private void dataGridViewHotelList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowIndex = dataGridViewHotelList.SelectedCells[0].RowIndex;
+            int columnIndex = dataGridViewHotelList.SelectedCells[0].ColumnIndex;
+            double priceSingle = 0.0;
+            double priceDouble = 0.0;
+            double priceTriple = 0.0;
+            string mealPlanStr = null;
+            // instead of reseting whole sector reset just hotel rating.
+            /* check for the uniqueness of the hotel rating */
+            for (int index = 0; index < dataGridViewRoomsInfo.RowCount; index++)
+            {
+                if (string.Equals(dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString(), dataGridViewHotelList.Rows[rowIndex].Cells["RATING"].Value.ToString()))
+                {
+                    MessageBox.Show("Multiple entries for " + dataGridViewRoomsInfo.Rows[index].Cells["hotelRating"].Value.ToString() + " is not allowed.", "Error: multiple entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            
+            if (dataGridViewHotelList.Columns[columnIndex].HeaderText.Contains("CPAI"))
+            {
+                mealPlanStr = "CPAI";
+                priceSingle = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["CPAI SNGL"].Value);
+                priceDouble = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["CPAI DBL"].Value);
+                priceTriple = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["CPAI TRPL"].Value);
+            }
+            else if (dataGridViewHotelList.Columns[columnIndex].HeaderText.Contains("EPAI"))
+            {
+                mealPlanStr = "EPAI";
+                priceSingle = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["EPAI SNGL"].Value);
+                priceDouble = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["EPAI DBL"].Value);
+                priceTriple = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["EPAI TRPL"].Value);
+            }
+            else if (dataGridViewHotelList.Columns[columnIndex].HeaderText.Contains("MAPAI"))
+            {
+                mealPlanStr = "MAPAI";
+                priceSingle = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["MAPAI SNGL"].Value);
+                priceDouble = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["MAPAI DBL"].Value);
+                priceTriple = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["MAPAI TRPL"].Value);
+            }
+            else if (dataGridViewHotelList.Columns[columnIndex].HeaderText.Contains("APAI"))
+            {
+                mealPlanStr = "APAI";
+                priceSingle = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["APAI SNGL"].Value);
+                priceDouble = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["APAI DBL"].Value);
+                priceTriple = Convert.ToDouble(dataGridViewHotelList.Rows[rowIndex].Cells["APAI TRPL"].Value);
+            }
+            else
+            {
+                MessageBox.Show("Double Click on MEAL CELL to select meal plan", "Error: Wrong Cell clicked", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            int indexRoom = dataGridViewRoomsInfo.Rows.Add();
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["hotelRating"].Value = dataGridViewHotelList.Rows[rowIndex].Cells["RATING"].Value;
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["HotelId"].Value = dataGridViewHotelList.Rows[rowIndex].Cells["HOTELID"].Value;
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["wrkRoomType"].Value = dataGridViewHotelList.Rows[rowIndex].Cells["ROOM TYPE"].Value;
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["wrkMealPlan"].Value = mealPlanStr;
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["HotelSingleBedPrice"].Value = priceSingle.ToString();
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["HotelDoubleShairingPrice"].Value = priceDouble.ToString();
+            dataGridViewRoomsInfo.Rows[indexRoom].Cells["HotelExtraBedPrice"].Value = priceTriple.ToString();
+            
+            //CmbboxWrkngHtlSector.SelectedIndex = 0;
+            if (dataGridViewRoomsInfo.Rows.Count > 0)
+            {
+                btnWorkingAddRoom.Text = "ADD DIFFERENT HOTEL ENTRY FOR SAME DAY";
+            }
+            else
+            {
+                btnWorkingAddRoom.Text = "ADD HOTEL ENTRY";
+            }
         }
     }
 }

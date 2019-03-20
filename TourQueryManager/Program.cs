@@ -16,14 +16,14 @@ namespace TourQueryManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FrmLoginPage());
+            Application.Run(new FrmLoginPage());
             //Application.Run(new FrmHotelsPage());
             //Application.Run(new FrmEditQueryPage());
             //Application.Run(new FrmQueryWorkingPage("EHPL18112714482154"));
             //Application.Run(new FrmAdminQueryWorkingPage("ITINERARY"));
             //Application.Run(new FrmVouchersOptionsPage("EHPL18112714482154"));
             //Application.Run(new FrmReportsViewerPage("SELECT * FROM queries"));
-            Application.Run(new FrmAdminPage());
+            //Application.Run(new FrmAdminPage());
         }
     }
 }

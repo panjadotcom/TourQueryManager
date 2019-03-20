@@ -42,6 +42,9 @@
             this.ledgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectiveLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hotelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allHotelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectiveHotelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripReports.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +54,8 @@
             this.queriesToolStripMenuItem,
             this.usersToolStripMenuItem,
             this.agentsToolStripMenuItem,
-            this.ledgerToolStripMenuItem});
+            this.ledgerToolStripMenuItem,
+            this.hotelsToolStripMenuItem});
             this.menuStripReports.Location = new System.Drawing.Point(0, 0);
             this.menuStripReports.Name = "menuStripReports";
             this.menuStripReports.Size = new System.Drawing.Size(800, 24);
@@ -150,6 +154,29 @@
             this.selectiveLedgerToolStripMenuItem.Text = "Selective";
             this.selectiveLedgerToolStripMenuItem.Click += new System.EventHandler(this.SelectiveToolStripMenuItem_Click);
             // 
+            // hotelsToolStripMenuItem
+            // 
+            this.hotelsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allHotelsToolStripMenuItem,
+            this.selectiveHotelsToolStripMenuItem});
+            this.hotelsToolStripMenuItem.Name = "hotelsToolStripMenuItem";
+            this.hotelsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.hotelsToolStripMenuItem.Text = "HOTELS";
+            // 
+            // allHotelsToolStripMenuItem
+            // 
+            this.allHotelsToolStripMenuItem.Name = "allHotelsToolStripMenuItem";
+            this.allHotelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allHotelsToolStripMenuItem.Text = "All";
+            this.allHotelsToolStripMenuItem.Click += new System.EventHandler(this.All_ToolStripMenuItem_Click);
+            // 
+            // selectiveHotelsToolStripMenuItem
+            // 
+            this.selectiveHotelsToolStripMenuItem.Name = "selectiveHotelsToolStripMenuItem";
+            this.selectiveHotelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectiveHotelsToolStripMenuItem.Text = "Selective";
+            this.selectiveHotelsToolStripMenuItem.Click += new System.EventHandler(this.SelectiveToolStripMenuItem_Click);
+            // 
             // FrmReportsOptionPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,5 +211,8 @@
         private System.Windows.Forms.ToolStripMenuItem selectiveUsersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectiveAgentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectiveLedgerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hotelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allHotelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectiveHotelsToolStripMenuItem;
     }
 }
