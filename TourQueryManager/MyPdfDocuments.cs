@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -576,5 +577,24 @@ namespace TourQueryManager
             }
             return queryStageStr;
         }
+
+        public static void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception errReleaseObj)
+            {
+                Debug.WriteLine("Error in releasing object :: " + errReleaseObj.Message);
+                obj = null;
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
     }
 }

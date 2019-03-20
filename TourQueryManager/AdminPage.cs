@@ -48,5 +48,14 @@ namespace TourQueryManager
             frmEditUserPage.ShowDialog();
             Show();
         }
+
+        private void BtnReports_Click(object sender, EventArgs e)
+        {
+            /* load the new screen of reports options */
+            FrmReportsOptionPage form = new FrmReportsOptionPage();
+            Hide();
+            form.ShowDialog();
+            Show();
+        }
     }
 }

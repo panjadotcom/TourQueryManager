@@ -63,6 +63,7 @@
             this.BtnReports.TabIndex = 5;
             this.BtnReports.Text = "REPORTS";
             this.BtnReports.UseVisualStyleBackColor = true;
+            this.BtnReports.Click += new System.EventHandler(this.BtnReports_Click);
             // 
             // btnCreateQuery
             // 

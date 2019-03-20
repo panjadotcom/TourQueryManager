@@ -317,7 +317,6 @@
             this.toolTipWorking.SetToolTip(this.ButtonWorkingCancel, "This will delete all the working done for this query.");
             this.ButtonWorkingCancel.UseVisualStyleBackColor = true;
             this.ButtonWorkingCancel.Click += new System.EventHandler(this.ButtonWorkingCancel_Click);
-            this.ButtonWorkingCancel.MouseHover += new System.EventHandler(this.ButtonWorkingCancel_MouseHover);
             // 
             // lblWorkingDayAndHotelRoomInfo
             // 

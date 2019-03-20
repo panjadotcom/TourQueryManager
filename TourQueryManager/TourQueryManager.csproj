@@ -164,6 +164,18 @@
     <Compile Include="QueryWorkingPage.Designer.cs">
       <DependentUpon>QueryWorkingPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReportsOptionPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportsOptionPage.Designer.cs">
+      <DependentUpon>ReportsOptionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportsViewerPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportsViewerPage.Designer.cs">
+      <DependentUpon>ReportsViewerPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +251,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QueryWorkingPage.resx">
       <DependentUpon>QueryWorkingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportsOptionPage.resx">
+      <DependentUpon>ReportsOptionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportsViewerPage.resx">
+      <DependentUpon>ReportsViewerPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingPage.resx">
       <DependentUpon>SettingPage.cs</DependentUpon>

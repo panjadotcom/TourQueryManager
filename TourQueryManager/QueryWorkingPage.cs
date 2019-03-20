@@ -141,24 +141,7 @@ namespace TourQueryManager
             FrmQueryWorkingPage_Refresh();
         }
 
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception errReleaseObj)
-            {
-                Debug.WriteLine("Error in releasing object :: " + errReleaseObj.Message);
-                obj = null;
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
-
+        
         private void FrmQueryWorkingPage_FormClosing(object sender, FormClosingEventArgs e)
         {
            
@@ -1625,11 +1608,6 @@ namespace TourQueryManager
             Hide();
             frmQuery.ShowDialog();
             Show();
-        }
-
-        private void ButtonWorkingCancel_MouseHover(object sender, EventArgs e)
-        {
-
         }
     }
 }
