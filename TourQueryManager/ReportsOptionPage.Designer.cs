@@ -32,6 +32,8 @@
             this.menuStripReports = new System.Windows.Forms.MenuStrip();
             this.queriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.confirmedQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notConfirmedQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectiveQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +43,10 @@
             this.selectiveAgentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ledgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.perQueriesLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pendingPaymentsLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancePaymentsLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.completedPaymentsLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectiveLedgerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allHotelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +72,8 @@
             // 
             this.queriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.allQueriesToolStripMenuItem,
+            this.confirmedQueriesToolStripMenuItem,
+            this.notConfirmedQueriesToolStripMenuItem,
             this.selectiveQueriesToolStripMenuItem});
             this.queriesToolStripMenuItem.Name = "queriesToolStripMenuItem";
             this.queriesToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
@@ -78,8 +86,23 @@
             this.allQueriesToolStripMenuItem.Text = "All";
             this.allQueriesToolStripMenuItem.Click += new System.EventHandler(this.All_ToolStripMenuItem_Click);
             // 
+            // confirmedQueriesToolStripMenuItem
+            // 
+            this.confirmedQueriesToolStripMenuItem.Name = "confirmedQueriesToolStripMenuItem";
+            this.confirmedQueriesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.confirmedQueriesToolStripMenuItem.Text = "Confirmed";
+            this.confirmedQueriesToolStripMenuItem.Click += new System.EventHandler(this.QueriesToolStripMenuItem_Click);
+            // 
+            // notConfirmedQueriesToolStripMenuItem
+            // 
+            this.notConfirmedQueriesToolStripMenuItem.Name = "notConfirmedQueriesToolStripMenuItem";
+            this.notConfirmedQueriesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.notConfirmedQueriesToolStripMenuItem.Text = "Not Confirmed";
+            this.notConfirmedQueriesToolStripMenuItem.Click += new System.EventHandler(this.QueriesToolStripMenuItem_Click);
+            // 
             // selectiveQueriesToolStripMenuItem
             // 
+            this.selectiveQueriesToolStripMenuItem.Enabled = false;
             this.selectiveQueriesToolStripMenuItem.Name = "selectiveQueriesToolStripMenuItem";
             this.selectiveQueriesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectiveQueriesToolStripMenuItem.Text = "Selective";
@@ -103,6 +126,7 @@
             // 
             // selectiveUsersToolStripMenuItem
             // 
+            this.selectiveUsersToolStripMenuItem.Enabled = false;
             this.selectiveUsersToolStripMenuItem.Name = "selectiveUsersToolStripMenuItem";
             this.selectiveUsersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectiveUsersToolStripMenuItem.Text = "Selective";
@@ -126,6 +150,7 @@
             // 
             // selectiveAgentsToolStripMenuItem
             // 
+            this.selectiveAgentsToolStripMenuItem.Enabled = false;
             this.selectiveAgentsToolStripMenuItem.Name = "selectiveAgentsToolStripMenuItem";
             this.selectiveAgentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectiveAgentsToolStripMenuItem.Text = "Selective";
@@ -135,6 +160,10 @@
             // 
             this.ledgerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.allLedgerToolStripMenuItem,
+            this.perQueriesLedgerToolStripMenuItem,
+            this.pendingPaymentsLedgerToolStripMenuItem,
+            this.advancePaymentsLedgerToolStripMenuItem,
+            this.completedPaymentsLedgerToolStripMenuItem,
             this.selectiveLedgerToolStripMenuItem});
             this.ledgerToolStripMenuItem.Name = "ledgerToolStripMenuItem";
             this.ledgerToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
@@ -143,14 +172,43 @@
             // allLedgerToolStripMenuItem
             // 
             this.allLedgerToolStripMenuItem.Name = "allLedgerToolStripMenuItem";
-            this.allLedgerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.allLedgerToolStripMenuItem.Text = "All";
             this.allLedgerToolStripMenuItem.Click += new System.EventHandler(this.All_ToolStripMenuItem_Click);
             // 
+            // perQueriesLedgerToolStripMenuItem
+            // 
+            this.perQueriesLedgerToolStripMenuItem.Name = "perQueriesLedgerToolStripMenuItem";
+            this.perQueriesLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.perQueriesLedgerToolStripMenuItem.Text = "Per Queries";
+            this.perQueriesLedgerToolStripMenuItem.Click += new System.EventHandler(this.LedgerToolStripMenuItem_Click);
+            // 
+            // pendingPaymentsLedgerToolStripMenuItem
+            // 
+            this.pendingPaymentsLedgerToolStripMenuItem.Name = "pendingPaymentsLedgerToolStripMenuItem";
+            this.pendingPaymentsLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.pendingPaymentsLedgerToolStripMenuItem.Text = "Pending Payments";
+            this.pendingPaymentsLedgerToolStripMenuItem.Click += new System.EventHandler(this.LedgerToolStripMenuItem_Click);
+            // 
+            // advancePaymentsLedgerToolStripMenuItem
+            // 
+            this.advancePaymentsLedgerToolStripMenuItem.Name = "advancePaymentsLedgerToolStripMenuItem";
+            this.advancePaymentsLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.advancePaymentsLedgerToolStripMenuItem.Text = "Advance Payments";
+            this.advancePaymentsLedgerToolStripMenuItem.Click += new System.EventHandler(this.LedgerToolStripMenuItem_Click);
+            // 
+            // completedPaymentsLedgerToolStripMenuItem
+            // 
+            this.completedPaymentsLedgerToolStripMenuItem.Name = "completedPaymentsLedgerToolStripMenuItem";
+            this.completedPaymentsLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.completedPaymentsLedgerToolStripMenuItem.Text = "Completed Payments";
+            this.completedPaymentsLedgerToolStripMenuItem.Click += new System.EventHandler(this.LedgerToolStripMenuItem_Click);
+            // 
             // selectiveLedgerToolStripMenuItem
             // 
+            this.selectiveLedgerToolStripMenuItem.Enabled = false;
             this.selectiveLedgerToolStripMenuItem.Name = "selectiveLedgerToolStripMenuItem";
-            this.selectiveLedgerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectiveLedgerToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.selectiveLedgerToolStripMenuItem.Text = "Selective";
             this.selectiveLedgerToolStripMenuItem.Click += new System.EventHandler(this.SelectiveToolStripMenuItem_Click);
             // 
@@ -172,6 +230,7 @@
             // 
             // selectiveHotelsToolStripMenuItem
             // 
+            this.selectiveHotelsToolStripMenuItem.Enabled = false;
             this.selectiveHotelsToolStripMenuItem.Name = "selectiveHotelsToolStripMenuItem";
             this.selectiveHotelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectiveHotelsToolStripMenuItem.Text = "Selective";
@@ -214,5 +273,11 @@
         private System.Windows.Forms.ToolStripMenuItem hotelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allHotelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectiveHotelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem confirmedQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem notConfirmedQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem perQueriesLedgerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pendingPaymentsLedgerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem advancePaymentsLedgerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem completedPaymentsLedgerToolStripMenuItem;
     }
 }

@@ -90,5 +90,94 @@ namespace TourQueryManager
         {
             Close_Opened_Form();
         }
+
+        private void QueriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+            string queryString = null;
+
+            /* check menu item and call report page*/
+            if (toolStripMenuItem == confirmedQueriesToolStripMenuItem)
+            {
+                queryString = "SELECT * FROM queries where querycurrentstate > " + Properties.Resources.queryStageRejected + " ORDER BY queryno";
+            }
+            else if (toolStripMenuItem == notConfirmedQueriesToolStripMenuItem)
+            {
+                queryString = "SELECT * FROM queries where querycurrentstate <= " + Properties.Resources.queryStageRejected + " ORDER BY queryno";
+            }
+            else
+            {
+                MessageBox.Show("Error in menu");
+                return;
+            }
+            Close_Opened_Form();
+            reportsViewerPage = new FrmReportsViewerPage(queryString);
+            reportsViewerPage.WindowState = FormWindowState.Maximized;
+            reportsViewerPage.MdiParent = this;
+            reportsViewerPage.Show();
+        }
+
+        private void LedgerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+            string queryString = null;
+
+            /* check menu item and call report page*/
+            if (toolStripMenuItem == perQueriesLedgerToolStripMenuItem)
+            {
+                queryString = "select `T2`.queryid AS `QUERYID`, `T1`.totalcost as `TRIP COST`, SUM(`T2`.transactionamount) AS `AMOUNT DEPOSITED` from " +
+                    "`finalizedqueries` as `T1` right join " +
+                    "`ledger` as `T2` on " +
+                    "`T1`.`queryid` = `T2`.`queryid` " +
+                    "group by `T2`.`queryid`";
+            }
+            else if (toolStripMenuItem == pendingPaymentsLedgerToolStripMenuItem)
+            {
+                queryString = "select queryid as `QUERYID`, tripcost as `TRIP COST`, deposited as `AMOUNT DEPOSITED` from " +
+                    "(select `T2`.queryid as queryid, " +
+                    "`T1`.totalcost as tripcost, " +
+                    "SUM(`T2`.transactionamount) as deposited " +
+                    "from `finalizedqueries` as `T1` " +
+                    "right join `ledger` as `T2` " +
+                    "on `T1`.`queryid` = `T2`.`queryid` " +
+                    "group by `T2`.`queryid`) as tablejoined " +
+                    "where tripcost is not null and tripcost >" +
+                    " deposited";
+            }
+            else if (toolStripMenuItem == advancePaymentsLedgerToolStripMenuItem)
+            {
+                queryString = "select queryid as `QUERYID`, tripcost as `TRIP COST`, deposited as `AMOUNT DEPOSITED` from " +
+                    "(select `T2`.queryid as queryid, " +
+                    "`T1`.totalcost as tripcost, " +
+                    "SUM(`T2`.transactionamount) as deposited " +
+                    "from `finalizedqueries` as `T1` " +
+                    "right join `ledger` as `T2` " +
+                    "on `T1`.`queryid` = `T2`.`queryid` " +
+                    "group by `T2`.`queryid`) as tablejoined " +
+                    "where tripcost is null or tripcost < deposited";
+            }
+            else if (toolStripMenuItem == completedPaymentsLedgerToolStripMenuItem)
+            {
+                queryString = "select queryid as `QUERYID`, tripcost as `TRIP COST`, deposited as `AMOUNT DEPOSITED` from " +
+                    "(select `T2`.queryid as queryid, " +
+                    "`T1`.totalcost as tripcost, " +
+                    "SUM(`T2`.transactionamount) as deposited " +
+                    "from `finalizedqueries` as `T1` " +
+                    "right join `ledger` as `T2` " +
+                    "on `T1`.`queryid` = `T2`.`queryid` " +
+                    "group by `T2`.`queryid`) as tablejoined " +
+                    "where tripcost is not null and tripcost = deposited";
+            }
+            else
+            {
+                MessageBox.Show("Error in menu");
+                return;
+            }
+            Close_Opened_Form();
+            reportsViewerPage = new FrmReportsViewerPage(queryString);
+            reportsViewerPage.WindowState = FormWindowState.Maximized;
+            reportsViewerPage.MdiParent = this;
+            reportsViewerPage.Show();
+        }
     }
 }
