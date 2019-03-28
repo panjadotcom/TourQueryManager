@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
 
 namespace TourQueryManager
 {
@@ -82,8 +84,10 @@ namespace TourQueryManager
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.mysqlConnStr = txtBoxConnString.Text;
+            Properties.Settings.Default.mysqlWorkingDirectory = txtBoxMysqlWorkingDirectory.Text;
             Properties.Settings.Default.Save();
-            MessageBox.Show("New Connection String Saved.");
+            MessageBox.Show("MySql details Saved", "MySql details Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //Close();
         }
 
         private void FrmSettingPage_Load(object sender, EventArgs e)
@@ -115,6 +119,7 @@ namespace TourQueryManager
                     txtBoxDatabase.Text = token.Substring("database=".Length);
                 }
             }
+            txtBoxMysqlWorkingDirectory.Text = Properties.Settings.Default.mysqlWorkingDirectory;
         }
 
         private void BtnTstConn_Click(object sender, EventArgs e)
@@ -142,8 +147,90 @@ namespace TourQueryManager
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Closing settings without updating the connection string", "Setting Not Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("Closing settings without updating the connection string", "Setting Not Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
+        }
+
+        private void BtnMysqlWorkingDirectory_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.SelectedPath = txtBoxMysqlWorkingDirectory.Text;
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                txtBoxMysqlWorkingDirectory.Text = folderBrowserDialog.SelectedPath;
+            }
+            else
+            {
+                txtBoxMysqlWorkingDirectory.Text = "Path not selected";
+            }
+        }
+
+        private void BtnRestoreDatabase_Click(object sender, EventArgs e)
+        {
+            string connectionString = Properties.Settings.Default.mysqlConnStr;
+            string server = "";
+            string userId = "";
+            string passwd = "";
+            string port = "";
+            string database = "";
+            string[] tokens = connectionString.Split(';');
+            foreach (var token in tokens)
+            {
+                if (token.Contains("server="))
+                {
+                    server = token.Substring("server=".Length);
+                }
+                if (token.Contains("user id="))
+                {
+                    userId = token.Substring("user id=".Length);
+                }
+                if (token.Contains("password="))
+                {
+                    passwd = token.Substring("password=".Length);
+                }
+                if (token.Contains("port="))
+                {
+                    port = token.Substring("port=".Length);
+                }
+                if (token.Contains("database="))
+                {
+                    database = token.Substring("database=".Length);
+                }
+            }
+            string command;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "MySql Script(*.sql)|*.sql";
+            openFileDialog.DefaultExt = "sql";
+            openFileDialog.CheckFileExists = true;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                command = "mysql -u " + userId + " -p" + passwd + " -h " + server + " -P " + port + " " + database + " < \"" + openFileDialog.FileName + "\"";
+            }
+            else
+            {
+                return;
+            }
+            string path = Properties.Settings.Default.mysqlWorkingDirectory;
+            if (Directory.Exists(path))
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.WorkingDirectory = path;
+                process.Start();
+                StreamReader streamReader = process.StandardOutput;
+                StreamWriter streamWriter = process.StandardInput;
+                streamWriter.WriteLine(command);
+                streamWriter.Close();
+                process.WaitForExit();
+                process.Close();
+            }
+            else
+            {
+                MessageBox.Show("DIrectory Not Exists", "Directory not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

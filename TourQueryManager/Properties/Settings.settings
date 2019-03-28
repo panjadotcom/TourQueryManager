@@ -20,5 +20,8 @@
     <Setting Name="mysqlConnStrPublic" Type="System.String" Scope="User">
       <Value Profile="(Default)">server=59.94.224.139;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;port=55;SslMode=none</Value>
     </Setting>
+    <Setting Name="mysqlWorkingDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Path not selected</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

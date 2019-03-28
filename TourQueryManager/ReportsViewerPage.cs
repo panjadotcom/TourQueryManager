@@ -32,7 +32,7 @@ namespace TourQueryManager
             catch (Exception errConnOpen)
             {
                 MessageBox.Show("Error in opening mysql connection because : " + errConnOpen.Message);
-                Close();
+                //Close();
                 return;
             }
             MySqlDataAdapter mysqlDataAdaptor = new MySqlDataAdapter();
@@ -49,7 +49,7 @@ namespace TourQueryManager
             catch (Exception errquery)
             {
                 MessageBox.Show("Query cannot be executed because " + errquery.Message + "");
-                Close();
+                //Close();
                 return;
             }
             try
@@ -59,7 +59,7 @@ namespace TourQueryManager
             catch (Exception errDataSet)
             {
                 MessageBox.Show("Error in assigning data to datase because " + errDataSet.Message + "");
-                Close();
+                //Close();
                 return;
             }
             try
@@ -69,7 +69,7 @@ namespace TourQueryManager
             catch (Exception errConnClose)
             {
                 MessageBox.Show("Error in opening mysql connection because " + errConnClose.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Close();
+                //Close();
                 return;
             }
             dataGridViewReports.ClearSelection();

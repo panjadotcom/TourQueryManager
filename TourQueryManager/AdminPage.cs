@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TourQueryManager
 {
@@ -56,6 +58,99 @@ namespace TourQueryManager
             Hide();
             form.ShowDialog();
             Show();
+        }
+
+        private void BtnBackUpRestore_Click(object sender, EventArgs e)
+        {
+            /* do backuprestore of the database*/
+            string connectionString = Properties.Settings.Default.mysqlConnStr;
+            string server = "";
+            string userId = "";
+            string passwd = "";
+            string port = "";
+            string database = "";
+            //server=10.0.2.2;user id=pky;password=pky123;persistsecurityinfo=True;database=tourquerymanagement;SslMode=none
+            string[] tokens = connectionString.Split(';');
+            foreach (var token in tokens)
+            {
+                if (token.Contains("server="))
+                {
+                    server = token.Substring("server=".Length);
+                }
+                if (token.Contains("user id="))
+                {
+                    userId = token.Substring("user id=".Length);
+                }
+                if (token.Contains("password="))
+                {
+                    passwd = token.Substring("password=".Length);
+                }
+                if (token.Contains("port="))
+                {
+                    port = token.Substring("port=".Length);
+                }
+                if (token.Contains("database="))
+                {
+                    database = token.Substring("database=".Length);
+                }
+            }
+            Button button = sender as Button;
+            string command;
+            if (button == BtnBackUp)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "MySql Script(*.sql)|*.sql";
+                saveFileDialog.DefaultExt = "sql";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    command = "mysqldump -u " + userId + " -p" + passwd + " -h " + server + " -P " + port + " " + database + " > \"" + saveFileDialog.FileName + "\"";
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (button == BtnRestore)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "MySql Script(*.sql)|*.sql";
+                openFileDialog.DefaultExt = "sql";
+                openFileDialog.CheckFileExists = true;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    command = "mysql -u " + userId + " -p" + passwd + " -h " + server + " -P " + port + " " + database + " < \"" + openFileDialog.FileName + "\"";
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error in Button", "Wrong Button pressed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string path = Properties.Settings.Default.mysqlWorkingDirectory;
+            if (Directory.Exists(path))
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.WorkingDirectory = path;
+                process.Start();
+                StreamReader streamReader = process.StandardOutput;
+                StreamWriter streamWriter = process.StandardInput;
+                streamWriter.WriteLine(command);
+                streamWriter.Close();
+                process.WaitForExit();
+                process.Close();
+            }
+            else
+            {
+                MessageBox.Show("Directory Not Exists", "Directory not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
