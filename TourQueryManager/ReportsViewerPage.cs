@@ -90,7 +90,7 @@ namespace TourQueryManager
                 object misvalue = System.Reflection.Missing.Value;
                 application = new Excel.Application();
                 workbook = application.Workbooks.Add(misvalue);
-                worksheet = workbook.Sheets[1];
+                worksheet = (Excel.Worksheet)workbook.Sheets[1];
                 worksheet.Name = "EXPORTED FROM GRID";
                 /* write header text to file */
                 for (int index = 0; index < dataGridViewReports.ColumnCount; index++)
