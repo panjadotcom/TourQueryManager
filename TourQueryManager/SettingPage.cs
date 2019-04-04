@@ -147,7 +147,6 @@ namespace TourQueryManager
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Closing settings without updating the connection string", "Setting Not Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
         }
 
@@ -167,6 +166,21 @@ namespace TourQueryManager
 
         private void BtnRestoreDatabase_Click(object sender, EventArgs e)
         {
+
+            string path = Properties.Settings.Default.mysqlWorkingDirectory;
+            if (Directory.Exists(path))
+            {
+                if (!File.Exists(path + "\\mysql.exe"))
+                {
+                    MessageBox.Show("File : \"" + path + "\\mysql.exe\" not exists. \n Install MySql client first then retry.\n OR \n Change MySql directory path in Settings.", "MySql file not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Path : \"" + path + "\" not exists. \n Install MySql client first then retry.\n OR \n Change MySql directory path in Settings.", "MySql Path not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             string connectionString = Properties.Settings.Default.mysqlConnStr;
             string server = "";
             string userId = "";
@@ -210,27 +224,19 @@ namespace TourQueryManager
             {
                 return;
             }
-            string path = Properties.Settings.Default.mysqlWorkingDirectory;
-            if (Directory.Exists(path))
-            {
-                Process process = new Process();
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardInput = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.WorkingDirectory = path;
-                process.Start();
-                StreamReader streamReader = process.StandardOutput;
-                StreamWriter streamWriter = process.StandardInput;
-                streamWriter.WriteLine(command);
-                streamWriter.Close();
-                process.WaitForExit();
-                process.Close();
-            }
-            else
-            {
-                MessageBox.Show("DIrectory Not Exists", "Directory not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WorkingDirectory = path;
+            process.Start();
+            StreamReader streamReader = process.StandardOutput;
+            StreamWriter streamWriter = process.StandardInput;
+            streamWriter.WriteLine(command);
+            streamWriter.Close();
+            process.WaitForExit();
+            process.Close();
         }
     }
 }

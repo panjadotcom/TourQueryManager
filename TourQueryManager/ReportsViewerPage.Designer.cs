@@ -33,8 +33,8 @@
             this.splitContainerForm = new System.Windows.Forms.SplitContainer();
             this.dataGridViewReports = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanelButtons = new System.Windows.Forms.TableLayoutPanel();
-            this.btnExit = new System.Windows.Forms.Button();
             this.BtnExportToExcel = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerForm)).BeginInit();
             this.splitContainerForm.Panel1.SuspendLayout();
@@ -104,19 +104,6 @@
             this.tableLayoutPanelButtons.Size = new System.Drawing.Size(1010, 30);
             this.tableLayoutPanelButtons.TabIndex = 0;
             // 
-            // btnExit
-            // 
-            this.tableLayoutPanelButtons.SetColumnSpan(this.btnExit, 5);
-            this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(508, 3);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(499, 24);
-            this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "EXIT";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
             // BtnExportToExcel
             // 
             this.tableLayoutPanelButtons.SetColumnSpan(this.BtnExportToExcel, 5);
@@ -130,10 +117,23 @@
             this.BtnExportToExcel.UseVisualStyleBackColor = true;
             this.BtnExportToExcel.Click += new System.EventHandler(this.BtnExportToExcel_Click);
             // 
+            // btnExit
+            // 
+            this.tableLayoutPanelButtons.SetColumnSpan(this.btnExit, 5);
+            this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.Location = new System.Drawing.Point(508, 3);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(499, 24);
+            this.btnExit.TabIndex = 0;
+            this.btnExit.Text = "EXIT";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // saveFileDialog
             // 
-            this.saveFileDialog.DefaultExt = "xls";
-            this.saveFileDialog.Filter = "Excel Documents (*.xls)|*.xls";
+            this.saveFileDialog.DefaultExt = "xlsx";
+            this.saveFileDialog.Filter = "Excel Documents (*.xlsx)|*.xlsx";
             // 
             // FrmReportsViewerPage
             // 

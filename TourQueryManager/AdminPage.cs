@@ -63,6 +63,28 @@ namespace TourQueryManager
         private void BtnBackUpRestore_Click(object sender, EventArgs e)
         {
             /* do backuprestore of the database*/
+            
+            Button button = sender as Button;
+            string command;
+            string path = Properties.Settings.Default.mysqlWorkingDirectory;
+            if (Directory.Exists(path))
+            {
+                if (!File.Exists(path + "\\mysql.exe"))
+                {
+                    MessageBox.Show("File : \"" + path + "\\mysql.exe\" not exists. \n Install MySql client first then retry.\n OR \n Change MySql directory path in Settings.", "MySql file not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (!File.Exists(path + "\\mysqldump.exe"))
+                {
+                    MessageBox.Show("File : \"" + path + "\\mysqldump.exe\" not exists. \n Install MySql client first then retry.\n OR \n Change MySql directory path in Settings.", "MySql file not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Path : \"" + path + "\" not exists. \n Install MySql client first then retry.\n OR \n Change MySql directory path in Settings.", "MySql Path not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             string connectionString = Properties.Settings.Default.mysqlConnStr;
             string server = "";
             string userId = "";
@@ -94,8 +116,6 @@ namespace TourQueryManager
                     database = token.Substring("database=".Length);
                 }
             }
-            Button button = sender as Button;
-            string command;
             if (button == BtnBackUp)
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -130,27 +150,19 @@ namespace TourQueryManager
                 MessageBox.Show("Error in Button", "Wrong Button pressed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string path = Properties.Settings.Default.mysqlWorkingDirectory;
-            if (Directory.Exists(path))
-            {
-                Process process = new Process();
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardInput = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.WorkingDirectory = path;
-                process.Start();
-                StreamReader streamReader = process.StandardOutput;
-                StreamWriter streamWriter = process.StandardInput;
-                streamWriter.WriteLine(command);
-                streamWriter.Close();
-                process.WaitForExit();
-                process.Close();
-            }
-            else
-            {
-                MessageBox.Show("Directory Not Exists", "Directory not exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WorkingDirectory = path;
+            process.Start();
+            StreamReader streamReader = process.StandardOutput;
+            StreamWriter streamWriter = process.StandardInput;
+            streamWriter.WriteLine(command);
+            streamWriter.Close();
+            process.WaitForExit();
+            process.Close();
         }
     }
 }

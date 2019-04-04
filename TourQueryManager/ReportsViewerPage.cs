@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using Excel = Microsoft.Office.Interop.Excel;
+using DocumentFormat.OpenXml;
+using SpreadsheetLight;
 
 namespace TourQueryManager
 {
@@ -84,42 +85,29 @@ namespace TourQueryManager
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Excel.Application application;
-                Excel.Workbook workbook;
-                Excel.Worksheet worksheet;
-                object misvalue = System.Reflection.Missing.Value;
-                application = new Excel.Application();
-                workbook = application.Workbooks.Add(misvalue);
-                worksheet = (Excel.Worksheet)workbook.Sheets[1];
-                worksheet.Name = "EXPORTED FROM GRID";
-                /* write header text to file */
-                for (int index = 0; index < dataGridViewReports.ColumnCount; index++)
-                {
-                    worksheet.Cells[1, index + 1] = dataGridViewReports.Columns[index].HeaderText;
-                }
+                DataTable dataTable = new DataTable();
+                dataTable = dataGridViewReports.DataSource as DataTable;
+                SLDocument document = new SLDocument();
 
-                /* write bodu text to file */
-                for (int rowIndex = 0; rowIndex < dataGridViewReports.RowCount; rowIndex++)
-                {
-                    for (int columnIndex = 0; columnIndex < dataGridViewReports.ColumnCount; columnIndex++)
-                    {
-                        worksheet.Cells[rowIndex + 2, columnIndex + 1] = dataGridViewReports.Rows[rowIndex].Cells[columnIndex].Value.ToString();
-                    }
-                }
+                int iStartRowIndex = 1;
+                int iStartColumnIndex = 1;
 
-                try
-                {
-                    workbook.SaveAs(saveFileDialog.FileName, Excel.XlFileFormat.xlWorkbookNormal, misvalue, misvalue, misvalue, misvalue, Excel.XlSaveAsAccessMode.xlExclusive, misvalue, misvalue, misvalue, misvalue, misvalue);
-                }
-                catch (Exception errFileSave)
-                {
-                    MessageBox.Show("Error in Saving" + errFileSave.Message, "File Cannot be Saved", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                workbook.Close(true, misvalue, misvalue);
-                application.Quit();
-                MyPdfDocuments.releaseObject(worksheet);
-                MyPdfDocuments.releaseObject(workbook);
-                MyPdfDocuments.releaseObject(application);
+                document.ImportDataTable(iStartRowIndex, iStartColumnIndex, dataTable, true);
+
+                // The next part is optional, but it shows how you can set a table on your
+                // data based on your DataTable's dimensions.
+
+                // + 1 because the header row is included
+                // - 1 because it's a counting thing, because the start row is counted.
+                int iEndRowIndex = iStartRowIndex + dataTable.Rows.Count + 1 - 1;
+                // - 1 because it's a counting thing, because the start column is counted.
+                int iEndColumnIndex = iStartColumnIndex + dataTable.Columns.Count - 1;
+
+                SLTable table = document.CreateTable(iStartRowIndex, iStartColumnIndex, iEndRowIndex, iEndColumnIndex);
+                table.SetTableStyle(SLTableStyleTypeValues.Medium17);
+                table.HasTotalRow = true;
+                document.InsertTable(table);
+                document.SaveAs(saveFileDialog.FileName);
                 MessageBox.Show("File " + saveFileDialog.FileName + " Saved", "File saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
