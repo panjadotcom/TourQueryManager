@@ -91,22 +91,24 @@ namespace TourQueryManager
 
                 int iStartRowIndex = 1;
                 int iStartColumnIndex = 1;
-
-                document.ImportDataTable(iStartRowIndex, iStartColumnIndex, dataTable, true);
-
-                // The next part is optional, but it shows how you can set a table on your
-                // data based on your DataTable's dimensions.
-
                 // + 1 because the header row is included
                 // - 1 because it's a counting thing, because the start row is counted.
                 int iEndRowIndex = iStartRowIndex + dataTable.Rows.Count + 1 - 1;
                 // - 1 because it's a counting thing, because the start column is counted.
                 int iEndColumnIndex = iStartColumnIndex + dataTable.Columns.Count - 1;
 
-                SLTable table = document.CreateTable(iStartRowIndex, iStartColumnIndex, iEndRowIndex, iEndColumnIndex);
-                table.SetTableStyle(SLTableStyleTypeValues.Medium17);
-                table.HasTotalRow = true;
-                document.InsertTable(table);
+                document.ImportDataTable(iStartRowIndex, iStartColumnIndex, dataTable, true);
+
+                document.AutoFitColumn(iStartColumnIndex, iEndColumnIndex);
+                document.AutoFitRow(iStartRowIndex, iEndRowIndex);
+
+                // The next part is optional, but it shows how you can set a table on your
+                // data based on your DataTable's dimensions.
+                /*SLTable table = document.CreateTable(iStartRowIndex, iStartColumnIndex, iEndRowIndex, iEndColumnIndex);
+                table.SetTableStyle(SLTableStyleTypeValues.Medium6);
+                document.InsertTable(table);*/
+
+                // Save the document now.
                 document.SaveAs(saveFileDialog.FileName);
                 MessageBox.Show("File " + saveFileDialog.FileName + " Saved", "File saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
